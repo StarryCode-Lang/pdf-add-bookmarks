@@ -14,7 +14,7 @@ Run the script on the user's PDF. It auto-detects everything and outputs a new f
 ## Quick Start
 
 ```bash
-pip install pypdf pymupdf pytesseract pillow
+pip install pymupdf pytesseract pillow
 python scripts/add_bookmarks.py "file.pdf"
 ```
 
@@ -48,4 +48,4 @@ TOC format — one entry per line, indentation for hierarchy:
 
 See `references/dependencies.md` for cross-platform tesseract + Chinese language data setup.
 
-Required: `pypdf` `pymupdf` `pytesseract` `pillow` + `tesseract-ocr` system tool.
+Required: `pymupdf` `pytesseract` `pillow` + `tesseract-ocr` system tool.

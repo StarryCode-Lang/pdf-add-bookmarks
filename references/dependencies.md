@@ -3,7 +3,7 @@
 ## Python Packages
 
 ```bash
-pip install pypdf pymupdf pytesseract pillow
+pip install pymupdf pytesseract pillow
 ```
 
 ## Tesseract OCR

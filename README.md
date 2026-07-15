@@ -7,7 +7,7 @@ Add hierarchical bookmarks/outline (章→节→小节) to PDF files. Supports b
 ### Install Dependencies
 
 ```bash
-pip install pypdf pymupdf pytesseract pillow
+pip install pymupdf pytesseract pillow
 ```
 
 For scanned PDFs, also install [Tesseract OCR](https://github.com/tesseract-ocr/tesseract) with Chinese language data (see `references/dependencies.md`).
@@ -75,9 +75,12 @@ Output: `input_with_bookmarks.pdf`
 
 - **Auto-detect** — Text-based or scanned PDF, Chinese or English headings
 - **OCR support** — Automatically detects and OCRs scanned/image-based PDFs
+- **Multiprocessing OCR** — Parallel processing across CPU cores for fast OCR of large PDFs
+- **OCR noise cleaning** — Handles OCR artifacts like `第 1 章` → `第1章`
 - **Cross-platform** — Windows, macOS, Linux
 - **TOC file mode** — Import bookmarks from a text table of contents
 - **Content integrity** — Verifies original content is preserved
+- **Unified PyMuPDF** — Single dependency for all PDF operations
 
 ### Supported Heading Formats
 

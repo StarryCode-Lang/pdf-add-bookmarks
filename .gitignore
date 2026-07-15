@@ -4,3 +4,5 @@ __pycache__/
 *.skill
 .DS_Store
 Thumbs.db
+tests/output/
+tests/__pycache__/
