@@ -30,17 +30,24 @@ def ensure_tesseract():
             return True
     return False
 
-def clean_ocr_line(line):
+def clean_ocr_line(line, ocr_mode=False):
     cleaned = re.sub(r'^[^\w\u4e00-\u9fff\d]+', '', line).strip()
     # Normalize spaces in "第 X 章" → "第X章"
     cleaned = re.sub(r'第\s+(\d+)\s+章', r'第\1章', cleaned)
     cleaned = re.sub(r'第\s+([一二三四五六七八九十]+)\s+章', r'第\1章', cleaned)
     # Normalize "X .X" → "X.X"
     cleaned = re.sub(r'(\d)\s*\.\s*(\d)', r'\1.\2', cleaned)
+    if ocr_mode:
+        # Iteratively normalize spaces between Chinese characters (OCR artifact)
+        while True:
+            new = re.sub(r'([\u4e00-\u9fff])\s+([\u4e00-\u9fff])', r'\1\2', cleaned)
+            if new == cleaned:
+                break
+            cleaned = new
     return cleaned if cleaned else line.strip()
 
-def match_heading(line):
-    line = clean_ocr_line(line)
+def match_heading(line, ocr_mode=False):
+    line = clean_ocr_line(line, ocr_mode=ocr_mode)
     if not line: return None
     if re.match(r'^第[一二三四五六七八九十]+章\s*', line):
         return {"type": "chapter", "title": line}
@@ -61,6 +68,85 @@ def match_heading(line):
     if re.match(r'^[A-Z]\.\d+\.?\s+\w+', line):
         return {"type": "subsection", "title": line}
     return None
+
+def _is_garbage_title(title):
+    """Detect OCR garbage titles."""
+    if len(title) < 2:
+        return True
+    # Count non-standard characters (not Chinese, not English letter, not digit, not common punctuation)
+    non_standard = sum(1 for c in title if not (c.isalnum() or c.isspace() or c in '._()-，、：:；'))
+    if len(title) > 0 and non_standard / len(title) > 0.4:
+        return True
+    return False
+
+def _is_body_text_word(title):
+    """Reject common body text words that shouldn't be chapter titles."""
+    body_words = {'注意', '本章', '上述', '下面', '其中', '因此', '所以', '但是', '例如', '比如',
+                  '总之', '此外', '另外', '首先', '其次', '最后', '结论', '摘要'}
+    # Normalize spaces first (OCR often inserts spaces between Chinese chars)
+    normalized = re.sub(r'([\u4e00-\u9fff])\s+([\u4e00-\u9fff])', r'\1\2', title)
+    stripped = re.sub(r'^\d+\s*\.?\s*', '', normalized).strip()
+    if stripped in body_words:
+        return True
+    return False
+
+def _is_introduction_text(title):
+    """Reject body text that mentions chapters but isn't a real heading."""
+    # Patterns like "第二章 : 顺序表 (数组)" are introduction text, not headings
+    if re.search(r'第[一二三四五六七八九十]+章\s*[:：]\s*', title):
+        return True
+    if '(' in title or '（' in title:
+        return True
+    return False
+
+def filter_headings(headings, total_pages=None):
+    """Post-process: remove false positives, garbage, duplicates."""
+    if not headings:
+        return []
+    if total_pages is None:
+        total_pages = max(h["page"] for h in headings) if headings else 0
+    filtered = []
+    seen_titles = {}  # title -> index in filtered
+
+    for h in headings:
+        title = h["title"]
+        htype = h["type"]
+        page = h["page"]
+
+        # Reject garbage
+        if _is_garbage_title(title):
+            continue
+
+        # Reject body text words for chapters
+        if htype == "chapter" and _is_body_text_word(title):
+            continue
+
+        # Reject introduction text that mentions chapters
+        if htype == "chapter" and _is_introduction_text(title):
+            continue
+
+        # Reject overly long chapter titles (likely sentences, not headings)
+        if htype == "chapter" and len(title) > 30:
+            continue
+
+        # Reject suspicious bare-number chapters on last 2 pages with long titles
+        if htype == "chapter" and page >= total_pages - 1:
+            m = re.match(r'^(\d+)\s+(.+)', title)
+            if m and len(m.group(2)) > 6:
+                continue
+
+        # Deduplicate: if same title seen before, replace with later occurrence
+        # (later page is more likely to be the actual heading)
+        if title in seen_titles:
+            idx = seen_titles[title]
+            if page > filtered[idx]["page"]:
+                filtered[idx] = h
+            continue
+
+        seen_titles[title] = len(filtered)
+        filtered.append(h)
+
+    return filtered
 
 def is_text_based(pdf_path):
     import fitz
@@ -88,8 +174,9 @@ def extract_headings_text(pdf_path):
             if entry:
                 entry["page"] = i + 1
                 headings.append(entry)
+    total = doc.page_count
     doc.close()
-    return headings
+    return filter_headings(headings, total_pages=total)
 
 def _ocr_page_range(args):
     pdf_path, start_page, end_page, lang, tesseract_cmd, dpi = args
@@ -105,10 +192,11 @@ def _ocr_page_range(args):
             pix = page.get_pixmap(dpi=dpi)
             img = Image.open(io.BytesIO(pix.tobytes("png")))
             text = pytesseract.image_to_string(img, lang=lang)
-            for line in text.split("\n"):
+            # Only check first 15 lines to avoid body text false positives
+            for line in text.split("\n")[:15]:
                 line = line.strip()
                 if not line: continue
-                entry = match_heading(line)
+                entry = match_heading(line, ocr_mode=True)
                 if entry:
                     entry["page"] = i + 1
                     results.append(entry)
@@ -145,14 +233,9 @@ def extract_headings_ocr(pdf_path, lang="chi_sim+eng", max_workers=None, dpi=200
             completed += 1
             if completed % max(1, len(ranges) // 5) == 0:
                 print(f"  {completed}/{len(ranges)} batches done...")
-    seen = set()
-    unique = []
-    for h in sorted(headings, key=lambda x: (x["page"], x["title"])):
-        key = (h["page"], h["title"])
-        if key not in seen:
-            seen.add(key)
-            unique.append(h)
-    return unique
+    # Sort by page before filtering/building tree
+    headings.sort(key=lambda x: (x["page"], x.get("_order", 0)))
+    return filter_headings(headings, total_pages=total)
 
 def parse_toc_file(toc_path, offset=0):
     with open(toc_path, "r", encoding="utf-8") as f:
