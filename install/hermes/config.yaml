@@ -1,0 +1,46 @@
+# Hermes Integration Snippet
+
+Add to your `config.yaml` under the `skills` section:
+
+```yaml
+skills:
+  - name: pdf-add-bookmarks
+    path: "{{ env.LOCALAPPDATA }}\\hermes\\skills\\pdf-add-bookmarks"
+    enabled: true
+    triggers:
+      - "add bookmarks"
+      - "add outline"
+      - "pdf bookmarks"
+      - "pdf outline"
+      - "pdf navigation"
+      - "table of contents"
+      - "目录"
+      - "书签"
+      - "大纲"
+      - "为PDF添加书签"
+    metadata:
+      category: productivity
+      tags: [pdf, bookmark, outline, ocr]
+      author: StarryCode-Lang
+      version: 1.0.0
+      repository: https://github.com/StarryCode-Lang/pdf-add-bookmarks.git
+```
+
+Or use the environment variable form:
+
+```yaml
+skills:
+  - name: pdf-add-bookmarks
+    path: "${LOCALAPPDATA}\\hermes\\skills\\pdf-add-bookmarks"
+    enabled: true
+```
+
+## Auto-Discovery
+
+Hermes can auto-discover skills in the skills directory. Ensure this directory exists:
+
+- Windows: `%LOCALAPPDATA%\hermes\skills\`
+- macOS: `~/Library/Application Support/hermes/skills/`
+- Linux: `~/.local/share/hermes/skills/`
+
+Place the skill folder (containing `SKILL.md`) there and restart Hermes.

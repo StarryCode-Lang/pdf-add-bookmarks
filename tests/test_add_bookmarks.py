@@ -328,6 +328,80 @@ class TestV2OCRNoiseCleaning:
         assert match_heading('1 .1 研究背景') is not None
         assert match_heading('1.1.1 历史回顾') is not None
 
+class TestV3PDFTypeDetection:
+    def test_detect_textbook(self):
+        sys.path.insert(0, str(SCRIPTS_DIR))
+        from add_bookmarks import detect_pdf_type
+        result = detect_pdf_type(str(FIXTURES_DIR / 'chinese_text.pdf'))
+        assert result["type"] in ("textbook", "unknown"), f'Expected textbook or unknown, got {result["type"]}'
+
+    def test_detect_exam_patterns_in_text(self):
+        """Verify exam heading patterns match correctly."""
+        sys.path.insert(0, str(SCRIPTS_DIR))
+        from add_bookmarks import match_heading
+        assert match_heading('2026年真题 应用题') is not None
+        assert match_heading('2025年真题') is not None
+        assert match_heading('第5讲 直播课前作业') is not None
+        assert match_heading('2019年统考真题') is not None
+
+    def test_detect_outline_markers(self):
+        sys.path.insert(0, str(SCRIPTS_DIR))
+        from add_bookmarks import match_heading
+        assert match_heading('一、备考策略') is not None
+        assert match_heading('（一）基本概念') is not None
+
+    def test_exam_heading_filters_correctly(self):
+        sys.path.insert(0, str(SCRIPTS_DIR))
+        from add_bookmarks import match_heading, filter_headings
+        headings = [
+            {"type": "chapter", "title": "2026年真题 应用题", "page": 6},
+            {"type": "chapter", "title": "2009年真题 应用题", "page": 24},
+        ]
+        filtered = filter_headings(headings, total_pages=24)
+        assert len(filtered) == 2
+
+class TestV3AnalyzeMode:
+    def test_analyze_suggested_toc_file(self):
+        output = OUTPUT_DIR / 'v3_analyze_out.pdf'
+        rc, stdout, stderr, elapsed = run_script([
+            str(FIXTURES_DIR / 'chinese_text.pdf'),
+            '--analyze',
+        ], expect_success=True)
+        assert rc == 0
+        suggested = FIXTURES_DIR / '..' / '..' / 'chinese_text_suggested_toc.txt'
+        # Check output mentions candidates
+        assert 'Suggested TOC' in stdout
+
+    def test_exam_headings_via_analyze(self):
+        """Test that exam PDF headings can be detected via --analyze."""
+        sys.path.insert(0, str(SCRIPTS_DIR))
+        from add_bookmarks import generate_candidate_toc
+        # Simulate OCR output for exam PDF-style pages
+        all_text = [
+            (1, "第5讲 直播课前作业\n一些说明文字\n王道考研"),
+            (2, "2024年真题 应用题\n42. (10分) 散列表\n王道考研"),
+            (3, "2023年真题 应用题\n42. (10分) 外部排序\n王道考研"),
+        ]
+        candidates = generate_candidate_toc(all_text, ocr_mode=False)
+        assert len(candidates) == 3, f'Expected 3, got {len(candidates)}'
+        assert '2024' in candidates[1]['title']
+        assert '2023' in candidates[2]['title']
+
+class TestV3GenerateTOC:
+    def test_generate_toc_on_text_pdf(self):
+        output = OUTPUT_DIR / 'v3_gen_out.pdf'
+        rc, stdout, stderr, elapsed = run_script([
+            str(FIXTURES_DIR / 'chinese_text.pdf'),
+            '--generate-toc', '-o', str(output),
+        ], expect_success=True)
+        assert rc == 0
+        assert output.exists()
+        import fitz
+        doc = fitz.open(output)
+        toc = doc.get_toc()
+        assert len(toc) > 0, 'Expected at least 1 bookmark'
+        doc.close()
+
 class TestV2EdgeCases:
     def test_empty_toc_file(self):
         empty = FIXTURES_DIR / 'empty_toc.txt'

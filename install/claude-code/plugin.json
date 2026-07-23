@@ -1,0 +1,50 @@
+{
+  "name": "pdf-add-bookmarks",
+  "version": "1.0.0",
+  "description": "Add hierarchical bookmarks/outline to PDF files. Auto-detects text-based vs scanned PDFs, uses OCR for scanned ones. Supports Chinese and English heading patterns.",
+  "author": "StarryCode-Lang",
+  "repository": "https://github.com/StarryCode-Lang/pdf-add-bookmarks.git",
+  "license": "MIT",
+  "category": "productivity",
+  "tags": ["pdf", "bookmark", "outline", "ocr", "chinese"],
+  "entry": {
+    "type": "script",
+    "path": "scripts/add_bookmarks.py"
+  },
+  "commands": [
+    {
+      "name": "pdf-add-bookmarks",
+      "description": "Add hierarchical bookmarks to a PDF file",
+      "usage": "/pdf-add-bookmarks <input.pdf> [--output out.pdf] [--toc toc.txt] [--force-ocr]",
+      "examples": [
+        "/pdf-add-bookmarks document.pdf",
+        "/pdf-add-bookmarks scanned.pdf --force-ocr",
+        "/pdf-add-bookmarks book.pdf --toc toc.txt"
+      ]
+    }
+  ],
+  "skills": [
+    {
+      "name": "pdf-add-bookmarks",
+      "description": "Add hierarchical bookmarks/outline (章->节->小节) to PDF files. Auto-detects text-based vs scanned PDFs, uses OCR for scanned ones. Supports both Chinese and English heading patterns.",
+      "triggers": [
+        "add bookmarks",
+        "add outline",
+        "pdf bookmarks",
+        "pdf outline",
+        "pdf navigation",
+        "table of contents",
+        "目录",
+        "书签",
+        "大纲"
+      ]
+    }
+  ],
+  "agents": [],
+  "dependencies": {
+    "python": ">=3.9",
+    "packages": ["pymupdf", "pytesseract", "pillow"],
+    "system": ["tesseract-ocr"]
+  },
+  "platforms": ["win32", "darwin", "linux"]
+}

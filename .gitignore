@@ -7,3 +7,5 @@ Thumbs.db
 tests/output/
 tests/__pycache__/
 tests/fixtures/*.pdf
+.omo/
+*_suggested_toc.txt

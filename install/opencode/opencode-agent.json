@@ -1,0 +1,68 @@
+{
+  "name": "pdf-add-bookmarks",
+  "displayName": "PDF Add Bookmarks",
+  "version": "1.0.0",
+  "description": "Add hierarchical bookmarks/outline to PDF files. Auto-detects text-based vs scanned PDFs, uses OCR for scanned ones. Supports Chinese and English heading patterns.",
+  "author": "StarryCode-Lang",
+  "repository": "https://github.com/StarryCode-Lang/pdf-add-bookmarks.git",
+  "license": "MIT",
+  "category": "productivity",
+  "tags": ["pdf", "bookmark", "outline", "ocr", "chinese"],
+  "entryPoint": "scripts/add_bookmarks.py",
+  "type": "skill",
+  "triggers": [
+    "add bookmarks",
+    "add outline",
+    "pdf bookmarks",
+    "pdf outline",
+    "pdf navigation",
+    "table of contents",
+    "目录",
+    "书签",
+    "大纲",
+    "为PDF添加书签"
+  ],
+  "commands": [
+    {
+      "name": "pdf-add-bookmarks",
+      "description": "Add hierarchical bookmarks to a PDF",
+      "args": [
+        {
+          "name": "input",
+          "type": "string",
+          "required": true,
+          "description": "Input PDF file path"
+        },
+        {
+          "name": "output",
+          "type": "string",
+          "required": false,
+          "description": "Output PDF path"
+        },
+        {
+          "name": "toc",
+          "type": "string",
+          "required": false,
+          "description": "TOC text file path"
+        },
+        {
+          "name": "force-ocr",
+          "type": "boolean",
+          "required": false,
+          "description": "Force OCR mode"
+        }
+      ]
+    }
+  ],
+  "dependencies": {
+    "python": ">=3.9",
+    "packages": ["pymupdf", "pytesseract", "pillow"],
+    "system": ["tesseract-ocr"]
+  },
+  "platforms": ["win32", "darwin", "linux"],
+  "installPaths": {
+    "win32": "%USERPROFILE%\\.config\\opencode\\skills\\pdf-add-bookmarks",
+    "darwin": "~/.config/opencode/skills/pdf-add-bookmarks",
+    "linux": "~/.config/opencode/skills/pdf-add-bookmarks"
+  }
+}

@@ -1,13 +1,18 @@
 {
   "ownerId": "github",
   "slug": "pdf-add-bookmarks",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "publishedAt": 0,
   "install_source": "git",
   "install_method": "git",
   "enabled_at": 0,
   "name_zh": "PDF添加书签",
   "category": "productivity",
-  "tags": ["pdf", "bookmark", "outline", "ocr", "chinese", "productivity"],
-  "author": ""
+  "tags": ["pdf", "bookmark", "outline", "ocr", "chinese", "exam", "slides", "productivity"],
+  "author": "StarryCode-Lang",
+  "description": "Add hierarchical bookmarks to PDF files with OCR, PDF type detection (textbook/exam/slides/article), and smart fallback TOC generation.",
+  "agents": ["claude-code", "opencode", "hermes", "openclaw", "kimi-code"],
+  "minPythonVersion": "3.9",
+  "dependencies": ["pymupdf", "pytesseract", "pillow"],
+  "systemDependencies": ["tesseract-ocr"]
 }
