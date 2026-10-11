@@ -125,3 +125,35 @@ def test_failed_verification_preserves_existing_output(tmp_path, monkeypatch):
         app.add_bookmarks(source, [(1, "Title", -1)], output)
     assert output.read_bytes() == b"existing user output"
     assert list(tmp_path.iterdir()) == [output]
+
+
+def test_generate_toc_adds_smaller_bold_titles_and_exports(tmp_path):
+    source = tmp_path / "sample.pdf"
+    with fitz.open() as doc:
+        page = doc.new_page()
+        page.insert_text((60, 80), "Sample Heading", fontname="hebo", fontsize=12)
+        for number in range(10):
+            page.insert_text((60, 120 + number * 16), "This is plain sample body text.", fontsize=12)
+        doc.save(source)
+    ordinary = run(source, "-o", tmp_path / "ordinary.pdf")
+    assert ordinary.returncode == 1
+    result = run(source, "--generate-toc", "-o", tmp_path / "generated.pdf")
+    assert result.returncode == 0, result.stdout
+    assert (tmp_path / "sample_suggested_toc.txt").read_text() == "Sample Heading 1\n"
+    with fitz.open(tmp_path / "generated.pdf") as doc:
+        assert doc.get_toc() == [[1, "Sample Heading", 1]]
+
+
+def test_ocr_worker_limits_native_threads(tmp_path, monkeypatch):
+    import os, pytesseract
+    source = tmp_path / "sample.pdf"
+    with fitz.open() as doc:
+        doc.new_page()
+        doc.save(source)
+    monkeypatch.setenv("OMP_THREAD_LIMIT", "8")
+    def fake_ocr(image, **options):
+        assert os.environ["OMP_THREAD_LIMIT"] == "1"
+        assert options["timeout"] == 120
+        return {"text": []}
+    monkeypatch.setattr(pytesseract, "image_to_data", fake_ocr)
+    assert app._read_image_page((str(source), 0, "eng", None, False)) == (1, "", [])

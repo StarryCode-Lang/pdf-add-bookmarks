@@ -291,7 +291,8 @@ def _read_image_page(task):
     from PIL import Image
     from collections import defaultdict
     from statistics import median
-    pdf_path, index, lang, cmd = task
+    pdf_path, index, lang, cmd, extended = task
+    os.environ["OMP_THREAD_LIMIT"] = "1"
     if cmd:
         pytesseract.pytesseract.tesseract_cmd = cmd
     with fitz.open(pdf_path) as doc:
@@ -311,14 +312,14 @@ def _read_image_page(task):
     for indices in lines.values():
         line = " ".join(data["text"][i] for i in indices)
         text_lines.append(line)
-        if (baseline and median(data["height"][i] for i in indices) >= baseline * 1.4
+        if (baseline and median(data["height"][i] for i in indices) >= baseline * (1.2 if extended else 1.4)
                 and 3 <= len(line) <= 100 and (len(indices) >= 2 or len(line) >= 5)
                 and not re.search(r"[。！？!?]|[.!]$", line)):
             titles.append(line)
     return index + 1, "\n".join(text_lines), titles
 
 
-def read_pages(pdf_path, lang="chi_sim+eng", force_ocr=False, workers=None):
+def read_pages(pdf_path, lang="chi_sim+eng", force_ocr=False, workers=None, extended=False):
     import fitz
     with fitz.open(pdf_path) as doc:
         if doc.is_encrypted:
@@ -335,7 +336,7 @@ def read_pages(pdf_path, lang="chi_sim+eng", force_ocr=False, workers=None):
             for line in lines:
                 title = "".join(span["text"] for span in line["spans"]).strip()
                 size = max((span["size"] for span in line["spans"]), default=0)
-                if 3 <= len(title) <= 100 and (size >= max(14, baseline * 1.2) or (len(lines) == 1 and size >= 14)) and not re.search(r"[。！？!?]|[.!]$", title):
+                if 3 <= len(title) <= 100 and (size >= max(14, baseline * 1.2) or (len(lines) == 1 and size >= 14) or (extended and size >= baseline and any(span["flags"] & 16 for span in line["spans"]))) and not re.search(r"[。！？!?]|[.!]$", title):
                     visual.setdefault(i + 1, []).append(title)
         # OCR pages containing images but little useful text (including mixed PDFs).
         scanned = [i for i, page in enumerate(doc)
@@ -350,8 +351,8 @@ def read_pages(pdf_path, lang="chi_sim+eng", force_ocr=False, workers=None):
             raise ValueError("Missing OCR languages: " + ", ".join(sorted(missing)))
         print(f"OCR required for {len(scanned)}/{len(pages)} pages.")
         cmd = find_tesseract()
-        tasks = [(pdf_path, i, lang, cmd) for i in scanned]
-        with ProcessPoolExecutor(max_workers=workers or min(4, len(tasks))) as pool:
+        tasks = [(pdf_path, i, lang, cmd, extended) for i in scanned]
+        with ProcessPoolExecutor(max_workers=workers or min(4, os.cpu_count() or 1, len(tasks))) as pool:
             for number, text, titles in pool.map(_read_image_page, tasks):
                 pages[number - 1] = (number, text)
                 visual[number] = titles
@@ -416,17 +417,18 @@ def main():
             print(f"Found {len(entries)} TOC entries.")
             tree = build_tree_from_entries(entries)
         else:
-            pages, scanned, visual = read_pages(str(source), args.lang, args.force_ocr, args.workers)
+            pages, scanned, visual = read_pages(str(source), args.lang, args.force_ocr, args.workers, args.generate_toc)
             # Auto keeps all supported patterns; explicit types restrict the rules.
             headings = headings_from_pages(pages, scanned, args.type, visual)
             print(f"Heading profile: {args.type}")
-            if args.analyze:
+            if args.analyze or args.generate_toc:
                 toc_path = source.with_name(source.stem + "_suggested_toc.txt")
                 levels = {"chapter": 0, "section": 1, "subsection": 2}
                 toc_path.write_text("".join("  " * levels[h["type"]] + f"{h['title']} {h['page']}\n" for h in headings), encoding="utf-8")
                 print(f"Suggested TOC written to: {toc_path}")
                 print(f"Total pages: {len(pages)} | Candidates found: {len(headings)}")
-                return 0
+                if args.analyze:
+                    return 0
             if not headings:
                 raise ValueError("No headings detected. Review with --analyze and provide a --toc file.")
             print(f"Found {len(headings)} headings.")
