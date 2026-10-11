@@ -1,0 +1,34 @@
+# Python caches and test outputs
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+tests/output/
+
+# Local environments and build outputs
+.venv/
+venv/
+build/
+dist/
+*.egg-info/
+
+# Local PDF inputs, generated outlines and validation evidence
+*.pdf
+*_suggested_toc.txt
+validation/
+*.skill
+
+# Local credentials and editor/agent state
+.env
+.env.*
+!.env.example
+.idea/
+.vscode/
+.omo/
+.publish-checkout/
+
+# OS files
+.DS_Store
+Thumbs.db
