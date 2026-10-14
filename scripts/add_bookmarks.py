@@ -21,7 +21,7 @@ from headings import (  # noqa: F401 - preserve the importable script API
 )
 from ocr import _read_image_page
 
-VERSION = "0.3.1"
+VERSION = "0.3.2"
 
 
 def find_tesseract():
@@ -102,9 +102,14 @@ def reject_signed_pdf(doc):
     """Refuse rewriting signature-bearing PDFs; this does not validate signatures."""
     signed = max(0, doc.get_sigflags()) & 2
     for xref in range(1, doc.xref_length()):
-        signed |= doc.xref_get_key(xref, "ByteRange")[0] != "null"
-        if doc.xref_get_key(xref, "FT")[1] == "/Sig":
-            signed |= doc.xref_get_key(xref, "V")[0] != "null"
+        try:
+            signed |= doc.xref_get_key(xref, "ByteRange")[0] != "null"
+            if doc.xref_get_key(xref, "FT")[1] == "/Sig":
+                signed |= doc.xref_get_key(xref, "V")[0] != "null"
+        except Exception as error:
+            # Free/unallocated xrefs cannot contain a signature dictionary.
+            if "cannot find object in xref" not in str(error):
+                raise
         if signed:
             raise ValueError(
                 "Digitally signed PDF refused: rewriting would invalidate signatures. Use an unsigned original."
@@ -226,9 +231,27 @@ def read_pages(
             raise ValueError("Encrypted PDF requires an unlocked copy")
         if not doc.page_count:
             raise ValueError("PDF has no pages")
-        pages, visual = [], {}
+        pages, visual, suppressed = [], {}, {}
+        from collections import Counter
         from statistics import median
 
+        margins = Counter()
+        for page in doc:
+            margins.update(
+                {
+                    clean_ocr_line(line, True)
+                    for block in page.get_text("blocks")
+                    if block[6] == 0
+                    and (
+                        block[1] < page.rect.height * 0.08
+                        or block[3] > page.rect.height * 0.92
+                        or block[0] < page.rect.width * 0.05
+                        or block[2] > page.rect.width * 0.95
+                    )
+                    for line in block[4].splitlines()
+                    if line.strip()
+                }
+            )
         for i, page in enumerate(doc):
             raw = [
                 line
@@ -245,6 +268,95 @@ def read_pages(
                 if span["text"].strip()
             ]
             baseline = median(sizes) if sizes else 0
+            original_raw = raw
+            raw = [
+                line
+                for line in raw
+                if not (
+                    (
+                        line["bbox"][1] < page.rect.height * 0.08
+                        or line["bbox"][3] > page.rect.height * 0.92
+                        or line["bbox"][0] < page.rect.width * 0.05
+                        or line["bbox"][2] > page.rect.width * 0.95
+                    )
+                    and max(span["size"] for span in line["spans"])
+                    <= max(14, baseline * 1.4)
+                    and margins[
+                        clean_ocr_line(
+                            "".join(span["text"] for span in line["spans"]), True
+                        )
+                    ]
+                    >= 3
+                )
+            ]
+            suppressed[i + 1] = {
+                clean_ocr_line("".join(span["text"] for span in line["spans"]), True)
+                for line in original_raw
+                if line not in raw
+            }
+            # Join large vertical glyph chains before rows from other columns intervene.
+            chains = []
+            for line in sorted(raw, key=lambda row: (row["bbox"][0], row["bbox"][1])):
+                title = "".join(span["text"] for span in line["spans"]).strip()
+                size = max(span["size"] for span in line["spans"])
+                if re.fullmatch(r"[\u4e00-\u9fff]{1,2}", title) and size >= max(
+                    18, baseline * 1.6
+                ):
+                    chain = next(
+                        (
+                            c
+                            for c in chains
+                            if abs(c[-1]["bbox"][0] - line["bbox"][0]) < size * 0.4
+                            and abs(c[-1]["spans"][0]["size"] - size) < 1
+                            and line["bbox"][1] > c[-1]["bbox"][1]
+                            and -size * 0.5 <= line["bbox"][1] - c[-1]["bbox"][3] < size
+                        ),
+                        None,
+                    )
+                    if chain is None:
+                        chains.append([line])
+                    else:
+                        chain.append(line)
+            groups = []
+            for chain in chains:
+                if len(chain) < 2:
+                    continue
+                size = chain[0]["spans"][0]["size"]
+                group = next(
+                    (
+                        g
+                        for g in groups
+                        if abs(g[0]["spans"][0]["size"] - size) < 1
+                        and abs(g[-1]["bbox"][0] - chain[0]["bbox"][0]) < size * 3
+                        and max(g[0]["bbox"][1], chain[0]["bbox"][1])
+                        - min(g[-1]["bbox"][3], chain[-1]["bbox"][3])
+                        < size * 3
+                    ),
+                    None,
+                )
+                if group is None:
+                    groups.append(chain)
+                else:
+                    group.extend(chain)
+            for chain in groups:
+                title = "".join(
+                    span["text"] for line in chain for span in line["spans"]
+                )
+                bounds = tuple(
+                    min(row["bbox"][k] for row in chain)
+                    if k < 2
+                    else max(row["bbox"][k] for row in chain)
+                    for k in range(4)
+                )
+                raw = [line for line in raw if line not in chain]
+                raw.append(
+                    dict(
+                        bbox=bounds,
+                        spans=[
+                            dict(chain[0]["spans"][0], text="NATIVE_CHAPTER\t" + title)
+                        ],
+                    )
+                )
             # PDF extractors often split a section number and its title on the same row.
             rows = []
             for line in sorted(
@@ -258,7 +370,11 @@ def read_pages(
                     span["flags"] & 16 for span in line["spans"] if span["text"].strip()
                 )
                 y, bottom = line["bbox"][1], line["bbox"][3]
-                if rows and abs(rows[-1][1] - y) < 2:
+                if (
+                    rows
+                    and abs(rows[-1][1] - y) < 2
+                    and max(size, rows[-1][2]) <= min(size, rows[-1][2]) * 1.4
+                ):
                     rows[-1][0] = (
                         title + " " + rows[-1][0]
                         if line["bbox"][0] < rows[-1][5]
@@ -286,6 +402,12 @@ def read_pages(
                 sum(bool(re.fullmatch(r"[0-9]+", title)) for title in normalized_rows)
                 >= 10
                 and sum(len(title) > 60 for title in normalized_rows) < 2
+            )
+            is_contents |= (
+                sum(
+                    bool(re.search(r"\.{3,}.*\d+$", title)) for title in normalized_rows
+                )
+                >= 5
             )
             merged = []
             for row in rows:
@@ -357,8 +479,38 @@ def read_pages(
                 for done, (number, text, titles) in enumerate(
                     pool.map(_read_image_page, tasks), 1
                 ):
+                    native = visual.get(number, [])
+                    chapters = [
+                        t
+                        for t in native
+                        if re.match(
+                            r"^NATIVE_CHAPTER\t|^第.*章|^(Chapter|Part|Appendix)\b",
+                            clean_ocr_line(t, True),
+                            re.I,
+                        )
+                    ]
+
+                    def marginal_title(title):
+                        title = re.sub(
+                            r"^第[一二三四五六七八九十百\d]+章|^(?:Chapter|Part|Appendix)\s+[A-Z\d]+",
+                            "",
+                            clean_ocr_line(title, True),
+                            flags=re.I,
+                        )
+                        return re.sub(r"\W", "", title).lower()
+
+                    blocked = {marginal_title(t) for t in suppressed[number]}
+                    text = "\n".join(
+                        t for t in text.splitlines() if marginal_title(t) not in blocked
+                    )
+                    titles = [t for t in titles if marginal_title(t) not in blocked]
+                    if chapters:
+                        # Keep the readable native chapter; opener lists are not section destinations.
+                        text, titles = "", []
+                    if native:
+                        text = pages[number - 1][1] + "\n" + text
                     pages[number - 1] = (number, text)
-                    visual[number] = titles
+                    visual[number] = list(dict.fromkeys(native + titles))
                     if done % max(1, len(tasks) // 5) == 0 or done == len(tasks):
                         print(f"OCR progress: {done}/{len(tasks)}")
     else:

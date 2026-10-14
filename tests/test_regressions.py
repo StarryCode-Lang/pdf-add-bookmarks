@@ -781,3 +781,170 @@ def test_signature_markers_refused_without_touching_files(tmp_path, signature_ma
     assert result.returncode == 1 and "Digitally signed PDF" in result.stdout
     assert source.read_bytes() == original and output.read_bytes() == b"existing output"
     assert not (tmp_path / "toc.txt").exists()
+
+
+def test_marginal_chapter_does_not_hide_body_chapter(tmp_path):
+    source = tmp_path / "running-header.pdf"
+    with fitz.open() as doc:
+        for number in range(3):
+            page = doc.new_page()
+            page.insert_text((60, 30), "Chapter 1 Navigation", fontsize=14)
+            if number == 0:
+                page.insert_text((60, 150), "Chapter 1 Navigation", fontsize=32)
+            for i in range(8):
+                page.insert_text(
+                    (60, 230 + 20 * i),
+                    "Ordinary body text for the reader.",
+                    fontsize=12,
+                )
+        doc.save(source)
+    pages, scanned, visual = app.read_pages(source)
+    headings = app.headings_from_pages(pages, scanned, visual=visual)
+    assert [(h["page"], h["title"]) for h in headings] == [(1, "Chapter 1 Navigation")]
+
+
+def test_native_chapter_survives_conflicting_ocr(tmp_path, monkeypatch):
+    source = tmp_path / "mixed.pdf"
+    with fitz.open() as doc:
+        page = doc.new_page()
+        page.insert_text((60, 150), "Chapter 1 Navigation", fontsize=32)
+        page.insert_text((60, 230), "Ordinary body text.", fontsize=12)
+        doc.save(source)
+
+    class Pool:
+        def __init__(self, **kwargs):
+            pass
+
+        def __enter__(self):
+            return self
+
+        def __exit__(self, *args):
+            pass
+
+        def map(self, *args):
+            return [(1, "Chapter 9 Wrong OCR", ["Chapter 9 Wrong OCR"])]
+
+    monkeypatch.setattr(app, "ProcessPoolExecutor", Pool)
+    pages, scanned, visual = app.read_pages(source, lang="eng", force_ocr=True)
+    headings = app.headings_from_pages(pages, scanned, visual=visual)
+    assert [(h["page"], h["title"]) for h in headings] == [(1, "Chapter 1 Navigation")]
+
+
+def test_appendix_sections_and_subsections_keep_their_parent():
+    titles = [
+        "Chapter 1 Body",
+        "1.1 Section",
+        "Appendix A Tools",
+        "A.1 Installation",
+        "Sidebar",
+        "A.1.1 Windows",
+        "A.2 Usage",
+        "Appendix B Debugging",
+        "B.1 Errors",
+        "Preface",
+        "Chapter 2 Next",
+    ]
+    headings = []
+    for page, title in enumerate(titles, 1):
+        entry = app.match_heading(title) or {
+            "type": "section" if title == "Sidebar" else "chapter",
+            "title": title,
+        }
+        headings.append(dict(entry, page=page))
+    tree = app.build_tree_from_headings(headings)
+    assert tree[3][2] == 2 and tree[5][2] == 3 and tree[6][2] == 2
+    assert tree[8][2] == 7 and tree[9][2] == -1 and tree[10][2] == -1
+    assert app.match_heading("A. Tools")["type"] == "chapter"
+
+
+def test_cryptographically_signed_fixture_is_preserved(tmp_path):
+    import base64
+    import hashlib
+
+    fixture = Path(__file__).parent / "fixtures" / "signed_pdf.b64"
+    data = base64.decodebytes(fixture.read_bytes())
+    assert (
+        hashlib.sha256(data).hexdigest()
+        == "5eeedec87a4e3fc098efdbfb3a8cdc03aba1168f2632279d424b4dfe37e99f84"
+    )
+    source = tmp_path / "signed.pdf"
+    source.write_bytes(data)
+    output = tmp_path / "out.pdf"
+    result = run(source, "--json", "-o", output)
+    assert result.returncode == 1 and "Digitally signed PDF" in result.stdout
+    assert source.read_bytes() == data and not output.exists()
+
+
+def test_unused_free_xref_does_not_trigger_signature_failure(tmp_path):
+    import re
+
+    source, output = tmp_path / "free.pdf", tmp_path / "out.pdf"
+    with fitz.open() as doc:
+        doc.new_page().insert_text((60, 80), "Chapter 1 Example", fontsize=24)
+        unused = doc.get_new_xref()
+        doc.update_object(unused, "<< /Unused true >>")
+        data = doc.tobytes()
+    match = re.search(rb"\nxref\n0 (\d+)\n", data)
+    assert match and unused < int(match[1])
+    start = match.end() + 20 * unused
+    data = data[:start] + b"0000000000 00000 f \n" + data[start + 20 :]
+    source.write_bytes(data)
+    assert app.add_bookmarks(source, [(1, "Example", -1)], output, "full") == 1
+    assert source.read_bytes() == data and app.verify_content(
+        source, output, render=True
+    )
+    import json
+
+    result = run(source, "--json", "--verify", "full", "-o", tmp_path / "json.pdf")
+    assert result.returncode == 0, result.stdout
+    assert json.loads(result.stdout)["ok"] is True
+
+
+def test_vertical_native_title_ignores_other_column_and_side_margin(tmp_path):
+    source = tmp_path / "vertical.pdf"
+    with fitz.open() as doc:
+        for number in range(3):
+            page = doc.new_page()
+            page.insert_text((15, 200), "Repeated side margin", fontsize=12, rotate=90)
+            if number == 0:
+                page.insert_text((70, 230), "Propagation", fontsize=20)
+                for offset, char in enumerate("声现象"):
+                    page.insert_text(
+                        (270, 100 + offset * 30), char, fontsize=28, fontname="china-s"
+                    )
+                    page.insert_text(
+                        (340, 100 + offset * 30),
+                        "Preview of a later section",
+                        fontsize=12,
+                    )
+            for offset in range(6):
+                page.insert_text(
+                    (70, 300 + offset * 20),
+                    "Ordinary body text for the reader.",
+                    fontsize=12,
+                )
+        doc.save(source)
+    pages, scanned, visual = app.read_pages(source)
+    headings = app.headings_from_pages(pages, scanned, visual=visual)
+    assert [(h["page"], h["title"], h["type"]) for h in headings] == [
+        (1, "声现象", "chapter"),
+        (1, "Propagation", "section"),
+    ]
+    assert app.build_tree_from_headings(headings)[1][2] == 0
+    assert all("Repeated side margin" not in text for _, text in pages)
+
+
+def test_numbered_ocr_header_cannot_move_native_chapter():
+    headings = [
+        {
+            "page": 86,
+            "type": "chapter",
+            "title": "光的折射透镜",
+            "source": "native_vertical",
+        },
+        {"page": 90, "type": "chapter", "title": "第四章光的折射 ”透镜"},
+        {"page": 108, "type": "chapter", "title": "第五章 物体的运动"},
+        {"page": 110, "type": "chapter", "title": "Summary"},
+        {"page": 118, "type": "chapter", "title": "Summary"},
+    ]
+    assert [h["page"] for h in app.filter_headings(headings)] == [86, 108, 110, 118]

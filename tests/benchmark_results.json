@@ -1,5 +1,616 @@
 {
-  "version": "0.3.1",
+  "independent_first_pass": {
+    "version": "0.3.2-pre-adaptation",
+    "implementation_sha256": {
+      "add_bookmarks.py": "0088ef1890b077f16b482c4ca1b53d5f0fb2d86d7857859d2f73cedd6263e162",
+      "headings.py": "0e549b55bd9040441be2397dfaa8333e542fe27f6472a555f574813d13879662",
+      "ocr.py": "2a0a686c3651ed08d166d173795ee534d222d17d6bdd272e8dfd6cf319b02eef"
+    },
+    "result": {
+      "name": "zh-heldout-suke",
+      "url": "https://raw.githubusercontent.com/TapXWorld/ChinaTextbook/master/%E5%88%9D%E4%B8%AD/%E7%89%A9%E7%90%86/%E8%8B%8F%E7%A7%91%E7%89%88-%E6%B1%9F%E8%8B%8F%E5%87%A4%E5%87%B0%E7%A7%91%E5%AD%A6%E6%8A%80%E6%9C%AF%E5%87%BA%E7%89%88%E7%A4%BE/%E5%85%AB%E5%B9%B4%E7%BA%A7/%E4%B9%89%E5%8A%A1%E6%95%99%E8%82%B2%E6%95%99%E7%A7%91%E4%B9%A6%C2%B7%E7%89%A9%E7%90%86%E5%85%AB%E5%B9%B4%E7%BA%A7%E4%B8%8A%E5%86%8C.pdf",
+      "original_sha256": "020e05765e8373111f5e71604d56f02bdeafa14ab9913344253f92f89d0ace98",
+      "input_sha256": "020e05765e8373111f5e71604d56f02bdeafa14ab9913344253f92f89d0ace98",
+      "pages": 134,
+      "original_outline_count": 0,
+      "input_outline_count": 0,
+      "ocr_pages": 44,
+      "bookmarks": 91,
+      "recognition_seconds": 30.33,
+      "extraction_cache_hit": true,
+      "evaluation_role": "held_out_for_v0.3.2",
+      "save_and_verify_seconds": 10.51,
+      "reviewed_save_and_verify_seconds": 10.1,
+      "automatic_content_preserved": true,
+      "reviewed_toc_verified": true,
+      "derived_low_quality": false,
+      "scope": "Chapter titles, PDF pages and depth only; sections and visual titles are unlabelled",
+      "metrics": {
+        "reference_entries": 5,
+        "scored_candidates": 10,
+        "exact_matches": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "missing": [
+          [
+            1,
+            "第一章声现象",
+            14
+          ],
+          [
+            1,
+            "第三章光现象",
+            60
+          ],
+          [
+            1,
+            "第二章物态变化",
+            34
+          ],
+          [
+            1,
+            "第五章物体的运动",
+            108
+          ],
+          [
+            1,
+            "第四章光的折射透镜",
+            86
+          ]
+        ],
+        "unexpected": [
+          [
+            1,
+            "第一章声现象",
+            23
+          ],
+          [
+            1,
+            "第一章声现象",
+            33
+          ],
+          [
+            1,
+            "第一章物态变化",
+            53
+          ],
+          [
+            1,
+            "第一章物态变化",
+            54
+          ],
+          [
+            1,
+            "第二章物态变化",
+            52
+          ],
+          [
+            1,
+            "第五章",
+            125
+          ],
+          [
+            1,
+            "第五章物体的运动",
+            110
+          ],
+          [
+            1,
+            "第五章物体的运动",
+            116
+          ],
+          [
+            1,
+            "第五章物体的运动",
+            127
+          ],
+          [
+            1,
+            "第四章光的折射透镜",
+            90
+          ]
+        ],
+        "unscored_candidates": 81
+      },
+      "toc": [
+        [
+          1,
+          "八八年级",
+          1
+        ],
+        [
+          1,
+          "年级上册",
+          2
+        ],
+        [
+          1,
+          "物理八年级上册",
+          3
+        ],
+        [
+          1,
+          "致同学们",
+          4
+        ],
+        [
+          1,
+          "体验科学探究",
+          8
+        ],
+        [
+          1,
+          "声音的产生",
+          15
+        ],
+        [
+          1,
+          "声音的传播",
+          15
+        ],
+        [
+          1,
+          "声音是一种波",
+          16
+        ],
+        [
+          1,
+          "声 速",
+          17
+        ],
+        [
+          1,
+          "响 度",
+          19
+        ],
+        [
+          1,
+          "音 调",
+          19
+        ],
+        [
+          1,
+          "振动的快慢常用每秒振动的次数 振动的快慢常用每秒振动的次数—频率 频率的单位 单位",
+          20
+        ],
+        [
+          1,
+          "音 色",
+          20
+        ],
+        [
+          1,
+          "噪声的来源",
+          23
+        ],
+        [
+          1,
+          "第一章声现象",
+          23
+        ],
+        [
+          2,
+          "噪声的来源",
+          23
+        ],
+        [
+          2,
+          "噪声的控制",
+          25
+        ],
+        [
+          2,
+          "超声波",
+          28
+        ],
+        [
+          2,
+          "次声波",
+          29
+        ],
+        [
+          2,
+          "综合实践活动",
+          30
+        ],
+        [
+          2,
+          "比较材料的隔声性能",
+          30
+        ],
+        [
+          1,
+          "第一章声现象",
+          33
+        ],
+        [
+          2,
+          "物质的三态",
+          35
+        ],
+        [
+          2,
+          "2.1 观察水的三态及其特征",
+          35
+        ],
+        [
+          2,
+          "温度的测量",
+          36
+        ],
+        [
+          2,
+          "学生实验",
+          36
+        ],
+        [
+          2,
+          "液 化",
+          43
+        ],
+        [
+          2,
+          "熔化、凝固的特点",
+          46
+        ],
+        [
+          2,
+          "熔化、凝固的应用",
+          48
+        ],
+        [
+          2,
+          "地球上的水循环 云中的小冰晶长大",
+          51
+        ],
+        [
+          1,
+          "第二章物态变化",
+          52
+        ],
+        [
+          2,
+          "珍贵的水资源",
+          53
+        ],
+        [
+          1,
+          "第一章物态变化",
+          53
+        ],
+        [
+          2,
+          "节约用水与水资源保护",
+          54
+        ],
+        [
+          1,
+          "第一章物态变化",
+          54
+        ],
+        [
+          2,
+          "节约用水与水资源保护",
+          54
+        ],
+        [
+          2,
+          "综合实践活动",
+          55
+        ],
+        [
+          2,
+          "用电冰箱研究物态变化现象",
+          55
+        ],
+        [
+          2,
+          "炽热物体发出的光来",
+          57
+        ],
+        [
+          2,
+          "全眼看不见的光",
+          60
+        ],
+        [
+          2,
+          "光的色散",
+          62
+        ],
+        [
+          2,
+          "色光的混合",
+          62
+        ],
+        [
+          2,
+          "物体的颜色",
+          64
+        ],
+        [
+          2,
+          "3.4 观察彩色图片的",
+          64
+        ],
+        [
+          2,
+          "3.4 观察彩色图",
+          64
+        ],
+        [
+          2,
+          "红外线",
+          66
+        ],
+        [
+          2,
+          "紫外线",
+          67
+        ],
+        [
+          2,
+          "光在均匀介质中的传播",
+          70
+        ],
+        [
+          1,
+          "64 光 速",
+          71
+        ],
+        [
+          2,
+          "平面镜成像",
+          73
+        ],
+        [
+          2,
+          "学生实验",
+          73
+        ],
+        [
+          2,
+          "平面镜成像的应用",
+          75
+        ],
+        [
+          2,
+          "光的反射定律",
+          77
+        ],
+        [
+          2,
+          "镜面反射与漫反射",
+          79
+        ],
+        [
+          2,
+          "综合实践活动",
+          81
+        ],
+        [
+          2,
+          "探究树荫下的光斑",
+          81
+        ],
+        [
+          2,
+          "射视力的矫正",
+          86
+        ],
+        [
+          2,
+          "折射现象",
+          87
+        ],
+        [
+          2,
+          "4.1 初识光的折射现象",
+          87
+        ],
+        [
+          2,
+          "折射的特点",
+          88
+        ],
+        [
+          1,
+          "第四章光的折射 ”透镜",
+          90
+        ],
+        [
+          2,
+          "硬币的位置 EERE ANA",
+          90
+        ],
+        [
+          2,
+          "初识透镜",
+          91
+        ],
+        [
+          1,
+          "43 识凸透镜和四镜",
+          91
+        ],
+        [
+          2,
+          "焦点与焦距",
+          92
+        ],
+        [
+          2,
+          "会聚和发散的奥秘",
+          93
+        ],
+        [
+          2,
+          "学生实验",
+          95
+        ],
+        [
+          2,
+          "照相机与眼球 力",
+          98
+        ],
+        [
+          2,
+          "视力的缺陷与矫正",
+          99
+        ],
+        [
+          2,
+          "望远镜",
+          101
+        ],
+        [
+          2,
+          "显微镜",
+          103
+        ],
+        [
+          2,
+          "视网膜上分",
+          105
+        ],
+        [
+          2,
+          "视神经把",
+          105
+        ],
+        [
+          2,
+          "长度的单位及测量",
+          109
+        ],
+        [
+          1,
+          "第五章 ” 物体的运动",
+          110
+        ],
+        [
+          2,
+          "时间的单位及测量",
+          112
+        ],
+        [
+          2,
+          "比较物体运动的快慢",
+          115
+        ],
+        [
+          2,
+          "5.4 比较纸锥下落的快慢",
+          115
+        ],
+        [
+          2,
+          "速度及其测量还",
+          116
+        ],
+        [
+          1,
+          "第五章 ” 物体的运动",
+          116
+        ],
+        [
+          2,
+          "速度及其测量",
+          116
+        ],
+        [
+          2,
+          "匀速直线运动",
+          120
+        ],
+        [
+          2,
+          "学生实验 日",
+          120
+        ],
+        [
+          2,
+          "变速直线运动",
+          121
+        ],
+        [
+          2,
+          "运动与静止",
+          124
+        ],
+        [
+          2,
+          "运动的相对性",
+          125
+        ],
+        [
+          1,
+          "第五章",
+          125
+        ],
+        [
+          2,
+          "运动相对性的应用",
+          126
+        ],
+        [
+          1,
+          "第五章物体的运动",
+          127
+        ],
+        [
+          2,
+          "常用物理量及其单位",
+          130
+        ],
+        [
+          2,
+          "长度 ( 路程 )",
+          130
+        ]
+      ],
+      "reference_toc": [
+        [
+          1,
+          "第一章 声现象",
+          14
+        ],
+        [
+          1,
+          "第二章 物态变化",
+          34
+        ],
+        [
+          1,
+          "第三章 光现象",
+          60
+        ],
+        [
+          1,
+          "第四章 光的折射 透镜",
+          86
+        ],
+        [
+          1,
+          "第五章 物体的运动",
+          108
+        ]
+      ],
+      "review_signals": {
+        "unreadable_toc_rows": 0,
+        "low_confidence_toc_rows": 0
+      },
+      "recognition_method": "body_headings"
+    }
+  },
+  "version": "0.3.2",
+  "signed_fixture": {
+    "sha256": "5eeedec87a4e3fc098efdbfb3a8cdc03aba1168f2632279d424b4dfe37e99f84",
+    "bytes": 6455,
+    "cryptographic_integrity_verified": true,
+    "certificate_trust": "Self-signed test certificate; public CA trust is not asserted",
+    "validator": "OpenSSL CMS verify"
+  },
   "environment": {
     "PyMuPDF": "1.26.6",
     "Pillow": "12.3.0",
@@ -16,15 +627,16 @@
   "pymupdf": "1.26.6",
   "tesseract": "5.3.4",
   "implementation_sha256": {
-    "add_bookmarks.py": "71ab775f6df2036cf1fc814eb735e8e2af5f7f605a9c28cc1b5a5370f657fe00",
-    "headings.py": "879a036029dd6a4b9592c55d0b56326ea2aa1d4e26e7e9779b526301d5c82c48",
+    "add_bookmarks.py": "338513c51641859955e22126e13111cb5160f8ebc1d7ad8c4c3e164f6601e0e5",
+    "headings.py": "d1765e70bf049589b6eda150fdfa571427c80178f991b4f65d115adc84ab5f21",
     "ocr.py": "2a0a686c3651ed08d166d173795ee534d222d17d6bdd272e8dfd6cf319b02eef"
   },
-  "benchmark_sha256": "b527ddccfe3d1b6b0abe34f5bb3e23192ce7629e2b9975ca69a90e2a0e5bcc98",
+  "benchmark_sha256": "fccbd6fd864d562e62db88adc606f795a2ff59f3b8294385e32dfeaaa94983e5",
   "annotation_notes": [
     "Beijing section 2.3 corrected to 等式与方程 after checking printed TOC and body page 86; prior label 算式与等式 was incorrect.",
     "Independent Jijiao scan has generic page bookmarks; labels are manually transcribed, not extracted from those bookmarks.",
-    "Think Java and Jiaoke physics were first evaluated after freezing v0.3.1 recognition. No recognition changes were made after seeing their results. Physics is a mixed PDF, not an image-only scan; six chapters only are labelled. These samples become regression data for later releases."
+    "Think Java and Jiaoke physics are now development regression data. Appendix numbering normalization was corrected in v0.3.2; earlier 205/230 was not 25 missing destinations. Jiaoke physics labels cover six chapters only.",
+    "Suke physics first-pass held-out test failed (0/5); its original result and implementation hashes are preserved under independent_first_pass. Vertical-column and side-margin fixes followed, so current Suke results are development regression, not a new blind test."
   ],
   "results": [
     {
@@ -37,10 +649,10 @@
       "input_outline_count": 0,
       "ocr_pages": 0,
       "bookmarks": 246,
-      "recognition_seconds": 0.86,
+      "recognition_seconds": 1.61,
       "extraction_cache_hit": true,
       "evaluation_role": "development_regression",
-      "save_and_verify_seconds": 1.85,
+      "save_and_verify_seconds": 2.2,
       "reviewed_save_and_verify_seconds": 0,
       "automatic_content_preserved": true,
       "reviewed_toc_verified": false,
@@ -2536,10 +3148,10 @@
       "input_outline_count": 0,
       "ocr_pages": 315,
       "bookmarks": 29,
-      "recognition_seconds": 59.49,
+      "recognition_seconds": 63.75,
       "extraction_cache_hit": true,
       "evaluation_role": "development_regression",
-      "save_and_verify_seconds": 10.6,
+      "save_and_verify_seconds": 12.85,
       "reviewed_save_and_verify_seconds": 0,
       "automatic_content_preserved": true,
       "reviewed_toc_verified": false,
@@ -2713,12 +3325,12 @@
       "original_outline_count": 0,
       "input_outline_count": 0,
       "ocr_pages": 1,
-      "bookmarks": 69,
-      "recognition_seconds": 3.87,
+      "bookmarks": 70,
+      "recognition_seconds": 5.5,
       "extraction_cache_hit": true,
       "evaluation_role": "development_regression",
-      "save_and_verify_seconds": 7.05,
-      "reviewed_save_and_verify_seconds": 6.24,
+      "save_and_verify_seconds": 8.03,
+      "reviewed_save_and_verify_seconds": 7.98,
       "automatic_content_preserved": true,
       "reviewed_toc_verified": true,
       "derived_low_quality": false,
@@ -2731,9 +3343,14 @@
         "recall": 1.0,
         "missing": [],
         "unexpected": [],
-        "unscored_candidates": 50
+        "unscored_candidates": 51
       },
       "toc": [
+        [
+          1,
+          "七年级",
+          1
+        ],
         [
           1,
           "主编的话",
@@ -3193,11 +3810,11 @@
       "input_outline_count": 0,
       "ocr_pages": 158,
       "bookmarks": 41,
-      "recognition_seconds": 105.16,
+      "recognition_seconds": 112.54,
       "extraction_cache_hit": true,
       "evaluation_role": "development_regression",
-      "save_and_verify_seconds": 14.53,
-      "reviewed_save_and_verify_seconds": 14.01,
+      "save_and_verify_seconds": 17.02,
+      "reviewed_save_and_verify_seconds": 15.84,
       "automatic_content_preserved": true,
       "reviewed_toc_verified": true,
       "derived_low_quality": false,
@@ -3228,7 +3845,7 @@
           ],
           [
             1,
-            "第三章简单的几何图形",
+            "简单的几何图形",
             155
           ],
           [
@@ -3628,12 +4245,12 @@
       "original_outline_count": 177,
       "input_outline_count": 0,
       "ocr_pages": 177,
-      "bookmarks": 39,
-      "recognition_seconds": 115.43,
+      "bookmarks": 40,
+      "recognition_seconds": 117.6,
       "extraction_cache_hit": true,
       "evaluation_role": "development_regression",
-      "save_and_verify_seconds": 7.86,
-      "reviewed_save_and_verify_seconds": 7.58,
+      "save_and_verify_seconds": 7.74,
+      "reviewed_save_and_verify_seconds": 8.05,
       "automatic_content_preserved": true,
       "reviewed_toc_verified": true,
       "derived_low_quality": false,
@@ -3647,7 +4264,7 @@
         "missing": [
           [
             1,
-            "第十五章二次根式",
+            "二次根式",
             93
           ],
           [
@@ -3674,7 +4291,7 @@
         "unexpected": [
           [
             1,
-            "第十五章一次让式",
+            "一次让式",
             93
           ],
           [
@@ -3683,7 +4300,7 @@
             154
           ]
         ],
-        "unscored_candidates": 8
+        "unscored_candidates": 9
       },
       "toc": [
         [
@@ -3870,6 +4487,11 @@
           2,
           "股定理的逆理",
           169
+        ],
+        [
+          1,
+          "A. UA RtAABC 的斜边 AB",
+          171
         ],
         [
           2,
@@ -4070,11 +4692,11 @@
       "input_outline_count": 0,
       "ocr_pages": 16,
       "bookmarks": 5,
-      "recognition_seconds": 15.58,
+      "recognition_seconds": 18.19,
       "extraction_cache_hit": true,
       "evaluation_role": "development_regression",
-      "save_and_verify_seconds": 4.55,
-      "reviewed_save_and_verify_seconds": 4.45,
+      "save_and_verify_seconds": 4.47,
+      "reviewed_save_and_verify_seconds": 4.64,
       "automatic_content_preserved": true,
       "reviewed_toc_verified": true,
       "derived_low_quality": false,
@@ -4154,10 +4776,10 @@
       "input_outline_count": 0,
       "ocr_pages": 0,
       "bookmarks": 240,
-      "recognition_seconds": 1.26,
+      "recognition_seconds": 2.03,
       "extraction_cache_hit": true,
-      "evaluation_role": "held_out_for_v0.3.1",
-      "save_and_verify_seconds": 2.18,
+      "evaluation_role": "development_regression",
+      "save_and_verify_seconds": 3.3,
       "reviewed_save_and_verify_seconds": 0,
       "automatic_content_preserved": true,
       "reviewed_toc_verified": false,
@@ -4166,136 +4788,10 @@
       "metrics": {
         "reference_entries": 230,
         "scored_candidates": 240,
-        "exact_matches": 205,
-        "recall": 0.8913043478260869,
-        "missing": [
-          [
-            1,
-            "atools",
-            319
-          ],
-          [
-            1,
-            "bjavadoc",
-            331
-          ],
-          [
-            1,
-            "cgraphics",
-            341
-          ],
-          [
-            1,
-            "ddebugging",
-            349
-          ],
-          [
-            2,
-            "a1installingdrjava",
-            319
-          ],
-          [
-            2,
-            "a2drjavainteractions",
-            321
-          ],
-          [
-            2,
-            "a3commandlineinterface",
-            322
-          ],
-          [
-            2,
-            "a4commandlinetesting",
-            323
-          ],
-          [
-            2,
-            "a5runningcheckstyle",
-            325
-          ],
-          [
-            2,
-            "a6tracingwithadebugger",
-            326
-          ],
-          [
-            2,
-            "a7testingwithjunit",
-            327
-          ],
-          [
-            2,
-            "a8vocabulary",
-            329
-          ],
-          [
-            2,
-            "b1readingdocumentation",
-            332
-          ],
-          [
-            2,
-            "b2writingdocumentation",
-            334
-          ],
-          [
-            2,
-            "b3javadoctags",
-            335
-          ],
-          [
-            2,
-            "b4examplesourcefile",
-            337
-          ],
-          [
-            2,
-            "b5vocabulary",
-            340
-          ],
-          [
-            2,
-            "c1creatinggraphics",
-            341
-          ],
-          [
-            2,
-            "c2graphicsmethods",
-            342
-          ],
-          [
-            2,
-            "c3exampledrawing",
-            344
-          ],
-          [
-            2,
-            "c4vocabulary",
-            345
-          ],
-          [
-            2,
-            "c5exercises",
-            346
-          ],
-          [
-            2,
-            "d1compiletimeerrors",
-            349
-          ],
-          [
-            2,
-            "d2runtimeerrors",
-            353
-          ],
-          [
-            2,
-            "d3logicerrors",
-            357
-          ]
-        ],
-        "reference_match_fraction": 0.8541666666666666,
+        "exact_matches": 230,
+        "recall": 1.0,
+        "missing": [],
+        "reference_match_fraction": 0.9583333333333334,
         "additional_candidates": [
           [
             1,
@@ -4314,23 +4810,8 @@
           ],
           [
             1,
-            "debugging",
-            349
-          ],
-          [
-            1,
-            "graphics",
-            341
-          ],
-          [
-            1,
             "howtothinklikeacomputerscientist",
             1
-          ],
-          [
-            1,
-            "javadoc",
-            331
           ],
           [
             1,
@@ -4354,11 +4835,6 @@
           ],
           [
             1,
-            "tools",
-            319
-          ],
-          [
-            1,
             "usingthecodeexamples",
             18
           ],
@@ -4366,111 +4842,6 @@
             2,
             "abouttheauthors",
             372
-          ],
-          [
-            2,
-            "commandlineinterface",
-            322
-          ],
-          [
-            2,
-            "commandlinetesting",
-            323
-          ],
-          [
-            2,
-            "compiletimeerrors",
-            349
-          ],
-          [
-            2,
-            "creatinggraphics",
-            341
-          ],
-          [
-            2,
-            "drjavainteractions",
-            321
-          ],
-          [
-            2,
-            "exampledrawing",
-            344
-          ],
-          [
-            2,
-            "examplesourcefile",
-            337
-          ],
-          [
-            2,
-            "exercises",
-            346
-          ],
-          [
-            2,
-            "graphicsmethods",
-            342
-          ],
-          [
-            2,
-            "installingdrjava",
-            319
-          ],
-          [
-            2,
-            "javadoctags",
-            335
-          ],
-          [
-            2,
-            "logicerrors",
-            357
-          ],
-          [
-            2,
-            "readingdocumentation",
-            332
-          ],
-          [
-            2,
-            "runningcheckstyle",
-            325
-          ],
-          [
-            2,
-            "runtimeerrors",
-            353
-          ],
-          [
-            2,
-            "testingwithjunit",
-            327
-          ],
-          [
-            2,
-            "tracingwithadebugger",
-            326
-          ],
-          [
-            2,
-            "vocabulary",
-            329
-          ],
-          [
-            2,
-            "vocabulary",
-            340
-          ],
-          [
-            2,
-            "vocabulary",
-            345
-          ],
-          [
-            2,
-            "writingdocumentation",
-            334
           ]
         ]
       },
@@ -6843,194 +7214,32 @@
       "original_outline_count": 3,
       "input_outline_count": 0,
       "ocr_pages": 19,
-      "bookmarks": 178,
-      "recognition_seconds": 17.22,
+      "bookmarks": 147,
+      "recognition_seconds": 18.85,
       "extraction_cache_hit": true,
-      "evaluation_role": "held_out_for_v0.3.1",
-      "save_and_verify_seconds": 6.91,
-      "reviewed_save_and_verify_seconds": 6.62,
+      "evaluation_role": "development_regression",
+      "save_and_verify_seconds": 8.34,
+      "reviewed_save_and_verify_seconds": 8.27,
       "automatic_content_preserved": true,
       "reviewed_toc_verified": true,
       "derived_low_quality": false,
-      "scope": "Six chapter titles, PDF pages and depth only; sections and visual titles are unlabelled",
+      "scope": "Chapter titles, PDF pages and depth only; sections and visual titles are unlabelled",
       "metrics": {
         "reference_entries": 6,
-        "scored_candidates": 29,
-        "exact_matches": 1,
-        "precision": 0.034482758620689655,
-        "recall": 0.16666666666666666,
-        "missing": [
-          [
-            1,
-            "第一章走进实验室",
-            12
-          ],
-          [
-            1,
-            "第三章声",
-            42
-          ],
-          [
-            1,
-            "第二章运动与能量",
-            26
-          ],
-          [
-            1,
-            "第五章物态变化",
-            96
-          ],
-          [
-            1,
-            "第六章质量与密度",
-            118
-          ]
-        ],
-        "unexpected": [
-          [
-            1,
-            "第7章质量与密度",
-            118
-          ],
-          [
-            1,
-            "第一章走进实验室",
-            16
-          ],
-          [
-            1,
-            "第一章走进实验室",
-            22
-          ],
-          [
-            1,
-            "第一章走进实验室",
-            24
-          ],
-          [
-            1,
-            "第三章声",
-            46
-          ],
-          [
-            1,
-            "第三章声",
-            50
-          ],
-          [
-            1,
-            "第三章声",
-            52
-          ],
-          [
-            1,
-            "第三章声",
-            54
-          ],
-          [
-            1,
-            "第三章声",
-            58
-          ],
-          [
-            1,
-            "第二章运动与能量",
-            28
-          ],
-          [
-            1,
-            "第二章运动与能量",
-            36
-          ],
-          [
-            1,
-            "第二章运动与能量",
-            38
-          ],
-          [
-            1,
-            "第五章",
-            96
-          ],
-          [
-            1,
-            "第五章物态变化",
-            98
-          ],
-          [
-            1,
-            "第五章物态变化",
-            106
-          ],
-          [
-            1,
-            "第五章物态变化",
-            108
-          ],
-          [
-            1,
-            "第五章物态变化",
-            110
-          ],
-          [
-            1,
-            "第六章质量与密度",
-            120
-          ],
-          [
-            1,
-            "第六章质量与密度",
-            122
-          ],
-          [
-            1,
-            "第六章质量与密度",
-            126
-          ],
-          [
-            1,
-            "第六章质量与密度",
-            128
-          ],
-          [
-            1,
-            "第四章在光的世界里",
-            66
-          ],
-          [
-            1,
-            "第四章在光的世界里",
-            70
-          ],
-          [
-            1,
-            "第四章在光的世界里",
-            74
-          ],
-          [
-            1,
-            "第四章在光的世界里",
-            82
-          ],
-          [
-            1,
-            "第四章在光的世界里",
-            88
-          ],
-          [
-            1,
-            "第四章在光的世界里",
-            90
-          ],
-          [
-            1,
-            "第四章在光的世界里",
-            94
-          ]
-        ],
-        "unscored_candidates": 149
+        "scored_candidates": 6,
+        "exact_matches": 6,
+        "precision": 1.0,
+        "recall": 1.0,
+        "missing": [],
+        "unexpected": [],
+        "unscored_candidates": 141
       },
       "toc": [
+        [
+          1,
+          "义务教育教科书",
+          2
+        ],
         [
           1,
           "致同学们",
@@ -7038,13 +7247,13 @@
         ],
         [
           1,
-          "89 第五章  物态变化",
-          5
-        ],
-        [
-          2,
           "认识物理学",
           8
+        ],
+        [
+          1,
+          "第一章走进实验室",
+          12
         ],
         [
           2,
@@ -7067,18 +7276,13 @@
           15
         ],
         [
-          1,
-          "第一章  走进实验室",
-          16
-        ],
-        [
           2,
           "建立你的家庭实验室",
           16
         ],
         [
           2,
-          "测量: 实验探 第一章  走进实验室 究的重要环节",
+          "测量: 实验探 究的重要环节",
           18
         ],
         [
@@ -7112,11 +7316,6 @@
           21
         ],
         [
-          1,
-          "第一章  走进实验室",
-          22
-        ],
-        [
           2,
           "活动 测量心率",
           22
@@ -7133,33 +7332,18 @@
         ],
         [
           1,
-          "第一章  走进实验室",
-          24
+          "第二章运动与能量",
+          26
         ],
         [
           2,
           "认识运动",
-          26
-        ],
-        [
-          2,
-          "运动的描述",
-          26
-        ],
-        [
-          2,
-          "测量物体运动的速度",
-          26
+          27
         ],
         [
           2,
           "宏观物体的机械运动",
           27
-        ],
-        [
-          1,
-          "第二章  运动与能量",
-          28
         ],
         [
           2,
@@ -7193,28 +7377,13 @@
         ],
         [
           2,
-          "测量物体运动 第二章  运动与能量 的速度",
+          "测量物体运动 的速度",
           34
-        ],
-        [
-          1,
-          "第二章  运动与能量",
-          36
         ],
         [
           2,
           "讨论交流 汽车的速度",
           36
-        ],
-        [
-          2,
-          "发展空间",
-          37
-        ],
-        [
-          1,
-          "第二章  运动与能量",
-          38
         ],
         [
           2,
@@ -7237,8 +7406,8 @@
           41
         ],
         [
-          2,
-          "乐音的三个特征",
+          1,
+          "第三章声",
           42
         ],
         [
@@ -7265,11 +7434,6 @@
           2,
           "活动 会“跳舞”的烛焰",
           45
-        ],
-        [
-          1,
-          "第三章  声",
-          46
         ],
         [
           2,
@@ -7302,11 +7466,6 @@
           49
         ],
         [
-          1,
-          "第三章  声",
-          50
-        ],
-        [
           2,
           "响  度",
           50
@@ -7320,16 +7479,6 @@
           2,
           "观察 声波的图形",
           51
-        ],
-        [
-          1,
-          "第三章  声",
-          52
-        ],
-        [
-          2,
-          "发展空间",
-          52
         ],
         [
           2,
@@ -7347,19 +7496,9 @@
           53
         ],
         [
-          1,
-          "第三章  声",
-          54
-        ],
-        [
           2,
           "控制噪声",
           54
-        ],
-        [
-          2,
-          "发展空间",
-          55
         ],
         [
           2,
@@ -7377,11 +7516,6 @@
           57
         ],
         [
-          1,
-          "第三章  声",
-          58
-        ],
-        [
           2,
           "次声本领大",
           58
@@ -7390,11 +7524,6 @@
           2,
           "声识别技术",
           59
-        ],
-        [
-          2,
-          "发展空间",
-          60
         ],
         [
           2,
@@ -7423,7 +7552,7 @@
         ],
         [
           1,
-          "第四章 “在光的世界里",
+          "第四章在光的世界里",
           62
         ],
         [
@@ -7445,11 +7574,6 @@
           2,
           "光传播的速度",
           65
-        ],
-        [
-          1,
-          "第四章  在光的世界里",
-          66
         ],
         [
           2,
@@ -7477,18 +7601,13 @@
           69
         ],
         [
-          1,
-          "第四章  在光的世界里",
-          70
-        ],
-        [
           2,
           "物理在线",
           71
         ],
         [
           2,
-          "科学探究: 第四章  在光的世界里",
+          "科学探究:",
           72
         ],
         [
@@ -7512,19 +7631,9 @@
           72
         ],
         [
-          1,
-          "第四章  在光的世界里",
-          74
-        ],
-        [
           2,
           "讨论交流 物和像关于平面镜的对称关系",
           74
-        ],
-        [
-          2,
-          "发展空间",
-          75
         ],
         [
           2,
@@ -7538,13 +7647,33 @@
         ],
         [
           2,
-          "光的折射规律 ችพঙ",
+          "光的折射规律",
+          76
+        ],
+        [
+          2,
+          "实验探究 光的折射规律",
           76
         ],
         [
           2,
           "折射形成的奇异现象",
           77
+        ],
+        [
+          1,
+          "B. PR",
+          78
+        ],
+        [
+          1,
+          "C. EAR ak aT",
+          78
+        ],
+        [
+          1,
+          "D. HAE KAA T",
+          78
         ],
         [
           2,
@@ -7560,11 +7689,6 @@
           2,
           "实验探究:凸透镜成像的规律",
           81
-        ],
-        [
-          1,
-          "第四章  在光的世界里",
-          82
         ],
         [
           2,
@@ -7603,18 +7727,13 @@
         ],
         [
           2,
-          "保护你的眼睛 看近处的物体",
+          "保护你的眼睛",
           86
         ],
         [
           2,
           "发展空间",
           87
-        ],
-        [
-          1,
-          "第四章  在光的世界里",
-          88
         ],
         [
           2,
@@ -7625,11 +7744,6 @@
           2,
           "望远镜",
           89
-        ],
-        [
-          1,
-          "第四章  在光的世界里",
-          90
         ],
         [
           2,
@@ -7662,34 +7776,24 @@
           93
         ],
         [
-          1,
-          "第四章  在光的世界里",
-          94
-        ],
-        [
-          2,
-          "发展空间",
-          94
-        ],
-        [
           2,
           "知识要点",
           95
         ],
         [
           1,
-          "第五章",
+          "第五章物态变化",
           96
+        ],
+        [
+          2,
+          "物态变化与温度",
+          97
         ],
         [
           2,
           "然界的",
           97
-        ],
-        [
-          1,
-          "第五章  物态变化",
-          98
         ],
         [
           2,
@@ -7732,11 +7836,6 @@
           104
         ],
         [
-          1,
-          "第五章  物态变化",
-          106
-        ],
-        [
           2,
           "液体的凝固",
           107
@@ -7747,24 +7846,9 @@
           107
         ],
         [
-          1,
-          "第五章  物态变化",
-          108
-        ],
-        [
           2,
           "熔化和凝固规律的应用",
           108
-        ],
-        [
-          2,
-          "发展空间",
-          108
-        ],
-        [
-          1,
-          "第五章  物态变化",
-          110
         ],
         [
           2,
@@ -7773,13 +7857,8 @@
         ],
         [
           2,
-          "画上了一个圆满的句号 物态变化中的吸热和放热",
+          "物态变化中的吸热和放热",
           111
-        ],
-        [
-          2,
-          "发展空间",
-          112
         ],
         [
           2,
@@ -7788,7 +7867,7 @@
         ],
         [
           2,
-          "地球上的 第五章  物态变化 水循环",
+          "地球上的 水循环",
           114
         ],
         [
@@ -7798,7 +7877,7 @@
         ],
         [
           2,
-          "图5-4-4   植物叶子的表面有许 地球上的水循环",
+          "地球上的水循环",
           115
         ],
         [
@@ -7813,7 +7892,7 @@
         ],
         [
           1,
-          "第7章质量与密度",
+          "第六章质量与密度",
           118
         ],
         [
@@ -7825,11 +7904,6 @@
           2,
           "认识质量",
           119
-        ],
-        [
-          1,
-          "第六章  质量与密度",
-          120
         ],
         [
           2,
@@ -7847,11 +7921,6 @@
           121
         ],
         [
-          1,
-          "第六章  质量与密度",
-          122
-        ],
-        [
           2,
           "发展空间",
           122
@@ -7865,16 +7934,6 @@
           2,
           "认识密度",
           123
-        ],
-        [
-          2,
-          "密度的应用",
-          125
-        ],
-        [
-          1,
-          "第六章  质量与密度",
-          126
         ],
         [
           2,
@@ -7895,16 +7954,6 @@
           2,
           "实验探究 测量酱油的密度",
           127
-        ],
-        [
-          1,
-          "第六章  质量与密度",
-          128
-        ],
-        [
-          2,
-          "发展空间 发展空间",
-          128
         ],
         [
           2,
@@ -7961,6 +8010,595 @@
       "recognition_method": "body_headings"
     },
     {
+      "name": "zh-heldout-suke",
+      "url": "https://raw.githubusercontent.com/TapXWorld/ChinaTextbook/master/%E5%88%9D%E4%B8%AD/%E7%89%A9%E7%90%86/%E8%8B%8F%E7%A7%91%E7%89%88-%E6%B1%9F%E8%8B%8F%E5%87%A4%E5%87%B0%E7%A7%91%E5%AD%A6%E6%8A%80%E6%9C%AF%E5%87%BA%E7%89%88%E7%A4%BE/%E5%85%AB%E5%B9%B4%E7%BA%A7/%E4%B9%89%E5%8A%A1%E6%95%99%E8%82%B2%E6%95%99%E7%A7%91%E4%B9%A6%C2%B7%E7%89%A9%E7%90%86%E5%85%AB%E5%B9%B4%E7%BA%A7%E4%B8%8A%E5%86%8C.pdf",
+      "original_sha256": "020e05765e8373111f5e71604d56f02bdeafa14ab9913344253f92f89d0ace98",
+      "input_sha256": "020e05765e8373111f5e71604d56f02bdeafa14ab9913344253f92f89d0ace98",
+      "pages": 134,
+      "original_outline_count": 0,
+      "input_outline_count": 0,
+      "ocr_pages": 44,
+      "bookmarks": 105,
+      "recognition_seconds": 30.05,
+      "extraction_cache_hit": true,
+      "evaluation_role": "development_regression",
+      "save_and_verify_seconds": 9.44,
+      "reviewed_save_and_verify_seconds": 8.37,
+      "automatic_content_preserved": true,
+      "reviewed_toc_verified": true,
+      "derived_low_quality": false,
+      "scope": "Chapter titles, PDF pages and depth only; sections and visual titles are unlabelled",
+      "metrics": {
+        "reference_entries": 5,
+        "scored_candidates": 5,
+        "exact_matches": 5,
+        "precision": 1.0,
+        "recall": 1.0,
+        "missing": [],
+        "unexpected": [],
+        "unscored_candidates": 100
+      },
+      "toc": [
+        [
+          1,
+          "八八年级",
+          1
+        ],
+        [
+          1,
+          "年级上册",
+          2
+        ],
+        [
+          1,
+          "物理八年级上册",
+          3
+        ],
+        [
+          1,
+          "致同学们",
+          4
+        ],
+        [
+          1,
+          "学生实验",
+          4
+        ],
+        [
+          1,
+          "体验科学探究",
+          8
+        ],
+        [
+          2,
+          "一、奇妙的物理现象",
+          9
+        ],
+        [
+          2,
+          "二、体验科学探究",
+          10
+        ],
+        [
+          1,
+          "声现象",
+          14
+        ],
+        [
+          2,
+          "一、声音是什么",
+          15
+        ],
+        [
+          2,
+          "声音的产生",
+          15
+        ],
+        [
+          2,
+          "声音的传播",
+          15
+        ],
+        [
+          2,
+          "声音是一种波",
+          16
+        ],
+        [
+          2,
+          "声 速",
+          17
+        ],
+        [
+          2,
+          "二、乐音的特性",
+          19
+        ],
+        [
+          2,
+          "响 度",
+          19
+        ],
+        [
+          2,
+          "音 调",
+          19
+        ],
+        [
+          2,
+          "振动的快慢常用每秒振动的次数—频率",
+          20
+        ],
+        [
+          2,
+          "音 色",
+          20
+        ],
+        [
+          2,
+          "三、噪声及其控制",
+          23
+        ],
+        [
+          2,
+          "噪声的来源",
+          23
+        ],
+        [
+          2,
+          "噪声的控制",
+          25
+        ],
+        [
+          2,
+          "四、人耳听不到的声音",
+          27
+        ],
+        [
+          2,
+          "超声波",
+          28
+        ],
+        [
+          2,
+          "次声波",
+          29
+        ],
+        [
+          2,
+          "综合实践活动",
+          30
+        ],
+        [
+          2,
+          "比较材料的隔声性能",
+          30
+        ],
+        [
+          1,
+          "物态变化",
+          34
+        ],
+        [
+          2,
+          "一、物质的三态温度的测量",
+          35
+        ],
+        [
+          2,
+          "物质的三态",
+          35
+        ],
+        [
+          2,
+          "2.1 观察水的三态及其特征",
+          35
+        ],
+        [
+          2,
+          "一、物质的三态 ”温度的测量",
+          35
+        ],
+        [
+          2,
+          "温度的测量",
+          36
+        ],
+        [
+          2,
+          "学生实验",
+          36
+        ],
+        [
+          2,
+          "二、汽化和液化",
+          41
+        ],
+        [
+          2,
+          "液 化",
+          43
+        ],
+        [
+          2,
+          "三、熔化和凝固",
+          46
+        ],
+        [
+          2,
+          "熔化、凝固的特点",
+          46
+        ],
+        [
+          2,
+          "熔化、凝固的应用",
+          48
+        ],
+        [
+          2,
+          "四、升华和凝华",
+          49
+        ],
+        [
+          2,
+          "五、水循环",
+          51
+        ],
+        [
+          2,
+          "地球上的水循环",
+          51
+        ],
+        [
+          2,
+          "珍贵的水资源",
+          53
+        ],
+        [
+          2,
+          "节约用水与水资源保护",
+          54
+        ],
+        [
+          2,
+          "综合实践活动",
+          55
+        ],
+        [
+          2,
+          "用电冰箱研究物态变化现象",
+          55
+        ],
+        [
+          2,
+          "炽热物体发出的光来",
+          57
+        ],
+        [
+          1,
+          "光现象",
+          60
+        ],
+        [
+          2,
+          "一、光的色彩颜色",
+          61
+        ],
+        [
+          2,
+          "光的色散",
+          62
+        ],
+        [
+          2,
+          "色光的混合",
+          62
+        ],
+        [
+          2,
+          "物体的颜色",
+          64
+        ],
+        [
+          2,
+          "3.4 观察彩色图",
+          64
+        ],
+        [
+          2,
+          "二、人眼看不见的光",
+          66
+        ],
+        [
+          2,
+          "红外线",
+          66
+        ],
+        [
+          2,
+          "紫外线",
+          67
+        ],
+        [
+          2,
+          "三、光的直线传播",
+          70
+        ],
+        [
+          2,
+          "光在均匀介质中的传播",
+          70
+        ],
+        [
+          2,
+          "光 速",
+          71
+        ],
+        [
+          2,
+          "四、平面镜",
+          73
+        ],
+        [
+          2,
+          "平面镜成像",
+          73
+        ],
+        [
+          2,
+          "学生实验",
+          73
+        ],
+        [
+          2,
+          "平面镜成像的应用",
+          75
+        ],
+        [
+          2,
+          "五、光的反射",
+          77
+        ],
+        [
+          2,
+          "光的反射定律",
+          77
+        ],
+        [
+          2,
+          "镜面反射与漫反射",
+          79
+        ],
+        [
+          2,
+          "综合实践活动",
+          81
+        ],
+        [
+          2,
+          "探究树荫下的光斑",
+          81
+        ],
+        [
+          1,
+          "光的折射透镜",
+          86
+        ],
+        [
+          2,
+          "一、光的折射",
+          87
+        ],
+        [
+          2,
+          "折射现象",
+          87
+        ],
+        [
+          2,
+          "4.1 初识光的折射现象",
+          87
+        ],
+        [
+          2,
+          "折射的特点",
+          88
+        ],
+        [
+          2,
+          "硬币的位置 EERE ANA",
+          90
+        ],
+        [
+          2,
+          "二、透镜",
+          91
+        ],
+        [
+          2,
+          "初识透镜",
+          91
+        ],
+        [
+          1,
+          "43 识凸透镜和四镜",
+          91
+        ],
+        [
+          2,
+          "焦点与焦距",
+          92
+        ],
+        [
+          2,
+          "会聚和发散的奥秘",
+          93
+        ],
+        [
+          2,
+          "三、凸透镜成像的规律",
+          95
+        ],
+        [
+          2,
+          "学生实验",
+          95
+        ],
+        [
+          2,
+          "四、照相机与眼球 视力的矫正",
+          98
+        ],
+        [
+          2,
+          "照相机与眼球",
+          98
+        ],
+        [
+          2,
+          "视力的缺陷与矫正",
+          99
+        ],
+        [
+          2,
+          "五、望远镜与显微镜",
+          101
+        ],
+        [
+          2,
+          "望远镜",
+          101
+        ],
+        [
+          2,
+          "显微镜",
+          103
+        ],
+        [
+          1,
+          "物体的运动",
+          108
+        ],
+        [
+          2,
+          "一、长度和时间的测量",
+          109
+        ],
+        [
+          2,
+          "长度的单位及测量",
+          109
+        ],
+        [
+          2,
+          "时间的单位及测量",
+          112
+        ],
+        [
+          2,
+          "二、速度",
+          115
+        ],
+        [
+          2,
+          "比较物体运动的快慢",
+          115
+        ],
+        [
+          2,
+          "5.4 比较纸锥下落的快慢",
+          115
+        ],
+        [
+          2,
+          "速度及其测量",
+          116
+        ],
+        [
+          2,
+          "三、直线运动",
+          120
+        ],
+        [
+          2,
+          "匀速直线运动",
+          120
+        ],
+        [
+          2,
+          "学生实验",
+          120
+        ],
+        [
+          2,
+          "变速直线运动",
+          121
+        ],
+        [
+          2,
+          "四、运动的相对性",
+          124
+        ],
+        [
+          2,
+          "运动与静止",
+          124
+        ],
+        [
+          2,
+          "运动的相对性",
+          125
+        ],
+        [
+          2,
+          "运动相对性的应用",
+          126
+        ],
+        [
+          2,
+          "常用物理量及其单位",
+          130
+        ],
+        [
+          2,
+          "长度 ( 路程 )",
+          130
+        ]
+      ],
+      "reference_toc": [
+        [
+          1,
+          "第一章 声现象",
+          14
+        ],
+        [
+          1,
+          "第二章 物态变化",
+          34
+        ],
+        [
+          1,
+          "第三章 光现象",
+          60
+        ],
+        [
+          1,
+          "第四章 光的折射 透镜",
+          86
+        ],
+        [
+          1,
+          "第五章 物体的运动",
+          108
+        ]
+      ],
+      "review_signals": {
+        "unreadable_toc_rows": 0,
+        "low_confidence_toc_rows": 0
+      },
+      "recognition_method": "body_headings"
+    },
+    {
       "name": "zh-low",
       "url": "https://raw.githubusercontent.com/TapXWorld/ChinaTextbook/master/%E5%88%9D%E4%B8%AD/%E6%95%B0%E5%AD%A6/%E5%8C%97%E4%BA%AC%E7%89%88-%E5%8C%97%E4%BA%AC%E5%87%BA%E7%89%88%E7%A4%BE/%E4%B8%83%E5%B9%B4%E7%BA%A7/%E4%B9%89%E5%8A%A1%E6%95%99%E8%82%B2%E6%95%99%E7%A7%91%E4%B9%A6%C2%B7%E6%95%B0%E5%AD%A6%E4%B8%83%E5%B9%B4%E7%BA%A7%E4%B8%8A%E5%86%8C.pdf",
       "original_sha256": "0b5a395273f0d867e58776d74c69970461b9cf79933025f5f547d03e0abff280",
@@ -7970,11 +8608,11 @@
       "input_outline_count": 0,
       "ocr_pages": 158,
       "bookmarks": 31,
-      "recognition_seconds": 111.28,
+      "recognition_seconds": 125.39,
       "extraction_cache_hit": true,
       "evaluation_role": "development_regression",
-      "save_and_verify_seconds": 3.62,
-      "reviewed_save_and_verify_seconds": 3.62,
+      "save_and_verify_seconds": 3.84,
+      "reviewed_save_and_verify_seconds": 3.91,
       "automatic_content_preserved": true,
       "reviewed_toc_verified": true,
       "derived_low_quality": true,
@@ -7988,18 +8626,18 @@
         "missing": [
           [
             1,
-            "第一章有理数",
+            "一元一次方程",
+            75
+          ],
+          [
+            1,
+            "有理数",
             7
           ],
           [
             1,
-            "第三章简单的几何图形",
+            "简单的几何图形",
             125
-          ],
-          [
-            1,
-            "第二章一元一次方程",
-            75
           ],
           [
             2,
@@ -8070,13 +8708,13 @@
         "unexpected": [
           [
             1,
-            "用计算本绘图148",
-            6
+            "",
+            7
           ],
           [
             1,
-            "第一章",
-            7
+            "用计算本绘图148",
+            6
           ],
           [
             2,
@@ -8451,5 +9089,6 @@
       },
       "recognition_method": "printed_toc"
     }
-  ]
+  ],
+  "cache_validation_note": "OCR-only documents reused OCR results only after checking every page has no native text and OCR implementation/models are unchanged. Native/mixed extraction and all outlines and full-page output validation were rerun as needed. Original OCR timings are retained."
 }

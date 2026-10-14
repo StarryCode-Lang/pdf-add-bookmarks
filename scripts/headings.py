@@ -66,6 +66,12 @@ def _match_heading(line, ocr_mode=False):
     line = clean_ocr_line(line, ocr_mode=ocr_mode)
     if not line:
         return None
+    if line.startswith("NATIVE_CHAPTER\t"):
+        return {
+            "type": "chapter",
+            "title": clean_ocr_line(line.split("\t", 1)[1], True),
+            "source": "native_vertical",
+        }
     if re.match(r"^第[一二三四五六七八九十]+章\s*", line):
         return {"type": "chapter", "title": line}
     m = re.match(r"^第(\d+)章\s*(.+)", line)
@@ -92,8 +98,12 @@ def _match_heading(line, ocr_mode=False):
     m = re.match(r"^(\d+)\s+([A-Z][A-Za-z\s\-]{2,40})$", line)
     if m and 1 <= int(m.group(1)) <= 99:
         return {"type": "chapter", "title": line}
-    if re.match(r"^[A-Z]\.\d+\.?\s+\w+", line):
+    if re.match(r"^[A-Z]\.\d+\.\d+\.?\s+\w+", line):
         return {"type": "subsection", "title": line}
+    if re.match(r"^[A-Z]\.\d+\.?\s+\w+", line):
+        return {"type": "section", "title": line}
+    if re.match(r"^[A-Z]\.\s+[A-Z][A-Za-z].{0,60}$", line):
+        return {"type": "chapter", "title": line}
     # Match generic year-prefixed examination headings.
     m = re.match(r"^(20\d{2})\s*年.*(?:真题|应用题|统考|试题|考试)", line)
     if m:
@@ -172,6 +182,7 @@ def filter_headings(headings, total_pages=None):
     filtered = []
     seen_titles = set()
     chapter, section = None, None
+    anchored_chapters = set()
 
     for h in sorted(headings, key=lambda h: h["page"]):
         title = h["title"]
@@ -193,6 +204,24 @@ def filter_headings(headings, total_pages=None):
         # Reject overly long chapter titles (likely sentences, not headings)
         if htype == "chapter" and len(title) > 100:
             continue
+
+        # A numbered OCR header cannot move an already located native chapter.
+        if htype == "chapter":
+            normalized = clean_ocr_line(title, True)
+            numbered = re.match(
+                r"^第[一二三四五六七八九十百\d]+章|^(Chapter|Part|Appendix)\s+[A-Z\d]+",
+                normalized,
+                re.I,
+            )
+            root_key = re.sub(
+                r"\W", "", normalized[numbered.end() :] if numbered else normalized
+            ).lower()
+            if re.match(r"^Part\b", normalized, re.I):
+                anchored_chapters.clear()
+            if h.get("source") == "native_vertical":
+                anchored_chapters.add(root_key)
+            elif numbered and root_key in anchored_chapters:
+                continue
 
         # Deduplicate within the parent, preserving legitimate repeated child titles.
         scope = (
@@ -279,7 +308,7 @@ def build_tree_from_headings(headings):
             parent = last_chapter if last_chapter >= 0 else -1
             tree.append((h["page"], h["title"], parent))
             last_section = len(tree) - 1
-            number = re.match(r"^(\d+\.\d+)\s", h["title"])
+            number = re.match(r"^((?:\d+|[A-Z])\.\d+)\.?\s", h["title"])
             if number:
                 numbered_sections[number.group(1)] = last_section
         elif h["type"] == "subsection":
@@ -288,7 +317,7 @@ def build_tree_from_headings(headings):
                 if last_section >= 0
                 else (last_chapter if last_chapter >= 0 else -1)
             )
-            number = re.match(r"^(\d+\.\d+)\.\d+\s", h["title"])
+            number = re.match(r"^((?:\d+|[A-Z])\.\d+)\.\d+\.?\s", h["title"])
             if number:
                 parent = numbered_sections.get(number.group(1), parent)
             tree.append((h["page"], h["title"], parent))
@@ -351,6 +380,14 @@ def headings_from_pages(pages, scanned, pdf_type="auto", visual=None):
                 continue
             entry = match_heading(line, number in scanned, pdf_type)
             if (
+                entry is None
+                and pdf_type == "textbook"
+                and raw_line in (visual or {}).get(number, [])
+                and any(h["type"] == "chapter" for h in headings)
+                and re.match(r"^[一二三四五六七八九十]+、", line)
+            ):
+                entry = match_heading(line, number in scanned, "auto")
+            if (
                 entry
                 and entry["type"] == "chapter"
                 and number in scanned
@@ -387,8 +424,13 @@ def headings_from_pages(pages, scanned, pdf_type="auto", visual=None):
             ):
                 numbered_chapter = any(
                     h["type"] == "chapter"
-                    and re.match(
-                        r"^(?:Chapter|Part|Appendix)\b|^第.*章|^\d+\s", h["title"], re.I
+                    and (
+                        h.get("source") == "native_vertical"
+                        or re.match(
+                            r"^(?:Chapter|Part|Appendix)\b|^第.*章|^\d+\s",
+                            h["title"],
+                            re.I,
+                        )
                     )
                     for h in headings
                 )
