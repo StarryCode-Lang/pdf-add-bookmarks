@@ -948,3 +948,18 @@ def test_numbered_ocr_header_cannot_move_native_chapter():
         {"page": 118, "type": "chapter", "title": "Summary"},
     ]
     assert [h["page"] for h in app.filter_headings(headings)] == [86, 108, 110, 118]
+
+
+def test_benchmark_precision_counts_duplicate_bookmarks():
+    import importlib.util
+
+    path = Path(__file__).parent / "network_smoke.py"
+    spec = importlib.util.spec_from_file_location("benchmark_scoring", path)
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    result = module.score([(1, "Chapter 1 Intro", 2)], [(1, "Chapter 1 Intro", 2)] * 2)
+    assert result["exact_matches"] == 1
+    assert result["scored_candidates"] == 2
+    assert result["duplicate_candidates"] == 1
+    assert result["precision"] == 0.5
+    assert result["recall"] == 1

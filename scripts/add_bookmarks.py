@@ -21,7 +21,7 @@ from headings import (  # noqa: F401 - preserve the importable script API
 )
 from ocr import _read_image_page
 
-VERSION = "0.3.2"
+VERSION = "0.3.3"
 
 
 def find_tesseract():

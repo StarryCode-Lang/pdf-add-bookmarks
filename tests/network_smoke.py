@@ -14,6 +14,7 @@ import time
 import unicodedata
 import urllib.parse
 import urllib.request
+from collections import Counter
 from pathlib import Path
 
 import fitz
@@ -112,6 +113,92 @@ ZH_HELDOUT_SUKE = [
     (1, "第四章 光的折射 透镜", 86),
     (1, "第五章 物体的运动", 108),
 ]
+# Held-out geography: complete printed contents transcribed before first recognition.
+SOURCES["zh-blind-geography"] = (
+    TEXTBOOK
+    + urllib.parse.quote(
+        "初中/地理/湘教版-湖南教育出版社/七年级/义务教育教科书·地理七年级上册.pdf"
+    ),
+    "36f9579d703ab2f3ade102402f77eddd7e04630fa151738ddf588c74f0a57064",
+    "chi_sim+eng",
+    "textbook",
+)
+ZH_BLIND_GEOGRAPHY = [
+    (1, "第一章 让我们走进地理", 8),
+    (2, "第一节 我们身边的地理", 9),
+    (2, "第二节 我们怎样学地理", 14),
+    (1, "第二章 地球的面貌", 22),
+    (2, "第一节 认识地球", 23),
+    (2, "第二节 世界的海陆分布", 35),
+    (2, "第三节 世界的地形", 40),
+    (2, "第四节 海陆变迁", 47),
+    (1, "第三章 世界的居民", 54),
+    (2, "第一节 世界的人口", 55),
+    (2, "第二节 世界的人种", 61),
+    (2, "第三节 世界的语言与宗教", 63),
+    (2, "第四节 世界的聚落", 67),
+    (1, "第四章 世界的气候", 73),
+    (2, "第一节 天气和气候", 74),
+    (2, "第二节 气温和降水", 78),
+    (2, "第三节 影响气候的主要因素", 85),
+    (2, "第四节 世界主要气候类型", 94),
+    (1, "第五章 世界的发展差异", 106),
+    (2, "第一节 发展中国家与发达国家", 107),
+    (2, "第二节 国际经济合作", 113),
+    (1, "附录一 英汉地理词汇", 117),
+    (1, "附录二 常用地图图例", 119),
+    (1, "后记", 120),
+]
+
+# Second new held-out book, including units, all chapters/sections and appendix.
+SOURCES["zh-blind-biology"] = (
+    TEXTBOOK
+    + urllib.parse.quote(
+        "初中/生物学/济南版-济南出版社/七年级/义务教育教科书·生物学七年级上册.pdf"
+    ),
+    "87750a8ef0b557d736542fbaf4b7f2fca0dcf9372ba139c511249420b6bd00ce",
+    "chi_sim+eng",
+    "textbook",
+)
+ZH_BLIND_BIOLOGY = [
+    (1, "第一单元 奇妙的生命现象", 7),
+    (2, "第一章 认识生命现象", 8),
+    (3, "第一节 生物的基本特征", 9),
+    (3, "第二节 生物的生活环境", 12),
+    (3, "第三节 生物学的探究方法", 16),
+    (3, "第四节 生物学的研究工具", 20),
+    (2, "第二章 观察生物结构", 28),
+    (3, "第一节 细胞的结构和功能", 29),
+    (3, "第二节 细胞的分裂与分化", 37),
+    (3, "第三节 多细胞生物体的结构层次", 41),
+    (1, "第二单元 多彩的生物世界", 45),
+    (2, "第一章 生物圈中的绿色植物", 46),
+    (3, "第一节 绿色植物的主要类群", 47),
+    (3, "第二节 绿色植物的蒸腾作用", 54),
+    (3, "第三节 绿色植物的光合作用", 60),
+    (3, "第四节 绿色植物的呼吸作用", 66),
+    (3, "第五节 绿色植物在生物圈中的作用", 70),
+    (2, "第二章 生物圈中的动物", 77),
+    (3, "第一节 无脊椎动物的主要类群", 78),
+    (3, "第二节 脊椎动物的主要类群", 86),
+    (3, "第三节 动物的运动", 96),
+    (3, "第四节 动物的行为", 100),
+    (3, "第五节 动物在生物圈中的作用", 106),
+    (2, "第三章 生物圈中的微生物", 111),
+    (3, "第一节 病毒", 112),
+    (3, "第二节 细菌", 116),
+    (3, "第三节 真菌", 121),
+    (3, "第四节 微生物在生物圈中的作用", 125),
+    (2, "第四章 生物的分类", 129),
+    (3, "第一节 生物的分类方法", 130),
+    (3, "第二节 生物的分类单位", 133),
+    (1, "附录", 138),
+]
+HELD_OUT_LABELS = {
+    "zh-blind-geography": ZH_BLIND_GEOGRAPHY,
+    "zh-blind-biology": ZH_BLIND_BIOLOGY,
+}
+
 # Labels transcribed from printed contents before running recognition. Page numbers are PDF pages.
 SCAN_CHAPTER_PAGES = [
     15,
@@ -207,7 +294,7 @@ def digest(path):
 
 def normalize(title):
     title = unicodedata.normalize("NFKC", title)
-    title = re.sub(r"^第[一二三四五六七八九十百\d]+章\s*", "", title)
+    title = re.sub(r"^第[一二三四五六七八九十百\d]+[章节]\s*", "", title)
     title = re.sub(
         r"^(Chapter|Part|Appendix)\s+(\d+|[A-Z]+)\.?\s+|^\d+(?:\.\d+)*\.?\s+|^[A-Z]\.(?:\d+\.)*\d*\.?\s+",
         "",
@@ -219,17 +306,41 @@ def normalize(title):
 
 def score(reference, candidates):
     expected = {(level, normalize(title), page) for level, title, page in reference}
-    actual = {(level, normalize(title), page) for level, title, page in candidates}
+    counts = Counter(
+        (level, normalize(title), page) for level, title, page in candidates
+    )
+    actual = set(counts)
     matched = len(expected & actual)
     return dict(
         reference_entries=len(expected),
-        scored_candidates=len(actual),
+        scored_candidates=len(candidates),
+        duplicate_candidates=sum(count - 1 for count in counts.values()),
         exact_matches=matched,
-        precision=matched / len(actual) if actual else 0,
+        precision=matched / len(candidates) if candidates else 0,
         recall=matched / len(expected),
         missing=sorted(expected - actual),
         unexpected=sorted(actual - expected),
     )
+
+
+def review_complete_contents(reference, candidates):
+    """Classify every candidate against the predefined, complete printed outline."""
+    expected = {(level, normalize(title), page) for level, title, page in reference}
+    seen = set()
+    reviewed = []
+    for level, title, page in candidates:
+        key = (level, normalize(title), page)
+        if key in expected:
+            status = "duplicate" if key in seen else "exact_match"
+        elif any(normalize(t) == key[1] and p == page for _, t, p in reference):
+            status = "wrong_depth"
+        elif any(normalize(t) == key[1] for _, t, _ in reference):
+            status = "wrong_destination"
+        else:
+            status = "outside_printed_contents_or_ocr_error"
+        seen.add(key)
+        reviewed.append(dict(bookmark=[level, title, page], assessment=status))
+    return reviewed
 
 
 def download(url, source, expected_hash):
@@ -478,6 +589,7 @@ def main():
                 "zh-independent": ZH_INDEPENDENT,
                 "zh-blind-physics": ZH_BLIND_PHYSICS,
                 "zh-heldout-suke": ZH_HELDOUT_SUKE,
+                **HELD_OUT_LABELS,
             }.get(base, ZH_SCAN)
             candidates = [
                 row
@@ -503,11 +615,15 @@ def main():
                         and normalize(row[1]) in {normalize(t) for _, t, _ in labels}
                     )
                 ]
+            if base in HELD_OUT_LABELS:
+                candidates = toc
             metrics = score(labels, candidates)
             metrics["unscored_candidates"] = len(toc) - len(candidates)
             scope = "Manual chapter/numbered-section labels only, or the four question-type headers; not every visual candidate"
             if base in {"zh-blind-physics", "zh-heldout-suke"}:
                 scope = "Chapter titles, PDF pages and depth only; sections and visual titles are unlabelled"
+            if base in HELD_OUT_LABELS:
+                scope = "Complete printed contents including units and appendices; every generated bookmark is scored, including duplicates and extra titles. Extra body headings are not necessarily invalid navigation, but are outside this predefined contents policy."
             # Reviewed TOC is the documented fallback, independent of automatic recognition.
             reviewed = directory / (name + "-reviewed.pdf")
             reviewed_labels = (
@@ -544,7 +660,9 @@ def main():
             bookmarks=len(toc),
             recognition_seconds=round(seconds, 2),
             extraction_cache_hit=cache_hit,
-            evaluation_role="development_regression",
+            evaluation_role="independent_held_out"
+            if base in HELD_OUT_LABELS
+            else "development_regression",
             save_and_verify_seconds=round(automatic_seconds, 2),
             reviewed_save_and_verify_seconds=round(reviewed_seconds, 2),
             automatic_content_preserved=bool(toc),
@@ -576,6 +694,18 @@ def main():
             if any(h.get("source") == "printed_toc" for h in headings)
             else "body_headings",
         )
+        if base in HELD_OUT_LABELS:
+            row["candidate_review"] = review_complete_contents(labels, toc)
+            row["reference_evidence"] = (
+                "Printed contents visually transcribed before recognition, with PDF-page offset checked on body unit/chapter/section starts; not inferred from generated bookmarks."
+            )
+            row["assessment_counts"] = dict(
+                Counter(item["assessment"] for item in row["candidate_review"])
+            )
+            row["title_and_page_matches_ignoring_depth"] = len(
+                {(normalize(t), p) for _, t, p in labels}
+                & {(normalize(t), p) for _, t, p in toc}
+            )
         rows.append(row)
         print(
             json.dumps({k: v for k, v in row.items() if k != "toc"}, ensure_ascii=True),

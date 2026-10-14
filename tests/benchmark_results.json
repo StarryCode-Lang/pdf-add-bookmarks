@@ -603,7 +603,7 @@
       "recognition_method": "body_headings"
     }
   },
-  "version": "0.3.2",
+  "version": "0.3.3",
   "signed_fixture": {
     "sha256": "5eeedec87a4e3fc098efdbfb3a8cdc03aba1168f2632279d424b4dfe37e99f84",
     "bytes": 6455,
@@ -627,16 +627,18 @@
   "pymupdf": "1.26.6",
   "tesseract": "5.3.4",
   "implementation_sha256": {
-    "add_bookmarks.py": "338513c51641859955e22126e13111cb5160f8ebc1d7ad8c4c3e164f6601e0e5",
+    "add_bookmarks.py": "5c0eeff2dd99af0ac46b17a68ea11dfa99c58799c88beb358bfd24a0f1e3679b",
     "headings.py": "d1765e70bf049589b6eda150fdfa571427c80178f991b4f65d115adc84ab5f21",
     "ocr.py": "2a0a686c3651ed08d166d173795ee534d222d17d6bdd272e8dfd6cf319b02eef"
   },
-  "benchmark_sha256": "fccbd6fd864d562e62db88adc606f795a2ff59f3b8294385e32dfeaaa94983e5",
+  "benchmark_sha256": "3303e96d0b136a75e880ba309a1a352e2e5e7a842c67cbbaac4c742e82be1f4e",
   "annotation_notes": [
     "Beijing section 2.3 corrected to 等式与方程 after checking printed TOC and body page 86; prior label 算式与等式 was incorrect.",
     "Independent Jijiao scan has generic page bookmarks; labels are manually transcribed, not extracted from those bookmarks.",
     "Think Java and Jiaoke physics are now development regression data. Appendix numbering normalization was corrected in v0.3.2; earlier 205/230 was not 25 missing destinations. Jiaoke physics labels cover six chapters only.",
-    "Suke physics first-pass held-out test failed (0/5); its original result and implementation hashes are preserved under independent_first_pass. Vertical-column and side-margin fixes followed, so current Suke results are development regression, not a new blind test."
+    "Suke physics first-pass held-out test failed (0/5); its original result and implementation hashes are preserved under independent_first_pass. Vertical-column and side-margin fixes followed, so current Suke results are development regression, not a new blind test.",
+    "Two new held-out books were selected after freezing recognition. Their complete printed contents were visually labelled before running recognition; all generated candidates are scored. Assessment is against the printed-contents policy, not an exhaustive annotation of every body subheading.",
+    "Pytest historically collected three temporary certifi tests locally; testpaths now limits project collection to tests/. Independent signature verification is not counted as pytest."
   ],
   "results": [
     {
@@ -652,7 +654,7 @@
       "recognition_seconds": 1.61,
       "extraction_cache_hit": true,
       "evaluation_role": "development_regression",
-      "save_and_verify_seconds": 2.2,
+      "save_and_verify_seconds": 1.99,
       "reviewed_save_and_verify_seconds": 0,
       "automatic_content_preserved": true,
       "reviewed_toc_verified": false,
@@ -661,6 +663,7 @@
       "metrics": {
         "reference_entries": 240,
         "scored_candidates": 246,
+        "duplicate_candidates": 0,
         "exact_matches": 240,
         "recall": 1.0,
         "missing": [],
@@ -3151,7 +3154,7 @@
       "recognition_seconds": 63.75,
       "extraction_cache_hit": true,
       "evaluation_role": "development_regression",
-      "save_and_verify_seconds": 12.85,
+      "save_and_verify_seconds": 12.97,
       "reviewed_save_and_verify_seconds": 0,
       "automatic_content_preserved": true,
       "reviewed_toc_verified": false,
@@ -3329,8 +3332,8 @@
       "recognition_seconds": 5.5,
       "extraction_cache_hit": true,
       "evaluation_role": "development_regression",
-      "save_and_verify_seconds": 8.03,
-      "reviewed_save_and_verify_seconds": 7.98,
+      "save_and_verify_seconds": 7.78,
+      "reviewed_save_and_verify_seconds": 8.57,
       "automatic_content_preserved": true,
       "reviewed_toc_verified": true,
       "derived_low_quality": false,
@@ -3338,6 +3341,7 @@
       "metrics": {
         "reference_entries": 19,
         "scored_candidates": 19,
+        "duplicate_candidates": 0,
         "exact_matches": 19,
         "precision": 1.0,
         "recall": 1.0,
@@ -3813,8 +3817,8 @@
       "recognition_seconds": 112.54,
       "extraction_cache_hit": true,
       "evaluation_role": "development_regression",
-      "save_and_verify_seconds": 17.02,
-      "reviewed_save_and_verify_seconds": 15.84,
+      "save_and_verify_seconds": 16.13,
+      "reviewed_save_and_verify_seconds": 15.97,
       "automatic_content_preserved": true,
       "reviewed_toc_verified": true,
       "derived_low_quality": false,
@@ -3822,6 +3826,7 @@
       "metrics": {
         "reference_entries": 32,
         "scored_candidates": 34,
+        "duplicate_candidates": 0,
         "exact_matches": 30,
         "precision": 0.8823529411764706,
         "recall": 0.9375,
@@ -4249,8 +4254,8 @@
       "recognition_seconds": 117.6,
       "extraction_cache_hit": true,
       "evaluation_role": "development_regression",
-      "save_and_verify_seconds": 7.74,
-      "reviewed_save_and_verify_seconds": 8.05,
+      "save_and_verify_seconds": 8.73,
+      "reviewed_save_and_verify_seconds": 9.36,
       "automatic_content_preserved": true,
       "reviewed_toc_verified": true,
       "derived_low_quality": false,
@@ -4258,6 +4263,7 @@
       "metrics": {
         "reference_entries": 34,
         "scored_candidates": 31,
+        "duplicate_candidates": 0,
         "exact_matches": 29,
         "precision": 0.9354838709677419,
         "recall": 0.8529411764705882,
@@ -4695,8 +4701,8 @@
       "recognition_seconds": 18.19,
       "extraction_cache_hit": true,
       "evaluation_role": "development_regression",
-      "save_and_verify_seconds": 4.47,
-      "reviewed_save_and_verify_seconds": 4.64,
+      "save_and_verify_seconds": 4.68,
+      "reviewed_save_and_verify_seconds": 4.71,
       "automatic_content_preserved": true,
       "reviewed_toc_verified": true,
       "derived_low_quality": false,
@@ -4704,6 +4710,7 @@
       "metrics": {
         "reference_entries": 4,
         "scored_candidates": 4,
+        "duplicate_candidates": 0,
         "exact_matches": 4,
         "precision": 1.0,
         "recall": 1.0,
@@ -4779,7 +4786,7 @@
       "recognition_seconds": 2.03,
       "extraction_cache_hit": true,
       "evaluation_role": "development_regression",
-      "save_and_verify_seconds": 3.3,
+      "save_and_verify_seconds": 2.9,
       "reviewed_save_and_verify_seconds": 0,
       "automatic_content_preserved": true,
       "reviewed_toc_verified": false,
@@ -4788,6 +4795,7 @@
       "metrics": {
         "reference_entries": 230,
         "scored_candidates": 240,
+        "duplicate_candidates": 0,
         "exact_matches": 230,
         "recall": 1.0,
         "missing": [],
@@ -7218,8 +7226,8 @@
       "recognition_seconds": 18.85,
       "extraction_cache_hit": true,
       "evaluation_role": "development_regression",
-      "save_and_verify_seconds": 8.34,
-      "reviewed_save_and_verify_seconds": 8.27,
+      "save_and_verify_seconds": 7.15,
+      "reviewed_save_and_verify_seconds": 8.62,
       "automatic_content_preserved": true,
       "reviewed_toc_verified": true,
       "derived_low_quality": false,
@@ -7227,6 +7235,7 @@
       "metrics": {
         "reference_entries": 6,
         "scored_candidates": 6,
+        "duplicate_candidates": 0,
         "exact_matches": 6,
         "precision": 1.0,
         "recall": 1.0,
@@ -8022,8 +8031,8 @@
       "recognition_seconds": 30.05,
       "extraction_cache_hit": true,
       "evaluation_role": "development_regression",
-      "save_and_verify_seconds": 9.44,
-      "reviewed_save_and_verify_seconds": 8.37,
+      "save_and_verify_seconds": 9.2,
+      "reviewed_save_and_verify_seconds": 9.64,
       "automatic_content_preserved": true,
       "reviewed_toc_verified": true,
       "derived_low_quality": false,
@@ -8031,6 +8040,7 @@
       "metrics": {
         "reference_entries": 5,
         "scored_candidates": 5,
+        "duplicate_candidates": 0,
         "exact_matches": 5,
         "precision": 1.0,
         "recall": 1.0,
@@ -8599,6 +8609,4286 @@
       "recognition_method": "body_headings"
     },
     {
+      "name": "zh-blind-geography",
+      "url": "https://raw.githubusercontent.com/TapXWorld/ChinaTextbook/master/%E5%88%9D%E4%B8%AD/%E5%9C%B0%E7%90%86/%E6%B9%98%E6%95%99%E7%89%88-%E6%B9%96%E5%8D%97%E6%95%99%E8%82%B2%E5%87%BA%E7%89%88%E7%A4%BE/%E4%B8%83%E5%B9%B4%E7%BA%A7/%E4%B9%89%E5%8A%A1%E6%95%99%E8%82%B2%E6%95%99%E7%A7%91%E4%B9%A6%C2%B7%E5%9C%B0%E7%90%86%E4%B8%83%E5%B9%B4%E7%BA%A7%E4%B8%8A%E5%86%8C.pdf",
+      "original_sha256": "36f9579d703ab2f3ade102402f77eddd7e04630fa151738ddf588c74f0a57064",
+      "input_sha256": "36f9579d703ab2f3ade102402f77eddd7e04630fa151738ddf588c74f0a57064",
+      "pages": 121,
+      "original_outline_count": 0,
+      "input_outline_count": 0,
+      "ocr_pages": 121,
+      "bookmarks": 74,
+      "recognition_seconds": 99.76,
+      "extraction_cache_hit": true,
+      "evaluation_role": "independent_held_out",
+      "save_and_verify_seconds": 5.41,
+      "reviewed_save_and_verify_seconds": 5.45,
+      "automatic_content_preserved": true,
+      "reviewed_toc_verified": true,
+      "derived_low_quality": false,
+      "scope": "Complete printed contents including units and appendices; every generated bookmark is scored, including duplicates and extra titles. Extra body headings are not necessarily invalid navigation, but are outside this predefined contents policy.",
+      "metrics": {
+        "reference_entries": 24,
+        "scored_candidates": 74,
+        "duplicate_candidates": 0,
+        "exact_matches": 3,
+        "precision": 0.04054054054054054,
+        "recall": 0.125,
+        "missing": [
+          [
+            1,
+            "世界的发展差异",
+            106
+          ],
+          [
+            1,
+            "世界的居民",
+            54
+          ],
+          [
+            1,
+            "世界的气候",
+            73
+          ],
+          [
+            1,
+            "后记",
+            120
+          ],
+          [
+            1,
+            "地球的面貌",
+            22
+          ],
+          [
+            1,
+            "让我们走进地理",
+            8
+          ],
+          [
+            1,
+            "附录一英汉地理词汇",
+            117
+          ],
+          [
+            1,
+            "附录二常用地图图例",
+            119
+          ],
+          [
+            2,
+            "世界主要气候类型",
+            94
+          ],
+          [
+            2,
+            "世界的人口",
+            55
+          ],
+          [
+            2,
+            "世界的人种",
+            61
+          ],
+          [
+            2,
+            "世界的地形",
+            40
+          ],
+          [
+            2,
+            "世界的语言与宗教",
+            63
+          ],
+          [
+            2,
+            "发展中国家与发达国家",
+            107
+          ],
+          [
+            2,
+            "国际经济合作",
+            113
+          ],
+          [
+            2,
+            "天气和气候",
+            74
+          ],
+          [
+            2,
+            "影响气候的主要因素",
+            85
+          ],
+          [
+            2,
+            "我们怎样学地理",
+            14
+          ],
+          [
+            2,
+            "我们身边的地理",
+            9
+          ],
+          [
+            2,
+            "气温和降水",
+            78
+          ],
+          [
+            2,
+            "海陆变迁",
+            47
+          ]
+        ],
+        "unexpected": [
+          [
+            1,
+            "15",
+            6
+          ],
+          [
+            1,
+            "hrhee65",
+            72
+          ],
+          [
+            1,
+            "rr笨和10条名船员",
+            24
+          ],
+          [
+            1,
+            "七年级上册",
+            1
+          ],
+          [
+            1,
+            "世界的后民40",
+            66
+          ],
+          [
+            1,
+            "世界的后民便",
+            68
+          ],
+          [
+            1,
+            "义务教育教科",
+            1
+          ],
+          [
+            1,
+            "义务教育教科书",
+            1
+          ],
+          [
+            1,
+            "让我们走进地理1",
+            6
+          ],
+          [
+            2,
+            "",
+            107
+          ],
+          [
+            2,
+            "a08s998f",
+            52
+          ],
+          [
+            2,
+            "f",
+            88
+          ],
+          [
+            2,
+            "rrc",
+            90
+          ],
+          [
+            2,
+            "teshiss",
+            64
+          ],
+          [
+            2,
+            "七年级上",
+            121
+          ],
+          [
+            2,
+            "万美元其中卢森人均国民收入达744万美元美国和日本分别",
+            110
+          ],
+          [
+            2,
+            "不型的国家",
+            107
+          ],
+          [
+            2,
+            "与地震",
+            50
+          ],
+          [
+            2,
+            "世界人口增长速度",
+            56
+          ],
+          [
+            2,
+            "世界人口的分布",
+            57
+          ],
+          [
+            2,
+            "世界文化遗产的保护",
+            71
+          ],
+          [
+            2,
+            "世界的宗教",
+            64
+          ],
+          [
+            2,
+            "世界的语言",
+            63
+          ],
+          [
+            2,
+            "世界陆地地形之最",
+            42
+          ],
+          [
+            2,
+            "亚和南亚的斯里兰",
+            66
+          ],
+          [
+            2,
+            "亚热带的气候类型",
+            98
+          ],
+          [
+            2,
+            "人活动与气候",
+            92
+          ],
+          [
+            2,
+            "候的主要因",
+            85
+          ],
+          [
+            2,
+            "全年降雨量",
+            97
+          ],
+          [
+            2,
+            "南北回归线之间",
+            89
+          ],
+          [
+            2,
+            "南北备异的景色",
+            78
+          ],
+          [
+            2,
+            "印度洋",
+            118
+          ],
+          [
+            2,
+            "和平共处五项原则",
+            108
+          ],
+          [
+            2,
+            "图和广记",
+            17
+          ],
+          [
+            2,
+            "在北半球测量当地",
+            27
+          ],
+          [
+            2,
+            "地球形状与气候",
+            85
+          ],
+          [
+            2,
+            "地球有多大",
+            25
+          ],
+          [
+            2,
+            "地球运动与气候",
+            86
+          ],
+          [
+            2,
+            "址界的地形",
+            40
+          ],
+          [
+            2,
+            "城市地区",
+            118
+          ],
+          [
+            2,
+            "太平洋",
+            118
+          ],
+          [
+            2,
+            "学看地形图",
+            44
+          ],
+          [
+            2,
+            "对应地名",
+            97
+          ],
+          [
+            2,
+            "开展地理考察",
+            20
+          ],
+          [
+            2,
+            "形形色色的地图",
+            19
+          ],
+          [
+            2,
+            "快速发展的中国经济",
+            111
+          ],
+          [
+            2,
+            "思考地理问题",
+            20
+          ],
+          [
+            2,
+            "我们身边的理",
+            9
+          ],
+          [
+            2,
+            "收集地理信息",
+            19
+          ],
+          [
+            2,
+            "景观名称热带雨林热带草厚热带季雨林",
+            97
+          ],
+          [
+            2,
+            "此界主要气候类型",
+            94
+          ],
+          [
+            2,
+            "死亡人口数",
+            56
+          ],
+          [
+            2,
+            "海底地形",
+            43
+          ],
+          [
+            2,
+            "海洋与陆地",
+            35
+          ],
+          [
+            2,
+            "海陆分布与气候",
+            89
+          ],
+          [
+            2,
+            "温带的气候类型",
+            100
+          ],
+          [
+            2,
+            "湖南出版中心重印",
+            121
+          ],
+          [
+            2,
+            "热带的气候类型",
+            94
+          ],
+          [
+            2,
+            "用不同方法制作的地图",
+            31
+          ],
+          [
+            2,
+            "的人口问题",
+            58
+          ],
+          [
+            2,
+            "的方法把石体",
+            72
+          ],
+          [
+            2,
+            "确定地平面的方向",
+            15
+          ],
+          [
+            2,
+            "聚落的形态",
+            67
+          ],
+          [
+            2,
+            "自然地图包",
+            18
+          ],
+          [
+            2,
+            "运送到离原址",
+            72
+          ],
+          [
+            2,
+            "采用未村杆子等村",
+            70
+          ],
+          [
+            2,
+            "陆地地形",
+            40
+          ],
+          [
+            2,
+            "降水量的测量",
+            82
+          ],
+          [
+            2,
+            "非洲与南美洲的拼合",
+            49
+          ],
+          [
+            2,
+            "马里亚纳海沟",
+            44
+          ],
+          [
+            2,
+            "麦哲伦船队的环球航行",
+            24
+          ]
+        ],
+        "unscored_candidates": 0
+      },
+      "toc": [
+        [
+          1,
+          "义务教育教科书",
+          1
+        ],
+        [
+          1,
+          "七年级上册",
+          1
+        ],
+        [
+          1,
+          "义务教育教科",
+          1
+        ],
+        [
+          1,
+          "第一章 “让我们走进地理 --------------- 1",
+          6
+        ],
+        [
+          1,
+          "第二章 15",
+          6
+        ],
+        [
+          2,
+          "我们身边的理",
+          9
+        ],
+        [
+          2,
+          "确定地平面的方向",
+          15
+        ],
+        [
+          2,
+          "图和广记",
+          17
+        ],
+        [
+          2,
+          "自然地图包",
+          18
+        ],
+        [
+          2,
+          "形形色色的地图",
+          19
+        ],
+        [
+          2,
+          "收集地理信息",
+          19
+        ],
+        [
+          2,
+          "思考地理问题",
+          20
+        ],
+        [
+          2,
+          "开展地理考察",
+          20
+        ],
+        [
+          2,
+          "认识地球",
+          23
+        ],
+        [
+          2,
+          "麦哲伦船队的环球航行",
+          24
+        ],
+        [
+          1,
+          "A. RR 笨和 10 条名船员 ,",
+          24
+        ],
+        [
+          2,
+          "地球有多大",
+          25
+        ],
+        [
+          2,
+          "在北半球测量当地",
+          27
+        ],
+        [
+          2,
+          "用不同方法制作的地图",
+          31
+        ],
+        [
+          2,
+          "世界的海陆分布",
+          35
+        ],
+        [
+          2,
+          "海洋与陆地",
+          35
+        ],
+        [
+          2,
+          "址界的地形",
+          40
+        ],
+        [
+          2,
+          "陆地地形",
+          40
+        ],
+        [
+          2,
+          "世界陆地地形之最",
+          42
+        ],
+        [
+          2,
+          "海底地形",
+          43
+        ],
+        [
+          2,
+          "马里亚纳海沟",
+          44
+        ],
+        [
+          2,
+          "学看地形图",
+          44
+        ],
+        [
+          2,
+          "非洲与南美洲的拼合",
+          49
+        ],
+        [
+          2,
+          "与地震",
+          50
+        ],
+        [
+          2,
+          "2009469.30 A 0.8°S, 99.8°F",
+          52
+        ],
+        [
+          2,
+          "世界人口增长速度",
+          56
+        ],
+        [
+          2,
+          "死亡人口数",
+          56
+        ],
+        [
+          2,
+          "世界人口的分布",
+          57
+        ],
+        [
+          2,
+          "的人口问题",
+          58
+        ],
+        [
+          2,
+          "世界的语言",
+          63
+        ],
+        [
+          2,
+          "TES” Hiss",
+          64
+        ],
+        [
+          2,
+          "世界的宗教",
+          64
+        ],
+        [
+          1,
+          "第三章世界的后民 40",
+          66
+        ],
+        [
+          2,
+          "亚和南亚的斯里兰",
+          66
+        ],
+        [
+          2,
+          "世界的聚落",
+          67
+        ],
+        [
+          2,
+          "聚落的形态",
+          67
+        ],
+        [
+          1,
+          "第三章世界的后民便 |",
+          68
+        ],
+        [
+          2,
+          "采用未村杆子等村",
+          70
+        ],
+        [
+          2,
+          "世界文化遗产的保护",
+          71
+        ],
+        [
+          2,
+          "的方法把石体",
+          72
+        ],
+        [
+          2,
+          "运送到离原址",
+          72
+        ],
+        [
+          1,
+          "第三章 HRHEE | 65",
+          72
+        ],
+        [
+          2,
+          "南北备异的景色",
+          78
+        ],
+        [
+          2,
+          "降水量的测量",
+          82
+        ],
+        [
+          2,
+          "候的主要因",
+          85
+        ],
+        [
+          2,
+          "地球形状与气候",
+          85
+        ],
+        [
+          2,
+          "地球运动与气候",
+          86
+        ],
+        [
+          2,
+          "6.5 f",
+          88
+        ],
+        [
+          2,
+          "南、北回归线之间",
+          89
+        ],
+        [
+          2,
+          "海陆分布与气候",
+          89
+        ],
+        [
+          2,
+          "19.3075 RRC |",
+          90
+        ],
+        [
+          2,
+          "人活动与气候",
+          92
+        ],
+        [
+          2,
+          "此界主要气候类型",
+          94
+        ],
+        [
+          2,
+          "热带的气候类型",
+          94
+        ],
+        [
+          2,
+          "景观名称热带雨林热带草厚热带季雨林",
+          97
+        ],
+        [
+          2,
+          "对应地名",
+          97
+        ],
+        [
+          2,
+          "全年降雨量",
+          97
+        ],
+        [
+          2,
+          "亚热带的气候类型",
+          98
+        ],
+        [
+          2,
+          "温带的气候类型",
+          100
+        ],
+        [
+          2,
+          "第一节",
+          107
+        ],
+        [
+          2,
+          "不型的国家",
+          107
+        ],
+        [
+          2,
+          "和平共处五项原则",
+          108
+        ],
+        [
+          2,
+          "3.81 万美元 , 其中卢森人均国民收入达 7.44 万美元 . 美国和日本分别",
+          110
+        ],
+        [
+          2,
+          "快速发展的中国经济",
+          111
+        ],
+        [
+          2,
+          "印度洋",
+          118
+        ],
+        [
+          2,
+          "太平洋",
+          118
+        ],
+        [
+          2,
+          "城市地区",
+          118
+        ],
+        [
+          2,
+          "七年级上",
+          121
+        ],
+        [
+          2,
+          "湖南出版中心重印",
+          121
+        ]
+      ],
+      "reference_toc": [
+        [
+          1,
+          "第一章 让我们走进地理",
+          8
+        ],
+        [
+          2,
+          "第一节 我们身边的地理",
+          9
+        ],
+        [
+          2,
+          "第二节 我们怎样学地理",
+          14
+        ],
+        [
+          1,
+          "第二章 地球的面貌",
+          22
+        ],
+        [
+          2,
+          "第一节 认识地球",
+          23
+        ],
+        [
+          2,
+          "第二节 世界的海陆分布",
+          35
+        ],
+        [
+          2,
+          "第三节 世界的地形",
+          40
+        ],
+        [
+          2,
+          "第四节 海陆变迁",
+          47
+        ],
+        [
+          1,
+          "第三章 世界的居民",
+          54
+        ],
+        [
+          2,
+          "第一节 世界的人口",
+          55
+        ],
+        [
+          2,
+          "第二节 世界的人种",
+          61
+        ],
+        [
+          2,
+          "第三节 世界的语言与宗教",
+          63
+        ],
+        [
+          2,
+          "第四节 世界的聚落",
+          67
+        ],
+        [
+          1,
+          "第四章 世界的气候",
+          73
+        ],
+        [
+          2,
+          "第一节 天气和气候",
+          74
+        ],
+        [
+          2,
+          "第二节 气温和降水",
+          78
+        ],
+        [
+          2,
+          "第三节 影响气候的主要因素",
+          85
+        ],
+        [
+          2,
+          "第四节 世界主要气候类型",
+          94
+        ],
+        [
+          1,
+          "第五章 世界的发展差异",
+          106
+        ],
+        [
+          2,
+          "第一节 发展中国家与发达国家",
+          107
+        ],
+        [
+          2,
+          "第二节 国际经济合作",
+          113
+        ],
+        [
+          1,
+          "附录一 英汉地理词汇",
+          117
+        ],
+        [
+          1,
+          "附录二 常用地图图例",
+          119
+        ],
+        [
+          1,
+          "后记",
+          120
+        ]
+      ],
+      "review_signals": {
+        "unreadable_toc_rows": 1,
+        "low_confidence_toc_rows": 0
+      },
+      "recognition_method": "body_headings",
+      "candidate_review": [
+        {
+          "bookmark": [
+            1,
+            "义务教育教科书",
+            1
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            1,
+            "七年级上册",
+            1
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            1,
+            "义务教育教科",
+            1
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            1,
+            "第一章 “让我们走进地理 --------------- 1",
+            6
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            1,
+            "第二章 15",
+            6
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            2,
+            "我们身边的理",
+            9
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            2,
+            "确定地平面的方向",
+            15
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            2,
+            "图和广记",
+            17
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            2,
+            "自然地图包",
+            18
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            2,
+            "形形色色的地图",
+            19
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            2,
+            "收集地理信息",
+            19
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            2,
+            "思考地理问题",
+            20
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            2,
+            "开展地理考察",
+            20
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            2,
+            "认识地球",
+            23
+          ],
+          "assessment": "exact_match"
+        },
+        {
+          "bookmark": [
+            2,
+            "麦哲伦船队的环球航行",
+            24
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            1,
+            "A. RR 笨和 10 条名船员 ,",
+            24
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            2,
+            "地球有多大",
+            25
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            2,
+            "在北半球测量当地",
+            27
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            2,
+            "用不同方法制作的地图",
+            31
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            2,
+            "世界的海陆分布",
+            35
+          ],
+          "assessment": "exact_match"
+        },
+        {
+          "bookmark": [
+            2,
+            "海洋与陆地",
+            35
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            2,
+            "址界的地形",
+            40
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            2,
+            "陆地地形",
+            40
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            2,
+            "世界陆地地形之最",
+            42
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            2,
+            "海底地形",
+            43
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            2,
+            "马里亚纳海沟",
+            44
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            2,
+            "学看地形图",
+            44
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            2,
+            "非洲与南美洲的拼合",
+            49
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            2,
+            "与地震",
+            50
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            2,
+            "2009469.30 A 0.8°S, 99.8°F",
+            52
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            2,
+            "世界人口增长速度",
+            56
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            2,
+            "死亡人口数",
+            56
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            2,
+            "世界人口的分布",
+            57
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            2,
+            "的人口问题",
+            58
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            2,
+            "世界的语言",
+            63
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            2,
+            "TES” Hiss",
+            64
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            2,
+            "世界的宗教",
+            64
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            1,
+            "第三章世界的后民 40",
+            66
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            2,
+            "亚和南亚的斯里兰",
+            66
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            2,
+            "世界的聚落",
+            67
+          ],
+          "assessment": "exact_match"
+        },
+        {
+          "bookmark": [
+            2,
+            "聚落的形态",
+            67
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            1,
+            "第三章世界的后民便 |",
+            68
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            2,
+            "采用未村杆子等村",
+            70
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            2,
+            "世界文化遗产的保护",
+            71
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            2,
+            "的方法把石体",
+            72
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            2,
+            "运送到离原址",
+            72
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            1,
+            "第三章 HRHEE | 65",
+            72
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            2,
+            "南北备异的景色",
+            78
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            2,
+            "降水量的测量",
+            82
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            2,
+            "候的主要因",
+            85
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            2,
+            "地球形状与气候",
+            85
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            2,
+            "地球运动与气候",
+            86
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            2,
+            "6.5 f",
+            88
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            2,
+            "南、北回归线之间",
+            89
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            2,
+            "海陆分布与气候",
+            89
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            2,
+            "19.3075 RRC |",
+            90
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            2,
+            "人活动与气候",
+            92
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            2,
+            "此界主要气候类型",
+            94
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            2,
+            "热带的气候类型",
+            94
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            2,
+            "景观名称热带雨林热带草厚热带季雨林",
+            97
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            2,
+            "对应地名",
+            97
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            2,
+            "全年降雨量",
+            97
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            2,
+            "亚热带的气候类型",
+            98
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            2,
+            "温带的气候类型",
+            100
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            2,
+            "第一节",
+            107
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            2,
+            "不型的国家",
+            107
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            2,
+            "和平共处五项原则",
+            108
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            2,
+            "3.81 万美元 , 其中卢森人均国民收入达 7.44 万美元 . 美国和日本分别",
+            110
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            2,
+            "快速发展的中国经济",
+            111
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            2,
+            "印度洋",
+            118
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            2,
+            "太平洋",
+            118
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            2,
+            "城市地区",
+            118
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            2,
+            "七年级上",
+            121
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            2,
+            "湖南出版中心重印",
+            121
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        }
+      ],
+      "reference_evidence": "Printed contents visually transcribed before recognition, with PDF-page offset checked on body unit/chapter/section starts; not inferred from generated bookmarks.",
+      "assessment_counts": {
+        "outside_printed_contents_or_ocr_error": 71,
+        "exact_match": 3
+      },
+      "title_and_page_matches_ignoring_depth": 3
+    },
+    {
+      "name": "zh-blind-biology",
+      "url": "https://raw.githubusercontent.com/TapXWorld/ChinaTextbook/master/%E5%88%9D%E4%B8%AD/%E7%94%9F%E7%89%A9%E5%AD%A6/%E6%B5%8E%E5%8D%97%E7%89%88-%E6%B5%8E%E5%8D%97%E5%87%BA%E7%89%88%E7%A4%BE/%E4%B8%83%E5%B9%B4%E7%BA%A7/%E4%B9%89%E5%8A%A1%E6%95%99%E8%82%B2%E6%95%99%E7%A7%91%E4%B9%A6%C2%B7%E7%94%9F%E7%89%A9%E5%AD%A6%E4%B8%83%E5%B9%B4%E7%BA%A7%E4%B8%8A%E5%86%8C.pdf",
+      "original_sha256": "87750a8ef0b557d736542fbaf4b7f2fca0dcf9372ba139c511249420b6bd00ce",
+      "input_sha256": "556eae1fd4ea1f500b93934a8d6bbcd3b58d7c93cdd63ada33226c822c81b44a",
+      "pages": 140,
+      "original_outline_count": 7,
+      "input_outline_count": 0,
+      "ocr_pages": 6,
+      "bookmarks": 132,
+      "recognition_seconds": 4.09,
+      "extraction_cache_hit": true,
+      "evaluation_role": "independent_held_out",
+      "save_and_verify_seconds": 4.6,
+      "reviewed_save_and_verify_seconds": 4.77,
+      "automatic_content_preserved": true,
+      "reviewed_toc_verified": true,
+      "derived_low_quality": false,
+      "scope": "Complete printed contents including units and appendices; every generated bookmark is scored, including duplicates and extra titles. Extra body headings are not necessarily invalid navigation, but are outside this predefined contents policy.",
+      "metrics": {
+        "reference_entries": 32,
+        "scored_candidates": 132,
+        "duplicate_candidates": 0,
+        "exact_matches": 6,
+        "precision": 0.045454545454545456,
+        "recall": 0.1875,
+        "missing": [
+          [
+            1,
+            "第一单元奇妙的生命现象",
+            7
+          ],
+          [
+            1,
+            "第二单元多彩的生物世界",
+            45
+          ],
+          [
+            1,
+            "附录",
+            138
+          ],
+          [
+            3,
+            "动物在生物圈中的作用",
+            106
+          ],
+          [
+            3,
+            "动物的行为",
+            100
+          ],
+          [
+            3,
+            "动物的运动",
+            96
+          ],
+          [
+            3,
+            "多细胞生物体的结构层次",
+            41
+          ],
+          [
+            3,
+            "微生物在生物圈中的作用",
+            125
+          ],
+          [
+            3,
+            "无脊椎动物的主要类群",
+            78
+          ],
+          [
+            3,
+            "生物学的探究方法",
+            16
+          ],
+          [
+            3,
+            "生物学的研究工具",
+            20
+          ],
+          [
+            3,
+            "生物的分类单位",
+            133
+          ],
+          [
+            3,
+            "生物的分类方法",
+            130
+          ],
+          [
+            3,
+            "生物的基本特征",
+            9
+          ],
+          [
+            3,
+            "生物的生活环境",
+            12
+          ],
+          [
+            3,
+            "病毒",
+            112
+          ],
+          [
+            3,
+            "真菌",
+            121
+          ],
+          [
+            3,
+            "细胞的分裂与分化",
+            37
+          ],
+          [
+            3,
+            "细胞的结构和功能",
+            29
+          ],
+          [
+            3,
+            "细菌",
+            116
+          ],
+          [
+            3,
+            "绿色植物在生物圈中的作用",
+            70
+          ],
+          [
+            3,
+            "绿色植物的主要类群",
+            47
+          ],
+          [
+            3,
+            "绿色植物的光合作用",
+            60
+          ],
+          [
+            3,
+            "绿色植物的呼吸作用",
+            66
+          ],
+          [
+            3,
+            "绿色植物的蒸腾作用",
+            54
+          ],
+          [
+            3,
+            "脊椎动物的主要类群",
+            86
+          ]
+        ],
+        "unexpected": [
+          [
+            1,
+            "",
+            8
+          ],
+          [
+            1,
+            "",
+            28
+          ],
+          [
+            1,
+            "",
+            46
+          ],
+          [
+            1,
+            "",
+            77
+          ],
+          [
+            1,
+            "",
+            111
+          ],
+          [
+            1,
+            "",
+            129
+          ],
+          [
+            1,
+            "义务教育教科书",
+            2
+          ],
+          [
+            1,
+            "生物圈中的动物",
+            6
+          ],
+          [
+            1,
+            "生物圈中的微生物",
+            6
+          ],
+          [
+            1,
+            "生物学",
+            2
+          ],
+          [
+            1,
+            "第一单元奇妙的生命现象",
+            5
+          ],
+          [
+            1,
+            "第一章认识生命现象",
+            5
+          ],
+          [
+            1,
+            "第二章观察生物结构",
+            5
+          ],
+          [
+            1,
+            "致同学们",
+            4
+          ],
+          [
+            2,
+            "",
+            9
+          ],
+          [
+            2,
+            "",
+            12
+          ],
+          [
+            2,
+            "",
+            16
+          ],
+          [
+            2,
+            "",
+            20
+          ],
+          [
+            2,
+            "",
+            29
+          ],
+          [
+            2,
+            "",
+            37
+          ],
+          [
+            2,
+            "",
+            41
+          ],
+          [
+            2,
+            "",
+            47
+          ],
+          [
+            2,
+            "",
+            54
+          ],
+          [
+            2,
+            "",
+            60
+          ],
+          [
+            2,
+            "",
+            66
+          ],
+          [
+            2,
+            "",
+            70
+          ],
+          [
+            2,
+            "",
+            78
+          ],
+          [
+            2,
+            "",
+            86
+          ],
+          [
+            2,
+            "",
+            96
+          ],
+          [
+            2,
+            "",
+            100
+          ],
+          [
+            2,
+            "",
+            106
+          ],
+          [
+            2,
+            "",
+            112
+          ],
+          [
+            2,
+            "",
+            116
+          ],
+          [
+            2,
+            "",
+            121
+          ],
+          [
+            2,
+            "",
+            125
+          ],
+          [
+            2,
+            "",
+            130
+          ],
+          [
+            2,
+            "",
+            133
+          ],
+          [
+            2,
+            "促进生物圈的物质循环",
+            106
+          ],
+          [
+            2,
+            "先天性行为和学习行为",
+            100
+          ],
+          [
+            2,
+            "光合作用原理的应用",
+            64
+          ],
+          [
+            2,
+            "光合作用的产物",
+            60
+          ],
+          [
+            2,
+            "光合作用的原料",
+            62
+          ],
+          [
+            2,
+            "关爱生命远离癌症",
+            44
+          ],
+          [
+            2,
+            "关节面",
+            98
+          ],
+          [
+            2,
+            "其他常用研究工具",
+            23
+          ],
+          [
+            2,
+            "农业害虫的生物防治",
+            110
+          ],
+          [
+            2,
+            "动物体的结构层次",
+            42
+          ],
+          [
+            2,
+            "动物在生物圈中的作用",
+            106
+          ],
+          [
+            2,
+            "动物的行为",
+            100
+          ],
+          [
+            2,
+            "动物的运动",
+            96
+          ],
+          [
+            2,
+            "呼吸作用原理的应用",
+            68
+          ],
+          [
+            2,
+            "多彩的生物世界",
+            45
+          ],
+          [
+            2,
+            "多细胞生物体的结构层次",
+            41
+          ],
+          [
+            2,
+            "天然的蓄水池",
+            73
+          ],
+          [
+            2,
+            "奇妙的生命现象",
+            7
+          ],
+          [
+            2,
+            "尝试对生物分类",
+            130
+          ],
+          [
+            2,
+            "微生物在生物圈中的作用",
+            6
+          ],
+          [
+            2,
+            "微生物在生物圈中的作用",
+            125
+          ],
+          [
+            2,
+            "我们身边的生物",
+            9
+          ],
+          [
+            2,
+            "扁形动物线形动物和环节动物",
+            80
+          ],
+          [
+            2,
+            "探究的基本过程",
+            16
+          ],
+          [
+            2,
+            "探究的常用方法",
+            17
+          ],
+          [
+            2,
+            "无脊椎动物的主要类群",
+            78
+          ],
+          [
+            2,
+            "显微镜发明简史",
+            26
+          ],
+          [
+            2,
+            "栖息地",
+            13
+          ],
+          [
+            2,
+            "植植物的呼吸作用",
+            66
+          ],
+          [
+            2,
+            "植物体的结构层次",
+            41
+          ],
+          [
+            2,
+            "植物的蒸腾现象",
+            54
+          ],
+          [
+            2,
+            "植绿色的能量转化器",
+            70
+          ],
+          [
+            2,
+            "生物分类的依据",
+            131
+          ],
+          [
+            2,
+            "生物分类的等级",
+            133
+          ],
+          [
+            2,
+            "生物圈",
+            12
+          ],
+          [
+            2,
+            "生物圈中的氮肥厂",
+            126
+          ],
+          [
+            2,
+            "生物圈中的清洁工生",
+            125
+          ],
+          [
+            2,
+            "生物学的探究方法",
+            16
+          ],
+          [
+            2,
+            "生物学的研究工具",
+            20
+          ],
+          [
+            2,
+            "生物的分类单位",
+            133
+          ],
+          [
+            2,
+            "生物的分类方法",
+            130
+          ],
+          [
+            2,
+            "生物的基本特征",
+            9
+          ],
+          [
+            2,
+            "生物的生命现象",
+            10
+          ],
+          [
+            2,
+            "生物的生活环境",
+            12
+          ],
+          [
+            2,
+            "病毒",
+            112
+          ],
+          [
+            2,
+            "病毒与人类的关系",
+            113
+          ],
+          [
+            2,
+            "病毒的形态结构",
+            112
+          ],
+          [
+            2,
+            "病毒的生命活动",
+            113
+          ],
+          [
+            2,
+            "真菌",
+            121
+          ],
+          [
+            2,
+            "真菌与人类的关系",
+            123
+          ],
+          [
+            2,
+            "真菌的形态结构",
+            121
+          ],
+          [
+            2,
+            "真菌的生命活动",
+            122
+          ],
+          [
+            2,
+            "社会行为",
+            102
+          ],
+          [
+            2,
+            "种子植物",
+            50
+          ],
+          [
+            2,
+            "章尝试鉴别生物",
+            134
+          ],
+          [
+            2,
+            "第一单元",
+            7
+          ],
+          [
+            2,
+            "第二单元",
+            45
+          ],
+          [
+            2,
+            "第四的分类",
+            6
+          ],
+          [
+            2,
+            "细胞是生命活动的基本单位",
+            33
+          ],
+          [
+            2,
+            "细胞是生物结构的基本单位",
+            29
+          ],
+          [
+            2,
+            "细胞的分化",
+            38
+          ],
+          [
+            2,
+            "细胞的分裂",
+            37
+          ],
+          [
+            2,
+            "细胞的分裂与分化",
+            37
+          ],
+          [
+            2,
+            "细胞的结构和功能",
+            29
+          ],
+          [
+            2,
+            "细菌",
+            116
+          ],
+          [
+            2,
+            "细菌与人类的关系",
+            118
+          ],
+          [
+            2,
+            "细菌的形态结构",
+            116
+          ],
+          [
+            2,
+            "细菌的生命活动",
+            117
+          ],
+          [
+            2,
+            "维持生物的生存和稳定",
+            107
+          ],
+          [
+            2,
+            "绿色植物在生物圈中的作用",
+            70
+          ],
+          [
+            2,
+            "绿色植物的主要类群",
+            47
+          ],
+          [
+            2,
+            "绿色植物的光合作用",
+            60
+          ],
+          [
+            2,
+            "绿色植物的呼吸作用",
+            66
+          ],
+          [
+            2,
+            "绿色植物的蒸腾作用",
+            54
+          ],
+          [
+            2,
+            "脊椎动物的主要类群",
+            86
+          ],
+          [
+            2,
+            "腔肠动物",
+            78
+          ],
+          [
+            2,
+            "自动的空气净化器",
+            71
+          ],
+          [
+            2,
+            "蒸腾作用的意义",
+            57
+          ],
+          [
+            2,
+            "藻类植物苔藓植物和蕨类植物",
+            47
+          ],
+          [
+            2,
+            "设施农业",
+            76
+          ],
+          [
+            2,
+            "象显微镜的构造和使用",
+            20
+          ],
+          [
+            2,
+            "软体动物和节肢动物",
+            82
+          ],
+          [
+            2,
+            "运动的基础",
+            97
+          ],
+          [
+            2,
+            "运动的实现",
+            99
+          ],
+          [
+            2,
+            "运动的方式",
+            96
+          ],
+          [
+            2,
+            "部分中英文名词索引",
+            138
+          ],
+          [
+            2,
+            "青霉素的发现",
+            128
+          ],
+          [
+            2,
+            "鱼类两栖类和爬行类",
+            86
+          ],
+          [
+            2,
+            "鸟类和哺乳类",
+            90
+          ]
+        ],
+        "unscored_candidates": 0
+      },
+      "toc": [
+        [
+          1,
+          "义务教育教科书",
+          2
+        ],
+        [
+          1,
+          "生物学",
+          2
+        ],
+        [
+          1,
+          "致同学们",
+          4
+        ],
+        [
+          1,
+          "第一单元奇妙的生命现象",
+          5
+        ],
+        [
+          1,
+          "2 第一章认识生命现象",
+          5
+        ],
+        [
+          1,
+          "22 第二章观察生物结构",
+          5
+        ],
+        [
+          1,
+          "第二章生物圈中的动物",
+          6
+        ],
+        [
+          1,
+          "第三章生物圈中的微生物",
+          6
+        ],
+        [
+          2,
+          "微生物在生物圈中的作用",
+          6
+        ],
+        [
+          2,
+          "第四的分类",
+          6
+        ],
+        [
+          2,
+          "奇妙的生命现象",
+          7
+        ],
+        [
+          2,
+          "第一单元",
+          7
+        ],
+        [
+          1,
+          "第一章",
+          8
+        ],
+        [
+          2,
+          "认识生命现象",
+          8
+        ],
+        [
+          2,
+          "第一节",
+          9
+        ],
+        [
+          2,
+          "生物的基本特征",
+          9
+        ],
+        [
+          2,
+          "我们身边的生物",
+          9
+        ],
+        [
+          2,
+          "生物的生命现象",
+          10
+        ],
+        [
+          2,
+          "第二节",
+          12
+        ],
+        [
+          2,
+          "生物的生活环境",
+          12
+        ],
+        [
+          2,
+          "生物圈",
+          12
+        ],
+        [
+          2,
+          "栖息地",
+          13
+        ],
+        [
+          2,
+          "第三节",
+          16
+        ],
+        [
+          2,
+          "生物学的探究方法",
+          16
+        ],
+        [
+          2,
+          "探究的基本过程",
+          16
+        ],
+        [
+          2,
+          "探究的常用方法",
+          17
+        ],
+        [
+          2,
+          "第四节",
+          20
+        ],
+        [
+          2,
+          "生物学的研究工具",
+          20
+        ],
+        [
+          2,
+          "象 显微镜的构造和使用",
+          20
+        ],
+        [
+          2,
+          "其他常用研究工具",
+          23
+        ],
+        [
+          2,
+          "显微镜发明简史",
+          26
+        ],
+        [
+          1,
+          "第二章",
+          28
+        ],
+        [
+          2,
+          "观察生物结构",
+          28
+        ],
+        [
+          2,
+          "第一节",
+          29
+        ],
+        [
+          2,
+          "细胞的结构和功能",
+          29
+        ],
+        [
+          2,
+          "细胞是生物结构的基本单位",
+          29
+        ],
+        [
+          2,
+          "细胞是生命活动的基本单位",
+          33
+        ],
+        [
+          2,
+          "第二节",
+          37
+        ],
+        [
+          2,
+          "细胞的分裂与分化",
+          37
+        ],
+        [
+          2,
+          "细胞的分裂",
+          37
+        ],
+        [
+          2,
+          "细胞的分化",
+          38
+        ],
+        [
+          2,
+          "第三节",
+          41
+        ],
+        [
+          2,
+          "多细胞生物体的结构层次",
+          41
+        ],
+        [
+          2,
+          "植物体的结构层次",
+          41
+        ],
+        [
+          2,
+          "动物体的结构层次",
+          42
+        ],
+        [
+          2,
+          "关爱生命,远离癌症",
+          44
+        ],
+        [
+          2,
+          "多彩的生物世界",
+          45
+        ],
+        [
+          2,
+          "第二单元",
+          45
+        ],
+        [
+          1,
+          "第一章",
+          46
+        ],
+        [
+          2,
+          "生物圈中的绿色植物",
+          46
+        ],
+        [
+          2,
+          "第一节",
+          47
+        ],
+        [
+          2,
+          "绿色植物的主要类群",
+          47
+        ],
+        [
+          2,
+          "藻类植物、苔藓植物和蕨类植物",
+          47
+        ],
+        [
+          2,
+          "种子植物",
+          50
+        ],
+        [
+          2,
+          "第二节",
+          54
+        ],
+        [
+          2,
+          "绿色植物的蒸腾作用",
+          54
+        ],
+        [
+          2,
+          "植物的蒸腾现象",
+          54
+        ],
+        [
+          2,
+          "蒸腾作用的意义",
+          57
+        ],
+        [
+          2,
+          "第三节",
+          60
+        ],
+        [
+          2,
+          "绿色植物的光合作用",
+          60
+        ],
+        [
+          2,
+          "光合作用的产物",
+          60
+        ],
+        [
+          2,
+          "光合作用的原料",
+          62
+        ],
+        [
+          2,
+          "光合作用原理的应用",
+          64
+        ],
+        [
+          2,
+          "第四节",
+          66
+        ],
+        [
+          2,
+          "绿色植物的呼吸作用",
+          66
+        ],
+        [
+          2,
+          "植 植物的呼吸作用",
+          66
+        ],
+        [
+          2,
+          "呼吸作用原理的应用",
+          68
+        ],
+        [
+          2,
+          "第五节",
+          70
+        ],
+        [
+          2,
+          "绿色植物在生物圈中的作用",
+          70
+        ],
+        [
+          2,
+          "植 绿色的“能量转化器”",
+          70
+        ],
+        [
+          2,
+          "自动的“空气净化器”",
+          71
+        ],
+        [
+          2,
+          "天然的“蓄水池”",
+          73
+        ],
+        [
+          2,
+          "设 施 农 业",
+          76
+        ],
+        [
+          1,
+          "第二章",
+          77
+        ],
+        [
+          2,
+          "生物圈中的动物",
+          77
+        ],
+        [
+          2,
+          "第一节",
+          78
+        ],
+        [
+          2,
+          "无脊椎动物的主要类群",
+          78
+        ],
+        [
+          2,
+          "腔肠动物",
+          78
+        ],
+        [
+          2,
+          "扁形动物、线形动物和环节动物",
+          80
+        ],
+        [
+          2,
+          "软体动物和节肢动物",
+          82
+        ],
+        [
+          2,
+          "第二节",
+          86
+        ],
+        [
+          2,
+          "脊椎动物的主要类群",
+          86
+        ],
+        [
+          2,
+          "鱼类、两栖类和爬行类",
+          86
+        ],
+        [
+          2,
+          "鸟类和哺乳类",
+          90
+        ],
+        [
+          2,
+          "第三节",
+          96
+        ],
+        [
+          2,
+          "动物的运动",
+          96
+        ],
+        [
+          2,
+          "运动的方式",
+          96
+        ],
+        [
+          2,
+          "运动的基础",
+          97
+        ],
+        [
+          2,
+          "关节面",
+          98
+        ],
+        [
+          2,
+          "运动的实现",
+          99
+        ],
+        [
+          2,
+          "第四节",
+          100
+        ],
+        [
+          2,
+          "动物的行为",
+          100
+        ],
+        [
+          2,
+          "先天性行为和学习行为",
+          100
+        ],
+        [
+          2,
+          "社会行为",
+          102
+        ],
+        [
+          2,
+          "第五节",
+          106
+        ],
+        [
+          2,
+          "动物在生物圈中的作用",
+          106
+        ],
+        [
+          2,
+          "促进生物圈的物质循环",
+          106
+        ],
+        [
+          2,
+          "维持生物的生存和稳定",
+          107
+        ],
+        [
+          2,
+          "农业害虫的生物防治",
+          110
+        ],
+        [
+          1,
+          "第三章",
+          111
+        ],
+        [
+          2,
+          "生物圈中的微生物",
+          111
+        ],
+        [
+          2,
+          "第一节",
+          112
+        ],
+        [
+          2,
+          "病 毒",
+          112
+        ],
+        [
+          2,
+          "病毒的形态结构",
+          112
+        ],
+        [
+          2,
+          "病毒的生命活动",
+          113
+        ],
+        [
+          2,
+          "病毒与人类的关系",
+          113
+        ],
+        [
+          2,
+          "第二节",
+          116
+        ],
+        [
+          2,
+          "细 菌",
+          116
+        ],
+        [
+          2,
+          "细菌的形态结构",
+          116
+        ],
+        [
+          2,
+          "细菌的生命活动",
+          117
+        ],
+        [
+          2,
+          "细菌与人类的关系",
+          118
+        ],
+        [
+          2,
+          "第三节",
+          121
+        ],
+        [
+          2,
+          "真 菌",
+          121
+        ],
+        [
+          2,
+          "真菌的形态结构",
+          121
+        ],
+        [
+          2,
+          "真菌的生命活动",
+          122
+        ],
+        [
+          2,
+          "真菌与人类的关系",
+          123
+        ],
+        [
+          2,
+          "第四节",
+          125
+        ],
+        [
+          2,
+          "微生物在生物圈中的作用",
+          125
+        ],
+        [
+          2,
+          "生物圈中的“清洁工” 生",
+          125
+        ],
+        [
+          2,
+          "生物圈中的“氮肥厂”",
+          126
+        ],
+        [
+          2,
+          "青霉素的发现",
+          128
+        ],
+        [
+          1,
+          "第四章",
+          129
+        ],
+        [
+          2,
+          "生物的分类",
+          129
+        ],
+        [
+          2,
+          "第一节",
+          130
+        ],
+        [
+          2,
+          "生物的分类方法",
+          130
+        ],
+        [
+          2,
+          "尝试对生物分类",
+          130
+        ],
+        [
+          2,
+          "生物分类的依据",
+          131
+        ],
+        [
+          2,
+          "第二节",
+          133
+        ],
+        [
+          2,
+          "生物的分类单位",
+          133
+        ],
+        [
+          2,
+          "生物分类的等级",
+          133
+        ],
+        [
+          2,
+          "章 尝试鉴别生物",
+          134
+        ],
+        [
+          2,
+          "部分中英文名词索引",
+          138
+        ]
+      ],
+      "reference_toc": [
+        [
+          1,
+          "第一单元 奇妙的生命现象",
+          7
+        ],
+        [
+          2,
+          "第一章 认识生命现象",
+          8
+        ],
+        [
+          3,
+          "第一节 生物的基本特征",
+          9
+        ],
+        [
+          3,
+          "第二节 生物的生活环境",
+          12
+        ],
+        [
+          3,
+          "第三节 生物学的探究方法",
+          16
+        ],
+        [
+          3,
+          "第四节 生物学的研究工具",
+          20
+        ],
+        [
+          2,
+          "第二章 观察生物结构",
+          28
+        ],
+        [
+          3,
+          "第一节 细胞的结构和功能",
+          29
+        ],
+        [
+          3,
+          "第二节 细胞的分裂与分化",
+          37
+        ],
+        [
+          3,
+          "第三节 多细胞生物体的结构层次",
+          41
+        ],
+        [
+          1,
+          "第二单元 多彩的生物世界",
+          45
+        ],
+        [
+          2,
+          "第一章 生物圈中的绿色植物",
+          46
+        ],
+        [
+          3,
+          "第一节 绿色植物的主要类群",
+          47
+        ],
+        [
+          3,
+          "第二节 绿色植物的蒸腾作用",
+          54
+        ],
+        [
+          3,
+          "第三节 绿色植物的光合作用",
+          60
+        ],
+        [
+          3,
+          "第四节 绿色植物的呼吸作用",
+          66
+        ],
+        [
+          3,
+          "第五节 绿色植物在生物圈中的作用",
+          70
+        ],
+        [
+          2,
+          "第二章 生物圈中的动物",
+          77
+        ],
+        [
+          3,
+          "第一节 无脊椎动物的主要类群",
+          78
+        ],
+        [
+          3,
+          "第二节 脊椎动物的主要类群",
+          86
+        ],
+        [
+          3,
+          "第三节 动物的运动",
+          96
+        ],
+        [
+          3,
+          "第四节 动物的行为",
+          100
+        ],
+        [
+          3,
+          "第五节 动物在生物圈中的作用",
+          106
+        ],
+        [
+          2,
+          "第三章 生物圈中的微生物",
+          111
+        ],
+        [
+          3,
+          "第一节 病毒",
+          112
+        ],
+        [
+          3,
+          "第二节 细菌",
+          116
+        ],
+        [
+          3,
+          "第三节 真菌",
+          121
+        ],
+        [
+          3,
+          "第四节 微生物在生物圈中的作用",
+          125
+        ],
+        [
+          2,
+          "第四章 生物的分类",
+          129
+        ],
+        [
+          3,
+          "第一节 生物的分类方法",
+          130
+        ],
+        [
+          3,
+          "第二节 生物的分类单位",
+          133
+        ],
+        [
+          1,
+          "附录",
+          138
+        ]
+      ],
+      "review_signals": {
+        "unreadable_toc_rows": 0,
+        "low_confidence_toc_rows": 0
+      },
+      "recognition_method": "body_headings",
+      "candidate_review": [
+        {
+          "bookmark": [
+            1,
+            "义务教育教科书",
+            2
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            1,
+            "生物学",
+            2
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            1,
+            "致同学们",
+            4
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            1,
+            "第一单元奇妙的生命现象",
+            5
+          ],
+          "assessment": "wrong_destination"
+        },
+        {
+          "bookmark": [
+            1,
+            "2 第一章认识生命现象",
+            5
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            1,
+            "22 第二章观察生物结构",
+            5
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            1,
+            "第二章生物圈中的动物",
+            6
+          ],
+          "assessment": "wrong_destination"
+        },
+        {
+          "bookmark": [
+            1,
+            "第三章生物圈中的微生物",
+            6
+          ],
+          "assessment": "wrong_destination"
+        },
+        {
+          "bookmark": [
+            2,
+            "微生物在生物圈中的作用",
+            6
+          ],
+          "assessment": "wrong_destination"
+        },
+        {
+          "bookmark": [
+            2,
+            "第四的分类",
+            6
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            2,
+            "奇妙的生命现象",
+            7
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            2,
+            "第一单元",
+            7
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            1,
+            "第一章",
+            8
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            2,
+            "认识生命现象",
+            8
+          ],
+          "assessment": "exact_match"
+        },
+        {
+          "bookmark": [
+            2,
+            "第一节",
+            9
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            2,
+            "生物的基本特征",
+            9
+          ],
+          "assessment": "wrong_depth"
+        },
+        {
+          "bookmark": [
+            2,
+            "我们身边的生物",
+            9
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            2,
+            "生物的生命现象",
+            10
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            2,
+            "第二节",
+            12
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            2,
+            "生物的生活环境",
+            12
+          ],
+          "assessment": "wrong_depth"
+        },
+        {
+          "bookmark": [
+            2,
+            "生物圈",
+            12
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            2,
+            "栖息地",
+            13
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            2,
+            "第三节",
+            16
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            2,
+            "生物学的探究方法",
+            16
+          ],
+          "assessment": "wrong_depth"
+        },
+        {
+          "bookmark": [
+            2,
+            "探究的基本过程",
+            16
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            2,
+            "探究的常用方法",
+            17
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            2,
+            "第四节",
+            20
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            2,
+            "生物学的研究工具",
+            20
+          ],
+          "assessment": "wrong_depth"
+        },
+        {
+          "bookmark": [
+            2,
+            "象 显微镜的构造和使用",
+            20
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            2,
+            "其他常用研究工具",
+            23
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            2,
+            "显微镜发明简史",
+            26
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            1,
+            "第二章",
+            28
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            2,
+            "观察生物结构",
+            28
+          ],
+          "assessment": "exact_match"
+        },
+        {
+          "bookmark": [
+            2,
+            "第一节",
+            29
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            2,
+            "细胞的结构和功能",
+            29
+          ],
+          "assessment": "wrong_depth"
+        },
+        {
+          "bookmark": [
+            2,
+            "细胞是生物结构的基本单位",
+            29
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            2,
+            "细胞是生命活动的基本单位",
+            33
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            2,
+            "第二节",
+            37
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            2,
+            "细胞的分裂与分化",
+            37
+          ],
+          "assessment": "wrong_depth"
+        },
+        {
+          "bookmark": [
+            2,
+            "细胞的分裂",
+            37
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            2,
+            "细胞的分化",
+            38
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            2,
+            "第三节",
+            41
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            2,
+            "多细胞生物体的结构层次",
+            41
+          ],
+          "assessment": "wrong_depth"
+        },
+        {
+          "bookmark": [
+            2,
+            "植物体的结构层次",
+            41
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            2,
+            "动物体的结构层次",
+            42
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            2,
+            "关爱生命,远离癌症",
+            44
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            2,
+            "多彩的生物世界",
+            45
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            2,
+            "第二单元",
+            45
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            1,
+            "第一章",
+            46
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            2,
+            "生物圈中的绿色植物",
+            46
+          ],
+          "assessment": "exact_match"
+        },
+        {
+          "bookmark": [
+            2,
+            "第一节",
+            47
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            2,
+            "绿色植物的主要类群",
+            47
+          ],
+          "assessment": "wrong_depth"
+        },
+        {
+          "bookmark": [
+            2,
+            "藻类植物、苔藓植物和蕨类植物",
+            47
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            2,
+            "种子植物",
+            50
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            2,
+            "第二节",
+            54
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            2,
+            "绿色植物的蒸腾作用",
+            54
+          ],
+          "assessment": "wrong_depth"
+        },
+        {
+          "bookmark": [
+            2,
+            "植物的蒸腾现象",
+            54
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            2,
+            "蒸腾作用的意义",
+            57
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            2,
+            "第三节",
+            60
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            2,
+            "绿色植物的光合作用",
+            60
+          ],
+          "assessment": "wrong_depth"
+        },
+        {
+          "bookmark": [
+            2,
+            "光合作用的产物",
+            60
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            2,
+            "光合作用的原料",
+            62
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            2,
+            "光合作用原理的应用",
+            64
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            2,
+            "第四节",
+            66
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            2,
+            "绿色植物的呼吸作用",
+            66
+          ],
+          "assessment": "wrong_depth"
+        },
+        {
+          "bookmark": [
+            2,
+            "植 植物的呼吸作用",
+            66
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            2,
+            "呼吸作用原理的应用",
+            68
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            2,
+            "第五节",
+            70
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            2,
+            "绿色植物在生物圈中的作用",
+            70
+          ],
+          "assessment": "wrong_depth"
+        },
+        {
+          "bookmark": [
+            2,
+            "植 绿色的“能量转化器”",
+            70
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            2,
+            "自动的“空气净化器”",
+            71
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            2,
+            "天然的“蓄水池”",
+            73
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            2,
+            "设 施 农 业",
+            76
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            1,
+            "第二章",
+            77
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            2,
+            "生物圈中的动物",
+            77
+          ],
+          "assessment": "exact_match"
+        },
+        {
+          "bookmark": [
+            2,
+            "第一节",
+            78
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            2,
+            "无脊椎动物的主要类群",
+            78
+          ],
+          "assessment": "wrong_depth"
+        },
+        {
+          "bookmark": [
+            2,
+            "腔肠动物",
+            78
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            2,
+            "扁形动物、线形动物和环节动物",
+            80
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            2,
+            "软体动物和节肢动物",
+            82
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            2,
+            "第二节",
+            86
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            2,
+            "脊椎动物的主要类群",
+            86
+          ],
+          "assessment": "wrong_depth"
+        },
+        {
+          "bookmark": [
+            2,
+            "鱼类、两栖类和爬行类",
+            86
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            2,
+            "鸟类和哺乳类",
+            90
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            2,
+            "第三节",
+            96
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            2,
+            "动物的运动",
+            96
+          ],
+          "assessment": "wrong_depth"
+        },
+        {
+          "bookmark": [
+            2,
+            "运动的方式",
+            96
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            2,
+            "运动的基础",
+            97
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            2,
+            "关节面",
+            98
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            2,
+            "运动的实现",
+            99
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            2,
+            "第四节",
+            100
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            2,
+            "动物的行为",
+            100
+          ],
+          "assessment": "wrong_depth"
+        },
+        {
+          "bookmark": [
+            2,
+            "先天性行为和学习行为",
+            100
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            2,
+            "社会行为",
+            102
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            2,
+            "第五节",
+            106
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            2,
+            "动物在生物圈中的作用",
+            106
+          ],
+          "assessment": "wrong_depth"
+        },
+        {
+          "bookmark": [
+            2,
+            "促进生物圈的物质循环",
+            106
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            2,
+            "维持生物的生存和稳定",
+            107
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            2,
+            "农业害虫的生物防治",
+            110
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            1,
+            "第三章",
+            111
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            2,
+            "生物圈中的微生物",
+            111
+          ],
+          "assessment": "exact_match"
+        },
+        {
+          "bookmark": [
+            2,
+            "第一节",
+            112
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            2,
+            "病 毒",
+            112
+          ],
+          "assessment": "wrong_depth"
+        },
+        {
+          "bookmark": [
+            2,
+            "病毒的形态结构",
+            112
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            2,
+            "病毒的生命活动",
+            113
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            2,
+            "病毒与人类的关系",
+            113
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            2,
+            "第二节",
+            116
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            2,
+            "细 菌",
+            116
+          ],
+          "assessment": "wrong_depth"
+        },
+        {
+          "bookmark": [
+            2,
+            "细菌的形态结构",
+            116
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            2,
+            "细菌的生命活动",
+            117
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            2,
+            "细菌与人类的关系",
+            118
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            2,
+            "第三节",
+            121
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            2,
+            "真 菌",
+            121
+          ],
+          "assessment": "wrong_depth"
+        },
+        {
+          "bookmark": [
+            2,
+            "真菌的形态结构",
+            121
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            2,
+            "真菌的生命活动",
+            122
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            2,
+            "真菌与人类的关系",
+            123
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            2,
+            "第四节",
+            125
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            2,
+            "微生物在生物圈中的作用",
+            125
+          ],
+          "assessment": "wrong_depth"
+        },
+        {
+          "bookmark": [
+            2,
+            "生物圈中的“清洁工” 生",
+            125
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            2,
+            "生物圈中的“氮肥厂”",
+            126
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            2,
+            "青霉素的发现",
+            128
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            1,
+            "第四章",
+            129
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            2,
+            "生物的分类",
+            129
+          ],
+          "assessment": "exact_match"
+        },
+        {
+          "bookmark": [
+            2,
+            "第一节",
+            130
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            2,
+            "生物的分类方法",
+            130
+          ],
+          "assessment": "wrong_depth"
+        },
+        {
+          "bookmark": [
+            2,
+            "尝试对生物分类",
+            130
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            2,
+            "生物分类的依据",
+            131
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            2,
+            "第二节",
+            133
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            2,
+            "生物的分类单位",
+            133
+          ],
+          "assessment": "wrong_depth"
+        },
+        {
+          "bookmark": [
+            2,
+            "生物分类的等级",
+            133
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            2,
+            "章 尝试鉴别生物",
+            134
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            2,
+            "部分中英文名词索引",
+            138
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        }
+      ],
+      "reference_evidence": "Printed contents visually transcribed before recognition, with PDF-page offset checked on body unit/chapter/section starts; not inferred from generated bookmarks.",
+      "assessment_counts": {
+        "outside_printed_contents_or_ocr_error": 99,
+        "wrong_destination": 4,
+        "exact_match": 6,
+        "wrong_depth": 23
+      },
+      "title_and_page_matches_ignoring_depth": 29
+    },
+    {
       "name": "zh-low",
       "url": "https://raw.githubusercontent.com/TapXWorld/ChinaTextbook/master/%E5%88%9D%E4%B8%AD/%E6%95%B0%E5%AD%A6/%E5%8C%97%E4%BA%AC%E7%89%88-%E5%8C%97%E4%BA%AC%E5%87%BA%E7%89%88%E7%A4%BE/%E4%B8%83%E5%B9%B4%E7%BA%A7/%E4%B9%89%E5%8A%A1%E6%95%99%E8%82%B2%E6%95%99%E7%A7%91%E4%B9%A6%C2%B7%E6%95%B0%E5%AD%A6%E4%B8%83%E5%B9%B4%E7%BA%A7%E4%B8%8A%E5%86%8C.pdf",
       "original_sha256": "0b5a395273f0d867e58776d74c69970461b9cf79933025f5f547d03e0abff280",
@@ -8611,8 +12901,8 @@
       "recognition_seconds": 125.39,
       "extraction_cache_hit": true,
       "evaluation_role": "development_regression",
-      "save_and_verify_seconds": 3.84,
-      "reviewed_save_and_verify_seconds": 3.91,
+      "save_and_verify_seconds": 4.19,
+      "reviewed_save_and_verify_seconds": 4.0,
       "automatic_content_preserved": true,
       "reviewed_toc_verified": true,
       "derived_low_quality": true,
@@ -8620,6 +12910,7 @@
       "metrics": {
         "reference_entries": 32,
         "scored_candidates": 27,
+        "duplicate_candidates": 0,
         "exact_matches": 16,
         "precision": 0.5925925925925926,
         "recall": 0.5,
@@ -9089,6 +13380,5 @@
       },
       "recognition_method": "printed_toc"
     }
-  ],
-  "cache_validation_note": "OCR-only documents reused OCR results only after checking every page has no native text and OCR implementation/models are unchanged. Native/mixed extraction and all outlines and full-page output validation were rerun as needed. Original OCR timings are retained."
+  ]
 }
