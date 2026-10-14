@@ -148,7 +148,7 @@ def test_failed_verification_preserves_existing_output(tmp_path, monkeypatch):
     output.write_bytes(b"existing user output")
     monkeypatch.setattr(app, "verify_content", lambda *_: False)
     with pytest.raises(ValueError, match="verification failed"):
-        app.add_bookmarks(source, [(1, "Title", -1)], output)
+        app.add_bookmarks(source, [(1, "Title", -1)], output, overwrite=True)
     assert output.read_bytes() == b"existing user output"
     assert list(tmp_path.iterdir()) == [output]
 
@@ -198,7 +198,7 @@ def test_json_contract_success_analysis_failure_and_parser(tmp_path):
     source = Path(__file__).parent / "fixtures" / "single_page.pdf"
     for options, ok in [
         (("--json", "-o", tmp_path / "out.pdf"), True),
-        (("--json", "--analyze"), True),
+        (("--json", "--analyze", "--overwrite"), True),
         (("--json", "--workers", "0"), False),
         (("--json", "--dpi", "0"), False),
         (("--json", "--unknown-option"), False),
@@ -444,7 +444,14 @@ def test_json_is_valid_under_non_utf8_stdout(tmp_path):
     source = Path(__file__).parent / "fixtures" / "single_page.pdf"
     env = dict(os.environ, PYTHONIOENCODING="ascii")
     result = subprocess.run(
-        [sys.executable, str(SCRIPT), str(source), "--json", "--analyze"],
+        [
+            sys.executable,
+            str(SCRIPT),
+            str(source),
+            "--json",
+            "--analyze",
+            "--overwrite",
+        ],
         capture_output=True,
         env=env,
         timeout=120,
@@ -515,3 +522,211 @@ def test_numeric_table_does_not_turn_a_heading_page_into_contents():
         [(1, text)], set(), visual={1: ["7.9 Exercises"]}
     )
     assert [h["title"] for h in headings] == ["7.9 Exercises"]
+
+
+def test_output_and_edited_toc_are_not_overwritten(tmp_path):
+    import json
+
+    source = tmp_path / "book.pdf"
+    source.write_bytes(
+        (Path(__file__).parent / "fixtures" / "single_page.pdf").read_bytes()
+    )
+    output = tmp_path / "out.pdf"
+    output.write_bytes(b"existing PDF")
+    result = run(source, "--json", "-o", output)
+    assert result.returncode == 1
+    assert "--overwrite" in json.loads(result.stdout)["error"]
+    assert output.read_bytes() == b"existing PDF"
+    assert run(source, "-o", output, "--overwrite").returncode == 0
+    toc = source.with_name("book_suggested_toc.txt")
+    toc.write_text("My edited chapter\t1\n")
+    assert run(source, "--analyze").returncode == 1
+    assert toc.read_text() == "My edited chapter\t1\n"
+    assert run(source, "--analyze", "--overwrite").returncode == 0
+
+
+def test_publish_exclusive_handles_racing_writer(tmp_path):
+    temporary, output = tmp_path / "pending", tmp_path / "out"
+    temporary.write_bytes(b"new")
+    output.write_bytes(b"racing writer")
+    with pytest.raises(FileExistsError):
+        app.publish_file(temporary, output)
+    assert output.read_bytes() == b"racing writer"
+    assert temporary.read_bytes() == b"new"
+
+
+def test_ocr_detection_with_long_watermark_and_inline_image(tmp_path):
+    import io
+
+    from PIL import Image
+
+    stream = io.BytesIO()
+    Image.new("RGB", (100, 150), "white").save(stream, format="PNG")
+    with fitz.open() as doc:
+        scan = doc.new_page()
+        scan.insert_image(scan.rect, stream=stream.getvalue())
+        scan.insert_text((40, 30), "Watermark and copyright text " * 3, fontsize=7)
+        assert len(scan.get_text()) > 40
+        assert app.page_needs_ocr(scan)
+        native = doc.new_page()
+        native.insert_image(fitz.Rect(20, 20, 60, 60), stream=stream.getvalue())
+        native.insert_textbox(
+            fitz.Rect(50, 100, 550, 700), "Normal native text. " * 150
+        )
+        assert not app.page_needs_ocr(native)
+
+        scan = doc[0]
+
+        class InlinePage:
+            rect = scan.rect
+
+            def get_text(self, mode):
+                return scan.get_text(mode)
+
+            def get_image_info(self):
+                return [{"bbox": tuple(self.rect)}]
+
+            def get_images(self):
+                return []
+
+        assert app.page_needs_ocr(InlinePage())
+
+
+@pytest.mark.requires_tesseract
+def test_scanned_result_requires_review(tmp_path):
+    import json
+
+    source = Path(__file__).parent / "fixtures" / "scanned.pdf"
+    result = run(source, "--lang", "eng", "--json", "-o", tmp_path / "out.pdf")
+    data = json.loads(result.stdout)
+    assert result.returncode == 0, data
+    assert data["review_required"] is True
+    assert data["quality"] == "unverified"
+    assert data["partial"] is False
+    assert any("OCR headings" in warning for warning in data["warnings"])
+
+
+def test_printed_toc_requires_consistent_independent_body_anchors():
+    pages = [(n, "") for n in range(1, 31)]
+    titles = [
+        "1.1 正数和负数",
+        "1.2 有理数加法",
+        "1.3 有理数减法",
+        "1.4 有理数乘法",
+        "1.5 有理数除法",
+    ]
+    pages[1] = (
+        2,
+        "\n".join(f"[TOC]\t{title}\t{i + 1}" for i, title in enumerate(titles)),
+    )
+    assert app.align_printed_toc(pages) == []
+    for i, title in enumerate(titles[:3]):
+        pages[i + 5] = (i + 6, title)
+    aligned = app.align_printed_toc(pages)
+    assert [(h["title"], h["page"]) for h in aligned] == [
+        (title, i + 6) for i, title in enumerate(titles)
+    ]
+    # Conflicting printed pagination must not create a guessed offset.
+    pages[1] = (2, pages[1][1].replace("\t1\n", "\t12\n").replace("\t2\n", "\t13\n"))
+    assert app.align_printed_toc(pages) == []
+
+
+def test_printed_toc_preserves_titles_when_body_ocr_is_ambiguous():
+    pages = [(n, "") for n in range(1, 31)]
+    titles = [
+        "1.1 正数和负数",
+        "1.2 有理数加法",
+        "1.3 有理数减法",
+        "1.4 有理数乘法",
+        "1.5 和四边形性质",
+    ]
+    pages[1] = (
+        2,
+        "\n".join(f"[TOC]\t{title}\t{i + 1}" for i, title in enumerate(titles)),
+    )
+    for i, title in enumerate(titles[:3]):
+        pages[i + 5] = (i + 6, title)
+    pages[9] = (10, "四边形性质")
+    aligned = app.align_printed_toc(pages)
+    assert aligned[-1]["title"] == "1.5 和四边形性质"
+    assert "body_confirmed" not in aligned[-1]
+
+
+def test_analysis_output_path_and_protection(tmp_path):
+    import json
+
+    source = Path(__file__).parent / "fixtures" / "single_page.pdf"
+    output = tmp_path / "review.txt"
+    result = run(source, "--analyze", "--json", "-o", output)
+    assert result.returncode == 0, result.stdout
+    assert json.loads(result.stdout)["toc"] == str(output)
+    assert output.read_text() == "第1章 引言\t1\n"
+    output.write_text("edited by user")
+    assert run(source, "--analyze", "-o", output).returncode == 1
+    assert output.read_text() == "edited by user"
+
+
+def test_printed_toc_folios_still_require_a_matching_body_title():
+    pages = [(n, f"[FOLIO]\t{n - 4}" if n >= 5 else "") for n in range(1, 31)]
+    titles = [
+        "1.1 正数和负数",
+        "1.2 有理数加法",
+        "1.3 有理数减法",
+        "1.4 有理数乘法",
+        "1.5 有理数除法",
+    ]
+    pages[1] = (
+        2,
+        "\n".join(f"[TOC]\t{title}\t{i + 1}" for i, title in enumerate(titles)),
+    )
+    assert app.align_printed_toc(pages) == []
+    pages[5] = (6, titles[1] + "\n[FOLIO]\t2")
+    assert [h["page"] for h in app.align_printed_toc(pages)] == [5, 6, 7, 8, 9]
+    pages[5] = (6, titles[1] + "\n[FOLIO]\t99")
+    for i in range(6, 26):
+        pages[i] = (i + 1, f"[FOLIO]\t{i + 1}")
+    assert app.align_printed_toc(pages) == []
+
+
+def test_outline_sidebar_and_destinations_preserve_page_content(tmp_path):
+    source = Path(__file__).parent / "fixtures" / "chinese_text.pdf"
+    output = tmp_path / "reader.pdf"
+    tree = [(1, "第一章", -1), (2, "第一节", 0), (3, "第二章", -1)]
+    app.add_bookmarks(source, tree, output, "full")
+    with fitz.open(output) as doc:
+        assert doc.pagemode == "UseOutlines"
+        assert doc.get_toc() == [[1, "第一章", 1], [2, "第一节", 2], [1, "第二章", 3]]
+        for entry in doc.get_toc(simple=False):
+            assert entry[3]["kind"] == fitz.LINK_GOTO
+            assert entry[3]["page"] == entry[2] - 1
+    assert app.verify_content(source, output, render=True)
+
+
+def test_json_unicode_file_paths_under_ascii_terminal(tmp_path):
+    import json
+    import os
+
+    source = tmp_path / "中文教材📖.pdf"
+    source.write_bytes(
+        (Path(__file__).parent / "fixtures" / "single_page.pdf").read_bytes()
+    )
+    result = subprocess.run(
+        [sys.executable, str(SCRIPT), str(source), "--json", "--analyze"],
+        capture_output=True,
+        env=dict(os.environ, PYTHONIOENCODING="ascii"),
+        timeout=120,
+    )
+    assert result.returncode == 0, result.stderr
+    data = json.loads(result.stdout)
+    assert data["ok"] is True and Path(data["toc"]).is_file()
+
+
+def test_ocr_spacing_variants_do_not_turn_running_footers_into_chapters():
+    pages = [(1, "第一章 有理数\n正文\n第一章 有理数 1")]
+    for n in range(2, 6):
+        footer = "第 一 章 有 理 数" if n % 2 else "第一章 有理数"
+        pages.append((n, f"正文\n{footer} {n}"))
+    headings = app.headings_from_pages(
+        pages, set(range(1, 6)), visual={1: ["第一章 有理数"]}
+    )
+    assert [(h["title"], h["page"]) for h in headings] == [("第一章有理数", 1)]

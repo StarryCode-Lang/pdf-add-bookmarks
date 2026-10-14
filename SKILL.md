@@ -6,9 +6,9 @@ license: MIT
 
 # PDF 书签
 
-运行环境：Python 3.10–3.13；使用已安装的 Skill 目录，不假设任何 Agent 的固定路径。安装可使用 `npx skills add StarryCode-Lang/pdf-add-bookmarks --agent codex --global`；去掉 `--global` 为项目安装，替换 Agent 名称即可用于其他支持标准 Skills 的 Agent。
+运行环境：Python 3.10–3.13；使用已安装的 Skill 目录，不假设任何 Agent 的固定路径。安装可使用 `npx skills@1.7.2 add StarryCode-Lang/pdf-add-bookmarks --agent codex --global`；去掉 `--global` 为项目安装，替换 Agent 名称即可用于其他支持标准 Skills 的 Agent。
 
-脚本路径相对于本 Skill 的目录解析；输入、输出使用绝对路径。处理前确认文件存在，不覆盖输入。
+脚本路径相对于本 Skill 的目录解析；输入、输出使用绝对路径。处理前确认文件存在，不覆盖输入。任务是给阅读器/笔记 App 的侧栏添加可点击书签（PDF outline），不是修改或改写文件正文；OCR 渲染图像只用于识别，不写回 PDF。
 
 ## 准备
 
@@ -16,7 +16,7 @@ license: MIT
 python -m pip install -r "<skill目录>/requirements.txt"
 ```
 
-扫描页需要 Tesseract 及对应语言包，默认 `chi_sim+eng`。OCR 缺失、语言包缺失或识别失败默认报错，不输出不完整 PDF。只有用户明确接受部分结果时才使用 `--allow-partial`；此时 JSON 标记 `partial: true`，并列出 `warnings`。Windows 用 `winget install UB-Mannheim.TesseractOCR` 安装，并将 [chi_sim.traineddata](https://github.com/tesseract-ocr/tessdata/raw/main/chi_sim.traineddata) 放入 Tesseract 的 `tessdata` 目录；macOS 用 `brew install tesseract tesseract-lang`；Debian/Ubuntu 用 `sudo apt install tesseract-ocr tesseract-ocr-chi-sim`。纯英文扫描可指定 `--lang eng`。
+扫描页需要 Tesseract 及对应语言包，默认 `chi_sim+eng`。OCR 缺失、语言包缺失或识别失败默认报错，不输出不完整 PDF。只有用户明确接受部分结果时才使用 `--allow-partial`；此时 JSON 标记 `partial: true`，并列出 `warnings`。Windows 用 `winget install UB-Mannheim.TesseractOCR` 安装，并将 [chi_sim.traineddata](https://github.com/tesseract-ocr/tessdata_fast/raw/87416418657359cb625c412a48b6e1d6d41c29bd/chi_sim.traineddata) 放入 Tesseract 的 `tessdata` 目录；macOS 用 `brew install tesseract tesseract-lang`；Debian/Ubuntu 用 `sudo apt install tesseract-ocr tesseract-ocr-chi-sim`。纯英文扫描可指定 `--lang eng`。
 
 ## 执行
 
@@ -24,9 +24,9 @@ python -m pip install -r "<skill目录>/requirements.txt"
 python "<skill目录>/scripts/add_bookmarks.py" "输入.pdf"
 ```
 
-默认输出同目录下 `输入_with_bookmarks.pdf`。可用 `-o "输出.pdf"` 指定路径；`--type textbook|exam|slides|article` 限定标题规则，默认 `auto` 合并规则；`--force-ocr` 强制 OCR，`--workers N` 控制 OCR 并行数，`--dpi N` 调整 OCR 渲染分辨率（默认 200，降低可加速），`--json` 的 stdout 仅输出一个 JSON 对象，进度在 stderr；成功退出码 0，失败 1，分析模式也返回结构化候选。
+默认输出同目录下 `输入_with_bookmarks.pdf`。已有 PDF 与建议目录默认受保护；仅在用户明确要求替换时使用 `--overwrite`。可用 `-o "输出.pdf"` 指定路径；`--type textbook|exam|slides|article` 限定标题规则，默认 `auto` 合并规则；`--force-ocr` 强制 OCR，`--workers N` 控制 OCR 并行数，`--dpi N` 调整 OCR 渲染分辨率（默认 200，降低可加速），`--json` 的 stdout 仅输出一个 JSON 对象，进度在 stderr；成功退出码 0，失败 1，分析模式也返回结构化候选。
 
-识别不确定或用户要求预览时，先生成建议目录：
+扫描件、识别不确定或用户要求预览时，先生成建议目录（`--analyze -o "目录.txt"` 可指定路径）：
 
 ```bash
 python "<skill目录>/scripts/add_bookmarks.py" "输入.pdf" --analyze
@@ -51,8 +51,8 @@ python "<skill目录>/scripts/add_bookmarks.py" "输入.pdf" --toc "目录.txt"
 
 ## 验收
 
-检查退出码为 0 后再报告成功，并告知输出路径和书签数。默认验证内容流、文字、页面尺寸、链接、批注、附件与元数据；`--verify full` 额外逐页渲染对比像素。验证失败时保留已有输出。没有识别到标题或 OCR 失败时说明原因，用目录文件重试，不编造标题。
+检查退出码为 0 后再报告成功，并告知输出路径和书签数。读取 JSON 的 `review_required`、`quality`、`warnings`；OCR 完成不能证明目录完整或正确，需要根据原 PDF 核对标题、层级与跳转页。未审核时说明候选书签需要审核，不声称准确率；必要时用修正后的 `--toc` 重试。默认验证内容流、文字、页面尺寸、链接、批注、附件与元数据；`--verify full` 额外逐页渲染对比像素。验证失败时保留已有输出。没有识别到标题或 OCR 失败时说明原因，用目录文件重试，不编造标题。
 
-识别依赖规则和视觉证据，复杂版面可能漏判，必要时人工审查。输出替换原有书签，不添加扫描页的可搜索文字层。
+识别依赖规则和视觉证据，复杂版面可能漏判，必要时人工审查。输出替换原有书签，设置 `UseOutlines` 请求显示侧栏，不添加扫描页的可搜索文字层。
 
 `--generate-toc` 扩展识别较小的加粗文本标题与 OCR 标题，同时写出可编辑的建议目录和书签 PDF；扩展候选可能误判，应审查建议目录。

@@ -1,0 +1,4638 @@
+{
+  "version": "0.3.0",
+  "environment": {
+    "PyMuPDF": "1.26.6",
+    "Pillow": "12.3.0",
+    "pytesseract": "0.3.13",
+    "packaging": "26.3",
+    "tesseract": "5.3.4",
+    "language_data_sha256": {
+      "eng": "7d4322bd2a7749724879683fc3912cb542f19906c83bcc1a52132556427170b2",
+      "chi_sim": "a5fcb6f0db1e1d6d8522f39db4e848f05984669172e584e8d76b6b3141e1f730"
+    }
+  },
+  "timing_note": "Recognition time measures the original extraction; cached reruns do not remeasure it. Save/verify is measured on each run.",
+  "python": "3.12.14 (main, Aug 25 2026, 14:00:49) [Clang 22.1.3 ]",
+  "pymupdf": "1.26.6",
+  "tesseract": "5.3.4",
+  "implementation_sha256": {
+    "add_bookmarks.py": "fcc4485e65d5ea6f653cbbcffeedca725ae962dd17f15137c3e7dda55994af03",
+    "headings.py": "879a036029dd6a4b9592c55d0b56326ea2aa1d4e26e7e9779b526301d5c82c48",
+    "ocr.py": "2a0a686c3651ed08d166d173795ee534d222d17d6bdd272e8dfd6cf319b02eef"
+  },
+  "benchmark_sha256": "48cf2209e1ce14b68aa5dbbf2e6a5b4c6f4199998a0e1bd1fc31fce7517ab5c2",
+  "annotation_notes": [
+    "Beijing section 2.3 corrected to 等式与方程 after checking printed TOC and body page 86; prior label 算式与等式 was incorrect.",
+    "Independent Jijiao scan has generic page bookmarks; labels are manually transcribed, not extracted from those bookmarks."
+  ],
+  "results": [
+    {
+      "name": "text",
+      "url": "https://greenteapress.com/thinkpython2/thinkpython2.pdf",
+      "original_sha256": "6033000bac3f9268ad75ee041bf8e5d9a3bc8a33bb156399cbd014918cb59f94",
+      "input_sha256": "fbe4a79dff3ae9d97643a8ae567e4cd7b6a388d83009393c7390594cba7995f8",
+      "pages": 244,
+      "original_outline_count": 240,
+      "input_outline_count": 0,
+      "ocr_pages": 0,
+      "bookmarks": 246,
+      "recognition_seconds": 0.86,
+      "extraction_cache_hit": true,
+      "evaluation_role": "development_regression",
+      "save_and_verify_seconds": 2.0,
+      "reviewed_save_and_verify_seconds": 0,
+      "automatic_content_preserved": true,
+      "reviewed_toc_verified": false,
+      "derived_low_quality": false,
+      "scope": "Publisher outline; additional visual titles are unlabelled",
+      "metrics": {
+        "reference_entries": 240,
+        "scored_candidates": 246,
+        "exact_matches": 240,
+        "recall": 1.0,
+        "missing": [],
+        "reference_match_fraction": 0.975609756097561,
+        "additional_candidates": [
+          [
+            1,
+            "acknowledgments",
+            6
+          ],
+          [
+            1,
+            "contributorlist",
+            7
+          ],
+          [
+            1,
+            "index",
+            233
+          ],
+          [
+            1,
+            "thestrangehistoryofthisbook",
+            5
+          ],
+          [
+            1,
+            "thinkpython",
+            1
+          ],
+          [
+            1,
+            "thinkpython",
+            3
+          ]
+        ]
+      },
+      "toc": [
+        [
+          1,
+          "Think Python",
+          1
+        ],
+        [
+          1,
+          "Think Python",
+          3
+        ],
+        [
+          1,
+          "Preface",
+          5
+        ],
+        [
+          1,
+          "The strange history of this book",
+          5
+        ],
+        [
+          1,
+          "Acknowledgments",
+          6
+        ],
+        [
+          1,
+          "Contributor List",
+          7
+        ],
+        [
+          1,
+          "Chapter 1 The way of the program",
+          23
+        ],
+        [
+          2,
+          "1.1 What is a program?",
+          23
+        ],
+        [
+          2,
+          "1.2 Running Python",
+          24
+        ],
+        [
+          2,
+          "1.3 The first program",
+          25
+        ],
+        [
+          2,
+          "1.4 Arithmetic operators",
+          25
+        ],
+        [
+          2,
+          "1.5 Values and types",
+          26
+        ],
+        [
+          2,
+          "1.6 Formal and natural languages",
+          26
+        ],
+        [
+          2,
+          "1.7 Debugging",
+          28
+        ],
+        [
+          2,
+          "1.8 Glossary",
+          28
+        ],
+        [
+          2,
+          "1.9 Exercises",
+          29
+        ],
+        [
+          1,
+          "Chapter 2 Variables, expressions and statements",
+          31
+        ],
+        [
+          2,
+          "2.1 Assignment statements",
+          31
+        ],
+        [
+          2,
+          "2.2 Variable names",
+          31
+        ],
+        [
+          2,
+          "2.3 Expressions and statements",
+          32
+        ],
+        [
+          2,
+          "2.4 Script mode",
+          33
+        ],
+        [
+          2,
+          "2.5 Order of operations",
+          33
+        ],
+        [
+          2,
+          "2.6 String operations",
+          34
+        ],
+        [
+          2,
+          "2.7 Comments",
+          34
+        ],
+        [
+          2,
+          "2.8 Debugging",
+          35
+        ],
+        [
+          2,
+          "2.9 Glossary",
+          36
+        ],
+        [
+          2,
+          "2.10 Exercises",
+          36
+        ],
+        [
+          1,
+          "Chapter 3 Functions",
+          39
+        ],
+        [
+          2,
+          "3.1 Function calls",
+          39
+        ],
+        [
+          2,
+          "3.2 Math functions",
+          40
+        ],
+        [
+          2,
+          "3.3 Composition",
+          41
+        ],
+        [
+          2,
+          "3.4 Adding new functions",
+          41
+        ],
+        [
+          2,
+          "3.5 Definitions and uses",
+          42
+        ],
+        [
+          2,
+          "3.6 Flow of execution",
+          43
+        ],
+        [
+          2,
+          "3.7 Parameters and arguments",
+          43
+        ],
+        [
+          2,
+          "3.8 Variables and parameters are local",
+          44
+        ],
+        [
+          2,
+          "3.9 Stack diagrams",
+          45
+        ],
+        [
+          2,
+          "3.10 Fruitful functions and void functions",
+          46
+        ],
+        [
+          2,
+          "3.11 Why functions?",
+          46
+        ],
+        [
+          2,
+          "3.12 Debugging",
+          47
+        ],
+        [
+          2,
+          "3.13 Glossary",
+          47
+        ],
+        [
+          2,
+          "3.14 Exercises",
+          48
+        ],
+        [
+          1,
+          "Chapter 4 Case study: interface design",
+          51
+        ],
+        [
+          2,
+          "4.1 The turtle module",
+          51
+        ],
+        [
+          2,
+          "4.2 Simple repetition",
+          52
+        ],
+        [
+          2,
+          "4.3 Exercises",
+          53
+        ],
+        [
+          2,
+          "4.4 Encapsulation",
+          54
+        ],
+        [
+          2,
+          "4.5 Generalization",
+          54
+        ],
+        [
+          2,
+          "4.6 Interface design",
+          55
+        ],
+        [
+          2,
+          "4.7 Refactoring",
+          56
+        ],
+        [
+          2,
+          "4.8 A development plan",
+          57
+        ],
+        [
+          2,
+          "4.9 docstring",
+          57
+        ],
+        [
+          2,
+          "4.10 Debugging",
+          58
+        ],
+        [
+          2,
+          "4.11 Glossary",
+          58
+        ],
+        [
+          2,
+          "4.12 Exercises",
+          59
+        ],
+        [
+          1,
+          "Chapter 5 Conditionals and recursion",
+          61
+        ],
+        [
+          2,
+          "5.1 Floor division and modulus",
+          61
+        ],
+        [
+          2,
+          "5.2 Boolean expressions",
+          62
+        ],
+        [
+          2,
+          "5.3 Logical operators",
+          62
+        ],
+        [
+          2,
+          "5.4 Conditional execution",
+          63
+        ],
+        [
+          2,
+          "5.5 Alternative execution",
+          63
+        ],
+        [
+          2,
+          "5.6 Chained conditionals",
+          63
+        ],
+        [
+          2,
+          "5.7 Nested conditionals",
+          64
+        ],
+        [
+          2,
+          "5.8 Recursion",
+          65
+        ],
+        [
+          2,
+          "5.9 Stack diagrams for recursive functions",
+          66
+        ],
+        [
+          2,
+          "5.10 Infinite recursion",
+          66
+        ],
+        [
+          2,
+          "5.11 Keyboard input",
+          67
+        ],
+        [
+          2,
+          "5.12 Debugging",
+          68
+        ],
+        [
+          2,
+          "5.13 Glossary",
+          69
+        ],
+        [
+          2,
+          "5.14 Exercises",
+          69
+        ],
+        [
+          1,
+          "Chapter 6 Fruitful functions",
+          73
+        ],
+        [
+          2,
+          "6.1 Return values",
+          73
+        ],
+        [
+          2,
+          "6.2 Incremental development",
+          74
+        ],
+        [
+          2,
+          "6.3 Composition",
+          76
+        ],
+        [
+          2,
+          "6.4 Boolean functions",
+          76
+        ],
+        [
+          2,
+          "6.5 More recursion",
+          77
+        ],
+        [
+          2,
+          "6.6 Leap of faith",
+          79
+        ],
+        [
+          2,
+          "6.7 One more example",
+          79
+        ],
+        [
+          2,
+          "6.8 Checking types",
+          80
+        ],
+        [
+          2,
+          "6.9 Debugging",
+          81
+        ],
+        [
+          2,
+          "6.10 Glossary",
+          82
+        ],
+        [
+          2,
+          "6.11 Exercises",
+          82
+        ],
+        [
+          1,
+          "Chapter 7 Iteration",
+          85
+        ],
+        [
+          2,
+          "7.1 Reassignment",
+          85
+        ],
+        [
+          2,
+          "7.2 Updating variables",
+          86
+        ],
+        [
+          2,
+          "7.3 The while statement",
+          86
+        ],
+        [
+          2,
+          "7.4 break",
+          88
+        ],
+        [
+          2,
+          "7.5 Square roots",
+          88
+        ],
+        [
+          2,
+          "7.6 Algorithms",
+          89
+        ],
+        [
+          2,
+          "7.7 Debugging",
+          90
+        ],
+        [
+          2,
+          "7.8 Glossary",
+          90
+        ],
+        [
+          2,
+          "7.9 Exercises",
+          91
+        ],
+        [
+          1,
+          "Chapter 8 Strings",
+          93
+        ],
+        [
+          2,
+          "8.1 A string is a sequence",
+          93
+        ],
+        [
+          2,
+          "8.2 len",
+          94
+        ],
+        [
+          2,
+          "8.3 Traversal with a for loop",
+          94
+        ],
+        [
+          2,
+          "8.4 String slices",
+          95
+        ],
+        [
+          2,
+          "8.5 Strings are immutable",
+          96
+        ],
+        [
+          2,
+          "8.6 Searching",
+          96
+        ],
+        [
+          2,
+          "8.7 Looping and counting",
+          97
+        ],
+        [
+          2,
+          "8.8 String methods",
+          97
+        ],
+        [
+          2,
+          "8.9 The in operator",
+          98
+        ],
+        [
+          2,
+          "8.10 String comparison",
+          99
+        ],
+        [
+          2,
+          "8.11 Debugging",
+          99
+        ],
+        [
+          2,
+          "8.12 Glossary",
+          101
+        ],
+        [
+          2,
+          "8.13 Exercises",
+          101
+        ],
+        [
+          1,
+          "Chapter 9 Case study: word play",
+          105
+        ],
+        [
+          2,
+          "9.1 Reading word lists",
+          105
+        ],
+        [
+          2,
+          "9.2 Exercises",
+          106
+        ],
+        [
+          2,
+          "9.3 Search",
+          107
+        ],
+        [
+          2,
+          "9.4 Looping with indices",
+          108
+        ],
+        [
+          2,
+          "9.5 Debugging",
+          109
+        ],
+        [
+          2,
+          "9.6 Glossary",
+          109
+        ],
+        [
+          2,
+          "9.7 Exercises",
+          110
+        ],
+        [
+          1,
+          "Chapter 10 Lists",
+          111
+        ],
+        [
+          2,
+          "10.1 A list is a sequence",
+          111
+        ],
+        [
+          2,
+          "10.2 Lists are mutable",
+          112
+        ],
+        [
+          2,
+          "10.3 Traversing a list",
+          113
+        ],
+        [
+          2,
+          "10.4 List operations",
+          113
+        ],
+        [
+          2,
+          "10.5 List slices",
+          113
+        ],
+        [
+          2,
+          "10.6 List methods",
+          114
+        ],
+        [
+          2,
+          "10.7 Map, filter and reduce",
+          115
+        ],
+        [
+          2,
+          "10.8 Deleting elements",
+          116
+        ],
+        [
+          2,
+          "10.9 Lists and strings",
+          116
+        ],
+        [
+          2,
+          "10.10 Objects and values",
+          117
+        ],
+        [
+          2,
+          "10.11 Aliasing",
+          118
+        ],
+        [
+          2,
+          "10.12 List arguments",
+          119
+        ],
+        [
+          2,
+          "10.13 Debugging",
+          120
+        ],
+        [
+          2,
+          "10.14 Glossary",
+          122
+        ],
+        [
+          2,
+          "10.15 Exercises",
+          122
+        ],
+        [
+          1,
+          "Chapter 11 Dictionaries",
+          125
+        ],
+        [
+          2,
+          "11.1 A dictionary is a mapping",
+          125
+        ],
+        [
+          2,
+          "11.2 Dictionary as a collection of counters",
+          126
+        ],
+        [
+          2,
+          "11.3 Looping and dictionaries",
+          128
+        ],
+        [
+          2,
+          "11.4 Reverse lookup",
+          128
+        ],
+        [
+          2,
+          "11.5 Dictionaries and lists",
+          129
+        ],
+        [
+          2,
+          "11.6 Memos",
+          131
+        ],
+        [
+          2,
+          "11.7 Global variables",
+          132
+        ],
+        [
+          2,
+          "11.8 Debugging",
+          133
+        ],
+        [
+          2,
+          "11.9 Glossary",
+          134
+        ],
+        [
+          2,
+          "11.10 Exercises",
+          135
+        ],
+        [
+          1,
+          "Chapter 12 Tuples",
+          137
+        ],
+        [
+          2,
+          "12.1 Tuples are immutable",
+          137
+        ],
+        [
+          2,
+          "12.2 Tuple assignment",
+          138
+        ],
+        [
+          2,
+          "12.3 Tuples as return values",
+          139
+        ],
+        [
+          2,
+          "12.4 Variable-length argument tuples",
+          140
+        ],
+        [
+          2,
+          "12.5 Lists and tuples",
+          140
+        ],
+        [
+          2,
+          "12.6 Dictionaries and tuples",
+          142
+        ],
+        [
+          2,
+          "12.7 Sequences of sequences",
+          143
+        ],
+        [
+          2,
+          "12.8 Debugging",
+          144
+        ],
+        [
+          2,
+          "12.9 Glossary",
+          144
+        ],
+        [
+          2,
+          "12.10 Exercises",
+          145
+        ],
+        [
+          1,
+          "Chapter 13 Case study: data structure selection",
+          147
+        ],
+        [
+          2,
+          "13.1 Word frequency analysis",
+          147
+        ],
+        [
+          2,
+          "13.2 Random numbers",
+          148
+        ],
+        [
+          2,
+          "13.3 Word histogram",
+          149
+        ],
+        [
+          2,
+          "13.4 Most common words",
+          150
+        ],
+        [
+          2,
+          "13.5 Optional parameters",
+          151
+        ],
+        [
+          2,
+          "13.6 Dictionary subtraction",
+          151
+        ],
+        [
+          2,
+          "13.7 Random words",
+          152
+        ],
+        [
+          2,
+          "13.8 Markov analysis",
+          152
+        ],
+        [
+          2,
+          "13.9 Data structures",
+          154
+        ],
+        [
+          2,
+          "13.10 Debugging",
+          155
+        ],
+        [
+          2,
+          "13.11 Glossary",
+          156
+        ],
+        [
+          2,
+          "13.12 Exercises",
+          156
+        ],
+        [
+          1,
+          "Chapter 14 Files",
+          159
+        ],
+        [
+          2,
+          "14.1 Persistence",
+          159
+        ],
+        [
+          2,
+          "14.2 Reading and writing",
+          159
+        ],
+        [
+          2,
+          "14.3 Format operator",
+          160
+        ],
+        [
+          2,
+          "14.4 Filenames and paths",
+          161
+        ],
+        [
+          2,
+          "14.5 Catching exceptions",
+          162
+        ],
+        [
+          2,
+          "14.6 Databases",
+          163
+        ],
+        [
+          2,
+          "14.7 Pickling",
+          164
+        ],
+        [
+          2,
+          "14.8 Pipes",
+          164
+        ],
+        [
+          2,
+          "14.9 Writing modules",
+          165
+        ],
+        [
+          2,
+          "14.10 Debugging",
+          166
+        ],
+        [
+          2,
+          "14.11 Glossary",
+          167
+        ],
+        [
+          2,
+          "14.12 Exercises",
+          167
+        ],
+        [
+          1,
+          "Chapter 15 Classes and objects",
+          169
+        ],
+        [
+          2,
+          "15.1 Programmer-defined types",
+          169
+        ],
+        [
+          2,
+          "15.2 Attributes",
+          170
+        ],
+        [
+          2,
+          "15.3 Rectangles",
+          171
+        ],
+        [
+          2,
+          "15.4 Instances as return values",
+          172
+        ],
+        [
+          2,
+          "15.5 Objects are mutable",
+          173
+        ],
+        [
+          2,
+          "15.6 Copying",
+          173
+        ],
+        [
+          2,
+          "15.7 Debugging",
+          174
+        ],
+        [
+          2,
+          "15.8 Glossary",
+          175
+        ],
+        [
+          2,
+          "15.9 Exercises",
+          176
+        ],
+        [
+          1,
+          "Chapter 16 Classes and functions",
+          177
+        ],
+        [
+          2,
+          "16.1 Time",
+          177
+        ],
+        [
+          2,
+          "16.2 Pure functions",
+          178
+        ],
+        [
+          2,
+          "16.3 Modifiers",
+          179
+        ],
+        [
+          2,
+          "16.4 Prototyping versus planning",
+          180
+        ],
+        [
+          2,
+          "16.5 Debugging",
+          181
+        ],
+        [
+          2,
+          "16.6 Glossary",
+          182
+        ],
+        [
+          2,
+          "16.7 Exercises",
+          182
+        ],
+        [
+          1,
+          "Chapter 17 Classes and methods",
+          183
+        ],
+        [
+          2,
+          "17.1 Object-oriented features",
+          183
+        ],
+        [
+          2,
+          "17.2 Printing objects",
+          184
+        ],
+        [
+          2,
+          "17.3 Another example",
+          185
+        ],
+        [
+          2,
+          "17.4 A more complicated example",
+          186
+        ],
+        [
+          2,
+          "17.5 The init method",
+          186
+        ],
+        [
+          2,
+          "17.6 The __str__ method",
+          187
+        ],
+        [
+          2,
+          "17.7 Operator overloading",
+          187
+        ],
+        [
+          2,
+          "17.8 Type-based dispatch",
+          188
+        ],
+        [
+          2,
+          "17.9 Polymorphism",
+          189
+        ],
+        [
+          2,
+          "17.10 Debugging",
+          190
+        ],
+        [
+          2,
+          "17.11 Interface and implementation",
+          191
+        ],
+        [
+          2,
+          "17.12 Glossary",
+          191
+        ],
+        [
+          2,
+          "17.13 Exercises",
+          192
+        ],
+        [
+          1,
+          "Chapter 18 Inheritance",
+          193
+        ],
+        [
+          2,
+          "18.1 Card objects",
+          193
+        ],
+        [
+          2,
+          "18.2 Class attributes",
+          194
+        ],
+        [
+          2,
+          "18.3 Comparing cards",
+          195
+        ],
+        [
+          2,
+          "18.4 Decks",
+          196
+        ],
+        [
+          2,
+          "18.5 Printing the deck",
+          196
+        ],
+        [
+          2,
+          "18.6 Add, remove, shuffle and sort",
+          197
+        ],
+        [
+          2,
+          "18.7 Inheritance",
+          198
+        ],
+        [
+          2,
+          "18.8 Class diagrams",
+          199
+        ],
+        [
+          2,
+          "18.9 Debugging",
+          200
+        ],
+        [
+          2,
+          "18.10 Data encapsulation",
+          201
+        ],
+        [
+          2,
+          "18.11 Glossary",
+          202
+        ],
+        [
+          2,
+          "18.12 Exercises",
+          203
+        ],
+        [
+          1,
+          "Chapter 19 The Goodies",
+          205
+        ],
+        [
+          2,
+          "19.1 Conditional expressions",
+          205
+        ],
+        [
+          2,
+          "19.2 List comprehensions",
+          206
+        ],
+        [
+          2,
+          "19.3 Generator expressions",
+          207
+        ],
+        [
+          2,
+          "19.4 any and all",
+          207
+        ],
+        [
+          2,
+          "19.5 Sets",
+          208
+        ],
+        [
+          2,
+          "19.6 Counters",
+          209
+        ],
+        [
+          2,
+          "19.7 defaultdict",
+          210
+        ],
+        [
+          2,
+          "19.8 Named tuples",
+          211
+        ],
+        [
+          2,
+          "19.9 Gathering keyword args",
+          212
+        ],
+        [
+          2,
+          "19.10 Glossary",
+          213
+        ],
+        [
+          2,
+          "19.11 Exercises",
+          214
+        ],
+        [
+          1,
+          "Appendix A Debugging",
+          215
+        ],
+        [
+          2,
+          "A.1 Syntax errors",
+          215
+        ],
+        [
+          2,
+          "A.2 Runtime errors",
+          217
+        ],
+        [
+          2,
+          "A.3 Semantic errors",
+          220
+        ],
+        [
+          1,
+          "Appendix B Analysis of Algorithms",
+          223
+        ],
+        [
+          2,
+          "B.1 Order of growth",
+          224
+        ],
+        [
+          2,
+          "B.2 Analysis of basic Python operations",
+          226
+        ],
+        [
+          2,
+          "B.3 Analysis of search algorithms",
+          227
+        ],
+        [
+          2,
+          "B.4 Hashtables",
+          228
+        ],
+        [
+          2,
+          "B.5 Glossary",
+          231
+        ],
+        [
+          1,
+          "Index",
+          233
+        ]
+      ],
+      "reference_toc": [
+        [
+          1,
+          "Preface",
+          5
+        ],
+        [
+          1,
+          "The way of the program",
+          23
+        ],
+        [
+          2,
+          "What is a program?",
+          23
+        ],
+        [
+          2,
+          "Running Python",
+          24
+        ],
+        [
+          2,
+          "The first program",
+          25
+        ],
+        [
+          2,
+          "Arithmetic operators",
+          25
+        ],
+        [
+          2,
+          "Values and types",
+          26
+        ],
+        [
+          2,
+          "Formal and natural languages",
+          26
+        ],
+        [
+          2,
+          "Debugging",
+          28
+        ],
+        [
+          2,
+          "Glossary",
+          28
+        ],
+        [
+          2,
+          "Exercises",
+          29
+        ],
+        [
+          1,
+          "Variables, expressions and statements",
+          31
+        ],
+        [
+          2,
+          "Assignment statements",
+          31
+        ],
+        [
+          2,
+          "Variable names",
+          31
+        ],
+        [
+          2,
+          "Expressions and statements",
+          32
+        ],
+        [
+          2,
+          "Script mode",
+          33
+        ],
+        [
+          2,
+          "Order of operations",
+          33
+        ],
+        [
+          2,
+          "String operations",
+          34
+        ],
+        [
+          2,
+          "Comments",
+          34
+        ],
+        [
+          2,
+          "Debugging",
+          35
+        ],
+        [
+          2,
+          "Glossary",
+          36
+        ],
+        [
+          2,
+          "Exercises",
+          36
+        ],
+        [
+          1,
+          "Functions",
+          39
+        ],
+        [
+          2,
+          "Function calls",
+          39
+        ],
+        [
+          2,
+          "Math functions",
+          40
+        ],
+        [
+          2,
+          "Composition",
+          41
+        ],
+        [
+          2,
+          "Adding new functions",
+          41
+        ],
+        [
+          2,
+          "Definitions and uses",
+          42
+        ],
+        [
+          2,
+          "Flow of execution",
+          43
+        ],
+        [
+          2,
+          "Parameters and arguments",
+          43
+        ],
+        [
+          2,
+          "Variables and parameters are local",
+          44
+        ],
+        [
+          2,
+          "Stack diagrams",
+          45
+        ],
+        [
+          2,
+          "Fruitful functions and void functions",
+          46
+        ],
+        [
+          2,
+          "Why functions?",
+          46
+        ],
+        [
+          2,
+          "Debugging",
+          47
+        ],
+        [
+          2,
+          "Glossary",
+          47
+        ],
+        [
+          2,
+          "Exercises",
+          48
+        ],
+        [
+          1,
+          "Case study: interface design",
+          51
+        ],
+        [
+          2,
+          "The turtle module",
+          51
+        ],
+        [
+          2,
+          "Simple repetition",
+          52
+        ],
+        [
+          2,
+          "Exercises",
+          53
+        ],
+        [
+          2,
+          "Encapsulation",
+          54
+        ],
+        [
+          2,
+          "Generalization",
+          54
+        ],
+        [
+          2,
+          "Interface design",
+          55
+        ],
+        [
+          2,
+          "Refactoring",
+          56
+        ],
+        [
+          2,
+          "A development plan",
+          57
+        ],
+        [
+          2,
+          "docstring",
+          57
+        ],
+        [
+          2,
+          "Debugging",
+          58
+        ],
+        [
+          2,
+          "Glossary",
+          58
+        ],
+        [
+          2,
+          "Exercises",
+          59
+        ],
+        [
+          1,
+          "Conditionals and recursion",
+          61
+        ],
+        [
+          2,
+          "Floor division and modulus",
+          61
+        ],
+        [
+          2,
+          "Boolean expressions",
+          62
+        ],
+        [
+          2,
+          "Logical operators",
+          62
+        ],
+        [
+          2,
+          "Conditional execution",
+          63
+        ],
+        [
+          2,
+          "Alternative execution",
+          63
+        ],
+        [
+          2,
+          "Chained conditionals",
+          63
+        ],
+        [
+          2,
+          "Nested conditionals",
+          64
+        ],
+        [
+          2,
+          "Recursion",
+          65
+        ],
+        [
+          2,
+          "Stack diagrams for recursive functions",
+          66
+        ],
+        [
+          2,
+          "Infinite recursion",
+          66
+        ],
+        [
+          2,
+          "Keyboard input",
+          67
+        ],
+        [
+          2,
+          "Debugging",
+          68
+        ],
+        [
+          2,
+          "Glossary",
+          69
+        ],
+        [
+          2,
+          "Exercises",
+          69
+        ],
+        [
+          1,
+          "Fruitful functions",
+          73
+        ],
+        [
+          2,
+          "Return values",
+          73
+        ],
+        [
+          2,
+          "Incremental development",
+          74
+        ],
+        [
+          2,
+          "Composition",
+          76
+        ],
+        [
+          2,
+          "Boolean functions",
+          76
+        ],
+        [
+          2,
+          "More recursion",
+          77
+        ],
+        [
+          2,
+          "Leap of faith",
+          79
+        ],
+        [
+          2,
+          "One more example",
+          79
+        ],
+        [
+          2,
+          "Checking types",
+          80
+        ],
+        [
+          2,
+          "Debugging",
+          81
+        ],
+        [
+          2,
+          "Glossary",
+          82
+        ],
+        [
+          2,
+          "Exercises",
+          82
+        ],
+        [
+          1,
+          "Iteration",
+          85
+        ],
+        [
+          2,
+          "Reassignment",
+          85
+        ],
+        [
+          2,
+          "Updating variables",
+          86
+        ],
+        [
+          2,
+          "The while statement",
+          86
+        ],
+        [
+          2,
+          "break",
+          88
+        ],
+        [
+          2,
+          "Square roots",
+          88
+        ],
+        [
+          2,
+          "Algorithms",
+          89
+        ],
+        [
+          2,
+          "Debugging",
+          90
+        ],
+        [
+          2,
+          "Glossary",
+          90
+        ],
+        [
+          2,
+          "Exercises",
+          91
+        ],
+        [
+          1,
+          "Strings",
+          93
+        ],
+        [
+          2,
+          "A string is a sequence",
+          93
+        ],
+        [
+          2,
+          "len",
+          94
+        ],
+        [
+          2,
+          "Traversal with a for loop",
+          94
+        ],
+        [
+          2,
+          "String slices",
+          95
+        ],
+        [
+          2,
+          "Strings are immutable",
+          96
+        ],
+        [
+          2,
+          "Searching",
+          96
+        ],
+        [
+          2,
+          "Looping and counting",
+          97
+        ],
+        [
+          2,
+          "String methods",
+          97
+        ],
+        [
+          2,
+          "The in operator",
+          98
+        ],
+        [
+          2,
+          "String comparison",
+          99
+        ],
+        [
+          2,
+          "Debugging",
+          99
+        ],
+        [
+          2,
+          "Glossary",
+          101
+        ],
+        [
+          2,
+          "Exercises",
+          101
+        ],
+        [
+          1,
+          "Case study: word play",
+          105
+        ],
+        [
+          2,
+          "Reading word lists",
+          105
+        ],
+        [
+          2,
+          "Exercises",
+          106
+        ],
+        [
+          2,
+          "Search",
+          107
+        ],
+        [
+          2,
+          "Looping with indices",
+          108
+        ],
+        [
+          2,
+          "Debugging",
+          109
+        ],
+        [
+          2,
+          "Glossary",
+          109
+        ],
+        [
+          2,
+          "Exercises",
+          110
+        ],
+        [
+          1,
+          "Lists",
+          111
+        ],
+        [
+          2,
+          "A list is a sequence",
+          111
+        ],
+        [
+          2,
+          "Lists are mutable",
+          112
+        ],
+        [
+          2,
+          "Traversing a list",
+          113
+        ],
+        [
+          2,
+          "List operations",
+          113
+        ],
+        [
+          2,
+          "List slices",
+          113
+        ],
+        [
+          2,
+          "List methods",
+          114
+        ],
+        [
+          2,
+          "Map, filter and reduce",
+          115
+        ],
+        [
+          2,
+          "Deleting elements",
+          116
+        ],
+        [
+          2,
+          "Lists and strings",
+          116
+        ],
+        [
+          2,
+          "Objects and values",
+          117
+        ],
+        [
+          2,
+          "Aliasing",
+          118
+        ],
+        [
+          2,
+          "List arguments",
+          119
+        ],
+        [
+          2,
+          "Debugging",
+          120
+        ],
+        [
+          2,
+          "Glossary",
+          122
+        ],
+        [
+          2,
+          "Exercises",
+          122
+        ],
+        [
+          1,
+          "Dictionaries",
+          125
+        ],
+        [
+          2,
+          "A dictionary is a mapping",
+          125
+        ],
+        [
+          2,
+          "Dictionary as a collection of counters",
+          126
+        ],
+        [
+          2,
+          "Looping and dictionaries",
+          128
+        ],
+        [
+          2,
+          "Reverse lookup",
+          128
+        ],
+        [
+          2,
+          "Dictionaries and lists",
+          129
+        ],
+        [
+          2,
+          "Memos",
+          131
+        ],
+        [
+          2,
+          "Global variables",
+          132
+        ],
+        [
+          2,
+          "Debugging",
+          133
+        ],
+        [
+          2,
+          "Glossary",
+          134
+        ],
+        [
+          2,
+          "Exercises",
+          135
+        ],
+        [
+          1,
+          "Tuples",
+          137
+        ],
+        [
+          2,
+          "Tuples are immutable",
+          137
+        ],
+        [
+          2,
+          "Tuple assignment",
+          138
+        ],
+        [
+          2,
+          "Tuples as return values",
+          139
+        ],
+        [
+          2,
+          "Variable-length argument tuples",
+          140
+        ],
+        [
+          2,
+          "Lists and tuples",
+          140
+        ],
+        [
+          2,
+          "Dictionaries and tuples",
+          142
+        ],
+        [
+          2,
+          "Sequences of sequences",
+          143
+        ],
+        [
+          2,
+          "Debugging",
+          144
+        ],
+        [
+          2,
+          "Glossary",
+          144
+        ],
+        [
+          2,
+          "Exercises",
+          145
+        ],
+        [
+          1,
+          "Case study: data structure selection",
+          147
+        ],
+        [
+          2,
+          "Word frequency analysis",
+          147
+        ],
+        [
+          2,
+          "Random numbers",
+          148
+        ],
+        [
+          2,
+          "Word histogram",
+          149
+        ],
+        [
+          2,
+          "Most common words",
+          150
+        ],
+        [
+          2,
+          "Optional parameters",
+          151
+        ],
+        [
+          2,
+          "Dictionary subtraction",
+          151
+        ],
+        [
+          2,
+          "Random words",
+          152
+        ],
+        [
+          2,
+          "Markov analysis",
+          152
+        ],
+        [
+          2,
+          "Data structures",
+          154
+        ],
+        [
+          2,
+          "Debugging",
+          155
+        ],
+        [
+          2,
+          "Glossary",
+          156
+        ],
+        [
+          2,
+          "Exercises",
+          156
+        ],
+        [
+          1,
+          "Files",
+          159
+        ],
+        [
+          2,
+          "Persistence",
+          159
+        ],
+        [
+          2,
+          "Reading and writing",
+          159
+        ],
+        [
+          2,
+          "Format operator",
+          160
+        ],
+        [
+          2,
+          "Filenames and paths",
+          161
+        ],
+        [
+          2,
+          "Catching exceptions",
+          162
+        ],
+        [
+          2,
+          "Databases",
+          163
+        ],
+        [
+          2,
+          "Pickling",
+          164
+        ],
+        [
+          2,
+          "Pipes",
+          164
+        ],
+        [
+          2,
+          "Writing modules",
+          165
+        ],
+        [
+          2,
+          "Debugging",
+          166
+        ],
+        [
+          2,
+          "Glossary",
+          167
+        ],
+        [
+          2,
+          "Exercises",
+          167
+        ],
+        [
+          1,
+          "Classes and objects",
+          169
+        ],
+        [
+          2,
+          "Programmer-defined types",
+          169
+        ],
+        [
+          2,
+          "Attributes",
+          170
+        ],
+        [
+          2,
+          "Rectangles",
+          171
+        ],
+        [
+          2,
+          "Instances as return values",
+          172
+        ],
+        [
+          2,
+          "Objects are mutable",
+          173
+        ],
+        [
+          2,
+          "Copying",
+          173
+        ],
+        [
+          2,
+          "Debugging",
+          174
+        ],
+        [
+          2,
+          "Glossary",
+          175
+        ],
+        [
+          2,
+          "Exercises",
+          176
+        ],
+        [
+          1,
+          "Classes and functions",
+          177
+        ],
+        [
+          2,
+          "Time",
+          177
+        ],
+        [
+          2,
+          "Pure functions",
+          178
+        ],
+        [
+          2,
+          "Modifiers",
+          179
+        ],
+        [
+          2,
+          "Prototyping versus planning",
+          180
+        ],
+        [
+          2,
+          "Debugging",
+          181
+        ],
+        [
+          2,
+          "Glossary",
+          182
+        ],
+        [
+          2,
+          "Exercises",
+          182
+        ],
+        [
+          1,
+          "Classes and methods",
+          183
+        ],
+        [
+          2,
+          "Object-oriented features",
+          183
+        ],
+        [
+          2,
+          "Printing objects",
+          184
+        ],
+        [
+          2,
+          "Another example",
+          185
+        ],
+        [
+          2,
+          "A more complicated example",
+          186
+        ],
+        [
+          2,
+          "The init method",
+          186
+        ],
+        [
+          2,
+          "The __str__ method",
+          187
+        ],
+        [
+          2,
+          "Operator overloading",
+          187
+        ],
+        [
+          2,
+          "Type-based dispatch",
+          188
+        ],
+        [
+          2,
+          "Polymorphism",
+          189
+        ],
+        [
+          2,
+          "Debugging",
+          190
+        ],
+        [
+          2,
+          "Interface and implementation",
+          191
+        ],
+        [
+          2,
+          "Glossary",
+          191
+        ],
+        [
+          2,
+          "Exercises",
+          192
+        ],
+        [
+          1,
+          "Inheritance",
+          193
+        ],
+        [
+          2,
+          "Card objects",
+          193
+        ],
+        [
+          2,
+          "Class attributes",
+          194
+        ],
+        [
+          2,
+          "Comparing cards",
+          195
+        ],
+        [
+          2,
+          "Decks",
+          196
+        ],
+        [
+          2,
+          "Printing the deck",
+          196
+        ],
+        [
+          2,
+          "Add, remove, shuffle and sort",
+          197
+        ],
+        [
+          2,
+          "Inheritance",
+          198
+        ],
+        [
+          2,
+          "Class diagrams",
+          199
+        ],
+        [
+          2,
+          "Debugging",
+          200
+        ],
+        [
+          2,
+          "Data encapsulation",
+          201
+        ],
+        [
+          2,
+          "Glossary",
+          202
+        ],
+        [
+          2,
+          "Exercises",
+          203
+        ],
+        [
+          1,
+          "The Goodies",
+          205
+        ],
+        [
+          2,
+          "Conditional expressions",
+          205
+        ],
+        [
+          2,
+          "List comprehensions",
+          206
+        ],
+        [
+          2,
+          "Generator expressions",
+          207
+        ],
+        [
+          2,
+          "any and all",
+          207
+        ],
+        [
+          2,
+          "Sets",
+          208
+        ],
+        [
+          2,
+          "Counters",
+          209
+        ],
+        [
+          2,
+          "defaultdict",
+          210
+        ],
+        [
+          2,
+          "Named tuples",
+          211
+        ],
+        [
+          2,
+          "Gathering keyword args",
+          212
+        ],
+        [
+          2,
+          "Glossary",
+          213
+        ],
+        [
+          2,
+          "Exercises",
+          214
+        ],
+        [
+          1,
+          "Debugging",
+          215
+        ],
+        [
+          2,
+          "Syntax errors",
+          215
+        ],
+        [
+          2,
+          "Runtime errors",
+          217
+        ],
+        [
+          2,
+          "Semantic errors",
+          220
+        ],
+        [
+          1,
+          "Analysis of Algorithms",
+          223
+        ],
+        [
+          2,
+          "Order of growth",
+          224
+        ],
+        [
+          2,
+          "Analysis of basic Python operations",
+          226
+        ],
+        [
+          2,
+          "Analysis of search algorithms",
+          227
+        ],
+        [
+          2,
+          "Hashtables",
+          228
+        ],
+        [
+          2,
+          "Glossary",
+          231
+        ]
+      ],
+      "review_signals": {
+        "unreadable_toc_rows": 0,
+        "low_confidence_toc_rows": 0
+      },
+      "recognition_method": "body_headings"
+    },
+    {
+      "name": "scan",
+      "url": "https://archive.org/download/CalculusMadeEasy/Calculus_Made_Easy_Thompson.pdf",
+      "original_sha256": "a3fb238d8710d78306ab99435ed8aa0c5353586dd69725ebe690bcfecdeb985b",
+      "input_sha256": "a3fb238d8710d78306ab99435ed8aa0c5353586dd69725ebe690bcfecdeb985b",
+      "pages": 315,
+      "original_outline_count": 0,
+      "input_outline_count": 0,
+      "ocr_pages": 315,
+      "bookmarks": 29,
+      "recognition_seconds": 59.49,
+      "extraction_cache_hit": true,
+      "evaluation_role": "development_regression",
+      "save_and_verify_seconds": 12.08,
+      "reviewed_save_and_verify_seconds": 0,
+      "automatic_content_preserved": true,
+      "reviewed_toc_verified": false,
+      "derived_low_quality": false,
+      "scope": "Chapter destination pages only; OCR wording and extra titles are unlabelled",
+      "metrics": {
+        "reference_chapters": 23,
+        "correct_chapter_pages": 23,
+        "chapter_page_recall": 1.0
+      },
+      "toc": [
+        [
+          1,
+          "MACMILLAN AND CO., Limitep",
+          4
+        ],
+        [
+          1,
+          "CALCULUS MADE EASY:",
+          5
+        ],
+        [
+          1,
+          "Neto Bork",
+          5
+        ],
+        [
+          1,
+          "THE MACMILLAN COMPANY",
+          5
+        ],
+        [
+          1,
+          "Sums, Dirrerences, Propucts, AND QUOTIENTS",
+          11
+        ],
+        [
+          1,
+          "CHAPTER I. TO DELIVER YOU FROM THE PRELIMINARY TERRORS",
+          15
+        ],
+        [
+          1,
+          "CHAPTER I. ON DIFFERENT DEGREES OF SMALLNESS",
+          17
+        ],
+        [
+          1,
+          "CHAPTER IIL. ON RELATIVE GROWINGS",
+          23
+        ],
+        [
+          1,
+          "CHAPTER IV. SIMPLEST CASES",
+          32
+        ],
+        [
+          1,
+          "CHAPTER V. NEXT STAGE. WHAT TO DO WITH CONSTANTS",
+          40
+        ],
+        [
+          1,
+          "CHAPTER VI. SUMS, DIFFERENCES, PRODUCTS, AND QUOTIENTS",
+          49
+        ],
+        [
+          1,
+          "CHAPTER VII. SUCCESSIVE DIFFERENTIATION",
+          63
+        ],
+        [
+          1,
+          "CHAPTER VIII. WHEN TIME VARIES",
+          66
+        ],
+        [
+          1,
+          "CHAPTER IX. INTRODUCING A USEFUL DODGE",
+          81
+        ],
+        [
+          1,
+          "CHAPTER X. GEOMETRICAL MEANING OF DIFFERENTIATION,",
+          90
+        ],
+        [
+          1,
+          "CHAPTER XL MAXIMA AND MINIMA",
+          107
+        ],
+        [
+          1,
+          "CHAPTER XII. CURVATURE OF CURVES",
+          126
+        ],
+        [
+          1,
+          "CHAPTER XII. OTHER USEFUL DODGES",
+          135
+        ],
+        [
+          1,
+          "CHAPTER XIV. ON TRUE COMPOUND INTEREST AND THE LAW OF ORGANIC GROWTH",
+          148
+        ],
+        [
+          2,
+          "133.2 s. and so on. It is easy to work it out, and",
+          149
+        ],
+        [
+          1,
+          "CHAPTER XV. HOW TO DEAL WITH SINES AND COSINES,",
+          179
+        ],
+        [
+          1,
+          "CHAPTER XVI. PARTIAL DIFFERENTIATION",
+          189
+        ],
+        [
+          1,
+          "CHAPTER XVII. INTEGRATION",
+          196
+        ],
+        [
+          1,
+          "CHAPTER XVIII. INTEGRATING AS THE REVERSE OF DIFFERENTIATING",
+          205
+        ],
+        [
+          1,
+          "CHAPTER XIX. ON FINDING AREAS BY INTEGRATING",
+          220
+        ],
+        [
+          1,
+          "CHAPTER XX. DODGES, PITFALLS, AND TRIUMPHS",
+          240
+        ],
+        [
+          1,
+          "CHAPTER XXI. FINDING SOLUTIONS",
+          248
+        ],
+        [
+          1,
+          "CHAPTER XXII. A LITTLE MORE ABOUT CURVATURE OF CURVES",
+          263
+        ],
+        [
+          1,
+          "CHAPTER XXIII. HOW TO FIND THE LENGTH OF AN ARC ON A CURVE",
+          280
+        ]
+      ],
+      "reference_toc": [],
+      "review_signals": {
+        "unreadable_toc_rows": 0,
+        "low_confidence_toc_rows": 0
+      },
+      "recognition_method": "body_headings"
+    },
+    {
+      "name": "zh-text",
+      "url": "https://raw.githubusercontent.com/TapXWorld/ChinaTextbook/master/%E5%88%9D%E4%B8%AD/%E6%95%B0%E5%AD%A6/%E4%BA%BA%E6%95%99%E7%89%88-%E4%BA%BA%E6%B0%91%E6%95%99%E8%82%B2%E5%87%BA%E7%89%88%E7%A4%BE/%E4%B8%83%E5%B9%B4%E7%BA%A7/%E4%B9%89%E5%8A%A1%E6%95%99%E8%82%B2%E6%95%99%E7%A7%91%E4%B9%A6%C2%B7%E6%95%B0%E5%AD%A6%E4%B8%83%E5%B9%B4%E7%BA%A7%E4%B8%8A%E5%86%8C.pdf",
+      "original_sha256": "cb14b1c61bc4f85e42f714073f67eedd9cfeaacc28bc663b3d68b19b4e8df58a",
+      "input_sha256": "cb14b1c61bc4f85e42f714073f67eedd9cfeaacc28bc663b3d68b19b4e8df58a",
+      "pages": 162,
+      "original_outline_count": 0,
+      "input_outline_count": 0,
+      "ocr_pages": 1,
+      "bookmarks": 69,
+      "recognition_seconds": 3.87,
+      "extraction_cache_hit": true,
+      "evaluation_role": "development_regression",
+      "save_and_verify_seconds": 6.92,
+      "reviewed_save_and_verify_seconds": 6.61,
+      "automatic_content_preserved": true,
+      "reviewed_toc_verified": true,
+      "derived_low_quality": false,
+      "scope": "Manual chapter/numbered-section labels only, or the four question-type headers; not every visual candidate",
+      "metrics": {
+        "reference_entries": 19,
+        "scored_candidates": 19,
+        "exact_matches": 19,
+        "precision": 1.0,
+        "recall": 1.0,
+        "missing": [],
+        "unexpected": [],
+        "unscored_candidates": 50
+      },
+      "toc": [
+        [
+          1,
+          "主编的话",
+          4
+        ],
+        [
+          1,
+          "第一章 有理数",
+          8
+        ],
+        [
+          2,
+          "1.1 正数和负数",
+          9
+        ],
+        [
+          2,
+          "习题1.1",
+          12
+        ],
+        [
+          2,
+          "1.2 有理数",
+          13
+        ],
+        [
+          3,
+          "1.2.1 有理数",
+          13
+        ],
+        [
+          3,
+          "1.2.2 数轴",
+          14
+        ],
+        [
+          3,
+          "1.2.3 相反数",
+          16
+        ],
+        [
+          3,
+          "1.2.4 绝对值",
+          18
+        ],
+        [
+          2,
+          "习题1.2",
+          21
+        ],
+        [
+          2,
+          "1.3 有理数的加减法",
+          23
+        ],
+        [
+          2,
+          "填 幻 方",
+          28
+        ],
+        [
+          3,
+          "1.3.2 有理数的减法",
+          28
+        ],
+        [
+          2,
+          "习题1.3",
+          31
+        ],
+        [
+          2,
+          "中国人最先使用负数",
+          34
+        ],
+        [
+          2,
+          "1.4 有理数的乘除法",
+          35
+        ],
+        [
+          2,
+          "习题1.4",
+          44
+        ],
+        [
+          2,
+          "翻牌游戏中的数学道理",
+          47
+        ],
+        [
+          2,
+          "1.5 有理数的乘方",
+          48
+        ],
+        [
+          2,
+          "作-()",
+          48
+        ],
+        [
+          3,
+          "1.5.2 科学记数法",
+          51
+        ],
+        [
+          3,
+          "1.5.3 近似数",
+          52
+        ],
+        [
+          2,
+          "习题1.5",
+          54
+        ],
+        [
+          2,
+          "小 结",
+          57
+        ],
+        [
+          2,
+          "复习题1",
+          58
+        ],
+        [
+          1,
+          "第二章 整式的加减",
+          60
+        ],
+        [
+          2,
+          "2.1 整式",
+          61
+        ],
+        [
+          2,
+          "习题2.1",
+          66
+        ],
+        [
+          2,
+          "数字1与字母X的对话",
+          68
+        ],
+        [
+          2,
+          "2.2 整式的加减",
+          69
+        ],
+        [
+          2,
+          "习题2.2",
+          76
+        ],
+        [
+          2,
+          "电子表格与数据计算",
+          78
+        ],
+        [
+          2,
+          "小 结",
+          81
+        ],
+        [
+          2,
+          "复习题2",
+          81
+        ],
+        [
+          1,
+          "第三章 一元一次方程",
+          84
+        ],
+        [
+          2,
+          "3.1 从算式到方程",
+          85
+        ],
+        [
+          2,
+          "习题3.1",
+          90
+        ],
+        [
+          2,
+          "方程”史话",
+          91
+        ],
+        [
+          2,
+          "3.2 解一元一次方程(一)",
+          93
+        ],
+        [
+          2,
+          "合并同类项与移项",
+          93
+        ],
+        [
+          2,
+          "习题3.2",
+          98
+        ],
+        [
+          2,
+          "无限循环小数化分数",
+          99
+        ],
+        [
+          2,
+          "3.3 解一元一次方程(二)",
+          100
+        ],
+        [
+          2,
+          "去括号与去分母",
+          100
+        ],
+        [
+          2,
+          "习题3.3",
+          105
+        ],
+        [
+          2,
+          "3.4 实际问题与一元一次方程",
+          107
+        ],
+        [
+          2,
+          "习题3.4",
+          113
+        ],
+        [
+          2,
+          "小 结",
+          117
+        ],
+        [
+          2,
+          "复习题3",
+          118
+        ],
+        [
+          1,
+          "第四章 几何图形初步",
+          120
+        ],
+        [
+          2,
+          "4.1 几何图形",
+          121
+        ],
+        [
+          3,
+          "4.1.1 立体图形与平面图形",
+          122
+        ],
+        [
+          2,
+          "习题4.1",
+          128
+        ],
+        [
+          2,
+          "几何学的起源",
+          131
+        ],
+        [
+          2,
+          "4.2 直线、射线、线段",
+          132
+        ],
+        [
+          2,
+          "本事实:两点的所有连线中,线段最短.简单说",
+          136
+        ],
+        [
+          2,
+          "习题4.2",
+          136
+        ],
+        [
+          2,
+          "长度的测量",
+          138
+        ],
+        [
+          2,
+          "4.3 角",
+          139
+        ],
+        [
+          3,
+          "4.3.1 角",
+          139
+        ],
+        [
+          3,
+          "4.3.2 角的比较与运算",
+          141
+        ],
+        [
+          2,
+          "习题4.3",
+          146
+        ],
+        [
+          2,
+          "4.4 课题学习",
+          149
+        ],
+        [
+          2,
+          "设计制作长方体形状的包装纸盒",
+          149
+        ],
+        [
+          2,
+          "小 结",
+          153
+        ],
+        [
+          2,
+          "复习题4",
+          154
+        ],
+        [
+          2,
+          "部分中英文词汇索引",
+          158
+        ],
+        [
+          2,
+          "后 记",
+          160
+        ],
+        [
+          2,
+          "SHUXUE",
+          162
+        ]
+      ],
+      "reference_toc": [
+        [
+          1,
+          "第一章 有理数",
+          8
+        ],
+        [
+          2,
+          "1.1 正数和负数",
+          9
+        ],
+        [
+          2,
+          "1.2 有理数",
+          13
+        ],
+        [
+          2,
+          "1.3 有理数的加减法",
+          23
+        ],
+        [
+          2,
+          "1.4 有理数的乘除法",
+          35
+        ],
+        [
+          2,
+          "1.5 有理数的乘方",
+          48
+        ],
+        [
+          1,
+          "第二章 整式的加减",
+          60
+        ],
+        [
+          2,
+          "2.1 整式",
+          61
+        ],
+        [
+          2,
+          "2.2 整式的加减",
+          69
+        ],
+        [
+          1,
+          "第三章 一元一次方程",
+          84
+        ],
+        [
+          2,
+          "3.1 从算式到方程",
+          85
+        ],
+        [
+          2,
+          "3.2 解一元一次方程（一）",
+          93
+        ],
+        [
+          2,
+          "3.3 解一元一次方程（二）",
+          100
+        ],
+        [
+          2,
+          "3.4 实际问题与一元一次方程",
+          107
+        ],
+        [
+          1,
+          "第四章 几何图形初步",
+          120
+        ],
+        [
+          2,
+          "4.1 几何图形",
+          121
+        ],
+        [
+          2,
+          "4.2 直线、射线、线段",
+          132
+        ],
+        [
+          2,
+          "4.3 角",
+          139
+        ],
+        [
+          2,
+          "4.4 课题学习",
+          149
+        ]
+      ],
+      "review_signals": {
+        "unreadable_toc_rows": 0,
+        "low_confidence_toc_rows": 0
+      },
+      "recognition_method": "body_headings"
+    },
+    {
+      "name": "zh-scan",
+      "url": "https://raw.githubusercontent.com/TapXWorld/ChinaTextbook/master/%E5%88%9D%E4%B8%AD/%E6%95%B0%E5%AD%A6/%E5%8C%97%E4%BA%AC%E7%89%88-%E5%8C%97%E4%BA%AC%E5%87%BA%E7%89%88%E7%A4%BE/%E4%B8%83%E5%B9%B4%E7%BA%A7/%E4%B9%89%E5%8A%A1%E6%95%99%E8%82%B2%E6%95%99%E7%A7%91%E4%B9%A6%C2%B7%E6%95%B0%E5%AD%A6%E4%B8%83%E5%B9%B4%E7%BA%A7%E4%B8%8A%E5%86%8C.pdf",
+      "original_sha256": "0b5a395273f0d867e58776d74c69970461b9cf79933025f5f547d03e0abff280",
+      "input_sha256": "0b5a395273f0d867e58776d74c69970461b9cf79933025f5f547d03e0abff280",
+      "pages": 158,
+      "original_outline_count": 0,
+      "input_outline_count": 0,
+      "ocr_pages": 158,
+      "bookmarks": 41,
+      "recognition_seconds": 105.16,
+      "extraction_cache_hit": true,
+      "evaluation_role": "development_regression",
+      "save_and_verify_seconds": 14.71,
+      "reviewed_save_and_verify_seconds": 13.8,
+      "automatic_content_preserved": true,
+      "reviewed_toc_verified": true,
+      "derived_low_quality": false,
+      "scope": "Manual chapter/numbered-section labels only, or the four question-type headers; not every visual candidate",
+      "metrics": {
+        "reference_entries": 32,
+        "scored_candidates": 34,
+        "exact_matches": 30,
+        "precision": 0.8823529411764706,
+        "recall": 0.9375,
+        "missing": [
+          [
+            2,
+            "角及其分类",
+            141
+          ],
+          [
+            2,
+            "角平分线",
+            146
+          ]
+        ],
+        "unexpected": [
+          [
+            1,
+            "学",
+            2
+          ],
+          [
+            1,
+            "第三章简单的几何图形",
+            155
+          ],
+          [
+            2,
+            "和角及其分类",
+            141
+          ],
+          [
+            2,
+            "和角平分线",
+            146
+          ]
+        ],
+        "unscored_candidates": 7
+      },
+      "toc": [
+        [
+          1,
+          "2.24  学",
+          2
+        ],
+        [
+          1,
+          "栏目说明",
+          3
+        ],
+        [
+          1,
+          "合与实践",
+          3
+        ],
+        [
+          1,
+          "第一章有理数",
+          7
+        ],
+        [
+          2,
+          "1.1 负数的引入",
+          8
+        ],
+        [
+          2,
+          "1.2 用数轴上的点表示有理数",
+          11
+        ],
+        [
+          2,
+          "1.3 相反数和绝对值",
+          14
+        ],
+        [
+          2,
+          "1.4 有理数的加法",
+          23
+        ],
+        [
+          2,
+          "1.5 有理数的减法",
+          29
+        ],
+        [
+          2,
+          "1.6 有理数加减法的混合运算",
+          32
+        ],
+        [
+          2,
+          "1.7 有理数的乘法",
+          42
+        ],
+        [
+          2,
+          "1.8 有理数的除法",
+          47
+        ],
+        [
+          2,
+          "1.9 有理数的乘方",
+          51
+        ],
+        [
+          2,
+          "1.10 有理数的混合运算",
+          56
+        ],
+        [
+          2,
+          "1.11 数的近似和科学记数法",
+          60
+        ],
+        [
+          2,
+          "1.12 用计算器做有理数的混合运算",
+          63
+        ],
+        [
+          1,
+          "第二章一元一次方程",
+          75
+        ],
+        [
+          2,
+          "2.1 字母表示数",
+          76
+        ],
+        [
+          2,
+          "2.2 同类项与合并同类项",
+          82
+        ],
+        [
+          2,
+          "2.3 等式与方程",
+          86
+        ],
+        [
+          2,
+          "2.4 等式的基本性质",
+          89
+        ],
+        [
+          2,
+          "2.5 一元一次方程",
+          94
+        ],
+        [
+          2,
+          "2.6 列方程解应用问题",
+          107
+        ],
+        [
+          1,
+          "第三章简单的几何图形",
+          125
+        ],
+        [
+          2,
+          "3.1 平面图形与立体图形",
+          126
+        ],
+        [
+          2,
+          "3.2 某些立体图形的展开图",
+          127
+        ],
+        [
+          2,
+          "3.3 从不同方向观察立体图形",
+          128
+        ],
+        [
+          2,
+          "3.4 点、线、面、体",
+          131
+        ],
+        [
+          2,
+          "3.5 直线、射线、线段",
+          133
+        ],
+        [
+          2,
+          "3.6 和角及其分类",
+          141
+        ],
+        [
+          2,
+          "3.7 角的度量与角的换算",
+          144
+        ],
+        [
+          2,
+          "3.8 和角平分线",
+          146
+        ],
+        [
+          2,
+          "3.9 两条直线的位置关系",
+          149
+        ],
+        [
+          2,
+          "3.10 相交线与平行线",
+          150
+        ],
+        [
+          2,
+          "3.11 用计算机绘图",
+          154
+        ],
+        [
+          2,
+          "线中出",
+          155
+        ],
+        [
+          1,
+          "第三章 ”简单的几何图形",
+          155
+        ],
+        [
+          2,
+          "科学记数法",
+          158
+        ],
+        [
+          2,
+          "代数式",
+          158
+        ],
+        [
+          2,
+          "同类项",
+          158
+        ],
+        [
+          2,
+          "部分中英文词汇索引",
+          158
+        ]
+      ],
+      "reference_toc": [
+        [
+          1,
+          "第一章 有理数",
+          7
+        ],
+        [
+          2,
+          "1.1 负数的引入",
+          8
+        ],
+        [
+          2,
+          "1.2 用数轴上的点表示有理数",
+          11
+        ],
+        [
+          2,
+          "1.3 相反数和绝对值",
+          14
+        ],
+        [
+          2,
+          "1.4 有理数的加法",
+          23
+        ],
+        [
+          2,
+          "1.5 有理数的减法",
+          29
+        ],
+        [
+          2,
+          "1.6 有理数加减法的混合运算",
+          32
+        ],
+        [
+          2,
+          "1.7 有理数的乘法",
+          42
+        ],
+        [
+          2,
+          "1.8 有理数的除法",
+          47
+        ],
+        [
+          2,
+          "1.9 有理数的乘方",
+          51
+        ],
+        [
+          2,
+          "1.10 有理数的混合运算",
+          56
+        ],
+        [
+          2,
+          "1.11 数的近似和科学记数法",
+          60
+        ],
+        [
+          2,
+          "1.12 用计算器做有理数的混合运算",
+          63
+        ],
+        [
+          1,
+          "第二章 一元一次方程",
+          75
+        ],
+        [
+          2,
+          "2.1 字母表示数",
+          76
+        ],
+        [
+          2,
+          "2.2 同类项与合并同类项",
+          82
+        ],
+        [
+          2,
+          "2.3 等式与方程",
+          86
+        ],
+        [
+          2,
+          "2.4 等式的基本性质",
+          89
+        ],
+        [
+          2,
+          "2.5 一元一次方程",
+          94
+        ],
+        [
+          2,
+          "2.6 列方程解应用问题",
+          107
+        ],
+        [
+          1,
+          "第三章 简单的几何图形",
+          125
+        ],
+        [
+          2,
+          "3.1 平面图形与立体图形",
+          126
+        ],
+        [
+          2,
+          "3.2 某些立体图形的展开图",
+          127
+        ],
+        [
+          2,
+          "3.3 从不同方向观察立体图形",
+          128
+        ],
+        [
+          2,
+          "3.4 点、线、面、体",
+          131
+        ],
+        [
+          2,
+          "3.5 直线、射线、线段",
+          133
+        ],
+        [
+          2,
+          "3.6 角及其分类",
+          141
+        ],
+        [
+          2,
+          "3.7 角的度量与角的换算",
+          144
+        ],
+        [
+          2,
+          "3.8 角平分线",
+          146
+        ],
+        [
+          2,
+          "3.9 两条直线的位置关系",
+          149
+        ],
+        [
+          2,
+          "3.10 相交线与平行线",
+          150
+        ],
+        [
+          2,
+          "3.11 用计算机绘图",
+          154
+        ]
+      ],
+      "review_signals": {
+        "unreadable_toc_rows": 0,
+        "low_confidence_toc_rows": 0
+      },
+      "recognition_method": "printed_toc"
+    },
+    {
+      "name": "zh-independent",
+      "url": "https://raw.githubusercontent.com/TapXWorld/ChinaTextbook/master/%E5%88%9D%E4%B8%AD/%E6%95%B0%E5%AD%A6/%E5%86%80%E6%95%99%E7%89%88-%E6%B2%B3%E5%8C%97%E6%95%99%E8%82%B2%E5%87%BA%E7%89%88%E7%A4%BE/%E5%85%AB%E5%B9%B4%E7%BA%A7/%E4%B9%89%E5%8A%A1%E6%95%99%E8%82%B2%E6%95%99%E7%A7%91%E4%B9%A6%C2%B7%E6%95%B0%E5%AD%A6%E5%85%AB%E5%B9%B4%E7%BA%A7%E4%B8%8A%E5%86%8C.pdf",
+      "original_sha256": "972482f9736a60c5db028def52b2efa0eff10802bfde02af4d70582bf419d5b1",
+      "input_sha256": "83e1407cfa2b248c36298323c59bad817bc8390857a1efa64bdce00774b9bf06",
+      "pages": 177,
+      "original_outline_count": 177,
+      "input_outline_count": 0,
+      "ocr_pages": 177,
+      "bookmarks": 39,
+      "recognition_seconds": 115.43,
+      "extraction_cache_hit": true,
+      "evaluation_role": "development_regression",
+      "save_and_verify_seconds": 7.42,
+      "reviewed_save_and_verify_seconds": 7.31,
+      "automatic_content_preserved": true,
+      "reviewed_toc_verified": true,
+      "derived_low_quality": false,
+      "scope": "Manual chapter/numbered-section labels only, or the four question-type headers; not every visual candidate",
+      "metrics": {
+        "reference_entries": 34,
+        "scored_candidates": 31,
+        "exact_matches": 29,
+        "precision": 0.9354838709677419,
+        "recall": 0.8529411764705882,
+        "missing": [
+          [
+            1,
+            "第十五章二次根式",
+            93
+          ],
+          [
+            2,
+            "二次根式的乘除运算",
+            99
+          ],
+          [
+            2,
+            "分式",
+            6
+          ],
+          [
+            2,
+            "利用图形的平移旋转和轴对称设计图案",
+            132
+          ],
+          [
+            2,
+            "勾股定理",
+            154
+          ]
+        ],
+        "unexpected": [
+          [
+            1,
+            "第十五章一次让式",
+            93
+          ],
+          [
+            2,
+            "匀股定理",
+            154
+          ]
+        ],
+        "unscored_candidates": 8
+      },
+      "toc": [
+        [
+          1,
+          "邀游在数学世界中",
+          3
+        ],
+        [
+          1,
+          "第十二章 ”分式和分式方程",
+          5
+        ],
+        [
+          2,
+          "12.2 分式的乘除",
+          11
+        ],
+        [
+          2,
+          "12.3 分式的加减",
+          16
+        ],
+        [
+          2,
+          "12.4 分式方程",
+          22
+        ],
+        [
+          2,
+          "12.5 分式方程的应用",
+          26
+        ],
+        [
+          1,
+          "第十三章 ”全等三角形",
+          35
+        ],
+        [
+          2,
+          "13.1 命题与证明",
+          36
+        ],
+        [
+          2,
+          "13.2 全等图形",
+          39
+        ],
+        [
+          2,
+          "13.3 全等三角形的判定",
+          42
+        ],
+        [
+          2,
+          "13.4 三角形的尺规作图",
+          56
+        ],
+        [
+          1,
+          "第十四章 ”实数",
+          63
+        ],
+        [
+          2,
+          "14.1 平方根",
+          64
+        ],
+        [
+          2,
+          "14.2 立方根",
+          70
+        ],
+        [
+          2,
+          "14.3 实数",
+          73
+        ],
+        [
+          2,
+          "14.4 近似数",
+          83
+        ],
+        [
+          2,
+          "14.5 用计算器求平方根与立方根",
+          86
+        ],
+        [
+          1,
+          "第十五章一次让式",
+          93
+        ],
+        [
+          2,
+          "15.1 二次根式",
+          94
+        ],
+        [
+          2,
+          "15.3 二次根式的加减运算",
+          102
+        ],
+        [
+          2,
+          "15.4 二次根式的混合运算",
+          105
+        ],
+        [
+          1,
+          "第十六章 。” 轴对称和中心对称",
+          111
+        ],
+        [
+          2,
+          "16.1 轴对称",
+          112
+        ],
+        [
+          2,
+          "16.2 线段的垂直平分线",
+          116
+        ],
+        [
+          2,
+          "16.3 角的平分线",
+          124
+        ],
+        [
+          2,
+          "16.4 中心对称图形",
+          128
+        ],
+        [
+          1,
+          "第十七章 ”特殊三角形",
+          143
+        ],
+        [
+          2,
+          "17.1 等腰三角形",
+          144
+        ],
+        [
+          2,
+          "17.2 直角三角形",
+          151
+        ],
+        [
+          2,
+          "17.3 匀股定理",
+          154
+        ],
+        [
+          2,
+          "17.4 直角三角形全等的判定",
+          163
+        ],
+        [
+          2,
+          "17.5 反证法 =",
+          166
+        ],
+        [
+          2,
+          "全等三角形的",
+          167
+        ],
+        [
+          2,
+          "即一三角形的外角大于和它不相邻的内",
+          168
+        ],
+        [
+          2,
+          "等边三角形",
+          169
+        ],
+        [
+          2,
+          "直角三角形的性质",
+          169
+        ],
+        [
+          2,
+          "股定理的逆理",
+          169
+        ],
+        [
+          2,
+          "综合与实践二",
+          175
+        ],
+        [
+          2,
+          "最优化种植方案",
+          175
+        ]
+      ],
+      "reference_toc": [
+        [
+          1,
+          "第十二章 分式和分式方程",
+          5
+        ],
+        [
+          2,
+          "12.1 分式",
+          6
+        ],
+        [
+          2,
+          "12.2 分式的乘除",
+          11
+        ],
+        [
+          2,
+          "12.3 分式的加减",
+          16
+        ],
+        [
+          2,
+          "12.4 分式方程",
+          22
+        ],
+        [
+          2,
+          "12.5 分式方程的应用",
+          26
+        ],
+        [
+          1,
+          "第十三章 全等三角形",
+          35
+        ],
+        [
+          2,
+          "13.1 命题与证明",
+          36
+        ],
+        [
+          2,
+          "13.2 全等图形",
+          39
+        ],
+        [
+          2,
+          "13.3 全等三角形的判定",
+          42
+        ],
+        [
+          2,
+          "13.4 三角形的尺规作图",
+          56
+        ],
+        [
+          1,
+          "第十四章 实数",
+          63
+        ],
+        [
+          2,
+          "14.1 平方根",
+          64
+        ],
+        [
+          2,
+          "14.2 立方根",
+          70
+        ],
+        [
+          2,
+          "14.3 实数",
+          73
+        ],
+        [
+          2,
+          "14.4 近似数",
+          83
+        ],
+        [
+          2,
+          "14.5 用计算器求平方根与立方根",
+          86
+        ],
+        [
+          1,
+          "第十五章 二次根式",
+          93
+        ],
+        [
+          2,
+          "15.1 二次根式",
+          94
+        ],
+        [
+          2,
+          "15.2 二次根式的乘除运算",
+          99
+        ],
+        [
+          2,
+          "15.3 二次根式的加减运算",
+          102
+        ],
+        [
+          2,
+          "15.4 二次根式的混合运算",
+          105
+        ],
+        [
+          1,
+          "第十六章 轴对称和中心对称",
+          111
+        ],
+        [
+          2,
+          "16.1 轴对称",
+          112
+        ],
+        [
+          2,
+          "16.2 线段的垂直平分线",
+          116
+        ],
+        [
+          2,
+          "16.3 角的平分线",
+          124
+        ],
+        [
+          2,
+          "16.4 中心对称图形",
+          128
+        ],
+        [
+          2,
+          "16.5 利用图形的平移、旋转和轴对称设计图案",
+          132
+        ],
+        [
+          1,
+          "第十七章 特殊三角形",
+          143
+        ],
+        [
+          2,
+          "17.1 等腰三角形",
+          144
+        ],
+        [
+          2,
+          "17.2 直角三角形",
+          151
+        ],
+        [
+          2,
+          "17.3 勾股定理",
+          154
+        ],
+        [
+          2,
+          "17.4 直角三角形全等的判定",
+          163
+        ],
+        [
+          2,
+          "17.5 反证法",
+          166
+        ]
+      ],
+      "review_signals": {
+        "unreadable_toc_rows": 3,
+        "low_confidence_toc_rows": 2
+      },
+      "recognition_method": "printed_toc"
+    },
+    {
+      "name": "zh-exam",
+      "url": "https://imgs.app.gaokaozhitongche.com/resource/pdf/paper/202506/20250617081036_lTiMG1.pdf",
+      "original_sha256": "2ca7d17a6c493fe56b95f6db214b1eeba5817cdcd4520ae43ff90fc69fcd59e7",
+      "input_sha256": "2ca7d17a6c493fe56b95f6db214b1eeba5817cdcd4520ae43ff90fc69fcd59e7",
+      "pages": 16,
+      "original_outline_count": 0,
+      "input_outline_count": 0,
+      "ocr_pages": 16,
+      "bookmarks": 5,
+      "recognition_seconds": 15.58,
+      "extraction_cache_hit": true,
+      "evaluation_role": "development_regression",
+      "save_and_verify_seconds": 4.65,
+      "reviewed_save_and_verify_seconds": 4.63,
+      "automatic_content_preserved": true,
+      "reviewed_toc_verified": true,
+      "derived_low_quality": false,
+      "scope": "Manual chapter/numbered-section labels only, or the four question-type headers; not every visual candidate",
+      "metrics": {
+        "reference_entries": 4,
+        "scored_candidates": 4,
+        "exact_matches": 4,
+        "precision": 1.0,
+        "recall": 1.0,
+        "missing": [],
+        "unexpected": [],
+        "unscored_candidates": 1
+      },
+      "toc": [
+        [
+          1,
+          "2025 年普通高等学校招生全国统一考试 (新 [ 卷数学 )",
+          1
+        ],
+        [
+          2,
+          "一、选择题",
+          1
+        ],
+        [
+          2,
+          "三、填空题",
+          2
+        ],
+        [
+          2,
+          "四、解答题",
+          2
+        ],
+        [
+          2,
+          "二、选择题",
+          2
+        ]
+      ],
+      "reference_toc": [
+        [
+          2,
+          "一、选择题",
+          1
+        ],
+        [
+          2,
+          "二、选择题",
+          2
+        ],
+        [
+          2,
+          "三、填空题",
+          2
+        ],
+        [
+          2,
+          "四、解答题",
+          2
+        ]
+      ],
+      "review_signals": {
+        "unreadable_toc_rows": 0,
+        "low_confidence_toc_rows": 0
+      },
+      "recognition_method": "body_headings"
+    },
+    {
+      "name": "zh-low",
+      "url": "https://raw.githubusercontent.com/TapXWorld/ChinaTextbook/master/%E5%88%9D%E4%B8%AD/%E6%95%B0%E5%AD%A6/%E5%8C%97%E4%BA%AC%E7%89%88-%E5%8C%97%E4%BA%AC%E5%87%BA%E7%89%88%E7%A4%BE/%E4%B8%83%E5%B9%B4%E7%BA%A7/%E4%B9%89%E5%8A%A1%E6%95%99%E8%82%B2%E6%95%99%E7%A7%91%E4%B9%A6%C2%B7%E6%95%B0%E5%AD%A6%E4%B8%83%E5%B9%B4%E7%BA%A7%E4%B8%8A%E5%86%8C.pdf",
+      "original_sha256": "0b5a395273f0d867e58776d74c69970461b9cf79933025f5f547d03e0abff280",
+      "input_sha256": "975b26f6af8db73d4b7b14316e5ca82b653186c39b0672f8c5ac6c9667ff7cac",
+      "pages": 158,
+      "original_outline_count": 0,
+      "input_outline_count": 0,
+      "ocr_pages": 158,
+      "bookmarks": 31,
+      "recognition_seconds": 111.28,
+      "extraction_cache_hit": true,
+      "evaluation_role": "development_regression",
+      "save_and_verify_seconds": 3.72,
+      "reviewed_save_and_verify_seconds": 3.72,
+      "automatic_content_preserved": true,
+      "reviewed_toc_verified": true,
+      "derived_low_quality": true,
+      "scope": "Manual chapter/numbered-section labels only, or the four question-type headers; not every visual candidate",
+      "metrics": {
+        "reference_entries": 32,
+        "scored_candidates": 27,
+        "exact_matches": 16,
+        "precision": 0.5925925925925926,
+        "recall": 0.5,
+        "missing": [
+          [
+            1,
+            "第一章有理数",
+            7
+          ],
+          [
+            1,
+            "第三章简单的几何图形",
+            125
+          ],
+          [
+            1,
+            "第二章一元一次方程",
+            75
+          ],
+          [
+            2,
+            "一元一次方程",
+            94
+          ],
+          [
+            2,
+            "从不同方向观察立体图形",
+            128
+          ],
+          [
+            2,
+            "字母表示数",
+            76
+          ],
+          [
+            2,
+            "数的近似和科学记数法",
+            60
+          ],
+          [
+            2,
+            "有理数加减法的混合运算",
+            32
+          ],
+          [
+            2,
+            "有理数的乘方",
+            51
+          ],
+          [
+            2,
+            "有理数的乘法",
+            42
+          ],
+          [
+            2,
+            "用计算机绘图",
+            154
+          ],
+          [
+            2,
+            "相交线与平行线",
+            150
+          ],
+          [
+            2,
+            "等式的基本性质",
+            89
+          ],
+          [
+            2,
+            "角及其分类",
+            141
+          ],
+          [
+            2,
+            "角平分线",
+            146
+          ],
+          [
+            2,
+            "角的度量与角的换算",
+            144
+          ]
+        ],
+        "unexpected": [
+          [
+            1,
+            "用计算本绘图148",
+            6
+          ],
+          [
+            1,
+            "第一章",
+            7
+          ],
+          [
+            2,
+            "和角及持分类",
+            141
+          ],
+          [
+            2,
+            "和角平分线",
+            146
+          ],
+          [
+            2,
+            "和角的度量与角的换算",
+            144
+          ],
+          [
+            2,
+            "字和母表示数",
+            76
+          ],
+          [
+            2,
+            "数的近似和科学记数访",
+            60
+          ],
+          [
+            2,
+            "有了理数的乘芒",
+            42
+          ],
+          [
+            2,
+            "有理数吉减法的混合运算",
+            32
+          ],
+          [
+            2,
+            "有理数的磁方",
+            51
+          ],
+          [
+            2,
+            "管式的基本性质",
+            89
+          ]
+        ],
+        "unscored_candidates": 4
+      },
+      "toc": [
+        [
+          1,
+          "3.11 用计算本绘图 148",
+          6
+        ],
+        [
+          1,
+          "第一章",
+          7
+        ],
+        [
+          2,
+          "1.1 负数的引入",
+          8
+        ],
+        [
+          2,
+          "1.2 用数轴上的点表示有理数",
+          11
+        ],
+        [
+          2,
+          "1.3 相反数和绝对值",
+          14
+        ],
+        [
+          2,
+          "1.4 有理数的加法",
+          23
+        ],
+        [
+          2,
+          "1.5 有理数的减法",
+          29
+        ],
+        [
+          2,
+          "1.6 有理数吉减法的混合运算",
+          32
+        ],
+        [
+          2,
+          "1.7 有了理数的乘芒",
+          42
+        ],
+        [
+          2,
+          "1.8 有理数的除法",
+          47
+        ],
+        [
+          2,
+          "1.9 有理数的磁方",
+          51
+        ],
+        [
+          2,
+          "1.10 有理数的混合运算",
+          56
+        ],
+        [
+          2,
+          "1.11 数的近似和科学记数访",
+          60
+        ],
+        [
+          2,
+          "1.12 用计算器做有理数的混合运算",
+          63
+        ],
+        [
+          2,
+          "2.1 字和母表示数",
+          76
+        ],
+        [
+          2,
+          "2.2 同类项与合并同类项",
+          82
+        ],
+        [
+          2,
+          "2.3 等式与方程",
+          86
+        ],
+        [
+          2,
+          "2.4 管式的基本性质",
+          89
+        ],
+        [
+          2,
+          "2.6 列方程解应用问题",
+          107
+        ],
+        [
+          2,
+          "3.1 平面图形与立体图形",
+          126
+        ],
+        [
+          2,
+          "3.2 某些立体图形的展开图",
+          127
+        ],
+        [
+          2,
+          "3.4 点、线、面、体",
+          131
+        ],
+        [
+          2,
+          "3.5 直线、射线、线段",
+          133
+        ],
+        [
+          2,
+          "3.6 和角及持分类",
+          141
+        ],
+        [
+          2,
+          "3.7 和角的度量与角的换算",
+          144
+        ],
+        [
+          2,
+          "3.8 和角平分线",
+          146
+        ],
+        [
+          2,
+          "3.9 两条直线的位置关系",
+          149
+        ],
+        [
+          2,
+          "可以把墙壁的粮灯线、",
+          150
+        ],
+        [
+          2,
+          "只有一个公",
+          150
+        ],
+        [
+          2,
+          "我们看到",
+          151
+        ],
+        [
+          2,
+          "一个角等于",
+          151
+        ]
+      ],
+      "reference_toc": [
+        [
+          1,
+          "第一章 有理数",
+          7
+        ],
+        [
+          2,
+          "1.1 负数的引入",
+          8
+        ],
+        [
+          2,
+          "1.2 用数轴上的点表示有理数",
+          11
+        ],
+        [
+          2,
+          "1.3 相反数和绝对值",
+          14
+        ],
+        [
+          2,
+          "1.4 有理数的加法",
+          23
+        ],
+        [
+          2,
+          "1.5 有理数的减法",
+          29
+        ],
+        [
+          2,
+          "1.6 有理数加减法的混合运算",
+          32
+        ],
+        [
+          2,
+          "1.7 有理数的乘法",
+          42
+        ],
+        [
+          2,
+          "1.8 有理数的除法",
+          47
+        ],
+        [
+          2,
+          "1.9 有理数的乘方",
+          51
+        ],
+        [
+          2,
+          "1.10 有理数的混合运算",
+          56
+        ],
+        [
+          2,
+          "1.11 数的近似和科学记数法",
+          60
+        ],
+        [
+          2,
+          "1.12 用计算器做有理数的混合运算",
+          63
+        ],
+        [
+          1,
+          "第二章 一元一次方程",
+          75
+        ],
+        [
+          2,
+          "2.1 字母表示数",
+          76
+        ],
+        [
+          2,
+          "2.2 同类项与合并同类项",
+          82
+        ],
+        [
+          2,
+          "2.3 等式与方程",
+          86
+        ],
+        [
+          2,
+          "2.4 等式的基本性质",
+          89
+        ],
+        [
+          2,
+          "2.5 一元一次方程",
+          94
+        ],
+        [
+          2,
+          "2.6 列方程解应用问题",
+          107
+        ],
+        [
+          1,
+          "第三章 简单的几何图形",
+          125
+        ],
+        [
+          2,
+          "3.1 平面图形与立体图形",
+          126
+        ],
+        [
+          2,
+          "3.2 某些立体图形的展开图",
+          127
+        ],
+        [
+          2,
+          "3.3 从不同方向观察立体图形",
+          128
+        ],
+        [
+          2,
+          "3.4 点、线、面、体",
+          131
+        ],
+        [
+          2,
+          "3.5 直线、射线、线段",
+          133
+        ],
+        [
+          2,
+          "3.6 角及其分类",
+          141
+        ],
+        [
+          2,
+          "3.7 角的度量与角的换算",
+          144
+        ],
+        [
+          2,
+          "3.8 角平分线",
+          146
+        ],
+        [
+          2,
+          "3.9 两条直线的位置关系",
+          149
+        ],
+        [
+          2,
+          "3.10 相交线与平行线",
+          150
+        ],
+        [
+          2,
+          "3.11 用计算机绘图",
+          154
+        ]
+      ],
+      "review_signals": {
+        "unreadable_toc_rows": 2,
+        "low_confidence_toc_rows": 2
+      },
+      "recognition_method": "printed_toc"
+    }
+  ]
+}

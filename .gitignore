@@ -33,3 +33,6 @@ validation/
 # OS files
 .DS_Store
 Thumbs.db
+
+# Pinned installer check (development only)
+node_modules/

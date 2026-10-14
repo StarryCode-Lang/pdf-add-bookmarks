@@ -1,9 +1,11 @@
 """Optional real-document benchmark: pinned sources, independent labels, local evidence."""
 
 import hashlib
+import importlib.metadata
 import inspect
 import json
 import re
+import subprocess
 import sys
 import time
 import unicodedata
@@ -46,6 +48,15 @@ SOURCES = {
             "初中/数学/北京版-北京出版社/七年级/义务教育教科书·数学七年级上册.pdf"
         ),
         "0b5a395273f0d867e58776d74c69970461b9cf79933025f5f547d03e0abff280",
+        "chi_sim+eng",
+        "textbook",
+    ),
+    "zh-independent": (
+        TEXTBOOK
+        + urllib.parse.quote(
+            "初中/数学/冀教版-河北教育出版社/八年级/义务教育教科书·数学八年级上册.pdf"
+        ),
+        "972482f9736a60c5db028def52b2efa0eff10802bfde02af4d70582bf419d5b1",
         "chi_sim+eng",
         "textbook",
     ),
@@ -120,7 +131,7 @@ ZH_SCAN = [
     (1, "第二章 一元一次方程", 75),
     (2, "2.1 字母表示数", 76),
     (2, "2.2 同类项与合并同类项", 82),
-    (2, "2.3 算式与等式", 86),
+    (2, "2.3 等式与方程", 86),
     (2, "2.4 等式的基本性质", 89),
     (2, "2.5 一元一次方程", 94),
     (2, "2.6 列方程解应用问题", 107),
@@ -193,15 +204,85 @@ def download(url, source, expected_hash):
         )
 
 
+# Independent scan: printed two-column TOC, manually transcribed before recognition.
+# Existing bookmarks are generic page names and cannot serve as title labels.
+ZH_INDEPENDENT = [
+    (1, "第十二章 分式和分式方程", 5),
+    (2, "12.1 分式", 6),
+    (2, "12.2 分式的乘除", 11),
+    (2, "12.3 分式的加减", 16),
+    (2, "12.4 分式方程", 22),
+    (2, "12.5 分式方程的应用", 26),
+    (1, "第十三章 全等三角形", 35),
+    (2, "13.1 命题与证明", 36),
+    (2, "13.2 全等图形", 39),
+    (2, "13.3 全等三角形的判定", 42),
+    (2, "13.4 三角形的尺规作图", 56),
+    (1, "第十四章 实数", 63),
+    (2, "14.1 平方根", 64),
+    (2, "14.2 立方根", 70),
+    (2, "14.3 实数", 73),
+    (2, "14.4 近似数", 83),
+    (2, "14.5 用计算器求平方根与立方根", 86),
+    (1, "第十五章 二次根式", 93),
+    (2, "15.1 二次根式", 94),
+    (2, "15.2 二次根式的乘除运算", 99),
+    (2, "15.3 二次根式的加减运算", 102),
+    (2, "15.4 二次根式的混合运算", 105),
+    (1, "第十六章 轴对称和中心对称", 111),
+    (2, "16.1 轴对称", 112),
+    (2, "16.2 线段的垂直平分线", 116),
+    (2, "16.3 角的平分线", 124),
+    (2, "16.4 中心对称图形", 128),
+    (2, "16.5 利用图形的平移、旋转和轴对称设计图案", 132),
+    (1, "第十七章 特殊三角形", 143),
+    (2, "17.1 等腰三角形", 144),
+    (2, "17.2 直角三角形", 151),
+    (2, "17.3 勾股定理", 154),
+    (2, "17.4 直角三角形全等的判定", 163),
+    (2, "17.5 反证法", 166),
+]
+
+
 def main():
     directory = ROOT / "validation"
     directory.mkdir(exist_ok=True)
     selected = sys.argv[1:] or list(SOURCES) + ["zh-low"]
+    import pytesseract
+
+    environment = {
+        name: importlib.metadata.version(name)
+        for name in ("PyMuPDF", "Pillow", "pytesseract", "packaging")
+    }
+    environment["tesseract"] = str(pytesseract.get_tesseract_version())
+    language_list = subprocess.run(
+        [app.find_tesseract(), "--list-langs"],
+        capture_output=True,
+        text=True,
+        check=True,
+    ).stdout
+    model_directory = re.search(r'"([^"\n]+)"', language_list.splitlines()[0])
+    environment["language_data_sha256"] = (
+        {
+            language: digest(Path(model_directory[1]) / (language + ".traineddata"))
+            for language in ("eng", "chi_sim")
+        }
+        if model_directory
+        else {}
+    )
     extraction_hash = hashlib.sha256(
         (
-            inspect.getsource(app.read_pages) + inspect.getsource(app._read_image_page)
+            inspect.getsource(app.read_pages)
+            + inspect.getsource(app.clean_ocr_line)
+            + inspect.getsource(app.match_heading)
+            + inspect.getsource(app.page_needs_ocr)
+            + (ROOT / "scripts/ocr.py").read_text()
         ).encode()
     ).hexdigest()
+    benchmark_hash = digest(Path(__file__))
+    implementation = {
+        p.name: digest(p) for p in sorted((ROOT / "scripts").glob("*.py"))
+    }
     rows = []
     for name in selected:
         base = "zh-scan" if name == "zh-low" else name
@@ -240,7 +321,10 @@ def main():
         key = extraction_hash + digest(source) + lang
         cache = directory / (name + "-pages.json")
         cached = json.loads(cache.read_text()) if cache.exists() else {}
-        if cached.get("key") == key:
+        cache_hit = (
+            cached.get("key") == key and cached.get("environment") == environment
+        )
+        if cache_hit:
             pages, scanned = cached["pages"], set(cached["scanned"])
             visual = {int(k): v for k, v in cached["visual"].items()}
             seconds = cached["recognition_seconds"]
@@ -254,6 +338,7 @@ def main():
                 json.dumps(
                     dict(
                         key=key,
+                        environment=environment,
                         pages=pages,
                         scanned=sorted(scanned),
                         visual=visual,
@@ -269,12 +354,18 @@ def main():
         started = time.perf_counter()
         if headings:
             app.add_bookmarks(
-                source, app.build_tree_from_headings(headings), output, "full"
+                source,
+                app.build_tree_from_headings(headings),
+                output,
+                "full",
+                overwrite=True,
             )
             with fitz.open(output) as doc:
                 toc = doc.get_toc()
         else:
             toc = []
+        automatic_seconds = time.perf_counter() - started
+        reviewed_seconds = 0
         if name == "text":
             metrics = score(reference, toc)
             assert not metrics["missing"], metrics["missing"]
@@ -295,13 +386,11 @@ def main():
             )
             scope = "Chapter destination pages only; OCR wording and extra titles are unlabelled"
         else:
-            labels = (
-                ZH_EXAM
-                if base == "zh-exam"
-                else ZH_TEXT
-                if base == "zh-text"
-                else ZH_SCAN
-            )
+            labels = {
+                "zh-exam": ZH_EXAM,
+                "zh-text": ZH_TEXT,
+                "zh-independent": ZH_INDEPENDENT,
+            }.get(base, ZH_SCAN)
             candidates = [
                 row
                 for row in toc
@@ -327,6 +416,7 @@ def main():
                 else [(1, "2025年普通高等学校招生全国统一考试（新I卷数学）", 1)]
                 + labels
             )
+            reviewed_started = time.perf_counter()
             app.add_bookmarks(
                 source,
                 app.build_tree_from_entries(
@@ -337,9 +427,11 @@ def main():
                 ),
                 reviewed,
                 "full",
+                overwrite=True,
             )
             with fitz.open(reviewed) as doc:
                 assert doc.get_toc() == [list(row) for row in reviewed_labels]
+            reviewed_seconds = time.perf_counter() - reviewed_started
         row = dict(
             name=name,
             url=url,
@@ -351,25 +443,60 @@ def main():
             ocr_pages=len(scanned),
             bookmarks=len(toc),
             recognition_seconds=round(seconds, 2),
-            save_and_verify_seconds=round(time.perf_counter() - started, 2),
+            extraction_cache_hit=cache_hit,
+            evaluation_role="development_regression",
+            save_and_verify_seconds=round(automatic_seconds, 2),
+            reviewed_save_and_verify_seconds=round(reviewed_seconds, 2),
             automatic_content_preserved=bool(toc),
             reviewed_toc_verified=base.startswith("zh"),
             derived_low_quality=name == "zh-low",
             scope=scope,
             metrics=metrics,
             toc=toc,
+            reference_toc=reference
+            if name == "text"
+            else labels
+            if name.startswith("zh")
+            else [],
+            review_signals=dict(
+                unreadable_toc_rows=sum(
+                    int(line.split("\t")[1])
+                    for _, text in pages
+                    for line in text.splitlines()
+                    if line.startswith("[TOC_REVIEW]\t")
+                ),
+                low_confidence_toc_rows=sum(
+                    int(line.split("\t")[2])
+                    for _, text in pages
+                    for line in text.splitlines()
+                    if line.startswith("[TOC_REVIEW]\t")
+                ),
+            ),
+            recognition_method="printed_toc"
+            if any(h.get("source") == "printed_toc" for h in headings)
+            else "body_headings",
         )
         rows.append(row)
         print(
             json.dumps({k: v for k, v in row.items() if k != "toc"}, ensure_ascii=True),
             flush=True,
         )
+    assert implementation == {
+        p.name: digest(p) for p in sorted((ROOT / "scripts").glob("*.py"))
+    }, "Implementation changed during benchmark; rerun without editing sources"
     results = dict(
         version=app.VERSION,
+        environment=environment,
+        timing_note="Recognition time measures the original extraction; cached reruns do not remeasure it. Save/verify is measured on each run.",
         python=sys.version,
         pymupdf=fitz.VersionBind,
         tesseract=str(__import__("pytesseract").get_tesseract_version()),
-        implementation_sha256=digest(ROOT / "scripts/add_bookmarks.py"),
+        implementation_sha256=implementation,
+        benchmark_sha256=benchmark_hash,
+        annotation_notes=[
+            "Beijing section 2.3 corrected to 等式与方程 after checking printed TOC and body page 86; prior label 算式与等式 was incorrect.",
+            "Independent Jijiao scan has generic page bookmarks; labels are manually transcribed, not extracted from those bookmarks.",
+        ],
         results=rows,
     )
     (directory / "results.json").write_text(

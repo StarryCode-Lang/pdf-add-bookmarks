@@ -49,8 +49,9 @@ def _ensure_scanned_fixture():
                     fontsize=12,
                 )
                 pix = page.get_pixmap(dpi=160)
-                target = output.new_page(width=595, height=842)
-                target.insert_image(target.rect, stream=pix.tobytes("png"))
+                image = pix.tobytes("png")
+            target = output.new_page(width=595, height=842)
+            target.insert_image(target.rect, stream=image)
         output.save(path)
 
 

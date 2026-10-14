@@ -18,7 +18,7 @@ OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
 
 def run_script(args, expect_success=True):
-    cmd = [sys.executable, str(SCRIPT)] + args
+    cmd = [sys.executable, str(SCRIPT), "--overwrite"] + args
     start = time.time()
     result = subprocess.run(cmd, capture_output=True, text=True, timeout=300)
     elapsed = time.time() - start
