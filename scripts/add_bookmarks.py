@@ -516,7 +516,7 @@ def main():
             return 0
         result = {"ok": False, "error": str(error) if not isinstance(error, SystemExit) else "Invalid command-line arguments"}
     if json_mode:
-        print(json.dumps(result, ensure_ascii=False))
+        print(json.dumps(result, ensure_ascii=True))
     elif not result["ok"]:
         print(f"Error: {result['error']}")
     return 0 if result["ok"] else 1

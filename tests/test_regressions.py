@@ -336,3 +336,15 @@ def test_repeated_prominent_summaries_are_not_running_headers():
     visual = {i: [f'Chapter {i} Unique', 'Summary'] for i in range(1, 6)}
     headings = app.headings_from_pages(pages, set(), visual=visual)
     assert len([h for h in headings if h['title'] == 'Summary']) == 5
+
+
+def test_json_is_valid_under_non_utf8_stdout(tmp_path):
+    import os, json
+    source = Path(__file__).parent / 'fixtures' / 'single_page.pdf'
+    env = dict(os.environ, PYTHONIOENCODING='ascii')
+    result = subprocess.run([sys.executable, str(SCRIPT), str(source), '--json', '--analyze'],
+                            capture_output=True, env=env, timeout=120)
+    assert result.returncode == 0, result.stderr
+    data = json.loads(result.stdout)
+    assert data['headings'][0]['title'] == '第1章 引言'
+    assert result.stdout.isascii()
