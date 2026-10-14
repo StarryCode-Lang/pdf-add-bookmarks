@@ -145,7 +145,7 @@ Think Java（372 页）、教科版物理八上（133 页）现为回归样本�
 
 需要完全复现安装器时，可在固定仓库版本运行 `npm ci --prefix .github/skills --ignore-scripts`，再用 `node .github/skills/node_modules/skills/dist/cli.mjs add <固定发行ZIP的URL>` 安装；普通 npx 固定入口版本，传递依赖仍按上游声明解析。
 
-Python 依赖固定到评测使用的版本；Actions 固定到提交 SHA，OCR 语言模型固定到提交，CI 安装器用 npm lock 固定版本、传递依赖与完整性哈希。这些固定项应在更新时一起复测；系统 Tesseract 仍由平台包管理器安装，版本记录在评测中。
+Python 依赖固定到评测使用的版本；Actions 固定到提交 SHA，OCR 语言模型固定到提交，CI 安装器用 npm lock 固定版本、传递依赖与完整性哈希。这些固定项应在更新时一起复测；Windows CI 直接安装官方发布的固定 Tesseract 5.5.0 安装包并校验 SHA-256，避免最新 Chocolatey 包下载故障；其他平台由系统包管理器安装。评测环境版本单独记录。
 
 <!-- release-notes -->
 ### v0.3.3
