@@ -97,7 +97,7 @@ def test_missing_language_fails_without_output(tmp_path):
 def test_out_of_range_toc_fails(tmp_path):
     source = Path(__file__).parent / "fixtures" / "single_page.pdf"
     toc = tmp_path / "toc.txt"
-    toc.write_text("Title 99", encoding="utf-8")
+    toc.write_text("Title\t99", encoding="utf-8")
     result = run(source, "--toc", toc, "-o", tmp_path / "out.pdf")
     assert result.returncode == 1
     assert "out of range" in result.stdout
@@ -139,7 +139,7 @@ def test_generate_toc_adds_smaller_bold_titles_and_exports(tmp_path):
     assert ordinary.returncode == 1
     result = run(source, "--generate-toc", "-o", tmp_path / "generated.pdf")
     assert result.returncode == 0, result.stdout
-    assert (tmp_path / "sample_suggested_toc.txt").read_text() == "Sample Heading 1\n"
+    assert (tmp_path / "sample_suggested_toc.txt").read_text() == "Sample Heading\t1\n"
     with fitz.open(tmp_path / "generated.pdf") as doc:
         assert doc.get_toc() == [[1, "Sample Heading", 1]]
 
@@ -157,3 +157,182 @@ def test_ocr_worker_limits_native_threads(tmp_path, monkeypatch):
         return {"text": []}
     monkeypatch.setattr(pytesseract, "image_to_data", fake_ocr)
     assert app._read_image_page((str(source), 0, "eng", None, False)) == (1, "", [])
+
+
+def test_json_contract_success_analysis_failure_and_parser(tmp_path):
+    import json
+    source = Path(__file__).parent / 'fixtures' / 'single_page.pdf'
+    for options, ok in [(('--json', '-o', tmp_path / 'out.pdf'), True),
+                        (('--json', '--analyze'), True),
+                        (('--json', '--workers', '0'), False),
+                        (('--json', '--dpi', '0'), False),
+                        (('--json', '--unknown-option'), False)]:
+        result = run(source, *options)
+        data = json.loads(result.stdout)
+        assert data['ok'] is ok
+        assert result.returncode == (0 if ok else 1)
+        if '--analyze' in options:
+            assert data['mode'] == 'analyze' and data['candidates'] == 1
+            assert Path(data['toc']).is_file()
+
+
+def test_missing_ocr_is_fatal_or_explicitly_partial(tmp_path, monkeypatch, capsys):
+    source = tmp_path / 'mixed.pdf'
+    with fitz.open() as doc:
+        page = doc.new_page()
+        page.insert_text((60, 80), 'Chapter 1 Text', fontsize=24)
+        with fitz.open(Path(__file__).parent / 'fixtures' / 'scanned.pdf') as scan:
+            doc.insert_pdf(scan, from_page=0, to_page=0)
+        doc.save(source)
+    monkeypatch.setattr(app, 'ensure_tesseract', lambda: False)
+    with pytest.raises(ValueError, match='Tesseract'):
+        app.read_pages(source)
+    warnings = []
+    pages, scanned, visual = app.read_pages(source, allow_partial=True, warnings=warnings)
+    assert len(pages) == 2 and not scanned
+    assert len(warnings) == 1 and 'skipped 1' in warnings[0]
+    assert 'Warning:' in capsys.readouterr().out
+
+
+@pytest.mark.parametrize('line', ['ISO 9001', 'No page', 'Title -1', 'Title\t0', '\t12'])
+def test_ambiguous_or_invalid_toc_rejected(tmp_path, line):
+    toc = tmp_path / 'toc.txt'
+    toc.write_text(line, encoding='utf-8')
+    with pytest.raises(ValueError, match='TOC line 1'):
+        app.parse_toc_file(toc)
+
+
+def test_toc_delimiters_and_unlimited_depth(tmp_path):
+    toc = tmp_path / 'toc.txt'
+    toc.write_text('ISO 9001\t1\n  Child  2\n    Grandchild...3\n      Fourth\t4\n        Fifth\t5\n', encoding='utf-8')
+    entries = app.parse_toc_file(toc)
+    assert [h['level'] for h in entries] == [0, 1, 2, 3, 4]
+    assert entries[0]['title'] == 'ISO 9001'
+
+
+def test_repeated_child_titles_keep_their_chapter():
+    headings = [{'title': 'Chapter 1 First', 'type': 'chapter', 'page': 1},
+                {'title': 'Summary', 'type': 'section', 'page': 2},
+                {'title': 'Chapter 2 Second', 'type': 'chapter', 'page': 3},
+                {'title': 'Summary', 'type': 'section', 'page': 4}]
+    tree = app.build_tree_from_headings(app.filter_headings(headings))
+    assert tree == [(1, 'Chapter 1 First', -1), (2, 'Summary', 0),
+                    (3, 'Chapter 2 Second', -1), (4, 'Summary', 2)]
+
+
+def test_split_heading_rows_and_body_references(tmp_path):
+    source = tmp_path / 'layout.pdf'
+    with fitz.open() as doc:
+        page = doc.new_page()
+        page.insert_text((60, 80), 'Chapter 1', fontsize=20)
+        page.insert_text((60, 120), 'A wrapped heading', fontsize=24)
+        page.insert_text((60, 149), 'continues here', fontsize=24)
+        page.insert_text((60, 200), '1.1', fontsize=16)
+        page.insert_text((110, 200), 'A section title', fontsize=16)
+        for i in range(10):
+            page.insert_text((60, 240 + i * 20), 'Chapter 2 is mentioned in normal body text.', fontsize=12)
+        doc.save(source)
+    pages, scan, visual = app.read_pages(source)
+    headings = app.headings_from_pages(pages, scan, visual=visual)
+    assert [(h['type'], h['title']) for h in headings] == [
+        ('chapter', 'Chapter 1 A wrapped heading continues here'), ('section', '1.1 A section title')]
+
+
+def test_preserves_links_annotations_attachment_and_metadata(tmp_path):
+    source, output = tmp_path / 'source.pdf', tmp_path / 'out.pdf'
+    with fitz.open() as doc:
+        page = doc.new_page()
+        page.insert_text((60, 80), 'Chapter 1 Example', fontsize=24)
+        page.insert_link({'kind': fitz.LINK_URI, 'from': fitz.Rect(60, 70, 160, 90), 'uri': 'https://example.com'})
+        page.add_text_annot((100, 150), 'Keep this annotation')
+        doc.embfile_add('note.txt', b'Keep this attachment')
+        doc.set_metadata({'title': 'Preserved title'})
+        doc.set_page_labels([{'startpage': 0, 'prefix': 'P', 'style': 'D'}])
+        doc.save(source)
+    app.add_bookmarks(source, [(1, 'Example', -1)], output, 'full')
+    assert app.verify_content(source, output, render=True)
+    with fitz.open(output) as doc:
+        assert doc.embfile_get('note.txt') == b'Keep this attachment'
+        assert doc[0].get_links()[0]['uri'] == 'https://example.com'
+        assert next(doc[0].annots()).info['content'] == 'Keep this annotation'
+
+
+def test_atomic_output_when_ocr_worker_fails(tmp_path, monkeypatch):
+    source = Path(__file__).parent / 'fixtures' / 'scanned.pdf'
+    class BrokenPool:
+        def __init__(self, **kwargs): pass
+        def __enter__(self): return self
+        def __exit__(self, *args): pass
+        def map(self, *args): raise RuntimeError('OCR timeout')
+    monkeypatch.setattr(app, 'ProcessPoolExecutor', BrokenPool)
+    monkeypatch.setattr(app, 'ensure_tesseract', lambda: True)
+    import pytesseract
+    monkeypatch.setattr(pytesseract, 'get_languages', lambda: ['eng'])
+    with pytest.raises(RuntimeError, match='OCR timeout'):
+        app.read_pages(source, lang='eng')
+    assert not list(tmp_path.iterdir())
+
+
+def test_chapter_mentions_and_partial_words_are_not_headings():
+    assert app.match_heading('part of the journey the speed was') is None
+    assert app.match_heading('part from a larger to find the difference') is None
+    assert app.match_heading('CHAPTER XXIII. ARC LENGTH')
+    assert app.match_heading('Appendix A Debugging')
+    pages = [(1, 'Chapter XV. we found that there was such a func-')]
+    assert app.headings_from_pages(pages, {1}, visual={1: []}) == []
+
+
+def test_repeated_root_titles_on_distinct_pages_remain():
+    headings = [{'title': 'Summary', 'type': 'chapter', 'page': p} for p in [2, 4]]
+    assert len(app.filter_headings(headings)) == 2
+
+
+def test_json_partial_flag(tmp_path, monkeypatch, capsys):
+    import json
+    source = Path(__file__).parent / 'fixtures' / 'single_page.pdf'
+    monkeypatch.setattr(app, 'read_pages', lambda *a: (
+        [(1, 'Chapter 1 Text')], set(), {1: ['Chapter 1 Text']}))
+    def partial(*args):
+        args[-1].append('Missing OCR languages; skipped 1 scanned page')
+        return [(1, 'Chapter 1 Text')], set(), {1: ['Chapter 1 Text']}
+    monkeypatch.setattr(app, 'read_pages', partial)
+    monkeypatch.setattr(sys, 'argv', [str(SCRIPT), str(source), '--json', '--allow-partial', '-o', str(tmp_path / 'out.pdf')])
+    assert app.main() == 0
+    result = json.loads(capsys.readouterr().out)
+    assert result['partial'] is True and len(result['warnings']) == 1
+
+
+def test_changed_content_is_detected(tmp_path):
+    source = Path(__file__).parent / 'fixtures' / 'single_page.pdf'
+    modified = tmp_path / 'changed.pdf'
+    with fitz.open(source) as doc:
+        doc[0].insert_text((60, 400), 'Unexpected new page content')
+        doc.save(modified)
+    assert not app.verify_content(source, modified)
+
+
+def test_orphan_subsection_export_matches_pdf_depth(tmp_path):
+    source = tmp_path / 'appendix.pdf'
+    with fitz.open() as doc:
+        page = doc.new_page()
+        page.insert_text((60, 80), 'Appendix A Debugging', fontsize=24)
+        page.insert_text((60, 150), 'A.1 Syntax errors', fontsize=18)
+        page.insert_text((60, 220), 'Enough body text to establish the normal font size.', fontsize=12)
+        doc.save(source)
+    result = run(source, '--analyze')
+    assert result.returncode == 0
+    assert (tmp_path / 'appendix_suggested_toc.txt').read_text().splitlines() == [
+        'Appendix A Debugging\t1', '  A.1 Syntax errors\t1']
+
+
+def test_numbered_running_header_with_ocr_punctuation():
+    pages = [(i, f'“{i} CALCULUS MADE EASY\nCHAPTER {i} UNIQUE TITLE\nNormal body') for i in range(1, 6)]
+    headings = app.headings_from_pages(pages, set(range(1, 6)), visual={})
+    assert [h['title'] for h in headings] == [f'CHAPTER {i} UNIQUE TITLE' for i in range(1, 6)]
+
+
+def test_repeated_prominent_summaries_are_not_running_headers():
+    pages = [(i, f'Chapter {i} Unique\nSummary\nBody') for i in range(1, 6)]
+    visual = {i: [f'Chapter {i} Unique', 'Summary'] for i in range(1, 6)}
+    headings = app.headings_from_pages(pages, set(), visual=visual)
+    assert len([h for h in headings if h['title'] == 'Summary']) == 5

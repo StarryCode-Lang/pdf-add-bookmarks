@@ -55,6 +55,9 @@ def pytest_collection_modifyitems(items):
     import pytesseract
     ready = ensure_tesseract() and {"eng", "chi_sim"} <= set(pytesseract.get_languages())
     if not ready:
+        import os
+        if os.environ.get("REQUIRE_OCR") == "1":
+            raise pytest.UsageError("REQUIRE_OCR=1 but Tesseract eng/chi_sim is unavailable")
         for item in items:
             if "requires_tesseract" in item.keywords:
                 item.add_marker(pytest.mark.skip(reason="Tesseract eng/chi_sim not installed"))

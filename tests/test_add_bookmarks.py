@@ -218,7 +218,9 @@ class TestImageOnlyPDF:
         rc, stdout, stderr, elapsed = run_script([
             str(FIXTURES_DIR / 'images_only.pdf'), '-o', str(output),
         ], expect_success=False)
-        assert rc in (0, 1)
+        assert rc == 1
+        assert not output.exists()
+        assert any(message in stdout for message in ('No headings detected', 'Tesseract', 'Missing OCR languages'))
         assert 'Traceback' not in stderr
 
 class TestForceOCR:
@@ -346,7 +348,9 @@ class TestV3AnalyzeMode:
             '--analyze',
         ], expect_success=True)
         assert rc == 0
-        suggested = FIXTURES_DIR / '..' / '..' / 'chinese_text_suggested_toc.txt'
+        suggested = FIXTURES_DIR / 'chinese_text_suggested_toc.txt'
+        assert suggested.is_file()
+        assert len(suggested.read_text(encoding='utf-8').splitlines()) == 7
         # Check output mentions candidates
         assert 'Suggested TOC' in stdout
 

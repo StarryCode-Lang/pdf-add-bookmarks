@@ -34,23 +34,8 @@ jobs:
               urllib.request.urlretrieve(f'https://raw.githubusercontent.com/tesseract-ocr/tessdata_fast/main/{language}.traineddata', target / f'{language}.traineddata')
           with open(os.environ['GITHUB_ENV'], 'a') as output:
               output.write(f'TESSDATA_PREFIX={target}\n')
-      - name: Verify OCR is available (non-blocking)
-        continue-on-error: true
-        run: |
-          python -c "
-          import sys, shutil
-          sys.path.insert(0, 'scripts')
-          from add_bookmarks import ensure_tesseract, find_tesseract
-          import pytesseract
-          print('tesseract which:', shutil.which('tesseract'))
-          print('find_tesseract:', find_tesseract())
-          ok = ensure_tesseract()
-          print('ensure_tesseract:', ok)
-          if ok:
-              langs = set(pytesseract.get_languages())
-              print('languages:', sorted(langs))
-              print('required present:', {'eng', 'chi_sim'} <= langs)
-          else:
-              print('OCR not ready; OCR-marked tests will be skipped')
-          "
+      - name: Require working OCR
+        run: python -c "import sys; sys.path.insert(0, 'scripts'); from add_bookmarks import ensure_tesseract; import pytesseract; assert ensure_tesseract(); assert {'eng', 'chi_sim'} <= set(pytesseract.get_languages())"
       - run: python -m pytest -q
+        env:
+          REQUIRE_OCR: '1'

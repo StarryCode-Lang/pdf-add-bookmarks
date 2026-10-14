@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
-import sys, os, re, argparse, shutil
+import sys, os, re, argparse, shutil, json
+from contextlib import redirect_stdout
 from pathlib import Path
 from concurrent.futures import ProcessPoolExecutor
 
@@ -27,7 +28,11 @@ def ensure_tesseract():
         path = find_tesseract()
         if path:
             pytesseract.pytesseract.tesseract_cmd = path
-            return True
+            try:
+                pytesseract.get_languages()
+                return True
+            except Exception:
+                pass
     return False
 
 def clean_ocr_line(line, ocr_mode=False):
@@ -71,11 +76,11 @@ def _match_heading(line, ocr_mode=False):
         return {"type": "chapter", "title": line}
     m = re.match(r'^第(\d+)章\s*(.+)', line)
     if m: return {"type": "chapter", "title": line}
-    if re.match(r'^(Chapter|Part|Appendix)\s+(\d+|[IVX]+)\b', line, re.IGNORECASE):
+    if re.match(r'^(?:Chapter|Part)\s+(?:\d+|[IVXLCDM]+)\b|^Appendix\s+(?:\d+|[A-Z])\b', line, re.IGNORECASE):
         return {"type": "chapter", "title": line}
     m = re.match(r'^(\d+\.\d+\.\d+)\s+(.+)', line)
     if m: return {"type": "subsection", "title": line}
-    m = re.match(r'^(\d+\.\d+)\s+([A-Z\u4e00-\u9fff][\w\s\-]{1,60})$', line)
+    m = re.match(r'^(\d+\.\d+)\s+([A-Za-z\u4e00-\u9fff].{1,80})$', line)
     if m: return {"type": "section", "title": line}
     m = re.match(r'^(\d+)\.\s+([A-Z][A-Za-z].{0,60})$', line)
     if m and 1 <= int(m.group(1)) <= 20: return {"type": "chapter", "title": line}
@@ -135,9 +140,10 @@ def filter_headings(headings, total_pages=None):
     if total_pages is None:
         total_pages = max(h["page"] for h in headings) if headings else 0
     filtered = []
-    seen_titles = {}  # title -> index in filtered
+    seen_titles = set()
+    chapter, section = None, None
 
-    for h in headings:
+    for h in sorted(headings, key=lambda h: h["page"]):
         title = h["title"]
         htype = h["type"]
         page = h["page"]
@@ -158,15 +164,17 @@ def filter_headings(headings, total_pages=None):
         if htype == "chapter" and len(title) > 100:
             continue
 
-        # Keep the first occurrence; repeated running headers must not move destinations.
-        if title in seen_titles:
-            idx = seen_titles[title]
-            if page < filtered[idx]["page"]:
-                filtered[idx] = h
+        # Deduplicate within the parent, preserving legitimate repeated child titles.
+        scope = (page,) if htype == "chapter" else (chapter, section if htype == "subsection" else None)
+        key = (htype, title, scope)
+        if key in seen_titles:
             continue
-
-        seen_titles[title] = len(filtered)
+        seen_titles.add(key)
         filtered.append(h)
+        if htype == "chapter":
+            chapter, section = (title, page), None
+        elif htype == "section":
+            section = (title, page)
 
     return filtered
 
@@ -176,19 +184,17 @@ def parse_toc_file(toc_path, offset=0):
         lines = f.readlines()
     entries = []
     indent_stack = []
-    for line in lines:
+    for number, line in enumerate(lines, 1):
         line = line.rstrip("\n\r")
         if not line.strip(): continue
         stripped = line.lstrip()
         indent = len(line) - len(stripped)
-        m = re.search(r"(\d+)\s*$", stripped)
-        if m:
-            page = int(m.group(1)) + offset
-            title = stripped[:m.start()].strip()
-        else:
-            page = 1
-            title = stripped
-        if not title: continue
+        m = re.fullmatch(r"(.+?)(?:\t+| {2,}|\.{2,}\s*)([0-9]+)\s*", stripped)
+        if not m or not m.group(1).strip():
+            raise ValueError(f"TOC line {number}: expected title, TAB/two spaces/dots, and PDF page")
+        title, page = m.group(1).strip(), int(m.group(2)) + offset
+        if page < 1:
+            raise ValueError(f"TOC line {number}: page out of range: {page}")
         if indent == 0 or not indent_stack:
             level = 0
             indent_stack = [(0, 0)]
@@ -200,7 +206,6 @@ def parse_toc_file(toc_path, offset=0):
             else:
                 level = 0
             indent_stack.append((indent, level))
-        level = min(level, 3)
         entries.append({"title": title, "page": page, "level": level})
     return entries
 
@@ -237,7 +242,9 @@ def build_tree_from_headings(headings):
             tree.append((h["page"], h["title"], parent))
     return tree
 
-def add_bookmarks(pdf_path, tree, output_path):
+def add_bookmarks(pdf_path, tree, output_path, verification="structural"):
+    if Path(pdf_path).resolve() == Path(output_path).resolve():
+        raise ValueError("Output must differ from input PDF")
     import fitz
     doc = fitz.open(pdf_path)
     toc = []
@@ -249,7 +256,10 @@ def add_bookmarks(pdf_path, tree, output_path):
         if parent_idx == -1:
             level = 1
         else:
-            parent_level = node_levels.get(parent_idx, 1)
+            if parent_idx not in node_levels:
+                doc.close()
+                raise ValueError("Bookmark parent must precede its child")
+            parent_level = node_levels[parent_idx]
             level = parent_level + 1
         node_levels[idx] = level
         toc.append([level, title, page_num])
@@ -259,9 +269,11 @@ def add_bookmarks(pdf_path, tree, output_path):
     handle, temporary = tempfile.mkstemp(suffix=".pdf", dir=Path(output_path).parent)
     os.close(handle)
     try:
-        doc.save(temporary, garbage=4, deflate=True)
+        doc.save(temporary, deflate=True)
         doc.close()
-        if not verify_content(pdf_path, temporary):
+        valid = (verify_content(pdf_path, temporary) if verification == "structural"
+                 else verify_content(pdf_path, temporary, render=True))
+        if not valid:
             raise ValueError("Content verification failed")
         os.replace(temporary, output_path)
     finally:
@@ -271,20 +283,34 @@ def add_bookmarks(pdf_path, tree, output_path):
             os.unlink(temporary)
     return len(toc)
 
-def verify_content(original_path, new_path):
+def verify_content(original_path, new_path, render=False):
+    """Check preserved streams and navigation; full mode also compares all page pixels."""
     import fitz
-    orig = fitz.open(original_path)
-    new = fitz.open(new_path)
-    if orig.page_count != new.page_count:
-        orig.close(); new.close()
-        return False
-    for i in range(orig.page_count):
-        if (orig[i].get_text() != new[i].get_text() or
-                orig[i].get_pixmap().samples != new[i].get_pixmap().samples):
-            orig.close(); new.close()
+    with fitz.open(original_path) as orig, fitz.open(new_path) as new:
+        if (orig.page_count != new.page_count or orig.metadata != new.metadata or
+                orig.get_page_labels() != new.get_page_labels() or
+                orig.embfile_names() != new.embfile_names()):
             return False
-    orig.close(); new.close()
-    return True
+        # Save without renumbering: decoded content/image/font/attachment streams stay equal.
+        for xref in range(1, orig.xref_length()):
+            if orig.xref_is_stream(xref) and orig.xref_stream(xref) != new.xref_stream(xref):
+                return False
+        for name in orig.embfile_names():
+            if orig.embfile_get(name) != new.embfile_get(name):
+                return False
+        for a, b in zip(orig, new):
+            if (a.mediabox != b.mediabox or a.cropbox != b.cropbox or
+                    a.rotation != b.rotation or a.get_text() != b.get_text() or
+                    a.get_links() != b.get_links()):
+                return False
+            ax = [annot.xref for annot in a.annots() or []]
+            bx = [annot.xref for annot in b.annots() or []]
+            if ax != bx or any(orig.xref_object(x) != new.xref_object(x) for x in ax):
+                return False
+            if render and a.get_pixmap().samples != b.get_pixmap().samples:
+                return False
+        return True
+
 
 def _read_image_page(task):
     import fitz, pytesseract
@@ -307,7 +333,7 @@ def _read_image_page(task):
     lines = defaultdict(list)
     heights = []
     for i, word in enumerate(data["text"]):
-        if word.strip() and float(data["conf"][i]) >= 40:
+        if word.strip() and (float(data["conf"][i]) >= 40 or re.fullmatch(r"[IVXLCDM]+\.?", word)):
             key = (data["block_num"][i], data["par_num"][i], data["line_num"][i])
             lines[key].append(i)
             heights.append(data["height"][i])
@@ -320,56 +346,102 @@ def _read_image_page(task):
                 and 3 <= len(line) <= 100 and (len(indices) >= 2 or len(line) >= 5)
                 and not re.search(r"[。！？!?]|[.!]$" , line)):
             titles.append(line)
-    return index + 1, "\n".join(text_lines), titles
+    # Old books often put the chapter number and small-cap title on separate lines.
+    merged = []
+    for line in text_lines:
+        letters = "".join(c for c in line if c.isalpha())
+        chapter_open = merged and re.match(r"^(Chapter|Part|Appendix)\s+[A-Z0-9]+\.?", merged[-1], re.I)
+        if (chapter_open and letters and letters.isupper() and len(letters) >= 4
+                and len(merged[-1]) + len(line) < 120 and not re.search(r"[=+_{}]", line)):
+            merged[-1] += " " + line.rstrip(".")
+        else:
+            merged.append(line)
+    return index + 1, "\n".join(merged), titles
 
 
-def read_pages(pdf_path, lang="chi_sim+eng", force_ocr=False, workers=None, extended=False, dpi=200):
-    read_pages._dpi = dpi
+def read_pages(pdf_path, lang="chi_sim+eng", force_ocr=False, workers=None, extended=False, dpi=200,
+               allow_partial=False, warnings=None):
     import fitz
     with fitz.open(pdf_path) as doc:
         if doc.is_encrypted:
             raise ValueError("Encrypted PDF requires an unlocked copy")
         if not doc.page_count:
             raise ValueError("PDF has no pages")
-        pages = [(i + 1, page.get_text() or "") for i, page in enumerate(doc)]
-        visual = {}
+        pages, visual = [], {}
         from statistics import median
         for i, page in enumerate(doc):
-            lines = [line for block in page.get_text("dict")["blocks"] if "lines" in block for line in block["lines"]]
-            sizes = [span["size"] for line in lines for span in line["spans"] if span["text"].strip()]
+            raw = [line for block in page.get_text("dict", flags=fitz.TEXTFLAGS_DICT & ~fitz.TEXT_PRESERVE_IMAGES)["blocks"] if "lines" in block for line in block["lines"]]
+            sizes = [span["size"] for line in raw for span in line["spans"] if span["text"].strip()]
             baseline = median(sizes) if sizes else 0
-            for line in lines:
+            # PDF extractors often split a section number and its title on the same row.
+            rows = []
+            for line in sorted(raw, key=lambda l: (round(l["bbox"][1], 1), l["bbox"][0])):
                 title = "".join(span["text"] for span in line["spans"]).strip()
-                size = max((span["size"] for span in line["spans"]), default=0)
-                if 3 <= len(title) <= 100 and (size >= max(14, baseline * 1.2) or (len(lines) == 1 and size >= 14) or (extended and size >= baseline and any(span["flags"] & 16 for span in line["spans"]))) and not re.search(r"[。！？!?]|[.!]$" , title):
+                if not title:
+                    continue
+                size = max(span["size"] for span in line["spans"])
+                bold = all(span["flags"] & 16 for span in line["spans"] if span["text"].strip())
+                y, bottom = line["bbox"][1], line["bbox"][3]
+                if rows and abs(rows[-1][1] - y) < 2:
+                    rows[-1][0] = (title + " " + rows[-1][0] if line["bbox"][0] < rows[-1][5]
+                                     else rows[-1][0] + " " + title)
+                    rows[-1][5] = min(rows[-1][5], line["bbox"][0])
+                    rows[-1][2] = max(rows[-1][2], size)
+                    rows[-1][3] &= bold
+                else:
+                    rows.append([title, y, size, bold, bottom, line["bbox"][0]])
+            # Ignore printed TOC pages rather than linking to their duplicate titles.
+            is_contents = any(re.fullmatch(r"Contents|Table of Contents|目录", r[0], re.I) for r in rows) and sum(". ." in r[0] or "..." in r[0] for r in rows) >= 3
+            merged = []
+            for row in rows:
+                if merged:
+                    previous = merged[-1]
+                    stub = re.fullmatch(r"(?:Chapter|Part|Appendix)\s+(?:[0-9]+|[A-Z]+)\.?", previous[0], re.I)
+                    wrap = previous[2] > baseline * 1.2 and abs(previous[2] - row[2]) < 1 and row[1] - previous[4] < row[2]
+                    if (stub and row[2] > baseline * 1.2 and row[1] - previous[4] < row[2] * 3) or wrap:
+                        previous[0] += " " + row[0]
+                        previous[2] = max(previous[2], row[2])
+                        previous[4] = row[4]
+                        continue
+                merged.append(row)
+            text = "\n".join(r[0] for r in merged)
+            pages.append((i + 1, text))
+            for title, y, size, bold, bottom, x in merged:
+                if is_contents:
+                    continue
+                prominent = (size >= max(14, baseline * 1.2) or (len(rows) <= 3 and size >= 14)) or (extended and size >= baseline and bold)
+                if (prominent and 3 <= len(title) <= 100 and not re.fullmatch(r"[\d.]+", title)
+                        and not re.search(r"[。！!]|[.!]$", title)):
                     visual.setdefault(i + 1, []).append(title)
         # OCR pages containing images but little useful text (including mixed PDFs).
         scanned = [i for i, page in enumerate(doc)
                    if force_ocr or (len(re.sub(r"\s", "", pages[i][1])) < 40 and page.get_images())]
     if scanned:
         import pytesseract
+        reason = None
         if not ensure_tesseract():
-            print("Warning: Tesseract not found. Skipping OCR; only text layers will be used. Install Tesseract for scanned pages. See SKILL.md")
+            reason = "Tesseract not found or unusable; install it for scanned pages"
+        else:
+            missing = set(lang.split("+")) - set(pytesseract.get_languages())
+            if missing:
+                reason = "Missing OCR languages: " + ", ".join(sorted(missing))
+        if reason:
+            if not allow_partial:
+                raise ValueError(reason)
+            message = f"{reason}; skipped {len(scanned)} scanned pages"
+            if warnings is not None:
+                warnings.append(message)
+            print("Warning: " + message)
             scanned = []
         else:
-            available = set(pytesseract.get_languages())
-            missing = set(lang.split("+")) - available
-            if missing:
-                print("Warning: Missing OCR languages: " + ", ".join(sorted(missing)) + ". Skipping OCR for those pages.")
-                scanned = []
-            else:
-                print(f"OCR required for {len(scanned)}/{len(pages)} pages.")
-                cmd = find_tesseract()
-                dpi = getattr(read_pages, "_dpi", 200)
-                tasks = [(pdf_path, i, lang, cmd, extended, dpi) for i in scanned]
-                done = 0
-                with ProcessPoolExecutor(max_workers=workers or min(4, os.cpu_count() or 1, len(tasks))) as pool:
-                    for number, text, titles in pool.map(_read_image_page, tasks):
-                        pages[number - 1] = (number, text)
-                        visual[number] = titles
-                        done += 1
-                        if done % max(1, len(tasks)//5) == 0 or done == len(tasks):
-                            print(f"OCR progress: {done}/{len(tasks)}")
+            print(f"OCR required for {len(scanned)}/{len(pages)} pages.")
+            tasks = [(pdf_path, i, lang, find_tesseract(), extended, dpi) for i in scanned]
+            with ProcessPoolExecutor(max_workers=workers or min(4, os.cpu_count() or 1, len(tasks))) as pool:
+                for done, (number, text, titles) in enumerate(pool.map(_read_image_page, tasks), 1):
+                    pages[number - 1] = (number, text)
+                    visual[number] = titles
+                    if done % max(1, len(tasks)//5) == 0 or done == len(tasks):
+                        print(f"OCR progress: {done}/{len(tasks)}")
     else:
         print("Text-based PDF detected. Extracting headings...")
     return pages, set(i + 1 for i in scanned), visual
@@ -378,21 +450,38 @@ def read_pages(pdf_path, lang="chi_sim+eng", force_ocr=False, workers=None, exte
 def headings_from_pages(pages, scanned, pdf_type="auto", visual=None):
     from collections import Counter
     # Repeated marginal lines are page headers/footers, not chapter starts.
+    def marginal_key(line):
+        return re.sub(r"\s+\d+$", "", re.sub(r"^\d+\s+", "", clean_ocr_line(line)))
     margins = Counter()
     for _, text in pages:
         lines = [line.strip() for line in text.splitlines() if line.strip()]
-        margins.update(set(lines[:2] + lines[-2:]))
+        margins.update({marginal_key(line) for line in lines[:2] + lines[-2:]})
     headings = []
     for number, text in pages:
         lines = [line.strip() for line in text.splitlines() if line.strip()]
         for line in lines:
-            if len(pages) >= 3 and margins[line] >= max(3, len(pages) * 0.6):
+            if (len(pages) >= 3 and margins[marginal_key(line)] >= max(3, len(pages) * 0.05)
+                    and line not in (visual or {}).get(number, [])):
                 continue
-            if re.search(r"[。！？!?]|\.{3,}.*\d+$" , line) or len(line) > 100:
+            if re.search(r"[。！!]|\.{3,}.*\d+$" , line) or len(line) > 100:
+                continue
+            if visual is not None and number not in scanned and line not in visual.get(number, []):
                 continue
             entry = match_heading(line, number in scanned, pdf_type)
+            if (entry and entry["type"] == "chapter" and number in scanned
+                    and re.match(r"^\d+[.)]?\s+", clean_ocr_line(line))
+                    and line not in (visual or {}).get(number, [])):
+                continue
+            if (entry and number in scanned and re.match(r"^(Chapter|Part|Appendix)\b", line, re.I)
+                    and line not in (visual or {}).get(number, [])
+                    and sum(c.isupper() for c in line) < sum(c.isalpha() for c in line) * 0.8):
+                continue
             if (not entry and pdf_type != "exam" and line in (visual or {}).get(number, [])
-                    and not match_heading(line, number in scanned, "auto")):
+                    and not match_heading(line, number in scanned, "auto")
+                    and re.match(r"[A-Z\u4e00-\u9fff]", line)
+                    and (number not in scanned or
+                         (len(re.findall(r"[A-Z][a-z]{2,}|[A-Z]{3,}", line)) >= 2
+                          and not re.search(r"[=+_*{}\[\]\d]", line)))):
                 entry = {"type": "chapter", "title": clean_ocr_line(line, number in scanned)}
             if entry:
                 headings.append(dict(entry, page=number))
@@ -414,55 +503,74 @@ def main():
     parser.add_argument("--dpi", type=int, default=200, help="OCR render DPI (lower = faster, default 200)")
     parser.add_argument("--json", action="store_true", help="Emit structured JSON result on stdout")
     parser.add_argument("--type", choices=["auto", "textbook", "exam", "slides", "article"], default="auto")
-    args = parser.parse_args()
+    parser.add_argument("--allow-partial", action="store_true", help="Allow text-only results when OCR is unavailable")
+    parser.add_argument("--verify", choices=["structural", "full"], default="structural",
+                        help="Preservation check; full also renders every page")
+    json_mode = "--json" in sys.argv[1:]
     try:
-        if args.workers is not None and args.workers < 1:
-            raise ValueError("--workers must be positive")
-        source = Path(args.input)
-        if not source.is_file():
-            raise ValueError(f"File not found: {source}")
-        output = Path(args.output) if args.output else source.with_name(source.stem + "_with_bookmarks.pdf")
-        if output.resolve() == source.resolve():
-            raise ValueError("Output must differ from input PDF")
-        if args.toc:
-            if not Path(args.toc).is_file():
-                raise ValueError(f"TOC file not found: {args.toc}")
-            entries = parse_toc_file(args.toc, args.offset)
-            if not entries:
-                raise ValueError("No entries found in TOC file")
-            print(f"Found {len(entries)} TOC entries.")
-            tree = build_tree_from_entries(entries)
-        else:
-            pages, scanned, visual = read_pages(str(source), args.lang, args.force_ocr, args.workers, args.generate_toc, args.dpi)
-            # Auto keeps all supported patterns; explicit types restrict the rules.
-            headings = headings_from_pages(pages, scanned, args.type, visual)
-            print(f"Heading profile: {args.type}")
-            if args.analyze or args.generate_toc:
-                toc_path = source.with_name(source.stem + "_suggested_toc.txt")
-                levels = {"chapter": 0, "section": 1, "subsection": 2}
-                toc_path.write_text("".join("  " * levels[h["type"]] + f"{h['title']} {h['page']}\n" for h in headings), encoding="utf-8")
-                print(f"Suggested TOC written to: {toc_path}")
-                print(f"Total pages: {len(pages)} | Candidates found: {len(headings)}")
-                if args.analyze:
-                    return 0
-            if not headings:
-                raise ValueError("No headings detected. Review with --analyze and provide a --toc file.")
-            print(f"Found {len(headings)} headings.")
-            tree = build_tree_from_headings(headings)
-        count = add_bookmarks(str(source), tree, str(output))
-        if args.json:
-            import json
-            print(json.dumps({"ok": True, "bookmarks": count, "output": str(output), "type": args.type}, ensure_ascii=False))
-        else:
-            print(f"Added {count} bookmarks.\nContent verified: original pages preserved.\nOutput: {output}")
-        return 0
-    except Exception as error:
-        if getattr(args, "json", False):
-            import json
-            print(json.dumps({"ok": False, "error": str(error)}, ensure_ascii=False))
-        else:
-            print(f"Error: {error}")
-        return 1
+        with redirect_stdout(sys.stderr if json_mode else sys.stdout):
+            args = parser.parse_args()
+            result = execute(args)
+    except (Exception, SystemExit) as error:
+        if isinstance(error, SystemExit) and error.code == 0:
+            return 0
+        result = {"ok": False, "error": str(error) if not isinstance(error, SystemExit) else "Invalid command-line arguments"}
+    if json_mode:
+        print(json.dumps(result, ensure_ascii=False))
+    elif not result["ok"]:
+        print(f"Error: {result['error']}")
+    return 0 if result["ok"] else 1
+
+
+def execute(args):
+    if args.workers is not None and args.workers < 1:
+        raise ValueError("--workers must be positive")
+    if not 72 <= args.dpi <= 600:
+        raise ValueError("--dpi must be between 72 and 600")
+    warnings = []
+    result = {"ok": True, "mode": "analyze" if args.analyze else "bookmarks",
+              "type": args.type, "partial": False, "warnings": warnings}
+    source = Path(args.input)
+    if not source.is_file():
+        raise ValueError(f"File not found: {source}")
+    output = Path(args.output) if args.output else source.with_name(source.stem + "_with_bookmarks.pdf")
+    if output.resolve() == source.resolve():
+        raise ValueError("Output must differ from input PDF")
+    if args.toc:
+        if not Path(args.toc).is_file():
+            raise ValueError(f"TOC file not found: {args.toc}")
+        entries = parse_toc_file(args.toc, args.offset)
+        if not entries:
+            raise ValueError("No entries found in TOC file")
+        print(f"Found {len(entries)} TOC entries.")
+        tree = build_tree_from_entries(entries)
+    else:
+        pages, scanned, visual = read_pages(str(source), args.lang, args.force_ocr, args.workers, args.generate_toc, args.dpi, args.allow_partial, warnings)
+        result.update(pages=len(pages), ocr_pages=len(scanned), partial=bool(warnings))
+        # Auto keeps all supported patterns; explicit types restrict the rules.
+        headings = headings_from_pages(pages, scanned, args.type, visual)
+        print(f"Heading profile: {args.type}")
+        if args.analyze or args.generate_toc:
+            toc_path = source.with_name(source.stem + "_suggested_toc.txt")
+            levels, rows = {}, []
+            for index, (page, title, parent) in enumerate(build_tree_from_headings(headings)):
+                levels[index] = levels[parent] + 1 if parent >= 0 else 0
+                rows.append("  " * levels[index] + f"{title}\t{page}\n")
+            toc_path.write_text("".join(rows), encoding="utf-8")
+            print(f"Suggested TOC written to: {toc_path}")
+            print(f"Total pages: {len(pages)} | Candidates found: {len(headings)}")
+            result.update(toc=str(toc_path), candidates=len(headings), headings=headings)
+            if args.analyze:
+                return result
+        if not headings:
+            raise ValueError("No headings detected. Review with --analyze and provide a --toc file.")
+        print(f"Found {len(headings)} headings.")
+        tree = build_tree_from_headings(headings)
+    count = add_bookmarks(str(source), tree, str(output), args.verify)
+    result.update(bookmarks=count, output=str(output), verification=args.verify)
+    if not args.json:
+        print(f"Added {count} bookmarks.\nContent verified ({args.verify}).\nOutput: {output}")
+    return result
 
 if __name__ == "__main__":
     sys.exit(main())

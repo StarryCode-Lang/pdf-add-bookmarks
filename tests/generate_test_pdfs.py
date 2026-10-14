@@ -159,33 +159,33 @@ def main():
 
     # TOC files
     toc_content = "\n".join([
-        "第1章 概述 1",
-        "  1.1 研究背景 2",
-        "    1.1.1 历史回顾 3",
-        "  1.2 研究目标 4",
-        "第2章 方法 5",
-        "  2.1 实验设计 6",
-        "    2.1.1 数据采集 7",
+        "第1章 概述\t1",
+        "  1.1 研究背景\t2",
+        "    1.1.1 历史回顾\t3",
+        "  1.2 研究目标\t4",
+        "第2章 方法\t5",
+        "  2.1 实验设计\t6",
+        "    2.1.1 数据采集\t7",
     ])
     (FIXTURES_DIR / "toc.txt").write_text(toc_content, encoding="utf-8")
     print(f"  Created: {FIXTURES_DIR / 'toc.txt'}")
 
     toc_offset = "\n".join([
-        "第1章 概述 3",
-        "  1.1 研究背景 4",
-        "第2章 方法 7",
+        "第1章 概述\t3",
+        "  1.1 研究背景\t4",
+        "第2章 方法\t7",
     ])
     (FIXTURES_DIR / "toc_offset.txt").write_text(toc_offset, encoding="utf-8")
     print(f"  Created: {FIXTURES_DIR / 'toc_offset.txt'}")
 
     # English TOC
     toc_en = "\n".join([
-        "1. Introduction 1",
-        "  1.1 Background 2",
-        "    1.1.1 Historical Context 3",
-        "Chapter 2 Methods 4",
-        "  2.1 Experimental Design 5",
-        "    2.1.1 Data Collection 6",
+        "1. Introduction\t1",
+        "  1.1 Background\t2",
+        "    1.1.1 Historical Context\t3",
+        "Chapter 2 Methods\t4",
+        "  2.1 Experimental Design\t5",
+        "    2.1.1 Data Collection\t6",
     ])
     (FIXTURES_DIR / "toc_en.txt").write_text(toc_en, encoding="utf-8")
     print(f"  Created: {FIXTURES_DIR / 'toc_en.txt'}")
