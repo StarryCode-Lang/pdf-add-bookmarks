@@ -15,7 +15,7 @@ license: MIT
 python -m pip install -r "<skill目录>/requirements.txt"
 ```
 
-扫描页需要 Tesseract 及对应语言包，默认 `chi_sim+eng`。Windows 用 `winget install UB-Mannheim.TesseractOCR` 安装，并将 [chi_sim.traineddata](https://github.com/tesseract-ocr/tessdata/raw/main/chi_sim.traineddata) 放入 Tesseract 的 `tessdata` 目录；macOS 用 `brew install tesseract tesseract-lang`；Debian/Ubuntu 用 `sudo apt install tesseract-ocr tesseract-ocr-chi-sim`。纯英文扫描可指定 `--lang eng`。
+扫描页需要 Tesseract 及对应语言包，默认 `chi_sim+eng`。若未安装 Tesseract，脚本会跳过 OCR 并仅使用文本层（给出警告）。Windows 用 `winget install UB-Mannheim.TesseractOCR` 安装，并将 [chi_sim.traineddata](https://github.com/tesseract-ocr/tessdata/raw/main/chi_sim.traineddata) 放入 Tesseract 的 `tessdata` 目录；macOS 用 `brew install tesseract tesseract-lang`；Debian/Ubuntu 用 `sudo apt install tesseract-ocr tesseract-ocr-chi-sim`。纯英文扫描可指定 `--lang eng`。
 
 ## 执行
 
@@ -23,7 +23,7 @@ python -m pip install -r "<skill目录>/requirements.txt"
 python "<skill目录>/scripts/add_bookmarks.py" "输入.pdf"
 ```
 
-默认输出同目录下 `输入_with_bookmarks.pdf`。可用 `-o "输出.pdf"` 指定路径；`--type textbook|exam|slides|article` 限定标题规则，默认 `auto` 合并规则；`--force-ocr` 强制 OCR，`--workers N` 控制 OCR 并行数。
+默认输出同目录下 `输入_with_bookmarks.pdf`。可用 `-o "输出.pdf"` 指定路径；`--type textbook|exam|slides|article` 限定标题规则，默认 `auto` 合并规则；`--force-ocr` 强制 OCR，`--workers N` 控制 OCR 并行数，`--dpi N` 调整 OCR 渲染分辨率（默认 200，降低可加速），`--json` 输出结构化结果。
 
 识别不确定或用户要求预览时，先生成建议目录：
 
