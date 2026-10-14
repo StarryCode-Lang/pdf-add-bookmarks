@@ -56,7 +56,7 @@ jobs:
           "$GITHUB_WORKSPACE/.github/skills/node_modules/.bin/skills" add "$skill_source" --agent codex claude-code cursor opencode --copy --yes
           python -c "from pathlib import Path; assert Path('.agents/skills/pdf-add-bookmarks/scripts/add_bookmarks.py').is_file(); assert Path('.claude/skills/pdf-add-bookmarks/requirements.txt').is_file(); assert Path('.agents/skills/pdf-add-bookmarks/scripts/ocr.py').is_file(); assert Path('.agents/skills/pdf-add-bookmarks/scripts/headings.py').is_file()"
           "$GITHUB_WORKSPACE/.github/skills/node_modules/.bin/skills" add "$skill_source" --agent codex claude-code cursor opencode --global --copy --yes
-          python -c "import os; from pathlib import Path; assert (Path.home()/'.agents/skills/pdf-add-bookmarks/scripts/add_bookmarks.py').is_file(); assert (Path.home()/'.claude/skills/pdf-add-bookmarks/requirements.txt').is_file(); assert (Path.home()/'.cursor/skills/pdf-add-bookmarks/scripts/ocr.py').is_file(); assert (Path(os.environ.get('XDG_CONFIG_HOME', str(Path.home()/'.config')))/'opencode/skills/pdf-add-bookmarks/scripts/headings.py').is_file()"
+          python -c "from pathlib import Path; root = Path.home()/'.agents/skills/pdf-add-bookmarks'; assert all((root/'scripts'/name).is_file() for name in ['add_bookmarks.py', 'headings.py', 'ocr.py']); assert (Path.home()/'.claude/skills/pdf-add-bookmarks/requirements.txt').is_file()"
           python .agents/skills/pdf-add-bookmarks/scripts/add_bookmarks.py --version
   test:
     strategy:
