@@ -67,6 +67,32 @@ SOURCES = {
         "exam",
     ),
 }
+# Selected after freezing v0.3.1 recognition; never used to tune this release.
+SOURCES["blind-java"] = (
+    "https://greenteapress.com/thinkjava7/thinkjava2.pdf",
+    "b1fec11a9d39765bb23a73d94452e7c8caf50a165034543eb1efceba1fd8a68e",
+    "eng",
+    "auto",
+)
+SOURCES["zh-blind-physics"] = (
+    TEXTBOOK
+    + urllib.parse.quote(
+        "初中/物理/教科版-教育科学出版社/八年级/义务教育教科书·物理八年级上册.pdf"
+    ),
+    "1583dbe84c0dc28a70dd55ccc77206a1a5580639f378b102d599fa9d8f35edb2",
+    "chi_sim+eng",
+    "textbook",
+)
+# Six chapter labels from printed contents; +7 offset checked against body pages.
+ZH_BLIND_PHYSICS = [
+    (1, "第一章 走进实验室", 12),
+    (1, "第二章 运动与能量", 26),
+    (1, "第三章 声", 42),
+    (1, "第四章 在光的世界里", 62),
+    (1, "第五章 物态变化", 96),
+    (1, "第六章 质量与密度", 118),
+]
+
 # Labels transcribed from printed contents before running recognition. Page numbers are PDF pages.
 SCAN_CHAPTER_PAGES = [
     15,
@@ -366,9 +392,10 @@ def main():
             toc = []
         automatic_seconds = time.perf_counter() - started
         reviewed_seconds = 0
-        if name == "text":
+        if name in {"text", "blind-java"}:
             metrics = score(reference, toc)
-            assert not metrics["missing"], metrics["missing"]
+            if name == "text":
+                assert not metrics["missing"], metrics["missing"]
             metrics["reference_match_fraction"] = metrics.pop("precision")
             metrics["additional_candidates"] = metrics.pop("unexpected")
             scope = "Publisher outline; additional visual titles are unlabelled"
@@ -390,6 +417,7 @@ def main():
                 "zh-exam": ZH_EXAM,
                 "zh-text": ZH_TEXT,
                 "zh-independent": ZH_INDEPENDENT,
+                "zh-blind-physics": ZH_BLIND_PHYSICS,
             }.get(base, ZH_SCAN)
             candidates = [
                 row
@@ -405,9 +433,13 @@ def main():
                     else re.match(r"^第.*章|^\d+\.\d+\s", row[1])
                 )
             ]
+            if base == "zh-blind-physics":
+                candidates = [row for row in toc if re.match(r"^第.*章", row[1])]
             metrics = score(labels, candidates)
             metrics["unscored_candidates"] = len(toc) - len(candidates)
             scope = "Manual chapter/numbered-section labels only, or the four question-type headers; not every visual candidate"
+            if base == "zh-blind-physics":
+                scope = "Six chapter titles, PDF pages and depth only; sections and visual titles are unlabelled"
             # Reviewed TOC is the documented fallback, independent of automatic recognition.
             reviewed = directory / (name + "-reviewed.pdf")
             reviewed_labels = (
@@ -444,7 +476,9 @@ def main():
             bookmarks=len(toc),
             recognition_seconds=round(seconds, 2),
             extraction_cache_hit=cache_hit,
-            evaluation_role="development_regression",
+            evaluation_role="held_out_for_v0.3.1"
+            if "blind" in name
+            else "development_regression",
             save_and_verify_seconds=round(automatic_seconds, 2),
             reviewed_save_and_verify_seconds=round(reviewed_seconds, 2),
             automatic_content_preserved=bool(toc),
@@ -454,7 +488,7 @@ def main():
             metrics=metrics,
             toc=toc,
             reference_toc=reference
-            if name == "text"
+            if name in {"text", "blind-java"}
             else labels
             if name.startswith("zh")
             else [],
@@ -496,6 +530,7 @@ def main():
         annotation_notes=[
             "Beijing section 2.3 corrected to 等式与方程 after checking printed TOC and body page 86; prior label 算式与等式 was incorrect.",
             "Independent Jijiao scan has generic page bookmarks; labels are manually transcribed, not extracted from those bookmarks.",
+            "Think Java and Jiaoke physics were first evaluated after freezing v0.3.1 recognition. No recognition changes were made after seeing their results. Physics is a mixed PDF, not an image-only scan; six chapters only are labelled. These samples become regression data for later releases.",
         ],
         results=rows,
     )

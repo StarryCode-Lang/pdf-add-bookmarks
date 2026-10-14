@@ -730,3 +730,54 @@ def test_ocr_spacing_variants_do_not_turn_running_footers_into_chapters():
         pages, set(range(1, 6)), visual={1: ["第一章 有理数"]}
     )
     assert [(h["title"], h["page"]) for h in headings] == [("第一章有理数", 1)]
+
+
+def test_native_auto_outline_always_requires_review(tmp_path):
+    import json
+
+    source = Path(__file__).parent / "fixtures" / "single_page.pdf"
+    result = run(source, "--json", "-o", tmp_path / "out.pdf")
+    assert result.returncode == 0, result.stdout
+    data = json.loads(result.stdout)
+    assert data["quality"] == "unverified" and data["review_required"] is True
+    assert data["warnings"] == [] and data["partial"] is False
+
+
+def test_analysis_creates_nested_output_directory(tmp_path):
+    source = Path(__file__).parent / "fixtures" / "single_page.pdf"
+    output = tmp_path / "nested" / "review" / "toc.txt"
+    result = run(source, "--analyze", "-o", output)
+    assert result.returncode == 0, result.stdout
+    assert output.read_text(encoding="utf-8") == "第1章 引言\t1\n"
+
+
+@pytest.mark.parametrize("signature_marker", ["flags", "byte_range", "field_value"])
+def test_signature_markers_refused_without_touching_files(tmp_path, signature_marker):
+    source, output = tmp_path / "signed.pdf", tmp_path / "out.pdf"
+    with fitz.open() as doc:
+        doc.new_page().insert_text((60, 80), "Chapter 1 Example", fontsize=24)
+        xref = doc.get_new_xref()
+        if signature_marker == "flags":
+            doc.update_object(xref, "<< /SigFlags 3 >>")
+            doc.xref_set_key(doc.pdf_catalog(), "AcroForm", f"{xref} 0 R")
+        elif signature_marker == "byte_range":
+            doc.update_object(
+                xref, "<< /Type /Sig /ByteRange [0 10 20 30] /Contents <0102> >>"
+            )
+            doc.xref_set_key(doc.pdf_catalog(), "Perms", f"<< /DocMDP {xref} 0 R >>")
+        else:
+            doc.update_object(
+                xref, "<< /FT /Sig /V << /Type /Sig /Contents <0102> >> >>"
+            )
+            doc.xref_set_key(
+                doc.pdf_catalog(), "AcroForm", f"<< /Fields [{xref} 0 R] >>"
+            )
+        doc.save(source)
+    original = source.read_bytes()
+    output.write_bytes(b"existing output")
+    with pytest.raises(ValueError, match="Digitally signed PDF"):
+        app.add_bookmarks(source, [(1, "Example", -1)], output, overwrite=True)
+    result = run(source, "--analyze", "-o", tmp_path / "toc.txt", "--json")
+    assert result.returncode == 1 and "Digitally signed PDF" in result.stdout
+    assert source.read_bytes() == original and output.read_bytes() == b"existing output"
+    assert not (tmp_path / "toc.txt").exists()

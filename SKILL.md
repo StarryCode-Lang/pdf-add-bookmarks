@@ -56,3 +56,5 @@ python "<skill目录>/scripts/add_bookmarks.py" "输入.pdf" --toc "目录.txt"
 识别依赖规则和视觉证据，复杂版面可能漏判，必要时人工审查。输出替换原有书签，设置 `UseOutlines` 请求显示侧栏，不添加扫描页的可搜索文字层。
 
 `--generate-toc` 扩展识别较小的加粗文本标题与 OCR 标题，同时写出可编辑的建议目录和书签 PDF；扩展候选可能误判，应审查建议目录。
+
+所有自动识别结果都需审核，即使 `warnings` 为空；`quality=unverified` 不表示准确率已验证。检测到数字签名标记时停止，请用户提供未签名原件，不绕过保护。`--analyze -o` 会自动创建父目录。

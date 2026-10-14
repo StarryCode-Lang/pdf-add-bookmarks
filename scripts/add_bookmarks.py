@@ -21,7 +21,7 @@ from headings import (  # noqa: F401 - preserve the importable script API
 )
 from ocr import _read_image_page
 
-VERSION = "0.3.0"
+VERSION = "0.3.1"
 
 
 def find_tesseract():
@@ -98,6 +98,19 @@ def fitz_rect_area(box, bounds):
     return max(0, (fitz.Rect(box) & bounds).get_area())
 
 
+def reject_signed_pdf(doc):
+    """Refuse rewriting signature-bearing PDFs; this does not validate signatures."""
+    signed = max(0, doc.get_sigflags()) & 2
+    for xref in range(1, doc.xref_length()):
+        signed |= doc.xref_get_key(xref, "ByteRange")[0] != "null"
+        if doc.xref_get_key(xref, "FT")[1] == "/Sig":
+            signed |= doc.xref_get_key(xref, "V")[0] != "null"
+        if signed:
+            raise ValueError(
+                "Digitally signed PDF refused: rewriting would invalidate signatures. Use an unsigned original."
+            )
+
+
 def add_bookmarks(
     pdf_path, tree, output_path, verification="structural", overwrite=False
 ):
@@ -108,6 +121,11 @@ def add_bookmarks(
     import fitz
 
     doc = fitz.open(pdf_path)
+    try:
+        reject_signed_pdf(doc)
+    except ValueError:
+        doc.close()
+        raise
     toc = []
     node_levels = {}
     for idx, (page_num, title, parent_idx) in enumerate(tree):
@@ -432,6 +450,10 @@ def execute(args):
     source = Path(args.input)
     if not source.is_file():
         raise ValueError(f"File not found: {source}")
+    import fitz
+
+    with fitz.open(source) as doc:
+        reject_signed_pdf(doc)
     output = (
         Path(args.output)
         if args.output
@@ -510,7 +532,7 @@ def execute(args):
             recognition_method="printed_toc"
             if any(h.get("source") == "printed_toc" for h in headings)
             else "body_headings",
-            review_required=bool(warnings),
+            review_required=True,
             quality="unverified",
             candidates=len(headings),
         )
@@ -526,6 +548,7 @@ def execute(args):
                 rows.append("  " * levels[index] + f"{title}\t{page}\n")
             import tempfile
 
+            toc_path.parent.mkdir(parents=True, exist_ok=True)
             with tempfile.NamedTemporaryFile(
                 mode="w", encoding="utf-8", dir=toc_path.parent, delete=False
             ) as handle:

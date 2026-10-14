@@ -1,5 +1,5 @@
 {
-  "version": "0.3.0",
+  "version": "0.3.1",
   "environment": {
     "PyMuPDF": "1.26.6",
     "Pillow": "12.3.0",
@@ -16,14 +16,15 @@
   "pymupdf": "1.26.6",
   "tesseract": "5.3.4",
   "implementation_sha256": {
-    "add_bookmarks.py": "fcc4485e65d5ea6f653cbbcffeedca725ae962dd17f15137c3e7dda55994af03",
+    "add_bookmarks.py": "71ab775f6df2036cf1fc814eb735e8e2af5f7f605a9c28cc1b5a5370f657fe00",
     "headings.py": "879a036029dd6a4b9592c55d0b56326ea2aa1d4e26e7e9779b526301d5c82c48",
     "ocr.py": "2a0a686c3651ed08d166d173795ee534d222d17d6bdd272e8dfd6cf319b02eef"
   },
-  "benchmark_sha256": "48cf2209e1ce14b68aa5dbbf2e6a5b4c6f4199998a0e1bd1fc31fce7517ab5c2",
+  "benchmark_sha256": "b527ddccfe3d1b6b0abe34f5bb3e23192ce7629e2b9975ca69a90e2a0e5bcc98",
   "annotation_notes": [
     "Beijing section 2.3 corrected to 等式与方程 after checking printed TOC and body page 86; prior label 算式与等式 was incorrect.",
-    "Independent Jijiao scan has generic page bookmarks; labels are manually transcribed, not extracted from those bookmarks."
+    "Independent Jijiao scan has generic page bookmarks; labels are manually transcribed, not extracted from those bookmarks.",
+    "Think Java and Jiaoke physics were first evaluated after freezing v0.3.1 recognition. No recognition changes were made after seeing their results. Physics is a mixed PDF, not an image-only scan; six chapters only are labelled. These samples become regression data for later releases."
   ],
   "results": [
     {
@@ -39,7 +40,7 @@
       "recognition_seconds": 0.86,
       "extraction_cache_hit": true,
       "evaluation_role": "development_regression",
-      "save_and_verify_seconds": 2.0,
+      "save_and_verify_seconds": 1.85,
       "reviewed_save_and_verify_seconds": 0,
       "automatic_content_preserved": true,
       "reviewed_toc_verified": false,
@@ -2538,7 +2539,7 @@
       "recognition_seconds": 59.49,
       "extraction_cache_hit": true,
       "evaluation_role": "development_regression",
-      "save_and_verify_seconds": 12.08,
+      "save_and_verify_seconds": 10.6,
       "reviewed_save_and_verify_seconds": 0,
       "automatic_content_preserved": true,
       "reviewed_toc_verified": false,
@@ -2716,8 +2717,8 @@
       "recognition_seconds": 3.87,
       "extraction_cache_hit": true,
       "evaluation_role": "development_regression",
-      "save_and_verify_seconds": 6.92,
-      "reviewed_save_and_verify_seconds": 6.61,
+      "save_and_verify_seconds": 7.05,
+      "reviewed_save_and_verify_seconds": 6.24,
       "automatic_content_preserved": true,
       "reviewed_toc_verified": true,
       "derived_low_quality": false,
@@ -3195,8 +3196,8 @@
       "recognition_seconds": 105.16,
       "extraction_cache_hit": true,
       "evaluation_role": "development_regression",
-      "save_and_verify_seconds": 14.71,
-      "reviewed_save_and_verify_seconds": 13.8,
+      "save_and_verify_seconds": 14.53,
+      "reviewed_save_and_verify_seconds": 14.01,
       "automatic_content_preserved": true,
       "reviewed_toc_verified": true,
       "derived_low_quality": false,
@@ -3631,8 +3632,8 @@
       "recognition_seconds": 115.43,
       "extraction_cache_hit": true,
       "evaluation_role": "development_regression",
-      "save_and_verify_seconds": 7.42,
-      "reviewed_save_and_verify_seconds": 7.31,
+      "save_and_verify_seconds": 7.86,
+      "reviewed_save_and_verify_seconds": 7.58,
       "automatic_content_preserved": true,
       "reviewed_toc_verified": true,
       "derived_low_quality": false,
@@ -4072,8 +4073,8 @@
       "recognition_seconds": 15.58,
       "extraction_cache_hit": true,
       "evaluation_role": "development_regression",
-      "save_and_verify_seconds": 4.65,
-      "reviewed_save_and_verify_seconds": 4.63,
+      "save_and_verify_seconds": 4.55,
+      "reviewed_save_and_verify_seconds": 4.45,
       "automatic_content_preserved": true,
       "reviewed_toc_verified": true,
       "derived_low_quality": false,
@@ -4144,6 +4145,3822 @@
       "recognition_method": "body_headings"
     },
     {
+      "name": "blind-java",
+      "url": "https://greenteapress.com/thinkjava7/thinkjava2.pdf",
+      "original_sha256": "b1fec11a9d39765bb23a73d94452e7c8caf50a165034543eb1efceba1fd8a68e",
+      "input_sha256": "77f97341727ed54df17e1c29556537539f7c9221423dbb016d8155736a4ed8d9",
+      "pages": 372,
+      "original_outline_count": 230,
+      "input_outline_count": 0,
+      "ocr_pages": 0,
+      "bookmarks": 240,
+      "recognition_seconds": 1.26,
+      "extraction_cache_hit": true,
+      "evaluation_role": "held_out_for_v0.3.1",
+      "save_and_verify_seconds": 2.18,
+      "reviewed_save_and_verify_seconds": 0,
+      "automatic_content_preserved": true,
+      "reviewed_toc_verified": false,
+      "derived_low_quality": false,
+      "scope": "Publisher outline; additional visual titles are unlabelled",
+      "metrics": {
+        "reference_entries": 230,
+        "scored_candidates": 240,
+        "exact_matches": 205,
+        "recall": 0.8913043478260869,
+        "missing": [
+          [
+            1,
+            "atools",
+            319
+          ],
+          [
+            1,
+            "bjavadoc",
+            331
+          ],
+          [
+            1,
+            "cgraphics",
+            341
+          ],
+          [
+            1,
+            "ddebugging",
+            349
+          ],
+          [
+            2,
+            "a1installingdrjava",
+            319
+          ],
+          [
+            2,
+            "a2drjavainteractions",
+            321
+          ],
+          [
+            2,
+            "a3commandlineinterface",
+            322
+          ],
+          [
+            2,
+            "a4commandlinetesting",
+            323
+          ],
+          [
+            2,
+            "a5runningcheckstyle",
+            325
+          ],
+          [
+            2,
+            "a6tracingwithadebugger",
+            326
+          ],
+          [
+            2,
+            "a7testingwithjunit",
+            327
+          ],
+          [
+            2,
+            "a8vocabulary",
+            329
+          ],
+          [
+            2,
+            "b1readingdocumentation",
+            332
+          ],
+          [
+            2,
+            "b2writingdocumentation",
+            334
+          ],
+          [
+            2,
+            "b3javadoctags",
+            335
+          ],
+          [
+            2,
+            "b4examplesourcefile",
+            337
+          ],
+          [
+            2,
+            "b5vocabulary",
+            340
+          ],
+          [
+            2,
+            "c1creatinggraphics",
+            341
+          ],
+          [
+            2,
+            "c2graphicsmethods",
+            342
+          ],
+          [
+            2,
+            "c3exampledrawing",
+            344
+          ],
+          [
+            2,
+            "c4vocabulary",
+            345
+          ],
+          [
+            2,
+            "c5exercises",
+            346
+          ],
+          [
+            2,
+            "d1compiletimeerrors",
+            349
+          ],
+          [
+            2,
+            "d2runtimeerrors",
+            353
+          ],
+          [
+            2,
+            "d3logicerrors",
+            357
+          ]
+        ],
+        "reference_match_fraction": 0.8541666666666666,
+        "additional_candidates": [
+          [
+            1,
+            "abouttheappendixes",
+            18
+          ],
+          [
+            1,
+            "acknowledgments",
+            19
+          ],
+          [
+            1,
+            "changestothesecondedition",
+            17
+          ],
+          [
+            1,
+            "debugging",
+            349
+          ],
+          [
+            1,
+            "graphics",
+            341
+          ],
+          [
+            1,
+            "howtothinklikeacomputerscientist",
+            1
+          ],
+          [
+            1,
+            "javadoc",
+            331
+          ],
+          [
+            1,
+            "objectorientedprogramming",
+            16
+          ],
+          [
+            1,
+            "thephilosophybehindthebook",
+            15
+          ],
+          [
+            1,
+            "thinkjava",
+            1
+          ],
+          [
+            1,
+            "thinkjava",
+            3
+          ],
+          [
+            1,
+            "tools",
+            319
+          ],
+          [
+            1,
+            "usingthecodeexamples",
+            18
+          ],
+          [
+            2,
+            "abouttheauthors",
+            372
+          ],
+          [
+            2,
+            "commandlineinterface",
+            322
+          ],
+          [
+            2,
+            "commandlinetesting",
+            323
+          ],
+          [
+            2,
+            "compiletimeerrors",
+            349
+          ],
+          [
+            2,
+            "creatinggraphics",
+            341
+          ],
+          [
+            2,
+            "drjavainteractions",
+            321
+          ],
+          [
+            2,
+            "exampledrawing",
+            344
+          ],
+          [
+            2,
+            "examplesourcefile",
+            337
+          ],
+          [
+            2,
+            "exercises",
+            346
+          ],
+          [
+            2,
+            "graphicsmethods",
+            342
+          ],
+          [
+            2,
+            "installingdrjava",
+            319
+          ],
+          [
+            2,
+            "javadoctags",
+            335
+          ],
+          [
+            2,
+            "logicerrors",
+            357
+          ],
+          [
+            2,
+            "readingdocumentation",
+            332
+          ],
+          [
+            2,
+            "runningcheckstyle",
+            325
+          ],
+          [
+            2,
+            "runtimeerrors",
+            353
+          ],
+          [
+            2,
+            "testingwithjunit",
+            327
+          ],
+          [
+            2,
+            "tracingwithadebugger",
+            326
+          ],
+          [
+            2,
+            "vocabulary",
+            329
+          ],
+          [
+            2,
+            "vocabulary",
+            340
+          ],
+          [
+            2,
+            "vocabulary",
+            345
+          ],
+          [
+            2,
+            "writingdocumentation",
+            334
+          ]
+        ]
+      },
+      "toc": [
+        [
+          1,
+          "Think Java",
+          1
+        ],
+        [
+          1,
+          "How to Think Like a Computer Scientist",
+          1
+        ],
+        [
+          1,
+          "Think Java",
+          3
+        ],
+        [
+          1,
+          "Preface",
+          15
+        ],
+        [
+          1,
+          "The Philosophy Behind the Book",
+          15
+        ],
+        [
+          1,
+          "Object-Oriented Programming",
+          16
+        ],
+        [
+          1,
+          "Changes to the Second Edition",
+          17
+        ],
+        [
+          1,
+          "About the Appendixes",
+          18
+        ],
+        [
+          1,
+          "Using the Code Examples",
+          18
+        ],
+        [
+          1,
+          "Acknowledgments",
+          19
+        ],
+        [
+          1,
+          "Chapter 1 Computer Programming",
+          23
+        ],
+        [
+          2,
+          "1.1 What Is a Computer?",
+          23
+        ],
+        [
+          2,
+          "1.2 What Is Programming?",
+          24
+        ],
+        [
+          2,
+          "1.3 The Hello World Program",
+          25
+        ],
+        [
+          2,
+          "1.4 Compiling Java Programs",
+          27
+        ],
+        [
+          2,
+          "1.5 Displaying Two Messages",
+          28
+        ],
+        [
+          2,
+          "1.6 Formatting Source Code",
+          29
+        ],
+        [
+          2,
+          "1.7 Using Escape Sequences",
+          31
+        ],
+        [
+          2,
+          "1.8 What Is Computer Science?",
+          32
+        ],
+        [
+          2,
+          "1.9 Debugging Programs",
+          33
+        ],
+        [
+          2,
+          "1.10 Vocabulary",
+          34
+        ],
+        [
+          2,
+          "1.11 Exercises",
+          36
+        ],
+        [
+          1,
+          "Chapter 2 Variables and Operators",
+          39
+        ],
+        [
+          2,
+          "2.1 Declaring Variables",
+          39
+        ],
+        [
+          2,
+          "2.2 Assigning Variables",
+          40
+        ],
+        [
+          2,
+          "2.3 Memory Diagrams",
+          41
+        ],
+        [
+          2,
+          "2.4 Printing Variables",
+          42
+        ],
+        [
+          2,
+          "2.5 Arithmetic Operators",
+          43
+        ],
+        [
+          2,
+          "2.6 Floating-Point Numbers",
+          45
+        ],
+        [
+          2,
+          "2.7 Rounding Errors",
+          46
+        ],
+        [
+          2,
+          "2.8 Operators for Strings",
+          47
+        ],
+        [
+          2,
+          "2.9 Compiler Error Messages",
+          49
+        ],
+        [
+          2,
+          "2.10 Other Types of Errors",
+          50
+        ],
+        [
+          2,
+          "2.11 Vocabulary",
+          51
+        ],
+        [
+          2,
+          "2.12 Exercises",
+          53
+        ],
+        [
+          1,
+          "Chapter 3 Input and Output",
+          55
+        ],
+        [
+          2,
+          "3.1 The System Class",
+          55
+        ],
+        [
+          2,
+          "3.2 The Scanner Class",
+          56
+        ],
+        [
+          2,
+          "3.3 Language Elements",
+          58
+        ],
+        [
+          2,
+          "3.4 Literals and Constants",
+          59
+        ],
+        [
+          2,
+          "3.5 Formatting Output",
+          61
+        ],
+        [
+          2,
+          "3.6 Reading Error Messages",
+          62
+        ],
+        [
+          2,
+          "3.7 Type Cast Operators",
+          63
+        ],
+        [
+          2,
+          "3.8 Remainder Operator",
+          64
+        ],
+        [
+          2,
+          "3.9 Putting It All Together",
+          65
+        ],
+        [
+          2,
+          "3.10 The Scanner Bug",
+          67
+        ],
+        [
+          2,
+          "3.11 Vocabulary",
+          68
+        ],
+        [
+          2,
+          "3.12 Exercises",
+          69
+        ],
+        [
+          1,
+          "Chapter 4 Methods and Testing",
+          73
+        ],
+        [
+          2,
+          "4.1 Defining New Methods",
+          73
+        ],
+        [
+          2,
+          "4.2 Flow of Execution",
+          75
+        ],
+        [
+          2,
+          "4.3 Parameters and Arguments",
+          76
+        ],
+        [
+          2,
+          "4.4 Multiple Parameters",
+          77
+        ],
+        [
+          2,
+          "4.5 Stack Diagrams",
+          79
+        ],
+        [
+          2,
+          "4.6 Math Methods",
+          80
+        ],
+        [
+          2,
+          "4.7 Composition",
+          81
+        ],
+        [
+          2,
+          "4.8 Return Values",
+          82
+        ],
+        [
+          2,
+          "4.9 Incremental Development",
+          83
+        ],
+        [
+          2,
+          "4.10 Vocabulary",
+          86
+        ],
+        [
+          2,
+          "4.11 Exercises",
+          87
+        ],
+        [
+          1,
+          "Chapter 5 Conditionals and Logic",
+          93
+        ],
+        [
+          2,
+          "5.1 Relational Operators",
+          93
+        ],
+        [
+          2,
+          "5.2 The if-else Statement",
+          94
+        ],
+        [
+          2,
+          "5.3 Chaining and Nesting",
+          96
+        ],
+        [
+          2,
+          "5.4 The switch Statement",
+          97
+        ],
+        [
+          2,
+          "5.5 Logical Operators",
+          99
+        ],
+        [
+          2,
+          "5.6 De Morgan’s Laws",
+          100
+        ],
+        [
+          2,
+          "5.7 Boolean Variables",
+          101
+        ],
+        [
+          2,
+          "5.8 Boolean Methods",
+          102
+        ],
+        [
+          2,
+          "5.9 Validating Input",
+          103
+        ],
+        [
+          2,
+          "5.10 Example Program",
+          105
+        ],
+        [
+          2,
+          "5.11 Vocabulary",
+          106
+        ],
+        [
+          2,
+          "5.12 Exercises",
+          107
+        ],
+        [
+          1,
+          "Chapter 6 Loops and Strings",
+          111
+        ],
+        [
+          2,
+          "6.1 The while Statement",
+          111
+        ],
+        [
+          2,
+          "6.2 Increment and Decrement",
+          113
+        ],
+        [
+          2,
+          "6.3 The for Statement",
+          114
+        ],
+        [
+          2,
+          "6.4 Nested Loops",
+          116
+        ],
+        [
+          2,
+          "6.5 Characters",
+          117
+        ],
+        [
+          2,
+          "6.6 Which Loop to Use",
+          119
+        ],
+        [
+          2,
+          "6.7 String Iteration",
+          120
+        ],
+        [
+          2,
+          "6.8 The indexOf Method",
+          121
+        ],
+        [
+          2,
+          "6.9 Substrings",
+          122
+        ],
+        [
+          2,
+          "6.10 String Comparison",
+          123
+        ],
+        [
+          2,
+          "6.11 String Formatting",
+          124
+        ],
+        [
+          2,
+          "6.12 Vocabulary",
+          125
+        ],
+        [
+          2,
+          "6.13 Exercises",
+          126
+        ],
+        [
+          1,
+          "Chapter 7 Arrays and References",
+          129
+        ],
+        [
+          2,
+          "7.1 Creating Arrays",
+          130
+        ],
+        [
+          2,
+          "7.2 Accessing Elements",
+          131
+        ],
+        [
+          2,
+          "7.3 Displaying Arrays",
+          132
+        ],
+        [
+          2,
+          "7.4 Copying Arrays",
+          133
+        ],
+        [
+          2,
+          "7.5 Traversing Arrays",
+          135
+        ],
+        [
+          2,
+          "7.6 Random Numbers",
+          137
+        ],
+        [
+          2,
+          "7.7 Building a Histogram",
+          138
+        ],
+        [
+          2,
+          "7.8 The Enhanced for Loop",
+          140
+        ],
+        [
+          2,
+          "7.9 Counting Characters",
+          141
+        ],
+        [
+          2,
+          "7.10 Vocabulary",
+          143
+        ],
+        [
+          2,
+          "7.11 Exercises",
+          144
+        ],
+        [
+          1,
+          "Chapter 8 Recursive Methods",
+          149
+        ],
+        [
+          2,
+          "8.1 Recursive Void Methods",
+          149
+        ],
+        [
+          2,
+          "8.2 Recursive Stack Diagrams",
+          151
+        ],
+        [
+          2,
+          "8.3 Value-Returning Methods",
+          152
+        ],
+        [
+          2,
+          "8.4 The Leap of Faith",
+          155
+        ],
+        [
+          2,
+          "8.5 Counting Up Recursively",
+          156
+        ],
+        [
+          2,
+          "8.6 Binary Number System",
+          157
+        ],
+        [
+          2,
+          "8.7 Recursive Binary Method",
+          159
+        ],
+        [
+          2,
+          "8.8 CodingBat Problems",
+          159
+        ],
+        [
+          2,
+          "8.9 Vocabulary",
+          162
+        ],
+        [
+          2,
+          "8.10 Exercises",
+          163
+        ],
+        [
+          1,
+          "Chapter 9 Immutable Objects",
+          169
+        ],
+        [
+          2,
+          "9.1 Primitives vs Objects",
+          169
+        ],
+        [
+          2,
+          "9.2 The null Keyword",
+          171
+        ],
+        [
+          2,
+          "9.3 Strings Are Immutable",
+          171
+        ],
+        [
+          2,
+          "9.4 Wrapper Classes",
+          173
+        ],
+        [
+          2,
+          "9.5 Command-Line Arguments",
+          174
+        ],
+        [
+          2,
+          "9.6 Argument Validation",
+          176
+        ],
+        [
+          2,
+          "9.7 BigInteger Arithmetic",
+          177
+        ],
+        [
+          2,
+          "9.8 Incremental Design",
+          179
+        ],
+        [
+          2,
+          "9.9 More Generalization",
+          180
+        ],
+        [
+          2,
+          "9.10 Vocabulary",
+          182
+        ],
+        [
+          2,
+          "9.11 Exercises",
+          183
+        ],
+        [
+          1,
+          "Chapter 10 Mutable Objects",
+          189
+        ],
+        [
+          2,
+          "10.1 Point Objects",
+          189
+        ],
+        [
+          2,
+          "10.2 Objects as Parameters",
+          191
+        ],
+        [
+          2,
+          "10.3 Objects as Return Values",
+          192
+        ],
+        [
+          2,
+          "10.4 Rectangles Are Mutable",
+          193
+        ],
+        [
+          2,
+          "10.5 Aliasing Revisited",
+          194
+        ],
+        [
+          2,
+          "10.6 Java Library Source",
+          195
+        ],
+        [
+          2,
+          "10.7 Class Diagrams",
+          196
+        ],
+        [
+          2,
+          "10.8 Scope Revisited",
+          197
+        ],
+        [
+          2,
+          "10.9 Garbage Collection",
+          198
+        ],
+        [
+          2,
+          "10.10 Mutable vs Immutable",
+          199
+        ],
+        [
+          2,
+          "10.11 StringBuilder Objects",
+          200
+        ],
+        [
+          2,
+          "10.12 Vocabulary",
+          201
+        ],
+        [
+          2,
+          "10.13 Exercises",
+          202
+        ],
+        [
+          1,
+          "Chapter 11 Designing Classes",
+          205
+        ],
+        [
+          2,
+          "11.1 The Time Class",
+          206
+        ],
+        [
+          2,
+          "11.2 Constructors",
+          207
+        ],
+        [
+          2,
+          "11.3 Value Constructors",
+          208
+        ],
+        [
+          2,
+          "11.4 Getters and Setters",
+          210
+        ],
+        [
+          2,
+          "11.5 Displaying Objects",
+          212
+        ],
+        [
+          2,
+          "11.6 The toString Method",
+          213
+        ],
+        [
+          2,
+          "11.7 The equals Method",
+          214
+        ],
+        [
+          2,
+          "11.8 Adding Times",
+          216
+        ],
+        [
+          2,
+          "11.9 Vocabulary",
+          218
+        ],
+        [
+          2,
+          "11.10 Exercises",
+          219
+        ],
+        [
+          1,
+          "Chapter 12 Arrays of Objects",
+          223
+        ],
+        [
+          2,
+          "12.1 Card Objects",
+          224
+        ],
+        [
+          2,
+          "12.2 Card toString",
+          225
+        ],
+        [
+          2,
+          "12.3 Class Variables",
+          227
+        ],
+        [
+          2,
+          "12.4 The compareTo Method",
+          228
+        ],
+        [
+          2,
+          "12.5 Cards Are Immutable",
+          229
+        ],
+        [
+          2,
+          "12.6 Arrays of Cards",
+          230
+        ],
+        [
+          2,
+          "12.7 Sequential Search",
+          232
+        ],
+        [
+          2,
+          "12.8 Binary Search",
+          233
+        ],
+        [
+          2,
+          "12.9 Tracing the Code",
+          234
+        ],
+        [
+          2,
+          "12.10 Vocabulary",
+          235
+        ],
+        [
+          2,
+          "12.11 Exercises",
+          236
+        ],
+        [
+          1,
+          "Chapter 13 Objects of Arrays",
+          239
+        ],
+        [
+          2,
+          "13.1 Decks of Cards",
+          239
+        ],
+        [
+          2,
+          "13.2 Shuffling Decks",
+          241
+        ],
+        [
+          2,
+          "13.3 Selection Sort",
+          242
+        ],
+        [
+          2,
+          "13.4 Merge Sort",
+          243
+        ],
+        [
+          2,
+          "13.5 Subdecks",
+          244
+        ],
+        [
+          2,
+          "13.6 Merging Decks",
+          244
+        ],
+        [
+          2,
+          "13.7 Adding Recursion",
+          246
+        ],
+        [
+          2,
+          "13.8 Static Context",
+          246
+        ],
+        [
+          2,
+          "13.9 Piles of Cards",
+          248
+        ],
+        [
+          2,
+          "13.10 Playing War",
+          250
+        ],
+        [
+          2,
+          "13.11 Vocabulary",
+          252
+        ],
+        [
+          2,
+          "13.12 Exercises",
+          252
+        ],
+        [
+          1,
+          "Chapter 14 Extending Classes",
+          255
+        ],
+        [
+          2,
+          "14.1 CardCollection",
+          256
+        ],
+        [
+          2,
+          "14.2 Inheritance",
+          258
+        ],
+        [
+          2,
+          "14.3 Dealing Cards",
+          260
+        ],
+        [
+          2,
+          "14.4 The Player Class",
+          262
+        ],
+        [
+          2,
+          "14.5 The Eights Class",
+          264
+        ],
+        [
+          2,
+          "14.6 Class Relationships",
+          268
+        ],
+        [
+          2,
+          "14.7 Vocabulary",
+          269
+        ],
+        [
+          2,
+          "14.8 Exercises",
+          269
+        ],
+        [
+          1,
+          "Chapter 15 Arrays of Arrays",
+          271
+        ],
+        [
+          2,
+          "15.1 Conway’s Game of Life",
+          271
+        ],
+        [
+          2,
+          "15.2 The Cell Class",
+          273
+        ],
+        [
+          2,
+          "15.3 Two-Dimensional Arrays",
+          274
+        ],
+        [
+          2,
+          "15.4 The GridCanvas Class",
+          275
+        ],
+        [
+          2,
+          "15.5 Other Grid Methods",
+          277
+        ],
+        [
+          2,
+          "15.6 Starting the Game",
+          278
+        ],
+        [
+          2,
+          "15.7 The Simulation Loop",
+          279
+        ],
+        [
+          2,
+          "15.8 Exception Handling",
+          280
+        ],
+        [
+          2,
+          "15.9 Counting Neighbors",
+          281
+        ],
+        [
+          2,
+          "15.10 Updating the Grid",
+          282
+        ],
+        [
+          2,
+          "15.11 Vocabulary",
+          285
+        ],
+        [
+          2,
+          "15.12 Exercises",
+          285
+        ],
+        [
+          1,
+          "Chapter 16 Reusing Classes",
+          289
+        ],
+        [
+          2,
+          "16.1 Langton’s Ant",
+          289
+        ],
+        [
+          2,
+          "16.2 Refactoring",
+          292
+        ],
+        [
+          2,
+          "16.3 Abstract Classes",
+          293
+        ],
+        [
+          2,
+          "16.4 UML Diagram",
+          295
+        ],
+        [
+          2,
+          "16.5 Vocabulary",
+          296
+        ],
+        [
+          2,
+          "16.6 Exercises",
+          297
+        ],
+        [
+          1,
+          "Chapter 17 Advanced Topics",
+          299
+        ],
+        [
+          2,
+          "17.1 Polygon Objects",
+          299
+        ],
+        [
+          2,
+          "17.2 Adding Color",
+          300
+        ],
+        [
+          2,
+          "17.3 Regular Polygons",
+          301
+        ],
+        [
+          2,
+          "17.4 More Constructors",
+          304
+        ],
+        [
+          2,
+          "17.5 An Initial Drawing",
+          305
+        ],
+        [
+          2,
+          "17.6 Blinking Polygons",
+          308
+        ],
+        [
+          2,
+          "17.7 Interfaces",
+          310
+        ],
+        [
+          2,
+          "17.8 Event Listeners",
+          312
+        ],
+        [
+          2,
+          "17.9 Timers",
+          315
+        ],
+        [
+          2,
+          "17.10 Vocabulary",
+          317
+        ],
+        [
+          2,
+          "17.11 Exercises",
+          317
+        ],
+        [
+          1,
+          "Appendix A Tools",
+          319
+        ],
+        [
+          2,
+          "A.1 Installing DrJava",
+          319
+        ],
+        [
+          2,
+          "A.2 DrJava Interactions",
+          321
+        ],
+        [
+          2,
+          "A.3 Command-Line Interface",
+          322
+        ],
+        [
+          2,
+          "A.4 Command-Line Testing",
+          323
+        ],
+        [
+          2,
+          "A.5 Running Checkstyle",
+          325
+        ],
+        [
+          2,
+          "A.6 Tracing with a Debugger",
+          326
+        ],
+        [
+          2,
+          "A.7 Testing with JUnit",
+          327
+        ],
+        [
+          2,
+          "A.8 Vocabulary",
+          329
+        ],
+        [
+          1,
+          "Appendix B Javadoc",
+          331
+        ],
+        [
+          2,
+          "B.1 Reading Documentation",
+          332
+        ],
+        [
+          2,
+          "B.2 Writing Documentation",
+          334
+        ],
+        [
+          2,
+          "B.3 Javadoc Tags",
+          335
+        ],
+        [
+          2,
+          "B.4 Example Source File",
+          337
+        ],
+        [
+          2,
+          "B.5 Vocabulary",
+          340
+        ],
+        [
+          1,
+          "Appendix C Graphics",
+          341
+        ],
+        [
+          2,
+          "C.1 Creating Graphics",
+          341
+        ],
+        [
+          2,
+          "C.2 Graphics Methods",
+          342
+        ],
+        [
+          2,
+          "C.3 Example Drawing",
+          344
+        ],
+        [
+          2,
+          "C.4 Vocabulary",
+          345
+        ],
+        [
+          2,
+          "C.5 Exercises",
+          346
+        ],
+        [
+          1,
+          "Appendix D Debugging",
+          349
+        ],
+        [
+          2,
+          "D.1 Compile-Time Errors",
+          349
+        ],
+        [
+          2,
+          "D.2 Run-Time Errors",
+          353
+        ],
+        [
+          2,
+          "D.3 Logic Errors",
+          357
+        ],
+        [
+          1,
+          "Index",
+          363
+        ],
+        [
+          2,
+          "About the Authors",
+          372
+        ]
+      ],
+      "reference_toc": [
+        [
+          1,
+          "Preface",
+          15
+        ],
+        [
+          1,
+          "1. Computer Programming",
+          23
+        ],
+        [
+          2,
+          "1.1. What Is a Computer?",
+          23
+        ],
+        [
+          2,
+          "1.2. What Is Programming?",
+          24
+        ],
+        [
+          2,
+          "1.3. The Hello World Program",
+          25
+        ],
+        [
+          2,
+          "1.4. Compiling Java Programs",
+          27
+        ],
+        [
+          2,
+          "1.5. Displaying Two Messages",
+          28
+        ],
+        [
+          2,
+          "1.6. Formatting Source Code",
+          29
+        ],
+        [
+          2,
+          "1.7. Using Escape Sequences",
+          31
+        ],
+        [
+          2,
+          "1.8. What Is Computer Science?",
+          32
+        ],
+        [
+          2,
+          "1.9. Debugging Programs",
+          33
+        ],
+        [
+          2,
+          "1.10. Vocabulary",
+          34
+        ],
+        [
+          2,
+          "1.11. Exercises",
+          36
+        ],
+        [
+          1,
+          "2. Variables and Operators",
+          39
+        ],
+        [
+          2,
+          "2.1. Declaring Variables",
+          39
+        ],
+        [
+          2,
+          "2.2. Assigning Variables",
+          40
+        ],
+        [
+          2,
+          "2.3. Memory Diagrams",
+          41
+        ],
+        [
+          2,
+          "2.4. Printing Variables",
+          42
+        ],
+        [
+          2,
+          "2.5. Arithmetic Operators",
+          43
+        ],
+        [
+          2,
+          "2.6. Floating-Point Numbers",
+          45
+        ],
+        [
+          2,
+          "2.7. Rounding Errors",
+          46
+        ],
+        [
+          2,
+          "2.8. Operators for Strings",
+          47
+        ],
+        [
+          2,
+          "2.9. Compiler Error Messages",
+          49
+        ],
+        [
+          2,
+          "2.10. Other Types of Errors",
+          50
+        ],
+        [
+          2,
+          "2.11. Vocabulary",
+          51
+        ],
+        [
+          2,
+          "2.12. Exercises",
+          53
+        ],
+        [
+          1,
+          "3. Input and Output",
+          55
+        ],
+        [
+          2,
+          "3.1. The System Class",
+          55
+        ],
+        [
+          2,
+          "3.2. The Scanner Class",
+          56
+        ],
+        [
+          2,
+          "3.3. Language Elements",
+          58
+        ],
+        [
+          2,
+          "3.4. Literals and Constants",
+          59
+        ],
+        [
+          2,
+          "3.5. Formatting Output",
+          61
+        ],
+        [
+          2,
+          "3.6. Reading Error Messages",
+          62
+        ],
+        [
+          2,
+          "3.7. Type Cast Operators",
+          63
+        ],
+        [
+          2,
+          "3.8. Remainder Operator",
+          64
+        ],
+        [
+          2,
+          "3.9. Putting It All Together",
+          65
+        ],
+        [
+          2,
+          "3.10. The Scanner Bug",
+          67
+        ],
+        [
+          2,
+          "3.11. Vocabulary",
+          68
+        ],
+        [
+          2,
+          "3.12. Exercises",
+          69
+        ],
+        [
+          1,
+          "4. Methods and Testing",
+          73
+        ],
+        [
+          2,
+          "4.1. Defining New Methods",
+          73
+        ],
+        [
+          2,
+          "4.2. Flow of Execution",
+          75
+        ],
+        [
+          2,
+          "4.3. Parameters and Arguments",
+          76
+        ],
+        [
+          2,
+          "4.4. Multiple Parameters",
+          77
+        ],
+        [
+          2,
+          "4.5. Stack Diagrams",
+          79
+        ],
+        [
+          2,
+          "4.6. Math Methods",
+          80
+        ],
+        [
+          2,
+          "4.7. Composition",
+          81
+        ],
+        [
+          2,
+          "4.8. Return Values",
+          82
+        ],
+        [
+          2,
+          "4.9. Incremental Development",
+          83
+        ],
+        [
+          2,
+          "4.10. Vocabulary",
+          86
+        ],
+        [
+          2,
+          "4.11. Exercises",
+          87
+        ],
+        [
+          1,
+          "5. Conditionals and Logic",
+          93
+        ],
+        [
+          2,
+          "5.1. Relational Operators",
+          93
+        ],
+        [
+          2,
+          "5.2. The if-else Statement",
+          94
+        ],
+        [
+          2,
+          "5.3. Chaining and Nesting",
+          96
+        ],
+        [
+          2,
+          "5.4. The switch Statement",
+          97
+        ],
+        [
+          2,
+          "5.5. Logical Operators",
+          99
+        ],
+        [
+          2,
+          "5.6. De Morgan's Laws",
+          100
+        ],
+        [
+          2,
+          "5.7. Boolean Variables",
+          101
+        ],
+        [
+          2,
+          "5.8. Boolean Methods",
+          102
+        ],
+        [
+          2,
+          "5.9. Validating Input",
+          103
+        ],
+        [
+          2,
+          "5.10. Example Program",
+          105
+        ],
+        [
+          2,
+          "5.11. Vocabulary",
+          106
+        ],
+        [
+          2,
+          "5.12. Exercises",
+          107
+        ],
+        [
+          1,
+          "6. Loops and Strings",
+          111
+        ],
+        [
+          2,
+          "6.1. The while Statement",
+          111
+        ],
+        [
+          2,
+          "6.2. Increment and Decrement",
+          113
+        ],
+        [
+          2,
+          "6.3. The for Statement",
+          114
+        ],
+        [
+          2,
+          "6.4. Nested Loops",
+          116
+        ],
+        [
+          2,
+          "6.5. Characters",
+          117
+        ],
+        [
+          2,
+          "6.6. Which Loop to Use",
+          119
+        ],
+        [
+          2,
+          "6.7. String Iteration",
+          120
+        ],
+        [
+          2,
+          "6.8. The indexOf Method",
+          121
+        ],
+        [
+          2,
+          "6.9. Substrings",
+          122
+        ],
+        [
+          2,
+          "6.10. String Comparison",
+          123
+        ],
+        [
+          2,
+          "6.11. String Formatting",
+          124
+        ],
+        [
+          2,
+          "6.12. Vocabulary",
+          125
+        ],
+        [
+          2,
+          "6.13. Exercises",
+          126
+        ],
+        [
+          1,
+          "7. Arrays and References",
+          129
+        ],
+        [
+          2,
+          "7.1. Creating Arrays",
+          130
+        ],
+        [
+          2,
+          "7.2. Accessing Elements",
+          131
+        ],
+        [
+          2,
+          "7.3. Displaying Arrays",
+          132
+        ],
+        [
+          2,
+          "7.4. Copying Arrays",
+          133
+        ],
+        [
+          2,
+          "7.5. Traversing Arrays",
+          135
+        ],
+        [
+          2,
+          "7.6. Random Numbers",
+          137
+        ],
+        [
+          2,
+          "7.7. Building a Histogram",
+          138
+        ],
+        [
+          2,
+          "7.8. The Enhanced for Loop",
+          140
+        ],
+        [
+          2,
+          "7.9. Counting Characters",
+          141
+        ],
+        [
+          2,
+          "7.10. Vocabulary",
+          143
+        ],
+        [
+          2,
+          "7.11. Exercises",
+          144
+        ],
+        [
+          1,
+          "8. Recursive Methods",
+          149
+        ],
+        [
+          2,
+          "8.1. Recursive Void Methods",
+          149
+        ],
+        [
+          2,
+          "8.2. Recursive Stack Diagrams",
+          151
+        ],
+        [
+          2,
+          "8.3. Value-Returning Methods",
+          152
+        ],
+        [
+          2,
+          "8.4. The Leap of Faith",
+          155
+        ],
+        [
+          2,
+          "8.5. Counting Up Recursively",
+          156
+        ],
+        [
+          2,
+          "8.6. Binary Number System",
+          157
+        ],
+        [
+          2,
+          "8.7. Recursive Binary Method",
+          159
+        ],
+        [
+          2,
+          "8.8. CodingBat Problems",
+          159
+        ],
+        [
+          2,
+          "8.9. Vocabulary",
+          162
+        ],
+        [
+          2,
+          "8.10. Exercises",
+          163
+        ],
+        [
+          1,
+          "9. Immutable Objects",
+          169
+        ],
+        [
+          2,
+          "9.1. Primitives vs Objects",
+          169
+        ],
+        [
+          2,
+          "9.2. The null Keyword",
+          171
+        ],
+        [
+          2,
+          "9.3. Strings Are Immutable",
+          171
+        ],
+        [
+          2,
+          "9.4. Wrapper Classes",
+          173
+        ],
+        [
+          2,
+          "9.5. Command-Line Arguments",
+          174
+        ],
+        [
+          2,
+          "9.6. Argument Validation",
+          176
+        ],
+        [
+          2,
+          "9.7. BigInteger Arithmetic",
+          177
+        ],
+        [
+          2,
+          "9.8. Incremental Design",
+          179
+        ],
+        [
+          2,
+          "9.9. More Generalization",
+          180
+        ],
+        [
+          2,
+          "9.10. Vocabulary",
+          182
+        ],
+        [
+          2,
+          "9.11. Exercises",
+          183
+        ],
+        [
+          1,
+          "10. Mutable Objects",
+          189
+        ],
+        [
+          2,
+          "10.1. Point Objects",
+          189
+        ],
+        [
+          2,
+          "10.2. Objects as Parameters",
+          191
+        ],
+        [
+          2,
+          "10.3. Objects as Return Values",
+          192
+        ],
+        [
+          2,
+          "10.4. Rectangles Are Mutable",
+          193
+        ],
+        [
+          2,
+          "10.5. Aliasing Revisited",
+          194
+        ],
+        [
+          2,
+          "10.6. Java Library Source",
+          195
+        ],
+        [
+          2,
+          "10.7. Class Diagrams",
+          196
+        ],
+        [
+          2,
+          "10.8. Scope Revisited",
+          197
+        ],
+        [
+          2,
+          "10.9. Garbage Collection",
+          198
+        ],
+        [
+          2,
+          "10.10. Mutable vs Immutable",
+          199
+        ],
+        [
+          2,
+          "10.11. StringBuilder Objects",
+          200
+        ],
+        [
+          2,
+          "10.12. Vocabulary",
+          201
+        ],
+        [
+          2,
+          "10.13. Exercises",
+          202
+        ],
+        [
+          1,
+          "11. Designing Classes",
+          205
+        ],
+        [
+          2,
+          "11.1. The Time Class",
+          206
+        ],
+        [
+          2,
+          "11.2. Constructors",
+          207
+        ],
+        [
+          2,
+          "11.3. Value Constructors",
+          208
+        ],
+        [
+          2,
+          "11.4. Getters and Setters",
+          210
+        ],
+        [
+          2,
+          "11.5. Displaying Objects",
+          212
+        ],
+        [
+          2,
+          "11.6. The toString Method",
+          213
+        ],
+        [
+          2,
+          "11.7. The equals Method",
+          214
+        ],
+        [
+          2,
+          "11.8. Adding Times",
+          216
+        ],
+        [
+          2,
+          "11.9. Vocabulary",
+          218
+        ],
+        [
+          2,
+          "11.10. Exercises",
+          219
+        ],
+        [
+          1,
+          "12. Arrays of Objects",
+          223
+        ],
+        [
+          2,
+          "12.1. Card Objects",
+          224
+        ],
+        [
+          2,
+          "12.2. Card toString",
+          225
+        ],
+        [
+          2,
+          "12.3. Class Variables",
+          227
+        ],
+        [
+          2,
+          "12.4. The compareTo Method",
+          228
+        ],
+        [
+          2,
+          "12.5. Cards Are Immutable",
+          229
+        ],
+        [
+          2,
+          "12.6. Arrays of Cards",
+          230
+        ],
+        [
+          2,
+          "12.7. Sequential Search",
+          232
+        ],
+        [
+          2,
+          "12.8. Binary Search",
+          233
+        ],
+        [
+          2,
+          "12.9. Tracing the Code",
+          234
+        ],
+        [
+          2,
+          "12.10. Vocabulary",
+          235
+        ],
+        [
+          2,
+          "12.11. Exercises",
+          236
+        ],
+        [
+          1,
+          "13. Objects of Arrays",
+          239
+        ],
+        [
+          2,
+          "13.1. Decks of Cards",
+          239
+        ],
+        [
+          2,
+          "13.2. Shuffling Decks",
+          241
+        ],
+        [
+          2,
+          "13.3. Selection Sort",
+          242
+        ],
+        [
+          2,
+          "13.4. Merge Sort",
+          243
+        ],
+        [
+          2,
+          "13.5. Subdecks",
+          244
+        ],
+        [
+          2,
+          "13.6. Merging Decks",
+          244
+        ],
+        [
+          2,
+          "13.7. Adding Recursion",
+          246
+        ],
+        [
+          2,
+          "13.8. Static Context",
+          246
+        ],
+        [
+          2,
+          "13.9. Piles of Cards",
+          248
+        ],
+        [
+          2,
+          "13.10. Playing War",
+          250
+        ],
+        [
+          2,
+          "13.11. Vocabulary",
+          252
+        ],
+        [
+          2,
+          "13.12. Exercises",
+          252
+        ],
+        [
+          1,
+          "14. Extending Classes",
+          255
+        ],
+        [
+          2,
+          "14.1. CardCollection",
+          256
+        ],
+        [
+          2,
+          "14.2. Inheritance",
+          258
+        ],
+        [
+          2,
+          "14.3. Dealing Cards",
+          260
+        ],
+        [
+          2,
+          "14.4. The Player Class",
+          262
+        ],
+        [
+          2,
+          "14.5. The Eights Class",
+          264
+        ],
+        [
+          2,
+          "14.6. Class Relationships",
+          268
+        ],
+        [
+          2,
+          "14.7. Vocabulary",
+          269
+        ],
+        [
+          2,
+          "14.8. Exercises",
+          269
+        ],
+        [
+          1,
+          "15. Arrays of Arrays",
+          271
+        ],
+        [
+          2,
+          "15.1. Conway's Game of Life",
+          271
+        ],
+        [
+          2,
+          "15.2. The Cell Class",
+          273
+        ],
+        [
+          2,
+          "15.3. Two-Dimensional Arrays",
+          274
+        ],
+        [
+          2,
+          "15.4. The GridCanvas Class",
+          275
+        ],
+        [
+          2,
+          "15.5. Other Grid Methods",
+          277
+        ],
+        [
+          2,
+          "15.6. Starting the Game",
+          278
+        ],
+        [
+          2,
+          "15.7. The Simulation Loop",
+          279
+        ],
+        [
+          2,
+          "15.8. Exception Handling",
+          280
+        ],
+        [
+          2,
+          "15.9. Counting Neighbors",
+          281
+        ],
+        [
+          2,
+          "15.10. Updating the Grid",
+          282
+        ],
+        [
+          2,
+          "15.11. Vocabulary",
+          285
+        ],
+        [
+          2,
+          "15.12. Exercises",
+          285
+        ],
+        [
+          1,
+          "16. Reusing Classes",
+          289
+        ],
+        [
+          2,
+          "16.1. Langton's Ant",
+          289
+        ],
+        [
+          2,
+          "16.2. Refactoring",
+          292
+        ],
+        [
+          2,
+          "16.3. Abstract Classes",
+          293
+        ],
+        [
+          2,
+          "16.4. UML Diagram",
+          295
+        ],
+        [
+          2,
+          "16.5. Vocabulary",
+          296
+        ],
+        [
+          2,
+          "16.6. Exercises",
+          297
+        ],
+        [
+          1,
+          "17. Advanced Topics",
+          299
+        ],
+        [
+          2,
+          "17.1. Polygon Objects",
+          299
+        ],
+        [
+          2,
+          "17.2. Adding Color",
+          300
+        ],
+        [
+          2,
+          "17.3. Regular Polygons",
+          301
+        ],
+        [
+          2,
+          "17.4. More Constructors",
+          304
+        ],
+        [
+          2,
+          "17.5. An Initial Drawing",
+          305
+        ],
+        [
+          2,
+          "17.6. Blinking Polygons",
+          308
+        ],
+        [
+          2,
+          "17.7. Interfaces",
+          310
+        ],
+        [
+          2,
+          "17.8. Event Listeners",
+          312
+        ],
+        [
+          2,
+          "17.9. Timers",
+          315
+        ],
+        [
+          2,
+          "17.10. Vocabulary",
+          317
+        ],
+        [
+          2,
+          "17.11. Exercises",
+          317
+        ],
+        [
+          1,
+          "A. Tools",
+          319
+        ],
+        [
+          2,
+          "A.1. Installing DrJava",
+          319
+        ],
+        [
+          2,
+          "A.2. DrJava Interactions",
+          321
+        ],
+        [
+          2,
+          "A.3. Command-Line Interface",
+          322
+        ],
+        [
+          2,
+          "A.4. Command-Line Testing",
+          323
+        ],
+        [
+          2,
+          "A.5. Running Checkstyle",
+          325
+        ],
+        [
+          2,
+          "A.6. Tracing with a Debugger",
+          326
+        ],
+        [
+          2,
+          "A.7. Testing with JUnit",
+          327
+        ],
+        [
+          2,
+          "A.8. Vocabulary",
+          329
+        ],
+        [
+          1,
+          "B. Javadoc",
+          331
+        ],
+        [
+          2,
+          "B.1. Reading Documentation",
+          332
+        ],
+        [
+          2,
+          "B.2. Writing Documentation",
+          334
+        ],
+        [
+          2,
+          "B.3. Javadoc Tags",
+          335
+        ],
+        [
+          2,
+          "B.4. Example Source File",
+          337
+        ],
+        [
+          2,
+          "B.5. Vocabulary",
+          340
+        ],
+        [
+          1,
+          "C. Graphics",
+          341
+        ],
+        [
+          2,
+          "C.1. Creating Graphics",
+          341
+        ],
+        [
+          2,
+          "C.2. Graphics Methods",
+          342
+        ],
+        [
+          2,
+          "C.3. Example Drawing",
+          344
+        ],
+        [
+          2,
+          "C.4. Vocabulary",
+          345
+        ],
+        [
+          2,
+          "C.5. Exercises",
+          346
+        ],
+        [
+          1,
+          "D. Debugging",
+          349
+        ],
+        [
+          2,
+          "D.1. Compile-Time Errors",
+          349
+        ],
+        [
+          2,
+          "D.2. Run-Time Errors",
+          353
+        ],
+        [
+          2,
+          "D.3. Logic Errors",
+          357
+        ],
+        [
+          1,
+          "Index",
+          363
+        ]
+      ],
+      "review_signals": {
+        "unreadable_toc_rows": 0,
+        "low_confidence_toc_rows": 0
+      },
+      "recognition_method": "body_headings"
+    },
+    {
+      "name": "zh-blind-physics",
+      "url": "https://raw.githubusercontent.com/TapXWorld/ChinaTextbook/master/%E5%88%9D%E4%B8%AD/%E7%89%A9%E7%90%86/%E6%95%99%E7%A7%91%E7%89%88-%E6%95%99%E8%82%B2%E7%A7%91%E5%AD%A6%E5%87%BA%E7%89%88%E7%A4%BE/%E5%85%AB%E5%B9%B4%E7%BA%A7/%E4%B9%89%E5%8A%A1%E6%95%99%E8%82%B2%E6%95%99%E7%A7%91%E4%B9%A6%C2%B7%E7%89%A9%E7%90%86%E5%85%AB%E5%B9%B4%E7%BA%A7%E4%B8%8A%E5%86%8C.pdf",
+      "original_sha256": "1583dbe84c0dc28a70dd55ccc77206a1a5580639f378b102d599fa9d8f35edb2",
+      "input_sha256": "1b900357b71400a12068ad32a9a6ee1610e0b19c7f9a95f33e2ee06028ad4946",
+      "pages": 133,
+      "original_outline_count": 3,
+      "input_outline_count": 0,
+      "ocr_pages": 19,
+      "bookmarks": 178,
+      "recognition_seconds": 17.22,
+      "extraction_cache_hit": true,
+      "evaluation_role": "held_out_for_v0.3.1",
+      "save_and_verify_seconds": 6.91,
+      "reviewed_save_and_verify_seconds": 6.62,
+      "automatic_content_preserved": true,
+      "reviewed_toc_verified": true,
+      "derived_low_quality": false,
+      "scope": "Six chapter titles, PDF pages and depth only; sections and visual titles are unlabelled",
+      "metrics": {
+        "reference_entries": 6,
+        "scored_candidates": 29,
+        "exact_matches": 1,
+        "precision": 0.034482758620689655,
+        "recall": 0.16666666666666666,
+        "missing": [
+          [
+            1,
+            "第一章走进实验室",
+            12
+          ],
+          [
+            1,
+            "第三章声",
+            42
+          ],
+          [
+            1,
+            "第二章运动与能量",
+            26
+          ],
+          [
+            1,
+            "第五章物态变化",
+            96
+          ],
+          [
+            1,
+            "第六章质量与密度",
+            118
+          ]
+        ],
+        "unexpected": [
+          [
+            1,
+            "第7章质量与密度",
+            118
+          ],
+          [
+            1,
+            "第一章走进实验室",
+            16
+          ],
+          [
+            1,
+            "第一章走进实验室",
+            22
+          ],
+          [
+            1,
+            "第一章走进实验室",
+            24
+          ],
+          [
+            1,
+            "第三章声",
+            46
+          ],
+          [
+            1,
+            "第三章声",
+            50
+          ],
+          [
+            1,
+            "第三章声",
+            52
+          ],
+          [
+            1,
+            "第三章声",
+            54
+          ],
+          [
+            1,
+            "第三章声",
+            58
+          ],
+          [
+            1,
+            "第二章运动与能量",
+            28
+          ],
+          [
+            1,
+            "第二章运动与能量",
+            36
+          ],
+          [
+            1,
+            "第二章运动与能量",
+            38
+          ],
+          [
+            1,
+            "第五章",
+            96
+          ],
+          [
+            1,
+            "第五章物态变化",
+            98
+          ],
+          [
+            1,
+            "第五章物态变化",
+            106
+          ],
+          [
+            1,
+            "第五章物态变化",
+            108
+          ],
+          [
+            1,
+            "第五章物态变化",
+            110
+          ],
+          [
+            1,
+            "第六章质量与密度",
+            120
+          ],
+          [
+            1,
+            "第六章质量与密度",
+            122
+          ],
+          [
+            1,
+            "第六章质量与密度",
+            126
+          ],
+          [
+            1,
+            "第六章质量与密度",
+            128
+          ],
+          [
+            1,
+            "第四章在光的世界里",
+            66
+          ],
+          [
+            1,
+            "第四章在光的世界里",
+            70
+          ],
+          [
+            1,
+            "第四章在光的世界里",
+            74
+          ],
+          [
+            1,
+            "第四章在光的世界里",
+            82
+          ],
+          [
+            1,
+            "第四章在光的世界里",
+            88
+          ],
+          [
+            1,
+            "第四章在光的世界里",
+            90
+          ],
+          [
+            1,
+            "第四章在光的世界里",
+            94
+          ]
+        ],
+        "unscored_candidates": 149
+      },
+      "toc": [
+        [
+          1,
+          "致同学们",
+          3
+        ],
+        [
+          1,
+          "89 第五章  物态变化",
+          5
+        ],
+        [
+          2,
+          "认识物理学",
+          8
+        ],
+        [
+          2,
+          "走进实验室: 学习科学探究",
+          13
+        ],
+        [
+          2,
+          "观察奇妙的物理现象",
+          13
+        ],
+        [
+          2,
+          "认识科学探究的工具",
+          14
+        ],
+        [
+          2,
+          "像科学家一样探究",
+          15
+        ],
+        [
+          1,
+          "第一章  走进实验室",
+          16
+        ],
+        [
+          2,
+          "建立你的家庭实验室",
+          16
+        ],
+        [
+          2,
+          "测量: 实验探 第一章  走进实验室 究的重要环节",
+          18
+        ],
+        [
+          2,
+          "从木工尺到米原器",
+          18
+        ],
+        [
+          2,
+          "实验:测量长度",
+          19
+        ],
+        [
+          2,
+          "观察 认识刻度尺",
+          19
+        ],
+        [
+          2,
+          "活动 测量身高和腰围",
+          21
+        ],
+        [
+          2,
+          "实验:测量时间",
+          21
+        ],
+        [
+          2,
+          "观察 认识停表",
+          21
+        ],
+        [
+          1,
+          "第一章  走进实验室",
+          22
+        ],
+        [
+          2,
+          "活动 测量心率",
+          22
+        ],
+        [
+          2,
+          "发展空间",
+          22
+        ],
+        [
+          2,
+          "活动: 降落伞比赛",
+          23
+        ],
+        [
+          1,
+          "第一章  走进实验室",
+          24
+        ],
+        [
+          2,
+          "认识运动",
+          26
+        ],
+        [
+          2,
+          "运动的描述",
+          26
+        ],
+        [
+          2,
+          "测量物体运动的速度",
+          26
+        ],
+        [
+          2,
+          "宏观物体的机械运动",
+          27
+        ],
+        [
+          1,
+          "第二章  运动与能量",
+          28
+        ],
+        [
+          2,
+          "微观世界的分子运动",
+          28
+        ],
+        [
+          2,
+          "发展空间",
+          29
+        ],
+        [
+          2,
+          "运动的描述",
+          30
+        ],
+        [
+          2,
+          "参照物",
+          30
+        ],
+        [
+          2,
+          "动与静",
+          31
+        ],
+        [
+          2,
+          "快与慢",
+          32
+        ],
+        [
+          2,
+          "测量物体运动 第二章  运动与能量 的速度",
+          34
+        ],
+        [
+          1,
+          "第二章  运动与能量",
+          36
+        ],
+        [
+          2,
+          "讨论交流 汽车的速度",
+          36
+        ],
+        [
+          2,
+          "发展空间",
+          37
+        ],
+        [
+          1,
+          "第二章  运动与能量",
+          38
+        ],
+        [
+          2,
+          "能  量",
+          39
+        ],
+        [
+          2,
+          "各种形式的能量",
+          39
+        ],
+        [
+          2,
+          "能量可以转化",
+          40
+        ],
+        [
+          2,
+          "知识要点",
+          41
+        ],
+        [
+          2,
+          "乐音的三个特征",
+          42
+        ],
+        [
+          2,
+          "认识声现象",
+          43
+        ],
+        [
+          2,
+          "声  源",
+          43
+        ],
+        [
+          2,
+          "观察 发声体在振动",
+          43
+        ],
+        [
+          2,
+          "声的传播",
+          44
+        ],
+        [
+          2,
+          "活动 会“跳舞”的烛焰",
+          45
+        ],
+        [
+          1,
+          "第三章  声",
+          46
+        ],
+        [
+          2,
+          "声传播的速度",
+          46
+        ],
+        [
+          2,
+          "讨论交流 声的传播有多快",
+          46
+        ],
+        [
+          2,
+          "人的发声和听声能力",
+          46
+        ],
+        [
+          2,
+          "发展空间",
+          47
+        ],
+        [
+          2,
+          "乐音的三个 特征",
+          49
+        ],
+        [
+          2,
+          "音  调",
+          49
+        ],
+        [
+          1,
+          "第三章  声",
+          50
+        ],
+        [
+          2,
+          "响  度",
+          50
+        ],
+        [
+          2,
+          "音  色",
+          50
+        ],
+        [
+          2,
+          "观察 声波的图形",
+          51
+        ],
+        [
+          1,
+          "第三章  声",
+          52
+        ],
+        [
+          2,
+          "发展空间",
+          52
+        ],
+        [
+          2,
+          "噪  声",
+          53
+        ],
+        [
+          2,
+          "噪声及其来源",
+          53
+        ],
+        [
+          2,
+          "噪声大小及其危害",
+          53
+        ],
+        [
+          1,
+          "第三章  声",
+          54
+        ],
+        [
+          2,
+          "控制噪声",
+          54
+        ],
+        [
+          2,
+          "发展空间",
+          55
+        ],
+        [
+          2,
+          "声与现代科技",
+          56
+        ],
+        [
+          2,
+          "奇异的声现象",
+          56
+        ],
+        [
+          2,
+          "超声是个多面手",
+          57
+        ],
+        [
+          1,
+          "第三章  声",
+          58
+        ],
+        [
+          2,
+          "次声本领大",
+          58
+        ],
+        [
+          2,
+          "声识别技术",
+          59
+        ],
+        [
+          2,
+          "发展空间",
+          60
+        ],
+        [
+          2,
+          "探究声的反射",
+          60
+        ],
+        [
+          2,
+          "物理在线",
+          60
+        ],
+        [
+          2,
+          "古代建筑中的声现象",
+          60
+        ],
+        [
+          2,
+          "2561.5 m、 高约 3.72 may BAG",
+          60
+        ],
+        [
+          2,
+          "知识要点",
+          61
+        ],
+        [
+          1,
+          "第四章 “在光的世界里",
+          62
+        ],
+        [
+          2,
+          "光源 光的传播",
+          63
+        ],
+        [
+          2,
+          "光  源",
+          63
+        ],
+        [
+          2,
+          "光是怎样传播的",
+          63
+        ],
+        [
+          2,
+          "光传播的速度",
+          65
+        ],
+        [
+          1,
+          "第四章  在光的世界里",
+          66
+        ],
+        [
+          2,
+          "发展空间",
+          66
+        ],
+        [
+          2,
+          "光的反射定律",
+          67
+        ],
+        [
+          2,
+          "光的反射规律",
+          67
+        ],
+        [
+          2,
+          "实验探究 光的反射规律",
+          67
+        ],
+        [
+          2,
+          "镜面反射和漫反射",
+          69
+        ],
+        [
+          1,
+          "第四章  在光的世界里",
+          70
+        ],
+        [
+          2,
+          "物理在线",
+          71
+        ],
+        [
+          2,
+          "科学探究: 第四章  在光的世界里",
+          72
+        ],
+        [
+          2,
+          "科学探究: 平面镜成像",
+          72
+        ],
+        [
+          2,
+          "平面镜成像",
+          72
+        ],
+        [
+          2,
+          "实验探究",
+          72
+        ],
+        [
+          2,
+          "平面镜成像时像与物的关系",
+          72
+        ],
+        [
+          1,
+          "第四章  在光的世界里",
+          74
+        ],
+        [
+          2,
+          "讨论交流 物和像关于平面镜的对称关系",
+          74
+        ],
+        [
+          2,
+          "发展空间",
+          75
+        ],
+        [
+          2,
+          "光的折射",
+          76
+        ],
+        [
+          2,
+          "观察 光的折射现象",
+          76
+        ],
+        [
+          2,
+          "光的折射规律 ችพঙ",
+          76
+        ],
+        [
+          2,
+          "折射形成的奇异现象",
+          77
+        ],
+        [
+          2,
+          "科学探究: 凸透镜成像",
+          79
+        ],
+        [
+          2,
+          "认识透镜",
+          79
+        ],
+        [
+          2,
+          "实验探究:凸透镜成像的规律",
+          81
+        ],
+        [
+          1,
+          "第四章  在光的世界里",
+          82
+        ],
+        [
+          2,
+          "透镜成像规律的应用",
+          83
+        ],
+        [
+          2,
+          "发展空间",
+          84
+        ],
+        [
+          1,
+          "4 庭实验室",
+          84
+        ],
+        [
+          2,
+          "制作有透镜的照相机",
+          84
+        ],
+        [
+          2,
+          "照相机的发展史",
+          84
+        ],
+        [
+          2,
+          "神奇的眼睛",
+          85
+        ],
+        [
+          2,
+          "眼  睛",
+          85
+        ],
+        [
+          2,
+          "保护你的眼睛 看近处的物体",
+          86
+        ],
+        [
+          2,
+          "发展空间",
+          87
+        ],
+        [
+          1,
+          "第四章  在光的世界里",
+          88
+        ],
+        [
+          2,
+          "通过透镜 看世界",
+          89
+        ],
+        [
+          2,
+          "望远镜",
+          89
+        ],
+        [
+          1,
+          "第四章  在光的世界里",
+          90
+        ],
+        [
+          2,
+          "欣赏:展望遥远的宇宙空间",
+          90
+        ],
+        [
+          2,
+          "显微镜",
+          91
+        ],
+        [
+          2,
+          "欣赏:奇异的微观世界",
+          91
+        ],
+        [
+          2,
+          "走进彩色世界",
+          92
+        ],
+        [
+          2,
+          "光的色散",
+          92
+        ],
+        [
+          2,
+          "光的三原色",
+          93
+        ],
+        [
+          1,
+          "第四章  在光的世界里",
+          94
+        ],
+        [
+          2,
+          "发展空间",
+          94
+        ],
+        [
+          2,
+          "知识要点",
+          95
+        ],
+        [
+          1,
+          "第五章",
+          96
+        ],
+        [
+          2,
+          "然界的",
+          97
+        ],
+        [
+          1,
+          "第五章  物态变化",
+          98
+        ],
+        [
+          2,
+          "认识水的物态变化",
+          98
+        ],
+        [
+          2,
+          "活动 制造云和雨",
+          98
+        ],
+        [
+          2,
+          "测量温度",
+          99
+        ],
+        [
+          2,
+          "欣赏:大自然中水的物态变化",
+          101
+        ],
+        [
+          2,
+          "发展空间",
+          101
+        ],
+        [
+          2,
+          "熔化和凝固",
+          103
+        ],
+        [
+          2,
+          "认识晶体",
+          103
+        ],
+        [
+          2,
+          "固体的熔化",
+          104
+        ],
+        [
+          1,
+          "第五章  物态变化",
+          106
+        ],
+        [
+          2,
+          "液体的凝固",
+          107
+        ],
+        [
+          2,
+          "讨论交流 火山爆发后",
+          107
+        ],
+        [
+          1,
+          "第五章  物态变化",
+          108
+        ],
+        [
+          2,
+          "熔化和凝固规律的应用",
+          108
+        ],
+        [
+          2,
+          "发展空间",
+          108
+        ],
+        [
+          1,
+          "第五章  物态变化",
+          110
+        ],
+        [
+          2,
+          "从气体到液体",
+          111
+        ],
+        [
+          2,
+          "画上了一个圆满的句号 物态变化中的吸热和放热",
+          111
+        ],
+        [
+          2,
+          "发展空间",
+          112
+        ],
+        [
+          2,
+          "物理在线",
+          113
+        ],
+        [
+          2,
+          "地球上的 第五章  物态变化 水循环",
+          114
+        ],
+        [
+          2,
+          "多姿多态的水",
+          114
+        ],
+        [
+          2,
+          "图5-4-4   植物叶子的表面有许 地球上的水循环",
+          115
+        ],
+        [
+          2,
+          "来自极地的报告",
+          116
+        ],
+        [
+          2,
+          "知识要点",
+          117
+        ],
+        [
+          1,
+          "第7章质量与密度",
+          118
+        ],
+        [
+          2,
+          "质  量",
+          119
+        ],
+        [
+          2,
+          "认识质量",
+          119
+        ],
+        [
+          1,
+          "第六章  质量与密度",
+          120
+        ],
+        [
+          2,
+          "测量质量",
+          120
+        ],
+        [
+          2,
+          "J0105 型托盘天平使用说明书",
+          120
+        ],
+        [
+          2,
+          "实验探究 用天平测量固体和液体的质量",
+          121
+        ],
+        [
+          1,
+          "第六章  质量与密度",
+          122
+        ],
+        [
+          2,
+          "发展空间",
+          122
+        ],
+        [
+          2,
+          "物质的密度",
+          123
+        ],
+        [
+          2,
+          "认识密度",
+          123
+        ],
+        [
+          2,
+          "密度的应用",
+          125
+        ],
+        [
+          1,
+          "第六章  质量与密度",
+          126
+        ],
+        [
+          2,
+          "发展空间 发展空间",
+          126
+        ],
+        [
+          2,
+          "测量密度",
+          127
+        ],
+        [
+          2,
+          "实验探究 测量矿石的密度",
+          127
+        ],
+        [
+          2,
+          "实验探究 测量酱油的密度",
+          127
+        ],
+        [
+          1,
+          "第六章  质量与密度",
+          128
+        ],
+        [
+          2,
+          "发展空间 发展空间",
+          128
+        ],
+        [
+          2,
+          "活动:密度知识 应用交流会",
+          129
+        ],
+        [
+          2,
+          "知识要点",
+          131
+        ],
+        [
+          2,
+          "中英文索引",
+          132
+        ]
+      ],
+      "reference_toc": [
+        [
+          1,
+          "第一章 走进实验室",
+          12
+        ],
+        [
+          1,
+          "第二章 运动与能量",
+          26
+        ],
+        [
+          1,
+          "第三章 声",
+          42
+        ],
+        [
+          1,
+          "第四章 在光的世界里",
+          62
+        ],
+        [
+          1,
+          "第五章 物态变化",
+          96
+        ],
+        [
+          1,
+          "第六章 质量与密度",
+          118
+        ]
+      ],
+      "review_signals": {
+        "unreadable_toc_rows": 0,
+        "low_confidence_toc_rows": 0
+      },
+      "recognition_method": "body_headings"
+    },
+    {
       "name": "zh-low",
       "url": "https://raw.githubusercontent.com/TapXWorld/ChinaTextbook/master/%E5%88%9D%E4%B8%AD/%E6%95%B0%E5%AD%A6/%E5%8C%97%E4%BA%AC%E7%89%88-%E5%8C%97%E4%BA%AC%E5%87%BA%E7%89%88%E7%A4%BE/%E4%B8%83%E5%B9%B4%E7%BA%A7/%E4%B9%89%E5%8A%A1%E6%95%99%E8%82%B2%E6%95%99%E7%A7%91%E4%B9%A6%C2%B7%E6%95%B0%E5%AD%A6%E4%B8%83%E5%B9%B4%E7%BA%A7%E4%B8%8A%E5%86%8C.pdf",
       "original_sha256": "0b5a395273f0d867e58776d74c69970461b9cf79933025f5f547d03e0abff280",
@@ -4156,8 +7973,8 @@
       "recognition_seconds": 111.28,
       "extraction_cache_hit": true,
       "evaluation_role": "development_regression",
-      "save_and_verify_seconds": 3.72,
-      "reviewed_save_and_verify_seconds": 3.72,
+      "save_and_verify_seconds": 3.62,
+      "reviewed_save_and_verify_seconds": 3.62,
       "automatic_content_preserved": true,
       "reviewed_toc_verified": true,
       "derived_low_quality": true,
