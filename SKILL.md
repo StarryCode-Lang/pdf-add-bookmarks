@@ -1,6 +1,8 @@
 ---
 name: pdf-add-bookmarks
-description: 为 PDF 添加分层书签和导航目录。适用于用户要求添加 PDF 书签、大纲、目录或索引；支持文本、扫描和混合 PDF，扫描页使用 OCR。
+description: 为 PDF 添加分层书签和导航目录。适用于用户要求添加 PDF 书签、大纲、目录或索引；支持文本、扫描和混合 PDF，扫描页使用 OCR。Adds hierarchical bookmarks/outline to PDF files for textbooks, exam papers, and slides. Supports text-based, scanned, and mixed PDFs with OCR.
+compatibility: 需要系统安装 Tesseract OCR 及语言包（默认 chi_sim+eng）。纯文本 PDF 无需。Requires system Tesseract OCR and language packs (default chi_sim+eng). Text-only PDFs need no extra install.
+license: MIT
 ---
 
 # PDF 书签
