@@ -660,7 +660,7 @@ def test_analysis_output_path_and_protection(tmp_path):
     result = run(source, "--analyze", "--json", "-o", output)
     assert result.returncode == 0, result.stdout
     assert json.loads(result.stdout)["toc"] == str(output)
-    assert output.read_text() == "第1章 引言\t1\n"
+    assert output.read_text(encoding="utf-8") == "第1章 引言\t1\n"
     output.write_text("edited by user")
     assert run(source, "--analyze", "-o", output).returncode == 1
     assert output.read_text() == "edited by user"
