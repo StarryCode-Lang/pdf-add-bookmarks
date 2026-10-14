@@ -51,7 +51,7 @@ python "<skill目录>/scripts/add_bookmarks.py" "输入.pdf" --toc "目录.txt"
 
 ## 验收
 
-检查退出码为 0 后再报告成功，并告知输出路径和书签数。读取 JSON 的 `review_required`、`quality`、`warnings`；OCR 完成不能证明目录完整或正确，需要根据原 PDF 核对标题、层级与跳转页。未审核时说明候选书签需要审核，不声称准确率；必要时用修正后的 `--toc` 重试。默认验证内容流、文字、页面尺寸、链接、批注、附件与元数据；`--verify full` 额外逐页渲染对比像素。验证失败时保留已有输出。没有识别到标题或 OCR 失败时说明原因，用目录文件重试，不编造标题。
+检查退出码为 0 后再报告成功，并告知输出路径和书签数。读取 JSON 的 `review_required`、`quality`、`warnings`、`diagnostics`；OCR 完成不能证明目录完整或正确，需要根据原 PDF 核对标题、层级与跳转页。未审核时说明候选书签需要审核，不声称准确率；必要时用修正后的 `--toc` 重试。默认验证内容流、文字、页面尺寸、链接、批注、附件与元数据；`--verify full` 额外逐页渲染对比像素。验证失败时保留已有输出。没有识别到标题或 OCR 失败时说明原因，用目录文件重试，不编造标题。
 
 识别依赖规则和视觉证据，复杂版面可能漏判，必要时人工审查。输出替换原有书签，设置 `UseOutlines` 请求显示侧栏，不添加扫描页的可搜索文字层。
 
@@ -59,4 +59,4 @@ python "<skill目录>/scripts/add_bookmarks.py" "输入.pdf" --toc "目录.txt"
 
 所有自动识别结果都需审核，即使 `warnings` 为空；`quality=unverified` 不表示准确率已验证。检测到数字签名标记时停止，请用户提供未签名原件，不绕过保护。`--analyze -o` 会自动创建父目录。
 
-陌生中文彩色扫描、单元/章/节标题分散在不同文本块的教材，应先分析并核对完整印刷目录。自动书签可能把正文子标题、目录页或 OCR 碎片当成导航标题；不要只检查几个章标题便确认整份目录准确。优先提供经原文核对的 `--toc`，确认标题、父子层级和 PDF 目标页后再交付。
+支持“单元/篇 → 章 → 节”结构及分散文本块。`diagnostics` 给出具体问题与 PDF 页码：`hierarchy_conflict` 编号与父章冲突、`missing_chapter_parent` 缺少父章、`fragmented_heading` 编号与标题未合并、`suspected_running_header` 可疑重复页眉、`unconfirmed_pagination` 目录页码未获正文印证、`incomplete_printed_toc` 目录行漏读。发现这些问题时，渲染目录与相关正文页，按原文修正建议目录后用 `--toc` 导入；逐项检查标题、父子层级与跳转页，不只核对几个章标题。无法确认的内容不得编造。

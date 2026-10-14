@@ -963,3 +963,78 @@ def test_benchmark_precision_counts_duplicate_bookmarks():
     assert result["duplicate_candidates"] == 1
     assert result["precision"] == 0.5
     assert result["recall"] == 1
+
+
+def test_semantic_units_chapters_sections_and_appendix_reset():
+    from headings import build_tree_from_headings, match_heading
+
+    titles = [
+        "第一单元 生命",
+        "第一章 结构",
+        "第一节 细胞",
+        "第二节 组织",
+        "第二单元 环境",
+        "第一章 生态",
+        "第一节 循环",
+        "附录一 词汇",
+    ]
+    tree = build_tree_from_headings(
+        [dict(match_heading(title), page=i + 1) for i, title in enumerate(titles)]
+    )
+    assert [row[2] for row in tree] == [-1, 0, 1, 1, -1, 4, 5, -1]
+
+
+def test_outline_diagnostics_expose_conflicts_and_unconfirmed_pages():
+    from headings import diagnose_outline
+
+    headings = [
+        dict(type="chapter", title="第1章 基础", page=3),
+        dict(type="section", title="2.1 错配", page=4),
+        dict(type="section", title="第一节", page=5),
+        dict(type="chapter", title="第1章 基础", page=6),
+    ]
+    diagnostics = diagnose_outline(headings, [(1, "[TOC]\t第1章 基础\t1")])
+    assert {d["code"] for d in diagnostics} == {
+        "hierarchy_conflict",
+        "fragmented_heading",
+        "suspected_running_header",
+        "unconfirmed_pagination",
+    }
+    assert all(d["pages"] for d in diagnostics)
+
+
+def test_native_contents_pairs_left_and_right_folios_without_guessing():
+    from headings import native_toc_rows
+
+    lines = []
+    for i in range(5):
+        y = i * 30
+        lines += [
+            dict(bbox=(100, y, 250, y + 15), spans=[dict(text=f"第{i + 1}节 标题")]),
+            dict(
+                bbox=((70 if i % 2 else 270), y, (90 if i % 2 else 290), y + 15),
+                spans=[dict(text=str(i + 2))],
+            ),
+        ]
+    assert native_toc_rows(lines) == [
+        f"[TOC]\t第{i + 1}节标题\t{i + 2}" for i in range(5)
+    ]
+    # Two possible folios on one row are ambiguous; do not choose either.
+    lines.append(dict(bbox=(300, 0, 320, 15), spans=[dict(text="9")]))
+    assert native_toc_rows(lines) == []
+
+
+def test_contents_page_marker_cannot_create_body_bookmarks():
+    from headings import headings_from_pages
+
+    pages = [
+        (1, "[CONTENTS]\n第一单元 生命\n第一章 细胞"),
+        (2, "第一单元 生命"),
+        (3, "第一章 细胞"),
+        (4, "第一节 结构"),
+    ]
+    assert [h["page"] for h in headings_from_pages(pages, set(), "textbook")] == [
+        2,
+        3,
+        4,
+    ]

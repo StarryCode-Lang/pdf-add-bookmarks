@@ -21,7 +21,7 @@ from headings import (  # noqa: F401 - preserve the importable script API
 )
 from ocr import _read_image_page
 
-VERSION = "0.3.3"
+VERSION = "0.4.0"
 
 
 def find_tesseract():
@@ -294,6 +294,54 @@ def read_pages(
                 for line in original_raw
                 if line not in raw
             }
+            # Structural markers may use a smaller font than their adjacent title.
+            for marker in list(raw):
+                prefix = "".join(span["text"] for span in marker["spans"]).strip()
+                if not re.fullmatch(
+                    r"第[一二三四五六七八九十百\d]+(?:单元|篇|部|章|节)", prefix
+                ):
+                    continue
+                box = marker["bbox"]
+                candidates = []
+                for other in raw:
+                    if other is marker:
+                        continue
+                    title = "".join(span["text"] for span in other["spans"]).strip()
+                    size = max(span["size"] for span in other["spans"])
+                    if (
+                        2 <= len(title) <= 40
+                        and size >= baseline * 1.2
+                        and 0 <= other["bbox"][0] - box[2] <= size * 3
+                        and abs(
+                            (box[1] + box[3] - other["bbox"][1] - other["bbox"][3]) / 2
+                        )
+                        <= size * 0.6
+                        and not re.search(r"[。！？]", title)
+                    ):
+                        candidates.append(other)
+                if len(candidates) == 1:
+                    other = candidates[0]
+                    raw.remove(marker)
+                    raw.remove(other)
+                    bounds = (
+                        min(box[0], other["bbox"][0]),
+                        min(box[1], other["bbox"][1]),
+                        max(box[2], other["bbox"][2]),
+                        max(box[3], other["bbox"][3]),
+                    )
+                    raw.append(
+                        dict(
+                            bbox=bounds,
+                            spans=[
+                                dict(
+                                    other["spans"][0],
+                                    text=prefix
+                                    + " "
+                                    + "".join(span["text"] for span in other["spans"]),
+                                )
+                            ],
+                        )
+                    )
             # Join large vertical glyph chains before rows from other columns intervene.
             chains = []
             for line in sorted(raw, key=lambda row: (row["bbox"][0], row["bbox"][1])):
@@ -414,7 +462,7 @@ def read_pages(
                 if merged:
                     previous = merged[-1]
                     stub = re.fullmatch(
-                        r"(?:Chapter|Part|Appendix)\s+(?:[0-9]+|[A-Z]+)\.?",
+                        r"(?:Chapter|Part|Appendix)\s+(?:[0-9]+|[A-Z]+)\.?|第[一二三四五六七八九十百\d]+(?:单元|篇|部|章|节)",
                         previous[0],
                         re.I,
                     )
@@ -427,13 +475,30 @@ def read_pages(
                         stub
                         and row[2] > baseline * 1.2
                         and row[1] - previous[4] < row[2] * 3
+                        and len(row[0]) <= 40
+                        and not re.search(r"[。！？]", row[0])
                     ) or wrap:
                         previous[0] += " " + row[0]
                         previous[2] = max(previous[2], row[2])
                         previous[4] = row[4]
                         continue
                 merged.append(row)
-            text = "\n".join(r[0] for r in merged)
+            is_contents |= (
+                any(re.fullmatch(r"目\s*录", title) for title in normalized_rows)
+                and len(
+                    re.findall(
+                        r"第[一二三四五六七八九十百\d]+(?:章|节)", page.get_text()
+                    )
+                )
+                >= 5
+            )
+            text = ("[CONTENTS]\n" if is_contents else "") + "\n".join(
+                r[0] for r in merged
+            )
+            if is_contents:
+                from headings import native_toc_rows
+
+                text += "\n" + "\n".join(native_toc_rows(raw))
             pages.append((i + 1, text))
             for title, _y, size, bold, _bottom, _x in merged:
                 if is_contents:
@@ -449,7 +514,11 @@ def read_pages(
                 ):
                     visual.setdefault(i + 1, []).append(title)
         # OCR pages containing images but little useful text (including mixed PDFs).
-        scanned = [i for i, page in enumerate(doc) if force_ocr or page_needs_ocr(page)]
+        scanned = [
+            i
+            for i, page in enumerate(doc)
+            if force_ocr or (page_needs_ocr(page) and "[TOC]\t" not in pages[i][1])
+        ]
     if scanned:
         import pytesseract
 
@@ -507,7 +576,7 @@ def read_pages(
                     if chapters:
                         # Keep the readable native chapter; opener lists are not section destinations.
                         text, titles = "", []
-                    if native:
+                    if native or pages[number - 1][1].startswith("[CONTENTS]"):
                         text = pages[number - 1][1] + "\n" + text
                     pages[number - 1] = (number, text)
                     visual[number] = list(dict.fromkeys(native + titles))
@@ -647,6 +716,11 @@ def execute(args):
         result.update(pages=len(pages), ocr_pages=len(scanned), partial=bool(warnings))
         # Auto keeps all supported patterns; explicit types restrict the rules.
         headings = headings_from_pages(pages, scanned, args.type, visual)
+        from headings import diagnose_outline
+
+        diagnostics = diagnose_outline(headings, pages)
+        result["diagnostics"] = diagnostics
+        warnings.extend(item["message"] for item in diagnostics)
         toc_signals = [
             line.split("\t")
             for _, text in pages

@@ -37,6 +37,218 @@ def remove_solid_leaders(image):
     return result
 
 
+def read_semantic_toc(image, data, lang, total_pages):
+    """Joint row/folio recognition for Chinese chapter-section contents."""
+    from collections import Counter
+    from statistics import median
+
+    import pytesseract
+    from PIL import ImageChops, ImageOps
+
+    words = [i for i, text in enumerate(data["text"]) if text.strip()]
+    if (
+        sum(
+            bool(re.fullmatch(r"\d+\.\d+", data["text"][i].strip("*. "))) for i in words
+        )
+        >= 3
+    ):
+        return None  # Retain the established decimal/two-column layout reader.
+    markers = [i for i in words if re.match(r"^第|^附录", data["text"][i])]
+    folios = [
+        i
+        for i in words
+        if data["text"][i].isdigit()
+        and data["left"][i] > image.width * 0.65
+        and float(data["conf"][i]) >= 40
+        and 0 < int(data["text"][i]) <= total_pages
+        and image.height * 0.1 < data["top"][i] < image.height * 0.9
+    ]
+    if len(markers) < 3 or len(folios) < 5:
+        return None
+    # Dotted contents folios share a right edge, unlike numbers in body prose.
+    edges = Counter(
+        round((data["left"][i] + data["width"][i]) / (image.width * 0.03))
+        for i in folios
+    )
+    edge, count = edges.most_common(1)[0]
+    if count < 5:
+        return None
+    folios = [
+        i
+        for i in folios
+        if abs((data["left"][i] + data["width"][i]) / (image.width * 0.03) - edge) < 1
+    ]
+    # Re-read only the aligned number column, including coloured folios missed by page OCR.
+    begin = max(0, min(data["left"][i] for i in folios) - 10)
+    end = min(image.width, max(data["left"][i] + data["width"][i] for i in folios) + 10)
+    strip = image.crop((begin, 0, end, image.height))
+    red, green, blue = strip.split()
+    strip = ImageChops.darker(ImageChops.darker(red, green), blue).point(
+        lambda v: 255 if v > 185 else 0
+    )
+    numbers = pytesseract.image_to_data(
+        strip,
+        lang="eng" if "eng" in lang.split("+") else lang,
+        config="--psm 6 -c tessedit_char_whitelist=0123456789",
+        timeout=120,
+        output_type=pytesseract.Output.DICT,
+    )
+    data = {key: list(values) for key, values in data.items()}
+    for j, value in enumerate(numbers["text"]):
+        if (
+            not value.isdigit()
+            or float(numbers["conf"][j]) < 40
+            or not 0 < int(value) <= total_pages
+        ):
+            continue
+        center = numbers["top"][j] + numbers["height"][j] / 2
+        if not image.height * 0.1 < center < image.height * 0.9 or any(
+            abs(data["top"][i] + data["height"][i] / 2 - center)
+            < max(data["height"][i], numbers["height"][j])
+            for i in folios
+        ):
+            continue
+        i = len(data["text"])
+        for key in data:
+            data[key].append(numbers[key][j] if key in numbers else 0)
+        data["left"][i] += begin
+        folios.append(i)
+    baseline = median(
+        data["height"][i]
+        for i in words
+        if re.search(r"[\u4e00-\u9fff]", data["text"][i]) and data["height"][i] > 10
+    )
+    outer = min(data["left"][i] for i in markers)
+    entries, uncertain, failed = [], 0, 0
+    for folio in sorted(folios, key=lambda i: data["top"][i]):
+        center = data["top"][folio] + data["height"][folio] / 2
+        near = [
+            i
+            for i in words
+            if outer - image.width * 0.02 <= data["left"][i] < data["left"][folio]
+            and abs(data["top"][i] + data["height"][i] / 2 - center) <= baseline
+        ]
+        if not near:
+            left = outer
+            top = center - baseline
+            bottom = center + baseline
+            leader = data["left"][folio] - 8
+        else:
+            left = min(data["left"][i] for i in near)
+            chinese = [
+                i for i in near if re.search(r"[\u4e00-\u9fff]", data["text"][i])
+            ]
+            glyphs = chinese or [i for i in near if data["height"][i] > 10]
+            if not glyphs:
+                failed += 1
+                continue
+            if median(data["height"][i] for i in glyphs) >= min(
+                baseline * 1.2, median(data["height"][i] for i in markers) * 1.1
+            ):
+                left = outer
+            top = min(data["top"][i] for i in near)
+            bottom = max(data["top"][i] + data["height"][i] for i in near)
+            leader = min(
+                (
+                    data["left"][i]
+                    for i in near
+                    if data["height"][i] < baseline * 0.4
+                    and data["left"][i] > left + image.width * 0.15
+                ),
+                default=data["left"][folio] - 8,
+            )
+        if leader - left < baseline or bottom <= top:
+            failed += 1
+            continue
+        crop = image.crop((max(0, left - 8), top - 5, leader - 3, bottom + 5))
+        red, green, blue = crop.split()
+        ink = ImageChops.darker(ImageChops.darker(red, green), blue).point(
+            lambda v: 255 if v > 185 else 0
+        )
+        alternatives = []
+        row_words = sorted(
+            (i for i in near if data["left"][i] < leader), key=lambda i: data["left"][i]
+        )
+        native_ocr = clean_ocr_line("".join(data["text"][i] for i in row_words), True)
+        native_ocr = re.sub(r"[’‘“”\"]", "", native_ocr).strip(" ,，。:：-")
+        if (
+            match_heading(native_ocr, True)
+            and len(
+                re.findall(
+                    r"[\u4e00-\u9fff]",
+                    re.sub(
+                        r"^第[一二三四五六七八九十百\d]+(?:单元|篇|章|节)|^附录[一二三四五六七八九十\d]*",
+                        "",
+                        native_ocr,
+                    ),
+                )
+            )
+            >= 2
+        ):
+            alternatives.append(
+                (
+                    native_ocr,
+                    sum(max(0, float(data["conf"][i])) for i in row_words)
+                    / max(1, len(row_words)),
+                )
+            )
+        for sample, segmentation in ((crop, 7), (ink, 7), (crop, 6)):
+            sample = ImageOps.expand(
+                sample.resize((sample.width * 2, sample.height * 2)), 20, "white"
+            )
+            result = pytesseract.image_to_data(
+                sample,
+                lang="chi_sim" if "chi_sim" in lang.split("+") else lang,
+                config=f"--psm {segmentation}",
+                timeout=120,
+                output_type=pytesseract.Output.DICT,
+            )
+            valid = [i for i, word in enumerate(result["text"]) if word.strip()]
+            title = clean_ocr_line("".join(result["text"][i] for i in valid), True)
+            title = re.split(r"[.·_—]{2,}", title)[0].strip(' ,，。:：-’‘“”"')
+            title = re.sub(
+                r"(第[一二三四五六七八九十百\d]+(?:单元|篇|章|节)|附录[一二三四五六七八九十\d]+)[’‘“”\"\s]+",
+                r"\1 ",
+                title,
+            )
+            # Infer a damaged marker suffix only from consistent indentation, not a spelling table.
+            damaged = re.match(
+                r"^(第[一二三四五六七八九十百\d]+)([\u4e00-\u9fff])(.+)", title
+            )
+            if damaged and not match_heading(title, True):
+                kind = "章" if left - outer < image.width * 0.05 else "节"
+                title = damaged[1] + kind + damaged[3].lstrip(' ’‘“”"')
+            confidence = sum(max(0, float(result["conf"][i])) for i in valid) / max(
+                1, len(valid)
+            )
+            suffix = re.sub(
+                r"^第[一二三四五六七八九十百\d]+(?:单元|篇|章|节)|^附录[一二三四五六七八九十\d]*",
+                "",
+                title,
+            )
+            if (
+                match_heading(title, True)
+                and len(re.findall(r"[\u4e00-\u9fff]", suffix)) >= 2
+            ):
+                alternatives.append((title, confidence))
+        if alternatives:
+            title, confidence = max(alternatives, key=lambda pair: pair[1])
+            entries.append(f"[TOC]\t{title}\t{int(data['text'][folio])}")
+            for alternative in dict.fromkeys(text for text, _ in alternatives):
+                if alternative != title:
+                    entries.append(
+                        f"[TOC_ALT]\t{alternative}\t{int(data['text'][folio])}"
+                    )
+            uncertain += confidence < 60
+        else:
+            failed += 1
+    if len(entries) < 3:
+        return None
+    if failed or uncertain:
+        entries.append(f"[TOC_REVIEW]\t{failed}\t{uncertain}")
+    return entries
+
+
 def read_toc_rows(image, data, lang, total_pages):
     """Read a detected printed TOC row by row, separating dotted leaders and folios.
 
@@ -47,6 +259,9 @@ def read_toc_rows(image, data, lang, total_pages):
     import pytesseract
     from PIL import ImageChops, ImageOps
 
+    semantic = read_semantic_toc(image, data, lang, total_pages)
+    if semantic is not None:
+        return semantic
     words = [i for i, text in enumerate(data["text"]) if text.strip()]
     prefixes = [
         i for i in words if re.fullmatch(r"\d+\.\d+", data["text"][i].strip("*. "))
@@ -230,7 +445,7 @@ def read_toc_rows(image, data, lang, total_pages):
             )
             alternatives.append((title, confidence))
         if not any(
-            re.search(r"第[一二三四五六七八九十\d]+章", title)
+            re.search(r"第[一二三四五六七八九十\d]+(?:单元|篇|章|节)", title)
             for title, _ in alternatives
         ):
             if bottom - top > median(b - a for a, b in bands) * 1.3:
@@ -259,11 +474,11 @@ def read_toc_rows(image, data, lang, total_pages):
             (title, confidence)
             for title, confidence in alternatives
             if (
-                re.match(r"^第[一二三四五六七八九十\d]+章", title)
-                or re.match(r"^\d+\.\d+\s", title)
+                re.match(r"^第[一二三四五六七八九十\d]+(?:单元|篇|章|节)", title)
+                or re.match(r"^\d+\.\d+\s|^附录.+|^后记$", title)
             )
-            and not re.fullmatch(r"第[一二三四五六七八九十\d]+章", title)
-            and match_heading(title, True)
+            and not re.fullmatch(r"第[一二三四五六七八九十\d]+(?:单元|篇|章|节)", title)
+            and (match_heading(title, True) or re.match(r"^附录.+|^后记$", title))
             and re.search(r"[\u4e00-\u9fff]", title)
         ]
         if not valid:

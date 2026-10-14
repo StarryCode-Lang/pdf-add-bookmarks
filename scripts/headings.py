@@ -10,7 +10,9 @@ def clean_ocr_line(line, ocr_mode=False):
         r"^[^\w\u4e00-\u9fff\d\u3000-\u303f\uff00-\uffef()]+", "", line
     ).strip()
     # Normalize spaces in "第 X 章" → "第X章"
-    cleaned = re.sub(r"第\s+(\d+)\s+章", r"第\1章", cleaned)
+    cleaned = re.sub(
+        r"第\s*([一二三四五六七八九十百\d]+)\s*(单元|篇|部|章|节)", r"第\1\2", cleaned
+    )
     cleaned = re.sub(r"第\s+([一二三四五六七八九十]+)\s+章", r"第\1章", cleaned)
     # Normalize "X .X" → "X.X"
     cleaned = re.sub(r"(\d)\s*\.\s*(\d)", r"\1.\2", cleaned)
@@ -72,15 +74,24 @@ def _match_heading(line, ocr_mode=False):
             "title": clean_ocr_line(line.split("\t", 1)[1], True),
             "source": "native_vertical",
         }
-    if re.match(r"^第[一二三四五六七八九十]+章\s*", line):
-        return {"type": "chapter", "title": line}
-    m = re.match(r"^第(\d+)章\s*(.+)", line)
-    if m:
-        return {"type": "chapter", "title": line}
+    marker = re.match(r"^第[一二三四五六七八九十百\d]+(单元|篇|部|章|节)\s*", line)
+    if marker:
+        kind = {
+            "单元": "part",
+            "篇": "part",
+            "部": "part",
+            "章": "chapter",
+            "节": "section",
+        }[marker[1]]
+        return {"type": kind, "title": line}
     if re.match(
         r"^(?:Chapter|Part)\s+(?:\d+|[IVXLCDM]+)\b|^Appendix\s+(?:\d+|[A-Z])\b",
         line,
         re.IGNORECASE,
+    ):
+        return {"type": "chapter", "title": line}
+    if re.match(
+        r"^附录(?:[一二三四五六七八九十百\d]+)?\s*[^。]{0,30}$|^后\s*记$", line
     ):
         return {"type": "chapter", "title": line}
     m = re.match(r"^(\d+\.\d+\.\d+)\s+(.+)", line)
@@ -179,6 +190,25 @@ def filter_headings(headings, total_pages=None):
         return []
     if total_pages is None:
         total_pages = max(h["page"] for h in headings) if headings else 0
+    structural = {
+        (
+            h["page"],
+            re.sub(
+                r"\W",
+                "",
+                re.sub(
+                    r"^第[一二三四五六七八九十百\d]+(?:单元|篇|部|章|节)\s*",
+                    "",
+                    clean_ocr_line(h["title"], True),
+                ),
+            ),
+        )
+        for h in headings
+        if re.match(
+            r"^第[一二三四五六七八九十百\d]+(?:单元|篇|部|章|节)",
+            clean_ocr_line(h["title"], True),
+        )
+    }
     filtered = []
     seen_titles = set()
     chapter, section = None, None
@@ -189,6 +219,14 @@ def filter_headings(headings, total_pages=None):
         htype = h["type"]
         page = h["page"]
 
+        if (
+            not re.match(
+                r"^第[一二三四五六七八九十百\d]+(?:单元|篇|部|章|节)",
+                clean_ocr_line(title, True),
+            )
+            and (page, re.sub(r"\W", "", clean_ocr_line(title, True))) in structural
+        ):
+            continue
         # Reject garbage
         if _is_garbage_title(title):
             continue
@@ -234,7 +272,10 @@ def filter_headings(headings, total_pages=None):
             continue
         seen_titles.add(key)
         filtered.append(h)
-        if htype == "chapter":
+        if htype == "part":
+            chapter, section = None, None
+            anchored_chapters.clear()
+        elif htype == "chapter":
             chapter, section = (title, page), None
         elif htype == "section":
             section = (title, page)
@@ -292,36 +333,59 @@ def build_tree_from_entries(entries):
 
 
 def build_tree_from_headings(headings):
-    if not headings:
-        return []
-    tree = []
-    last_chapter = -1
-    last_section = -1
-    numbered_sections = {}
+    """Use semantic ranks; absent intermediate ranks do not create empty nodes."""
+    tree, stack, numbered_sections = [], [], {}
+    ranks = {"part": 0, "chapter": 1, "section": 2, "subsection": 3}
     for h in headings:
-        if h["type"] == "chapter":
-            tree.append((h["page"], h["title"], -1))
-            last_chapter = len(tree) - 1
-            last_section = -1
-            numbered_sections = {}
-        elif h["type"] == "section":
-            parent = last_chapter if last_chapter >= 0 else -1
-            tree.append((h["page"], h["title"], parent))
-            last_section = len(tree) - 1
-            number = re.match(r"^((?:\d+|[A-Z])\.\d+)\.?\s", h["title"])
-            if number:
-                numbered_sections[number.group(1)] = last_section
-        elif h["type"] == "subsection":
-            parent = (
-                last_section
-                if last_section >= 0
-                else (last_chapter if last_chapter >= 0 else -1)
-            )
-            number = re.match(r"^((?:\d+|[A-Z])\.\d+)\.\d+\.?\s", h["title"])
-            if number:
-                parent = numbered_sections.get(number.group(1), parent)
-            tree.append((h["page"], h["title"], parent))
+        rank = ranks[h["type"]]
+        if re.match(r"^Part\s+[IVXLCDM\d]+\b", h["title"], re.I):
+            rank = 0
+        if re.match(
+            r"^(?:Appendix|Preface|Index)\b|^(?:前言|序言|附录|后记)", h["title"], re.I
+        ):
+            stack.clear()
+        while stack and stack[-1][1] >= rank:
+            stack.pop()
+        parent = stack[-1][0] if stack else -1
+        if rank <= 1:
+            numbered_sections.clear()
+        number = re.match(r"^((?:\d+|[A-Z])\.\d+)\.\d+\.?\s", h["title"])
+        if rank == 3 and number:
+            parent = numbered_sections.get(number[1], parent)
+        tree.append((h["page"], h["title"], parent))
+        stack.append((len(tree) - 1, rank))
+        number = re.match(r"^((?:\d+|[A-Z])\.\d+)\.?\s", h["title"])
+        if rank == 2 and number:
+            numbered_sections[number[1]] = len(tree) - 1
     return tree
+
+
+def native_toc_rows(lines):
+    """Pair native contents titles with separate left/right folios by geometry."""
+    numbered = []
+    titles = []
+    for line in lines:
+        title = clean_ocr_line("".join(span["text"] for span in line["spans"]), True)
+        if re.fullmatch(r"[0-9]{1,4}", title):
+            numbered.append((line["bbox"], int(title)))
+        elif re.match(
+            r"^第[一二三四五六七八九十百\d]+(?:单元|篇|部|章|节)|^附录", title
+        ):
+            titles.append((line["bbox"], title))
+    if len(titles) < 5 or len(numbered) < 5:
+        return []
+    rows = []
+    for box, title in sorted(titles, key=lambda item: (item[0][1], item[0][0])):
+        matches = [
+            value
+            for number_box, value in numbered
+            if (number_box[2] <= box[0] or number_box[0] >= box[2])
+            and abs((box[1] + box[3] - number_box[1] - number_box[3]) / 2)
+            <= max(box[3] - box[1], number_box[3] - number_box[1]) * 0.4
+        ]
+        if len(matches) == 1:
+            rows.append(f"[TOC]\t{title}\t{matches[0]}")
+    return rows if len(rows) >= 5 else []
 
 
 def headings_from_pages(pages, scanned, pdf_type="auto", visual=None):
@@ -356,7 +420,7 @@ def headings_from_pages(pages, scanned, pdf_type="auto", visual=None):
             and sum(bool(re.search(r"\d+$|\.{3,}", line)) for line in normalized) >= 5
         ):
             continue
-        if any(line.startswith("[TOC]\t") for line in lines):
+        if "[CONTENTS]" in lines or any(line.startswith("[TOC]\t") for line in lines):
             continue
         for raw_line in lines:
             line = clean_ocr_line(raw_line, number in scanned)
@@ -454,7 +518,9 @@ def headings_from_pages(pages, scanned, pdf_type="auto", visual=None):
             max(h["page"] for h in toc_headings),
         )
         headings = [
-            h for h in headings if h["page"] < first or h["page"] > last
+            h
+            for h in headings
+            if h["type"] == "part" or h["page"] < first or h["page"] > last
         ] + toc_headings
         headings.sort(key=lambda h: h["page"])
     return filter_headings(headings, len(pages))
@@ -466,19 +532,28 @@ def align_printed_toc(pages):
 
     def title_key(title):
         title = clean_ocr_line(title, True)
-        title = re.sub(r"^\d+(?:\.\d+)*\s*", "", title)
+        title = re.sub(
+            r"^第[一二三四五六七八九十百\d]+(?:单元|篇|部|章|节)\s*|^\d+(?:\.\d+)*\s*",
+            "",
+            title,
+        )
         return re.sub(r"[\W_]", "", title).lower()
 
-    entries, toc_pages, folio_votes = [], set(), []
+    entries, toc_pages, folio_votes, alternatives = [], set(), [], {}
     for page, text in pages:
         for line in text.splitlines():
+            if line.startswith("[TOC_ALT]\t"):
+                _, title, printed = line.split("\t")
+                alternatives.setdefault(int(printed), []).append(title)
             if line.startswith("[FOLIO]\t"):
                 folio_votes.append((page, page - int(line.split("\t")[1])))
             if line.startswith("[TOC]\t"):
                 _, title, printed = line.split("\t")
                 entry = match_heading(title, True)
                 if entry:
-                    entries.append(dict(entry, printed=int(printed)))
+                    candidate = dict(entry, printed=int(printed))
+                    if candidate not in entries:
+                        entries.append(candidate)
                     toc_pages.add(page)
     if len(entries) < 5:
         return []
@@ -488,13 +563,18 @@ def align_printed_toc(pages):
             continue
         for line in text.splitlines():
             key = title_key(line)
-            if key:
+            if len(key) >= 2 and not line.startswith("["):
                 locations.setdefault(key, set()).add(page)
     votes = []
     for entry in entries:
-        hits = locations.get(title_key(entry["title"]), set())
-        if len(hits) == 1:
-            votes.append(next(iter(hits)) - entry["printed"])
+        choices = [entry["title"]] + alternatives.get(entry["printed"], [])
+        offsets = set()
+        for title in choices:
+            hits = locations.get(title_key(title), set())
+            if len(hits) == 1:
+                offsets.add(next(iter(hits)) - entry["printed"])
+        if len(offsets) == 1:
+            votes.append(next(iter(offsets)))
     if not votes:
         return []
     offset, support = Counter(votes).most_common(1)[0]
@@ -512,6 +592,20 @@ def align_printed_toc(pages):
         return []
     if not title_support:
         offset = folio_offset
+    for entry in entries:
+        choices = [
+            title
+            for title in alternatives.get(entry["printed"], [])
+            if entry["printed"] + offset in locations.get(title_key(title), set())
+        ]
+        if (
+            entry["printed"] + offset
+            not in locations.get(title_key(entry["title"]), set())
+            and len(set(choices)) == 1
+        ):
+            confirmed = match_heading(choices[0], True)
+            if confirmed and confirmed["type"] == entry["type"]:
+                entry["title"] = choices[0]
     # An isolated pagination inversion is evidence of an OCR error, not a new offset.
     entries = [
         e
@@ -540,3 +634,87 @@ def align_printed_toc(pages):
     if any(a["page"] > b["page"] for a, b in zip(resolved, resolved[1:], strict=False)):
         return []
     return resolved
+
+
+def diagnose_outline(headings, pages):
+    """Expose evidence conflicts without claiming a validated confidence score."""
+    diagnostics, seen, parent = [], {}, None
+    for h in headings:
+        title = clean_ocr_line(h["title"], True)
+        marker = re.match(r"^第[一二三四五六七八九十百\d]+(单元|篇|部|章|节)", title)
+        if h["type"] == "part":
+            seen.clear()
+            parent = None
+        if marker and marker.end() == len(title):
+            diagnostics.append(
+                dict(
+                    code="fragmented_heading",
+                    message=f"Heading marker has no title: {title} (PDF page {h['page']}).",
+                    pages=[h["page"]],
+                )
+            )
+        if marker and h["type"] in {"chapter", "part"}:
+            key = re.sub(r"\W", "", title)
+            if key in seen and seen[key] != h["page"]:
+                diagnostics.append(
+                    dict(
+                        code="suspected_running_header",
+                        message=f"Repeated structural title: {title} (PDF pages {seen[key]}, {h['page']}).",
+                        pages=[seen[key], h["page"]],
+                    )
+                )
+            seen[key] = h["page"]
+        if h["type"] == "chapter":
+            parent = h
+        section_number = re.match(r"^(\d+)\.\d+\s", title)
+        chapter_number = (
+            re.match(r"^第(\d+)章|^Chapter\s+(\d+)\b", parent["title"], re.I)
+            if parent
+            else None
+        )
+        if (
+            section_number
+            and chapter_number
+            and section_number[1]
+            != next(group for group in chapter_number.groups() if group is not None)
+        ):
+            diagnostics.append(
+                dict(
+                    code="hierarchy_conflict",
+                    message=f"Section numbering conflicts with its chapter: {title} (PDF page {h['page']}).",
+                    pages=[parent["page"], h["page"]],
+                )
+            )
+        if marker and h["type"] == "section" and parent is None:
+            diagnostics.append(
+                dict(
+                    code="missing_chapter_parent",
+                    message=f"Section has no preceding chapter: {title} (PDF page {h['page']}).",
+                    pages=[h["page"]],
+                )
+            )
+    if any("[TOC]\t" in text for _, text in pages) and not any(
+        h.get("source") == "printed_toc" for h in headings
+    ):
+        diagnostics.append(
+            dict(
+                code="unconfirmed_pagination",
+                message="Printed contents page destinations could not be corroborated; review page offsets.",
+                pages=[n for n, text in pages if "[TOC]\t" in text],
+            )
+        )
+    unreadable = sum(
+        int(line.split("\t")[1])
+        for _, text in pages
+        for line in text.splitlines()
+        if line.startswith("[TOC_REVIEW]\t")
+    )
+    if unreadable:
+        diagnostics.append(
+            dict(
+                code="incomplete_printed_toc",
+                message=f"Printed contents has {unreadable} unreadable rows; inferred hierarchy may omit parents or children.",
+                pages=[n for n, text in pages if "[TOC_REVIEW]\t" in text],
+            )
+        )
+    return diagnostics

@@ -71,7 +71,7 @@ SOURCES = {
         "exam",
     ),
 }
-# Selected after freezing v0.3.1 recognition; never used to tune this release.
+# Originally held out at v0.3.1; these cases are now development regressions.
 SOURCES["blind-java"] = (
     "https://greenteapress.com/thinkjava7/thinkjava2.pdf",
     "b1fec11a9d39765bb23a73d94452e7c8caf50a165034543eb1efceba1fd8a68e",
@@ -113,7 +113,7 @@ ZH_HELDOUT_SUKE = [
     (1, "第四章 光的折射 透镜", 86),
     (1, "第五章 物体的运动", 108),
 ]
-# Held-out geography: complete printed contents transcribed before first recognition.
+# Complete printed contents; used to develop v0.4.0, no longer held out.
 SOURCES["zh-blind-geography"] = (
     TEXTBOOK
     + urllib.parse.quote(
@@ -150,7 +150,7 @@ ZH_BLIND_GEOGRAPHY = [
     (1, "后记", 120),
 ]
 
-# Second new held-out book, including units, all chapters/sections and appendix.
+# Complete biology contents; used to develop v0.4.0, no longer held out.
 SOURCES["zh-blind-biology"] = (
     TEXTBOOK
     + urllib.parse.quote(
@@ -194,10 +194,98 @@ ZH_BLIND_BIOLOGY = [
     (3, "第二节 生物的分类单位", 133),
     (1, "附录", 138),
 ]
-HELD_OUT_LABELS = {
+COMPLETE_CONTENT_LABELS = {
     "zh-blind-geography": ZH_BLIND_GEOGRAPHY,
     "zh-blind-biology": ZH_BLIND_BIOLOGY,
 }
+
+# New books selected after freezing v0.4.0 recognition, labelled before first run.
+SOURCES["zh-heldout-chemistry"] = (
+    TEXTBOOK
+    + urllib.parse.quote(
+        "初中/化学/沪教版-上海教育出版社/九年级/义务教育教科书·化学九年级上册.pdf"
+    ),
+    "b509a71fb2f35871d4cfa772a4df7f53d84e962d75e0dfc2957c0505aef40bd6",
+    "chi_sim+eng",
+    "textbook",
+)
+SOURCES["zh-heldout-guangdong"] = (
+    TEXTBOOK
+    + urllib.parse.quote(
+        "初中/地理/粤教粤人版-广东教育出版社、广东人民出版社/七年级/义务教育教科书·地理七年级上册.pdf"
+    ),
+    "c5d622634527cf67f0370b2e6419e1c66aa9a62f0fd8df036aa813196f62547e",
+    "chi_sim+eng",
+    "textbook",
+)
+ZH_HELDOUT_CHEMISTRY = [
+    (1, "第1章 开启化学之门", 6),
+    (2, "第1节 化学给我们带来什么", 7),
+    (2, "第2节 化学研究些什么", 14),
+    (2, "第3节 怎样学习和研究化学", 25),
+    (2, "整理与归纳", 31),
+    (2, "本章作业", 32),
+    (1, "第2章 身边的化学物质", 34),
+    (2, "第1节 性质活泼的氧气", 35),
+    (2, "第2节 奇妙的二氧化碳", 44),
+    (2, "第3节 自然界中的水", 52),
+    (2, "基础实验1 氧气的制取与性质", 60),
+    (2, "基础实验2 二氧化碳的制取与性质", 62),
+    (2, "整理与归纳", 63),
+    (2, "本章作业", 64),
+    (1, "第3章 物质构成的奥秘", 66),
+    (2, "第1节 构成物质的基本微粒", 67),
+    (2, "第2节 组成物质的化学元素", 79),
+    (2, "第3节 物质的组成", 86),
+    (2, "整理与归纳", 93),
+    (2, "本章作业", 94),
+    (1, "第4章 认识化学变化", 96),
+    (2, "第1节 常见的化学反应——燃烧", 97),
+    (2, "第2节 化学反应中的质量关系", 105),
+    (2, "第3节 化学方程式的书写与应用", 109),
+    (2, "基础实验3 物质燃烧的条件", 114),
+    (2, "整理与归纳", 115),
+    (2, "本章作业", 116),
+    (1, "第5章 金属的冶炼与利用", 118),
+    (2, "第1节 金属的性质和利用", 119),
+    (2, "第2节 金属矿物 铁的冶炼", 128),
+    (2, "第3节 金属防护和废金属回收", 132),
+    (2, "基础实验4 常见金属的性质", 137),
+    (2, "整理与归纳", 140),
+    (2, "本章作业", 141),
+    (1, "附录", 142),
+]
+ZH_HELDOUT_GUANGDONG = [
+    (1, "让地理走进生活", 8),
+    (1, "第一章 认识地球", 14),
+    (2, "第一节 地球的形状与大小", 15),
+    (2, "第二节 地球仪", 18),
+    (2, "第三节 地球的运动", 24),
+    (1, "第二章 学用地图", 30),
+    (2, "第一节 地图的发展", 31),
+    (2, "第二节 地图的运用", 34),
+    (2, "第三节 等高线与地形图的判读", 40),
+    (1, "第三章 陆地与海洋", 45),
+    (2, "第一节 陆地与海洋的分布", 46),
+    (2, "第二节 海洋与陆地的变迁", 51),
+    (2, "第三节 人类与海洋", 56),
+    (1, "第四章 天气与气候", 59),
+    (2, "第一节 天气和天气预报", 60),
+    (2, "第二节 气温和降水", 67),
+    (2, "第三节 世界的主要气候类型", 75),
+    (1, "第五章 居民与聚落", 82),
+    (2, "第一节 世界的人口", 83),
+    (2, "第二节 世界的人种、语言和宗教", 89),
+    (2, "第三节 聚落的发展变化", 94),
+    (1, "第六章 发展差异与国际合作", 100),
+]
+COMPLETE_CONTENT_LABELS.update(
+    {
+        "zh-heldout-chemistry": ZH_HELDOUT_CHEMISTRY,
+        "zh-heldout-guangdong": ZH_HELDOUT_GUANGDONG,
+    }
+)
+INDEPENDENT_SAMPLES = {"zh-heldout-chemistry", "zh-heldout-guangdong"}
 
 # Labels transcribed from printed contents before running recognition. Page numbers are PDF pages.
 SCAN_CHAPTER_PAGES = [
@@ -589,7 +677,7 @@ def main():
                 "zh-independent": ZH_INDEPENDENT,
                 "zh-blind-physics": ZH_BLIND_PHYSICS,
                 "zh-heldout-suke": ZH_HELDOUT_SUKE,
-                **HELD_OUT_LABELS,
+                **COMPLETE_CONTENT_LABELS,
             }.get(base, ZH_SCAN)
             candidates = [
                 row
@@ -615,14 +703,14 @@ def main():
                         and normalize(row[1]) in {normalize(t) for _, t, _ in labels}
                     )
                 ]
-            if base in HELD_OUT_LABELS:
+            if base in COMPLETE_CONTENT_LABELS:
                 candidates = toc
             metrics = score(labels, candidates)
             metrics["unscored_candidates"] = len(toc) - len(candidates)
             scope = "Manual chapter/numbered-section labels only, or the four question-type headers; not every visual candidate"
             if base in {"zh-blind-physics", "zh-heldout-suke"}:
                 scope = "Chapter titles, PDF pages and depth only; sections and visual titles are unlabelled"
-            if base in HELD_OUT_LABELS:
+            if base in COMPLETE_CONTENT_LABELS:
                 scope = "Complete printed contents including units and appendices; every generated bookmark is scored, including duplicates and extra titles. Extra body headings are not necessarily invalid navigation, but are outside this predefined contents policy."
             # Reviewed TOC is the documented fallback, independent of automatic recognition.
             reviewed = directory / (name + "-reviewed.pdf")
@@ -661,7 +749,7 @@ def main():
             recognition_seconds=round(seconds, 2),
             extraction_cache_hit=cache_hit,
             evaluation_role="independent_held_out"
-            if base in HELD_OUT_LABELS
+            if base in INDEPENDENT_SAMPLES
             else "development_regression",
             save_and_verify_seconds=round(automatic_seconds, 2),
             reviewed_save_and_verify_seconds=round(reviewed_seconds, 2),
@@ -694,7 +782,7 @@ def main():
             if any(h.get("source") == "printed_toc" for h in headings)
             else "body_headings",
         )
-        if base in HELD_OUT_LABELS:
+        if base in COMPLETE_CONTENT_LABELS:
             row["candidate_review"] = review_complete_contents(labels, toc)
             row["reference_evidence"] = (
                 "Printed contents visually transcribed before recognition, with PDF-page offset checked on body unit/chapter/section starts; not inferred from generated bookmarks."
@@ -706,6 +794,9 @@ def main():
                 {(normalize(t), p) for _, t, p in labels}
                 & {(normalize(t), p) for _, t, p in toc}
             )
+        from headings import diagnose_outline
+
+        row["diagnostics"] = diagnose_outline(headings, pages)
         rows.append(row)
         print(
             json.dumps({k: v for k, v in row.items() if k != "toc"}, ensure_ascii=True),
@@ -720,6 +811,7 @@ def main():
         first_pass = json.loads((directory / "blind-first-pass.json").read_text())
     results = dict(
         independent_first_pass=first_pass,
+        prior_independent_evaluations=prior.get("prior_independent_evaluations", {}),
         version=app.VERSION,
         signed_fixture=verify_signed_fixture(),
         environment=environment,
@@ -730,6 +822,8 @@ def main():
         implementation_sha256=implementation,
         benchmark_sha256=benchmark_hash,
         annotation_notes=[
+            "Geography and biology from v0.3.3 are now development regressions. Their initial failures and source implementation hashes are preserved under prior_independent_evaluations; only the two new v0.4.0 sources are held out.",
+            "New chemistry labels include every printed contents entry: chapters, sections, repeated summaries/homework and laboratory activities; new Guangdong geography labels include the introductory entry and all chapters/sections. All generated candidates are scored.",
             "Beijing section 2.3 corrected to 等式与方程 after checking printed TOC and body page 86; prior label 算式与等式 was incorrect.",
             "Independent Jijiao scan has generic page bookmarks; labels are manually transcribed, not extracted from those bookmarks.",
             "Think Java and Jiaoke physics are now development regression data. Appendix numbering normalization was corrected in v0.3.2; earlier 205/230 was not 25 missing destinations. Jiaoke physics labels cover six chapters only.",
