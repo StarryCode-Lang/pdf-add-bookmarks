@@ -50,7 +50,7 @@ def match_heading(line, ocr_mode=False, pdf_type="auto"):
     result = _match_heading(line, ocr_mode)
     cleaned = clean_ocr_line(line, ocr_mode)
     exam = bool(re.match(r"^(20\d{2}).*(真题|应用题|统考|试题)|^第\d+讲", cleaned))
-    outline = bool(re.match(r"^[一二三四五六七八九十]+、|^(（[一二三四五六七八九十]+）", cleaned))
+    outline = bool(re.match(r"^[一二三四五六七八九十]+、|^（[一二三四五六七八九十]+）", cleaned))
     if pdf_type == "textbook" and (exam or outline):
         return None
     if pdf_type == "exam" and not (exam or outline):
@@ -96,7 +96,7 @@ def _match_heading(line, ocr_mode=False):
     # Outline markers: "一、", "（一）", "1." at line start for slides/outlines
     if re.match(r'^[一二三四五六七八九十]+[、]', line):
         return {"type": "section", "title": line}
-    if re.match(r'^(（[一二三四五六七八九十]+）', line):
+    if re.match(r'^（[一二三四五六七八九十]+）', line):
         return {"type": "section", "title": line}
     return None
 
@@ -291,7 +291,11 @@ def _read_image_page(task):
     from PIL import Image
     from collections import defaultdict
     from statistics import median
-    pdf_path, index, lang, cmd, extended, dpi = task
+    if len(task) == 5:
+        pdf_path, index, lang, cmd, extended = task
+        dpi = 200
+    else:
+        pdf_path, index, lang, cmd, extended, dpi = task
     os.environ["OMP_THREAD_LIMIT"] = "1"
     if cmd:
         pytesseract.pytesseract.tesseract_cmd = cmd
