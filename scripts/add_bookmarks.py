@@ -50,7 +50,7 @@ def match_heading(line, ocr_mode=False, pdf_type="auto"):
     result = _match_heading(line, ocr_mode)
     cleaned = clean_ocr_line(line, ocr_mode)
     exam = bool(re.match(r"^(20\d{2}).*(真题|应用题|统考|试题)|^第\d+讲", cleaned))
-    outline = bool(re.match(r"^[一二三四五六七八九十]+、|^（[一二三四五六七八九十]+）", cleaned))
+    outline = bool(re.match(r"^[一二三四五六七八九十]+、|^(（[一二三四五六七八九十]+）", cleaned))
     if pdf_type == "textbook" and (exam or outline):
         return None
     if pdf_type == "exam" and not (exam or outline):
@@ -96,7 +96,7 @@ def _match_heading(line, ocr_mode=False):
     # Outline markers: "一、", "（一）", "1." at line start for slides/outlines
     if re.match(r'^[一二三四五六七八九十]+[、]', line):
         return {"type": "section", "title": line}
-    if re.match(r'^（[一二三四五六七八九十]+）', line):
+    if re.match(r'^(（[一二三四五六七八九十]+）', line):
         return {"type": "section", "title": line}
     return None
 
@@ -105,7 +105,7 @@ def _is_garbage_title(title):
     if len(title) < 2:
         return True
     # Count non-standard characters (not Chinese, not English letter, not digit, not common punctuation)
-    non_standard = sum(1 for c in title if not (c.isalnum() or c.isspace() or c in '._()-，、：:；'))
+    non_standard = sum(1 for c in title if not (c.isalnum() or c.isspace() or c in '._()-，、：:;；'))
     if len(title) > 0 and non_standard / len(title) > 0.4:
         return True
     return False
@@ -291,12 +291,12 @@ def _read_image_page(task):
     from PIL import Image
     from collections import defaultdict
     from statistics import median
-    pdf_path, index, lang, cmd, extended = task
+    pdf_path, index, lang, cmd, extended, dpi = task
     os.environ["OMP_THREAD_LIMIT"] = "1"
     if cmd:
         pytesseract.pytesseract.tesseract_cmd = cmd
     with fitz.open(pdf_path) as doc:
-        pix = doc[index].get_pixmap(dpi=200, colorspace=fitz.csRGB, alpha=False)
+        pix = doc[index].get_pixmap(dpi=dpi, colorspace=fitz.csRGB, alpha=False)
         image = Image.frombytes("RGB", (pix.width, pix.height), pix.samples)
     data = pytesseract.image_to_data(image, lang=lang, timeout=120,
                                      output_type=pytesseract.Output.DICT)
@@ -314,12 +314,13 @@ def _read_image_page(task):
         text_lines.append(line)
         if (baseline and median(data["height"][i] for i in indices) >= baseline * (1.2 if extended else 1.4)
                 and 3 <= len(line) <= 100 and (len(indices) >= 2 or len(line) >= 5)
-                and not re.search(r"[。！？!?]|[.!]$", line)):
+                and not re.search(r"[。！？!?]|[.!]$" , line)):
             titles.append(line)
     return index + 1, "\n".join(text_lines), titles
 
 
-def read_pages(pdf_path, lang="chi_sim+eng", force_ocr=False, workers=None, extended=False):
+def read_pages(pdf_path, lang="chi_sim+eng", force_ocr=False, workers=None, extended=False, dpi=200):
+    read_pages._dpi = dpi
     import fitz
     with fitz.open(pdf_path) as doc:
         if doc.is_encrypted:
@@ -336,7 +337,7 @@ def read_pages(pdf_path, lang="chi_sim+eng", force_ocr=False, workers=None, exte
             for line in lines:
                 title = "".join(span["text"] for span in line["spans"]).strip()
                 size = max((span["size"] for span in line["spans"]), default=0)
-                if 3 <= len(title) <= 100 and (size >= max(14, baseline * 1.2) or (len(lines) == 1 and size >= 14) or (extended and size >= baseline and any(span["flags"] & 16 for span in line["spans"]))) and not re.search(r"[。！？!?]|[.!]$", title):
+                if 3 <= len(title) <= 100 and (size >= max(14, baseline * 1.2) or (len(lines) == 1 and size >= 14) or (extended and size >= baseline and any(span["flags"] & 16 for span in line["spans"]))) and not re.search(r"[。！？!?]|[.!]$" , title):
                     visual.setdefault(i + 1, []).append(title)
         # OCR pages containing images but little useful text (including mixed PDFs).
         scanned = [i for i, page in enumerate(doc)
@@ -344,18 +345,27 @@ def read_pages(pdf_path, lang="chi_sim+eng", force_ocr=False, workers=None, exte
     if scanned:
         import pytesseract
         if not ensure_tesseract():
-            raise ValueError("Tesseract not found. See SKILL.md")
-        available = set(pytesseract.get_languages())
-        missing = set(lang.split("+")) - available
-        if missing:
-            raise ValueError("Missing OCR languages: " + ", ".join(sorted(missing)))
-        print(f"OCR required for {len(scanned)}/{len(pages)} pages.")
-        cmd = find_tesseract()
-        tasks = [(pdf_path, i, lang, cmd, extended) for i in scanned]
-        with ProcessPoolExecutor(max_workers=workers or min(4, os.cpu_count() or 1, len(tasks))) as pool:
-            for number, text, titles in pool.map(_read_image_page, tasks):
-                pages[number - 1] = (number, text)
-                visual[number] = titles
+            print("Warning: Tesseract not found. Skipping OCR; only text layers will be used. Install Tesseract for scanned pages. See SKILL.md")
+            scanned = []
+        else:
+            available = set(pytesseract.get_languages())
+            missing = set(lang.split("+")) - available
+            if missing:
+                print("Warning: Missing OCR languages: " + ", ".join(sorted(missing)) + ". Skipping OCR for those pages.")
+                scanned = []
+            else:
+                print(f"OCR required for {len(scanned)}/{len(pages)} pages.")
+                cmd = find_tesseract()
+                dpi = getattr(read_pages, "_dpi", 200)
+                tasks = [(pdf_path, i, lang, cmd, extended, dpi) for i in scanned]
+                done = 0
+                with ProcessPoolExecutor(max_workers=workers or min(4, os.cpu_count() or 1, len(tasks))) as pool:
+                    for number, text, titles in pool.map(_read_image_page, tasks):
+                        pages[number - 1] = (number, text)
+                        visual[number] = titles
+                        done += 1
+                        if done % max(1, len(tasks)//5) == 0 or done == len(tasks):
+                            print(f"OCR progress: {done}/{len(tasks)}")
     else:
         print("Text-based PDF detected. Extracting headings...")
     return pages, set(i + 1 for i in scanned), visual
@@ -374,7 +384,7 @@ def headings_from_pages(pages, scanned, pdf_type="auto", visual=None):
         for line in lines:
             if len(pages) >= 3 and margins[line] >= max(3, len(pages) * 0.6):
                 continue
-            if re.search(r"[。！？!?]|\.{3,}.*\d+$", line) or len(line) > 100:
+            if re.search(r"[。！？!?]|\.{3,}.*\d+$" , line) or len(line) > 100:
                 continue
             entry = match_heading(line, number in scanned, pdf_type)
             if (not entry and pdf_type != "exam" and line in (visual or {}).get(number, [])
@@ -397,6 +407,8 @@ def main():
     modes.add_argument("--generate-toc", action="store_true")
     parser.add_argument("--offset", type=int, default=0)
     parser.add_argument("--workers", type=int)
+    parser.add_argument("--dpi", type=int, default=200, help="OCR render DPI (lower = faster, default 200)")
+    parser.add_argument("--json", action="store_true", help="Emit structured JSON result on stdout")
     parser.add_argument("--type", choices=["auto", "textbook", "exam", "slides", "article"], default="auto")
     args = parser.parse_args()
     try:
@@ -417,7 +429,7 @@ def main():
             print(f"Found {len(entries)} TOC entries.")
             tree = build_tree_from_entries(entries)
         else:
-            pages, scanned, visual = read_pages(str(source), args.lang, args.force_ocr, args.workers, args.generate_toc)
+            pages, scanned, visual = read_pages(str(source), args.lang, args.force_ocr, args.workers, args.generate_toc, args.dpi)
             # Auto keeps all supported patterns; explicit types restrict the rules.
             headings = headings_from_pages(pages, scanned, args.type, visual)
             print(f"Heading profile: {args.type}")
@@ -434,10 +446,18 @@ def main():
             print(f"Found {len(headings)} headings.")
             tree = build_tree_from_headings(headings)
         count = add_bookmarks(str(source), tree, str(output))
-        print(f"Added {count} bookmarks.\nContent verified: original pages preserved.\nOutput: {output}")
+        if args.json:
+            import json
+            print(json.dumps({"ok": True, "bookmarks": count, "output": str(output), "type": args.type}, ensure_ascii=False))
+        else:
+            print(f"Added {count} bookmarks.\nContent verified: original pages preserved.\nOutput: {output}")
         return 0
     except Exception as error:
-        print(f"Error: {error}")
+        if getattr(args, "json", False):
+            import json
+            print(json.dumps({"ok": False, "error": str(error)}, ensure_ascii=False))
+        else:
+            print(f"Error: {error}")
         return 1
 
 if __name__ == "__main__":
