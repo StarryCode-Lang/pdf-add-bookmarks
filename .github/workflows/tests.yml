@@ -92,8 +92,8 @@ jobs:
           with urllib.request.urlopen(url, timeout=60) as response:
               installer.write_bytes(response.read())
           assert hashlib.sha256(installer.read_bytes()).hexdigest() == 'f3fc4236425b690c8be756f35793f77394ee004be0a6460a440c754d892f68bc'
-          target = root / 'tesseract'
-          subprocess.run([str(installer), '/S', f'/D={target}'], check=True, timeout=120)
+          target = pathlib.Path(os.environ['ProgramFiles']) / 'Tesseract-OCR'
+          subprocess.run([str(installer), '/S', '/ALLUSERS'], check=True, timeout=120)
           assert (target / 'tesseract.exe').is_file()
           with open(os.environ['GITHUB_PATH'], 'a', encoding='utf-8') as output:
               output.write(str(target) + '\n')
