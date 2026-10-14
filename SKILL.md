@@ -6,6 +6,8 @@ license: MIT
 
 # PDF 书签
 
+运行环境：Python 3.10–3.13；使用已安装的 Skill 目录，不假设任何 Agent 的固定路径。安装可使用 `npx skills add StarryCode-Lang/pdf-add-bookmarks --agent codex --global`；去掉 `--global` 为项目安装，替换 Agent 名称即可用于其他支持标准 Skills 的 Agent。
+
 脚本路径相对于本 Skill 的目录解析；输入、输出使用绝对路径。处理前确认文件存在，不覆盖输入。
 
 ## 准备

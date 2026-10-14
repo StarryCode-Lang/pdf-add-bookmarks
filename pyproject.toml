@@ -1,0 +1,8 @@
+[tool.pytest.ini_options]
+markers = ["slow: OCR integration", "requires_tesseract: requires system OCR and language data"]
+
+[tool.ruff]
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E4", "E7", "E9", "F", "I", "B"]
