@@ -285,7 +285,7 @@ COMPLETE_CONTENT_LABELS.update(
         "zh-heldout-guangdong": ZH_HELDOUT_GUANGDONG,
     }
 )
-INDEPENDENT_SAMPLES = {"heldout-flatland", "heldout-bert"}
+INDEPENDENT_SAMPLES = {"heldout-albert", "heldout-roberta"}
 FORCE_OCR_SAMPLES = {"heldout-flatland"}
 
 # Frozen v0.4.1 before selecting these books; labels from rendered contents, not output.
@@ -549,6 +549,84 @@ ZH_EXAM = [
 ]
 
 
+# References fixed from source pages before running either held-out document.
+SOURCES.update(
+    {
+        "heldout-albert": (
+            "https://arxiv.org/pdf/1909.11942",
+            "d631c30f3f41684862e854ad1cb379e9dbf9b1c1fa1510ab618f45b8dfc07e2c",
+            "eng",
+            "article",
+        ),
+        "heldout-roberta": (
+            "https://arxiv.org/pdf/1907.11692",
+            "76a3872d244793563a5b000b818cbaf0ca8972ab1145d32be474c05b2a8f3070",
+            "eng",
+            "article",
+        ),
+    }
+)
+COMPLETE_CONTENT_LABELS.update(
+    {
+        "heldout-albert": [
+            [1, "1 Introduction", 1],
+            [1, "2 Related work", 2],
+            [2, "2.1 Scaling Up Representation Learning for Natural Language", 2],
+            [2, "2.2 Cross-layer parameter sharing", 2],
+            [2, "2.3 Sentence Ordering Objectives", 3],
+            [1, "3 The Elements of ALBERT", 3],
+            [2, "3.1 Model architecture choices", 3],
+            [2, "3.2 Model setup", 5],
+            [1, "4 Experimental Results", 5],
+            [2, "4.1 Experimental Setup", 5],
+            [2, "4.2 Evaluation Benchmarks", 6],
+            [3, "4.2.1 Intrinsic Evaluation", 6],
+            [3, "4.2.2 Downstream Evaluation", 6],
+            [2, "4.3 Overall Comparison between BERT and ALBERT", 6],
+            [2, "4.4 Factorized Embedding Parameterization", 6],
+            [2, "4.5 Cross-layer parameter sharing", 7],
+            [2, "4.6 Sentence order prediction (SOP)", 8],
+            [2, "4.7 What if we train for the same amount of time?", 8],
+            [2, "4.8 Additional training data and dropout effects", 8],
+            [2, "4.9 Current State-of-the-art on NLU Tasks", 9],
+            [1, "5 Discussion", 10],
+            [1, "A Appendix", 15],
+            [2, "A.1 Effect of network depth and width", 15],
+            [2, "A.2 Do very wide ALBERT models need to be deep(er) too?", 16],
+            [2, "A.3 Downstream Evaluation Tasks", 16],
+            [2, "A.4 Hyperparameters", 17],
+        ],
+        "heldout-roberta": [
+            (1, "1 Introduction", 1),
+            (1, "2 Background", 2),
+            (2, "2.1 Setup", 2),
+            (2, "2.2 Architecture", 2),
+            (2, "2.3 Training Objectives", 2),
+            (2, "2.4 Optimization", 2),
+            (2, "2.5 Data", 2),
+            (1, "3 Experimental Setup", 2),
+            (2, "3.1 Implementation", 2),
+            (2, "3.2 Data", 3),
+            (2, "3.3 Evaluation", 3),
+            (1, "4 Training Procedure Analysis", 4),
+            (2, "4.1 Static vs. Dynamic Masking", 4),
+            (2, "4.2 Model Input Format and Next Sentence Prediction", 4),
+            (2, "4.3 Training with large batches", 5),
+            (2, "4.4 Text Encoding", 6),
+            (1, "5 RoBERTa", 6),
+            (2, "5.1 GLUE Results", 7),
+            (2, "5.2 SQuAD Results", 8),
+            (2, "5.3 RACE Results", 9),
+            (1, "6 Related Work", 9),
+            (1, "7 Conclusion", 10),
+            (1, "A Full results on GLUE", 12),
+            (1, "B Pretraining Hyperparameters", 12),
+            (1, "C Finetuning Hyperparameters", 12),
+        ],
+    }
+)
+
+
 def digest(path):
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
@@ -605,10 +683,18 @@ def review_complete_contents(reference, candidates):
 
 
 def download(url, source, expected_hash):
-    if not source.exists():
+    if source.exists():
+        if digest(source) != expected_hash:
+            raise ValueError(
+                "Source changed; review labels before changing its pinned hash"
+            )
+        return
+    # Interrupted downloads must never become apparent pinned input files.
+    handle, temporary = tempfile.mkstemp(dir=source.parent, suffix=".download")
+    try:
         with (
+            os.fdopen(handle, "wb") as file,
             urllib.request.urlopen(url, timeout=120) as response,
-            source.open("wb") as file,
         ):
             total = 0
             while chunk := response.read(1024 * 1024):
@@ -616,10 +702,13 @@ def download(url, source, expected_hash):
                 if total > 64 * 1024 * 1024:
                     raise ValueError("Sample exceeds 64 MiB")
                 file.write(chunk)
-    if digest(source) != expected_hash:
-        raise ValueError(
-            "Source changed; review labels before changing its pinned hash"
-        )
+        if digest(Path(temporary)) != expected_hash:
+            raise ValueError(
+                "Source changed; review labels before changing its pinned hash"
+            )
+        os.replace(temporary, source)
+    finally:
+        Path(temporary).unlink(missing_ok=True)
 
 
 # Independent scan: printed two-column TOC, manually transcribed before recognition.
@@ -734,6 +823,8 @@ def main():
             + inspect.getsource(app.match_heading)
             + inspect.getsource(sys.modules["headings"]._match_heading)
             + inspect.getsource(sys.modules["headings"].native_toc_rows)
+            + inspect.getsource(sys.modules["headings"].native_rows)
+            + inspect.getsource(sys.modules["headings"].native_columns)
             + inspect.getsource(app.page_needs_ocr)
             + (ROOT / "scripts/ocr.py").read_text()
         ).encode()
@@ -751,7 +842,12 @@ def main():
         source = directory / (name + ".pdf")
         with fitz.open(original) as doc:
             reference = doc.get_toc()
-            assert len(doc) >= (10 if base in {"zh-exam", "heldout-bert"} else 100)
+            assert len(doc) >= (
+                10
+                if base
+                in {"zh-exam", "heldout-bert", "heldout-albert", "heldout-roberta"}
+                else 100
+            )
             original_outlines = len(reference)
             if not source.exists():
                 if name == "zh-low":
@@ -826,6 +922,9 @@ def main():
             )
             with fitz.open(output) as doc:
                 toc = doc.get_toc()
+            assert len(toc) == len(headings), (
+                "Published outline differs from recognized headings"
+            )
         else:
             toc = []
         automatic_seconds = time.perf_counter() - started
@@ -1000,9 +1099,25 @@ def main():
     first_pass = prior.get("independent_first_pass", {})
     if not first_pass and (directory / "blind-first-pass.json").exists():
         first_pass = json.loads((directory / "blind-first-pass.json").read_text())
+    history = dict(prior.get("prior_independent_evaluations", {}))
+    if "v0.4.2" not in history:
+        history["v0.4.2"] = {
+            key: prior[key]
+            for key in (
+                "version",
+                "implementation_sha256",
+                "benchmark_sha256",
+                "environment",
+            )
+        }
+        history["v0.4.2"]["results"] = [
+            row
+            for row in prior["results"]
+            if row["name"] in {"heldout-flatland", "heldout-bert"}
+        ]
     results = dict(
         independent_first_pass=first_pass,
-        prior_independent_evaluations=prior.get("prior_independent_evaluations", {}),
+        prior_independent_evaluations=history,
         version=app.VERSION,
         signed_fixture=verify_signed_fixture(),
         environment=environment,
@@ -1013,7 +1128,7 @@ def main():
         implementation_sha256=implementation,
         benchmark_sha256=benchmark_hash,
         annotation_notes=[
-            "Geography and biology from v0.3.3 are now development regressions. Their initial failures and source implementation hashes are preserved under prior_independent_evaluations; the v0.4.0 chemistry and Guangdong geography failures are also preserved and are now regressions. The v0.4.1 hold-outs are preserved as historical first passes and are now regression samples; only Flatland and BERT are current hold-outs.",
+            "Geography and biology from v0.3.3 are now development regressions. Their initial failures and source implementation hashes are preserved under prior_independent_evaluations; the v0.4.0 chemistry and Guangdong geography failures are also preserved and are now regressions. The v0.4.1 hold-outs are preserved as historical first passes and are now regression samples; Flatland and BERT were used for v0.4.3 development and are now regressions. Their published first-pass evidence remains unchanged in prior_independent_evaluations. Current hold-outs are explicitly marked per result.",
             "New chemistry labels include every printed contents entry: chapters, sections, repeated summaries/homework and laboratory activities; new Guangdong geography labels include the introductory entry and all chapters/sections. All generated candidates are scored.",
             "Beijing section 2.3 corrected to 等式与方程 after checking printed TOC and body page 86; prior label 算式与等式 was incorrect.",
             "Independent Jijiao scan has generic page bookmarks; labels are manually transcribed, not extracted from those bookmarks.",

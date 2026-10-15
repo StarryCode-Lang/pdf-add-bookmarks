@@ -526,7 +526,15 @@ def read_pages(
                     (size >= max(14, baseline * 1.2) or (len(rows) <= 3 and size >= 14))
                     or (extended and size >= baseline and bold)
                     or (
-                        columnar
+                        (
+                            columnar
+                            or (
+                                title.isupper()
+                                and re.match(
+                                    r"^(?:\d+(?:\.\d+)*|[A-Z](?:\.\d+)*)\s", title
+                                )
+                            )
+                        )
                         and size >= baseline * 0.95
                         and bold
                         and match_heading(title)

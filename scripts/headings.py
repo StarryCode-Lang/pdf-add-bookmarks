@@ -128,7 +128,7 @@ def _match_heading(line, ocr_mode=False):
     m = re.match(r"^(\d+)\s+([\u4e00-\u9fff][\u4e00-\u9fff\s]{0,15})$", line)
     if m and 1 <= int(m.group(1)) <= 99:
         return {"type": "chapter", "title": line}
-    m = re.match(r"^(\d+)\s+([A-Z][A-Za-z\s\-]{2,100})$", line)
+    m = re.match(r"^(\d+)\s+([A-Z][A-Za-z][^\n]{1,98})$", line)
     if m and 1 <= int(m.group(1)) <= 99:
         return {"type": "chapter", "title": line}
     if re.match(r"^[A-Z]\.\d+\.\d+\.?\s+\w+", line):
@@ -943,8 +943,10 @@ def diagnose_outline(headings, pages):
 def native_columns(lines, baseline, width):
     """Require populated, separated left and right text regions."""
     middle = width / 2
-    left = [line for line in lines if line["bbox"][2] <= middle]
-    right = [line for line in lines if line["bbox"][0] >= middle]
+    # Short table cells and folios do not establish or close a reading gutter.
+    body = [line for line in lines if line["bbox"][2] - line["bbox"][0] >= width * 0.2]
+    left = [line for line in body if line["bbox"][2] <= middle]
+    right = [line for line in body if line["bbox"][0] >= middle]
     return (
         len(left) >= 6
         and len(right) >= 6
@@ -973,7 +975,22 @@ def native_rows(lines, baseline, width):
         title = "".join(s["text"] for s in line["spans"]).strip()
         if not title or not spans:
             continue
-        size, bold = max(s["size"] for s in spans), all(s["flags"] & 16 for s in spans)
+        size = max(s["size"] for s in spans)
+        # Some embedded fonts omit the PDF bold flag. Respect explicit font weight
+        # names, and small capitals encoded with alternating glyph sizes.
+        bold = all(
+            s["flags"] & 16
+            or re.search(r"Bold|Demi|Medi(?:um)?$|CMBX", s.get("font", ""), re.I)
+            for s in spans
+        )
+        letters = "".join(c for c in title if c.isalpha())
+        small_caps = (
+            len(letters) >= 3
+            and letters.isascii()
+            and letters.isupper()
+            and 1.15 <= size / min(s["size"] for s in spans) <= 1.5
+        )
+        bold = bool(bold or small_caps)
         x, y, right, bottom = line["bbox"]
         if (
             rows
@@ -982,6 +999,15 @@ def native_rows(lines, baseline, width):
             and max(size, rows[-1][2]) <= min(size, rows[-1][2]) * 1.4
         ):
             previous = rows[-1]
+            marker_only = r"(?:\d+(?:\.\d+)*|[A-Z](?:\.\d+)*)\.?"
+            emphasis = (
+                previous[3]
+                and bold
+                or bold
+                and re.fullmatch(marker_only, previous[0])
+                or previous[3]
+                and re.fullmatch(marker_only, title)
+            )
             previous[0] = (
                 title + " " + previous[0]
                 if x < previous[5]
@@ -989,7 +1015,7 @@ def native_rows(lines, baseline, width):
             )
             previous[2], previous[3], previous[6] = (
                 max(size, previous[2]),
-                previous[3] and bold,
+                bool(emphasis),
                 max(right, previous[6]),
             )
             previous[5] = min(x, previous[5])

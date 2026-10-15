@@ -1385,3 +1385,74 @@ def test_indirect_stream_controls_require_decoded_comparison(tmp_path, monkeypat
     monkeypatch.setattr(fitz.Document, "xref_stream", decoded)
     assert app.verify_content(source, source)
     assert calls == [stream, stream]
+
+
+def test_embedded_font_weight_and_small_caps_survive_plain_number_fragment():
+    from headings import native_rows
+
+    def span(text, size, font="Example-Regular"):
+        return dict(text=text, size=size, font=font, flags=4)
+
+    number = dict(bbox=(50, 80, 60, 94), spans=[span("2.1", 10)])
+    smallcaps = dict(
+        bbox=(75, 80, 240, 94), spans=[span("M", 10), span("ODEL ARCHITECTURE", 8)]
+    )
+    named_weight = dict(
+        bbox=(50, 130, 240, 144), spans=[span("3.2 Model setup", 10, "Example-Medi")]
+    )
+    ordinary = dict(bbox=(50, 170, 260, 184), spans=[span("NORMAL BODY TEXT", 10)])
+    rows = native_rows([number, smallcaps, named_weight, ordinary], 10, 600)
+    assert [row[3] for row in rows] == [True, True, False]
+    assert rows[0][0] == "2.1 MODEL ARCHITECTURE"
+
+
+def test_short_table_cells_do_not_hide_a_populated_column_gutter():
+    from headings import native_columns
+
+    lines = [
+        dict(bbox=(x, 100 + i * 15, x + 210, 112 + i * 15))
+        for x in [50, 325]
+        for i in range(8)
+    ]
+    lines += [dict(bbox=(295, 40, 305, 50)), dict(bbox=(308, 40, 318, 50))]
+    assert native_columns(lines, 11, 600)
+    assert not native_columns(lines[:8], 11, 600)
+
+
+def test_running_chapter_headers_do_not_remove_restarted_chapters():
+    from headings import filter_headings
+
+    entries = [
+        dict(title=t, page=i + 1, type="chapter")
+        for i, t in enumerate(
+            [
+                "Chapter 1 First",
+                "Chapter 1 First",
+                "Chapter 2 Second",
+                "Chapter 1 First",
+            ]
+        )
+    ]
+    assert [h["page"] for h in filter_headings(entries)] == [1, 3, 4]
+
+
+def test_failed_sample_download_does_not_leave_partial_input(tmp_path, monkeypatch):
+    import network_smoke
+
+    class Interrupted:
+        def __enter__(self):
+            return self
+
+        def __exit__(self, *args):
+            return False
+
+        def read(self, *args):
+            raise OSError("interrupted download")
+
+    monkeypatch.setattr(
+        network_smoke.urllib.request, "urlopen", lambda *args, **kwargs: Interrupted()
+    )
+    source = tmp_path / "sample.pdf"
+    with pytest.raises(OSError, match="interrupted download"):
+        network_smoke.download("https://example.invalid/sample.pdf", source, "unused")
+    assert list(tmp_path.iterdir()) == []
