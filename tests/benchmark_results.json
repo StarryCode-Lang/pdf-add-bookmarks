@@ -3600,7 +3600,7607 @@
           ]
         }
       ]
+    },
+    {
+      "name": "zh-independent",
+      "url": "https://raw.githubusercontent.com/TapXWorld/ChinaTextbook/master/%E5%88%9D%E4%B8%AD/%E6%95%B0%E5%AD%A6/%E5%86%80%E6%95%99%E7%89%88-%E6%B2%B3%E5%8C%97%E6%95%99%E8%82%B2%E5%87%BA%E7%89%88%E7%A4%BE/%E5%85%AB%E5%B9%B4%E7%BA%A7/%E4%B9%89%E5%8A%A1%E6%95%99%E8%82%B2%E6%95%99%E7%A7%91%E4%B9%A6%C2%B7%E6%95%B0%E5%AD%A6%E5%85%AB%E5%B9%B4%E7%BA%A7%E4%B8%8A%E5%86%8C.pdf",
+      "original_sha256": "972482f9736a60c5db028def52b2efa0eff10802bfde02af4d70582bf419d5b1",
+      "input_sha256": "d77f35d4820ca65a6cee34dc6750934e7c0ff8ada62cf5a4fd90e337fb164083",
+      "pages": 177,
+      "original_outline_count": 177,
+      "input_outline_count": 0,
+      "ocr_pages": 177,
+      "bookmarks": 31,
+      "recognition_seconds": 105.92,
+      "extraction_cache_hit": false,
+      "evaluation_role": "development_regression",
+      "save_and_verify_seconds": 4.69,
+      "reviewed_save_and_verify_seconds": 4.88,
+      "automatic_content_preserved": true,
+      "recognition_failure": null,
+      "force_ocr": false,
+      "reviewed_toc_verified": true,
+      "derived_low_quality": false,
+      "scope": "Manual chapter/numbered-section labels only, or the four question-type headers; not every visual candidate",
+      "metrics": {
+        "reference_entries": 34,
+        "scored_candidates": 31,
+        "duplicate_candidates": 0,
+        "exact_matches": 29,
+        "precision": 0.9354838709677419,
+        "recall": 0.8529411764705882,
+        "missing": [
+          [
+            1,
+            "二次根式",
+            93
+          ],
+          [
+            2,
+            "二次根式的乘除运算",
+            99
+          ],
+          [
+            2,
+            "分式",
+            6
+          ],
+          [
+            2,
+            "利用图形的平移旋转和轴对称设计图案",
+            132
+          ],
+          [
+            2,
+            "勾股定理",
+            154
+          ]
+        ],
+        "unexpected": [
+          [
+            1,
+            "一次让式",
+            93
+          ],
+          [
+            2,
+            "匀股定理",
+            154
+          ]
+        ],
+        "unscored_candidates": 0
+      },
+      "toc": [
+        [
+          1,
+          "第十二章 ”分式和分式方程",
+          5
+        ],
+        [
+          2,
+          "12.2 分式的乘除",
+          11
+        ],
+        [
+          2,
+          "12.3 分式的加减",
+          16
+        ],
+        [
+          2,
+          "12.4 分式方程",
+          22
+        ],
+        [
+          2,
+          "12.5 分式方程的应用",
+          26
+        ],
+        [
+          1,
+          "第十三章 ”全等三角形",
+          35
+        ],
+        [
+          2,
+          "13.1 命题与证明",
+          36
+        ],
+        [
+          2,
+          "13.2 全等图形",
+          39
+        ],
+        [
+          2,
+          "13.3 全等三角形的判定",
+          42
+        ],
+        [
+          2,
+          "13.4 三角形的尺规作图",
+          56
+        ],
+        [
+          1,
+          "第十四章 ”实数",
+          63
+        ],
+        [
+          2,
+          "14.1 平方根",
+          64
+        ],
+        [
+          2,
+          "14.2 立方根",
+          70
+        ],
+        [
+          2,
+          "14.3 实数",
+          73
+        ],
+        [
+          2,
+          "14.4 近似数",
+          83
+        ],
+        [
+          2,
+          "14.5 用计算器求平方根与立方根",
+          86
+        ],
+        [
+          1,
+          "第十五章一次让式",
+          93
+        ],
+        [
+          2,
+          "15.1 二次根式",
+          94
+        ],
+        [
+          2,
+          "15.3 二次根式的加减运算",
+          102
+        ],
+        [
+          2,
+          "15.4 二次根式的混合运算",
+          105
+        ],
+        [
+          1,
+          "第十六章 。” 轴对称和中心对称",
+          111
+        ],
+        [
+          2,
+          "16.1 轴对称",
+          112
+        ],
+        [
+          2,
+          "16.2 线段的垂直平分线",
+          116
+        ],
+        [
+          2,
+          "16.3 角的平分线",
+          124
+        ],
+        [
+          2,
+          "16.4 中心对称图形",
+          128
+        ],
+        [
+          1,
+          "第十七章 ”特殊三角形",
+          143
+        ],
+        [
+          2,
+          "17.1 等腰三角形",
+          144
+        ],
+        [
+          2,
+          "17.2 直角三角形",
+          151
+        ],
+        [
+          2,
+          "17.3 匀股定理",
+          154
+        ],
+        [
+          2,
+          "17.4 直角三角形全等的判定",
+          163
+        ],
+        [
+          2,
+          "17.5 反证法 =",
+          166
+        ]
+      ],
+      "reference_toc": [
+        [
+          1,
+          "第十二章 分式和分式方程",
+          5
+        ],
+        [
+          2,
+          "12.1 分式",
+          6
+        ],
+        [
+          2,
+          "12.2 分式的乘除",
+          11
+        ],
+        [
+          2,
+          "12.3 分式的加减",
+          16
+        ],
+        [
+          2,
+          "12.4 分式方程",
+          22
+        ],
+        [
+          2,
+          "12.5 分式方程的应用",
+          26
+        ],
+        [
+          1,
+          "第十三章 全等三角形",
+          35
+        ],
+        [
+          2,
+          "13.1 命题与证明",
+          36
+        ],
+        [
+          2,
+          "13.2 全等图形",
+          39
+        ],
+        [
+          2,
+          "13.3 全等三角形的判定",
+          42
+        ],
+        [
+          2,
+          "13.4 三角形的尺规作图",
+          56
+        ],
+        [
+          1,
+          "第十四章 实数",
+          63
+        ],
+        [
+          2,
+          "14.1 平方根",
+          64
+        ],
+        [
+          2,
+          "14.2 立方根",
+          70
+        ],
+        [
+          2,
+          "14.3 实数",
+          73
+        ],
+        [
+          2,
+          "14.4 近似数",
+          83
+        ],
+        [
+          2,
+          "14.5 用计算器求平方根与立方根",
+          86
+        ],
+        [
+          1,
+          "第十五章 二次根式",
+          93
+        ],
+        [
+          2,
+          "15.1 二次根式",
+          94
+        ],
+        [
+          2,
+          "15.2 二次根式的乘除运算",
+          99
+        ],
+        [
+          2,
+          "15.3 二次根式的加减运算",
+          102
+        ],
+        [
+          2,
+          "15.4 二次根式的混合运算",
+          105
+        ],
+        [
+          1,
+          "第十六章 轴对称和中心对称",
+          111
+        ],
+        [
+          2,
+          "16.1 轴对称",
+          112
+        ],
+        [
+          2,
+          "16.2 线段的垂直平分线",
+          116
+        ],
+        [
+          2,
+          "16.3 角的平分线",
+          124
+        ],
+        [
+          2,
+          "16.4 中心对称图形",
+          128
+        ],
+        [
+          2,
+          "16.5 利用图形的平移、旋转和轴对称设计图案",
+          132
+        ],
+        [
+          1,
+          "第十七章 特殊三角形",
+          143
+        ],
+        [
+          2,
+          "17.1 等腰三角形",
+          144
+        ],
+        [
+          2,
+          "17.2 直角三角形",
+          151
+        ],
+        [
+          2,
+          "17.3 勾股定理",
+          154
+        ],
+        [
+          2,
+          "17.4 直角三角形全等的判定",
+          163
+        ],
+        [
+          2,
+          "17.5 反证法",
+          166
+        ]
+      ],
+      "review_signals": {
+        "unreadable_toc_rows": 3,
+        "low_confidence_toc_rows": 2
+      },
+      "recognition_method": "printed_toc",
+      "diagnostics": [
+        {
+          "code": "incomplete_printed_toc",
+          "message": "Printed contents has 3 unreadable rows; inferred hierarchy may omit parents or children.",
+          "pages": [
+            4
+          ]
+        }
+      ]
+    },
+    {
+      "name": "zh-exam",
+      "url": "https://imgs.app.gaokaozhitongche.com/resource/pdf/paper/202506/20250617081036_lTiMG1.pdf",
+      "original_sha256": "2ca7d17a6c493fe56b95f6db214b1eeba5817cdcd4520ae43ff90fc69fcd59e7",
+      "input_sha256": "2ca7d17a6c493fe56b95f6db214b1eeba5817cdcd4520ae43ff90fc69fcd59e7",
+      "pages": 16,
+      "original_outline_count": 0,
+      "input_outline_count": 0,
+      "ocr_pages": 16,
+      "bookmarks": 5,
+      "recognition_seconds": 15.07,
+      "extraction_cache_hit": false,
+      "evaluation_role": "development_regression",
+      "save_and_verify_seconds": 4.43,
+      "reviewed_save_and_verify_seconds": 4.34,
+      "automatic_content_preserved": true,
+      "recognition_failure": null,
+      "force_ocr": false,
+      "reviewed_toc_verified": true,
+      "derived_low_quality": false,
+      "scope": "Manual chapter/numbered-section labels only, or the four question-type headers; not every visual candidate",
+      "metrics": {
+        "reference_entries": 4,
+        "scored_candidates": 4,
+        "duplicate_candidates": 0,
+        "exact_matches": 4,
+        "precision": 1.0,
+        "recall": 1.0,
+        "missing": [],
+        "unexpected": [],
+        "unscored_candidates": 1
+      },
+      "toc": [
+        [
+          1,
+          "2025 年普通高等学校招生全国统一考试 (新 [ 卷数学 )",
+          1
+        ],
+        [
+          2,
+          "一、选择题",
+          1
+        ],
+        [
+          2,
+          "三、填空题",
+          2
+        ],
+        [
+          2,
+          "四、解答题",
+          2
+        ],
+        [
+          2,
+          "二、选择题",
+          2
+        ]
+      ],
+      "reference_toc": [
+        [
+          2,
+          "一、选择题",
+          1
+        ],
+        [
+          2,
+          "二、选择题",
+          2
+        ],
+        [
+          2,
+          "三、填空题",
+          2
+        ],
+        [
+          2,
+          "四、解答题",
+          2
+        ]
+      ],
+      "review_signals": {
+        "unreadable_toc_rows": 0,
+        "low_confidence_toc_rows": 0
+      },
+      "recognition_method": "body_headings",
+      "diagnostics": []
+    },
+    {
+      "name": "blind-java",
+      "url": "https://greenteapress.com/thinkjava7/thinkjava2.pdf",
+      "original_sha256": "b1fec11a9d39765bb23a73d94452e7c8caf50a165034543eb1efceba1fd8a68e",
+      "input_sha256": "19385dcde9c94a766bcf9287c9c3214370f3bce36928a589354add9713618354",
+      "pages": 372,
+      "original_outline_count": 230,
+      "input_outline_count": 0,
+      "ocr_pages": 0,
+      "bookmarks": 240,
+      "recognition_seconds": 1.76,
+      "extraction_cache_hit": false,
+      "evaluation_role": "development_regression",
+      "save_and_verify_seconds": 2.17,
+      "reviewed_save_and_verify_seconds": 0,
+      "automatic_content_preserved": true,
+      "recognition_failure": null,
+      "force_ocr": false,
+      "reviewed_toc_verified": false,
+      "derived_low_quality": false,
+      "scope": "Publisher outline; additional visual titles are unlabelled",
+      "metrics": {
+        "reference_entries": 230,
+        "scored_candidates": 240,
+        "duplicate_candidates": 0,
+        "exact_matches": 230,
+        "recall": 1.0,
+        "missing": [],
+        "reference_match_fraction": 0.9583333333333334,
+        "additional_candidates": [
+          [
+            1,
+            "abouttheappendixes",
+            18
+          ],
+          [
+            1,
+            "acknowledgments",
+            19
+          ],
+          [
+            1,
+            "changestothesecondedition",
+            17
+          ],
+          [
+            1,
+            "howtothinklikeacomputerscientist",
+            1
+          ],
+          [
+            1,
+            "objectorientedprogramming",
+            16
+          ],
+          [
+            1,
+            "thephilosophybehindthebook",
+            15
+          ],
+          [
+            1,
+            "thinkjava",
+            1
+          ],
+          [
+            1,
+            "thinkjava",
+            3
+          ],
+          [
+            1,
+            "usingthecodeexamples",
+            18
+          ],
+          [
+            2,
+            "abouttheauthors",
+            372
+          ]
+        ]
+      },
+      "toc": [
+        [
+          1,
+          "Think Java",
+          1
+        ],
+        [
+          1,
+          "How to Think Like a Computer Scientist",
+          1
+        ],
+        [
+          1,
+          "Think Java",
+          3
+        ],
+        [
+          1,
+          "Preface",
+          15
+        ],
+        [
+          1,
+          "The Philosophy Behind the Book",
+          15
+        ],
+        [
+          1,
+          "Object-Oriented Programming",
+          16
+        ],
+        [
+          1,
+          "Changes to the Second Edition",
+          17
+        ],
+        [
+          1,
+          "About the Appendixes",
+          18
+        ],
+        [
+          1,
+          "Using the Code Examples",
+          18
+        ],
+        [
+          1,
+          "Acknowledgments",
+          19
+        ],
+        [
+          1,
+          "Chapter 1 Computer Programming",
+          23
+        ],
+        [
+          2,
+          "1.1 What Is a Computer?",
+          23
+        ],
+        [
+          2,
+          "1.2 What Is Programming?",
+          24
+        ],
+        [
+          2,
+          "1.3 The Hello World Program",
+          25
+        ],
+        [
+          2,
+          "1.4 Compiling Java Programs",
+          27
+        ],
+        [
+          2,
+          "1.5 Displaying Two Messages",
+          28
+        ],
+        [
+          2,
+          "1.6 Formatting Source Code",
+          29
+        ],
+        [
+          2,
+          "1.7 Using Escape Sequences",
+          31
+        ],
+        [
+          2,
+          "1.8 What Is Computer Science?",
+          32
+        ],
+        [
+          2,
+          "1.9 Debugging Programs",
+          33
+        ],
+        [
+          2,
+          "1.10 Vocabulary",
+          34
+        ],
+        [
+          2,
+          "1.11 Exercises",
+          36
+        ],
+        [
+          1,
+          "Chapter 2 Variables and Operators",
+          39
+        ],
+        [
+          2,
+          "2.1 Declaring Variables",
+          39
+        ],
+        [
+          2,
+          "2.2 Assigning Variables",
+          40
+        ],
+        [
+          2,
+          "2.3 Memory Diagrams",
+          41
+        ],
+        [
+          2,
+          "2.4 Printing Variables",
+          42
+        ],
+        [
+          2,
+          "2.5 Arithmetic Operators",
+          43
+        ],
+        [
+          2,
+          "2.6 Floating-Point Numbers",
+          45
+        ],
+        [
+          2,
+          "2.7 Rounding Errors",
+          46
+        ],
+        [
+          2,
+          "2.8 Operators for Strings",
+          47
+        ],
+        [
+          2,
+          "2.9 Compiler Error Messages",
+          49
+        ],
+        [
+          2,
+          "2.10 Other Types of Errors",
+          50
+        ],
+        [
+          2,
+          "2.11 Vocabulary",
+          51
+        ],
+        [
+          2,
+          "2.12 Exercises",
+          53
+        ],
+        [
+          1,
+          "Chapter 3 Input and Output",
+          55
+        ],
+        [
+          2,
+          "3.1 The System Class",
+          55
+        ],
+        [
+          2,
+          "3.2 The Scanner Class",
+          56
+        ],
+        [
+          2,
+          "3.3 Language Elements",
+          58
+        ],
+        [
+          2,
+          "3.4 Literals and Constants",
+          59
+        ],
+        [
+          2,
+          "3.5 Formatting Output",
+          61
+        ],
+        [
+          2,
+          "3.6 Reading Error Messages",
+          62
+        ],
+        [
+          2,
+          "3.7 Type Cast Operators",
+          63
+        ],
+        [
+          2,
+          "3.8 Remainder Operator",
+          64
+        ],
+        [
+          2,
+          "3.9 Putting It All Together",
+          65
+        ],
+        [
+          2,
+          "3.10 The Scanner Bug",
+          67
+        ],
+        [
+          2,
+          "3.11 Vocabulary",
+          68
+        ],
+        [
+          2,
+          "3.12 Exercises",
+          69
+        ],
+        [
+          1,
+          "Chapter 4 Methods and Testing",
+          73
+        ],
+        [
+          2,
+          "4.1 Defining New Methods",
+          73
+        ],
+        [
+          2,
+          "4.2 Flow of Execution",
+          75
+        ],
+        [
+          2,
+          "4.3 Parameters and Arguments",
+          76
+        ],
+        [
+          2,
+          "4.4 Multiple Parameters",
+          77
+        ],
+        [
+          2,
+          "4.5 Stack Diagrams",
+          79
+        ],
+        [
+          2,
+          "4.6 Math Methods",
+          80
+        ],
+        [
+          2,
+          "4.7 Composition",
+          81
+        ],
+        [
+          2,
+          "4.8 Return Values",
+          82
+        ],
+        [
+          2,
+          "4.9 Incremental Development",
+          83
+        ],
+        [
+          2,
+          "4.10 Vocabulary",
+          86
+        ],
+        [
+          2,
+          "4.11 Exercises",
+          87
+        ],
+        [
+          1,
+          "Chapter 5 Conditionals and Logic",
+          93
+        ],
+        [
+          2,
+          "5.1 Relational Operators",
+          93
+        ],
+        [
+          2,
+          "5.2 The if-else Statement",
+          94
+        ],
+        [
+          2,
+          "5.3 Chaining and Nesting",
+          96
+        ],
+        [
+          2,
+          "5.4 The switch Statement",
+          97
+        ],
+        [
+          2,
+          "5.5 Logical Operators",
+          99
+        ],
+        [
+          2,
+          "5.6 De Morgan’s Laws",
+          100
+        ],
+        [
+          2,
+          "5.7 Boolean Variables",
+          101
+        ],
+        [
+          2,
+          "5.8 Boolean Methods",
+          102
+        ],
+        [
+          2,
+          "5.9 Validating Input",
+          103
+        ],
+        [
+          2,
+          "5.10 Example Program",
+          105
+        ],
+        [
+          2,
+          "5.11 Vocabulary",
+          106
+        ],
+        [
+          2,
+          "5.12 Exercises",
+          107
+        ],
+        [
+          1,
+          "Chapter 6 Loops and Strings",
+          111
+        ],
+        [
+          2,
+          "6.1 The while Statement",
+          111
+        ],
+        [
+          2,
+          "6.2 Increment and Decrement",
+          113
+        ],
+        [
+          2,
+          "6.3 The for Statement",
+          114
+        ],
+        [
+          2,
+          "6.4 Nested Loops",
+          116
+        ],
+        [
+          2,
+          "6.5 Characters",
+          117
+        ],
+        [
+          2,
+          "6.6 Which Loop to Use",
+          119
+        ],
+        [
+          2,
+          "6.7 String Iteration",
+          120
+        ],
+        [
+          2,
+          "6.8 The indexOf Method",
+          121
+        ],
+        [
+          2,
+          "6.9 Substrings",
+          122
+        ],
+        [
+          2,
+          "6.10 String Comparison",
+          123
+        ],
+        [
+          2,
+          "6.11 String Formatting",
+          124
+        ],
+        [
+          2,
+          "6.12 Vocabulary",
+          125
+        ],
+        [
+          2,
+          "6.13 Exercises",
+          126
+        ],
+        [
+          1,
+          "Chapter 7 Arrays and References",
+          129
+        ],
+        [
+          2,
+          "7.1 Creating Arrays",
+          130
+        ],
+        [
+          2,
+          "7.2 Accessing Elements",
+          131
+        ],
+        [
+          2,
+          "7.3 Displaying Arrays",
+          132
+        ],
+        [
+          2,
+          "7.4 Copying Arrays",
+          133
+        ],
+        [
+          2,
+          "7.5 Traversing Arrays",
+          135
+        ],
+        [
+          2,
+          "7.6 Random Numbers",
+          137
+        ],
+        [
+          2,
+          "7.7 Building a Histogram",
+          138
+        ],
+        [
+          2,
+          "7.8 The Enhanced for Loop",
+          140
+        ],
+        [
+          2,
+          "7.9 Counting Characters",
+          141
+        ],
+        [
+          2,
+          "7.10 Vocabulary",
+          143
+        ],
+        [
+          2,
+          "7.11 Exercises",
+          144
+        ],
+        [
+          1,
+          "Chapter 8 Recursive Methods",
+          149
+        ],
+        [
+          2,
+          "8.1 Recursive Void Methods",
+          149
+        ],
+        [
+          2,
+          "8.2 Recursive Stack Diagrams",
+          151
+        ],
+        [
+          2,
+          "8.3 Value-Returning Methods",
+          152
+        ],
+        [
+          2,
+          "8.4 The Leap of Faith",
+          155
+        ],
+        [
+          2,
+          "8.5 Counting Up Recursively",
+          156
+        ],
+        [
+          2,
+          "8.6 Binary Number System",
+          157
+        ],
+        [
+          2,
+          "8.7 Recursive Binary Method",
+          159
+        ],
+        [
+          2,
+          "8.8 CodingBat Problems",
+          159
+        ],
+        [
+          2,
+          "8.9 Vocabulary",
+          162
+        ],
+        [
+          2,
+          "8.10 Exercises",
+          163
+        ],
+        [
+          1,
+          "Chapter 9 Immutable Objects",
+          169
+        ],
+        [
+          2,
+          "9.1 Primitives vs Objects",
+          169
+        ],
+        [
+          2,
+          "9.2 The null Keyword",
+          171
+        ],
+        [
+          2,
+          "9.3 Strings Are Immutable",
+          171
+        ],
+        [
+          2,
+          "9.4 Wrapper Classes",
+          173
+        ],
+        [
+          2,
+          "9.5 Command-Line Arguments",
+          174
+        ],
+        [
+          2,
+          "9.6 Argument Validation",
+          176
+        ],
+        [
+          2,
+          "9.7 BigInteger Arithmetic",
+          177
+        ],
+        [
+          2,
+          "9.8 Incremental Design",
+          179
+        ],
+        [
+          2,
+          "9.9 More Generalization",
+          180
+        ],
+        [
+          2,
+          "9.10 Vocabulary",
+          182
+        ],
+        [
+          2,
+          "9.11 Exercises",
+          183
+        ],
+        [
+          1,
+          "Chapter 10 Mutable Objects",
+          189
+        ],
+        [
+          2,
+          "10.1 Point Objects",
+          189
+        ],
+        [
+          2,
+          "10.2 Objects as Parameters",
+          191
+        ],
+        [
+          2,
+          "10.3 Objects as Return Values",
+          192
+        ],
+        [
+          2,
+          "10.4 Rectangles Are Mutable",
+          193
+        ],
+        [
+          2,
+          "10.5 Aliasing Revisited",
+          194
+        ],
+        [
+          2,
+          "10.6 Java Library Source",
+          195
+        ],
+        [
+          2,
+          "10.7 Class Diagrams",
+          196
+        ],
+        [
+          2,
+          "10.8 Scope Revisited",
+          197
+        ],
+        [
+          2,
+          "10.9 Garbage Collection",
+          198
+        ],
+        [
+          2,
+          "10.10 Mutable vs Immutable",
+          199
+        ],
+        [
+          2,
+          "10.11 StringBuilder Objects",
+          200
+        ],
+        [
+          2,
+          "10.12 Vocabulary",
+          201
+        ],
+        [
+          2,
+          "10.13 Exercises",
+          202
+        ],
+        [
+          1,
+          "Chapter 11 Designing Classes",
+          205
+        ],
+        [
+          2,
+          "11.1 The Time Class",
+          206
+        ],
+        [
+          2,
+          "11.2 Constructors",
+          207
+        ],
+        [
+          2,
+          "11.3 Value Constructors",
+          208
+        ],
+        [
+          2,
+          "11.4 Getters and Setters",
+          210
+        ],
+        [
+          2,
+          "11.5 Displaying Objects",
+          212
+        ],
+        [
+          2,
+          "11.6 The toString Method",
+          213
+        ],
+        [
+          2,
+          "11.7 The equals Method",
+          214
+        ],
+        [
+          2,
+          "11.8 Adding Times",
+          216
+        ],
+        [
+          2,
+          "11.9 Vocabulary",
+          218
+        ],
+        [
+          2,
+          "11.10 Exercises",
+          219
+        ],
+        [
+          1,
+          "Chapter 12 Arrays of Objects",
+          223
+        ],
+        [
+          2,
+          "12.1 Card Objects",
+          224
+        ],
+        [
+          2,
+          "12.2 Card toString",
+          225
+        ],
+        [
+          2,
+          "12.3 Class Variables",
+          227
+        ],
+        [
+          2,
+          "12.4 The compareTo Method",
+          228
+        ],
+        [
+          2,
+          "12.5 Cards Are Immutable",
+          229
+        ],
+        [
+          2,
+          "12.6 Arrays of Cards",
+          230
+        ],
+        [
+          2,
+          "12.7 Sequential Search",
+          232
+        ],
+        [
+          2,
+          "12.8 Binary Search",
+          233
+        ],
+        [
+          2,
+          "12.9 Tracing the Code",
+          234
+        ],
+        [
+          2,
+          "12.10 Vocabulary",
+          235
+        ],
+        [
+          2,
+          "12.11 Exercises",
+          236
+        ],
+        [
+          1,
+          "Chapter 13 Objects of Arrays",
+          239
+        ],
+        [
+          2,
+          "13.1 Decks of Cards",
+          239
+        ],
+        [
+          2,
+          "13.2 Shuffling Decks",
+          241
+        ],
+        [
+          2,
+          "13.3 Selection Sort",
+          242
+        ],
+        [
+          2,
+          "13.4 Merge Sort",
+          243
+        ],
+        [
+          2,
+          "13.5 Subdecks",
+          244
+        ],
+        [
+          2,
+          "13.6 Merging Decks",
+          244
+        ],
+        [
+          2,
+          "13.7 Adding Recursion",
+          246
+        ],
+        [
+          2,
+          "13.8 Static Context",
+          246
+        ],
+        [
+          2,
+          "13.9 Piles of Cards",
+          248
+        ],
+        [
+          2,
+          "13.10 Playing War",
+          250
+        ],
+        [
+          2,
+          "13.11 Vocabulary",
+          252
+        ],
+        [
+          2,
+          "13.12 Exercises",
+          252
+        ],
+        [
+          1,
+          "Chapter 14 Extending Classes",
+          255
+        ],
+        [
+          2,
+          "14.1 CardCollection",
+          256
+        ],
+        [
+          2,
+          "14.2 Inheritance",
+          258
+        ],
+        [
+          2,
+          "14.3 Dealing Cards",
+          260
+        ],
+        [
+          2,
+          "14.4 The Player Class",
+          262
+        ],
+        [
+          2,
+          "14.5 The Eights Class",
+          264
+        ],
+        [
+          2,
+          "14.6 Class Relationships",
+          268
+        ],
+        [
+          2,
+          "14.7 Vocabulary",
+          269
+        ],
+        [
+          2,
+          "14.8 Exercises",
+          269
+        ],
+        [
+          1,
+          "Chapter 15 Arrays of Arrays",
+          271
+        ],
+        [
+          2,
+          "15.1 Conway’s Game of Life",
+          271
+        ],
+        [
+          2,
+          "15.2 The Cell Class",
+          273
+        ],
+        [
+          2,
+          "15.3 Two-Dimensional Arrays",
+          274
+        ],
+        [
+          2,
+          "15.4 The GridCanvas Class",
+          275
+        ],
+        [
+          2,
+          "15.5 Other Grid Methods",
+          277
+        ],
+        [
+          2,
+          "15.6 Starting the Game",
+          278
+        ],
+        [
+          2,
+          "15.7 The Simulation Loop",
+          279
+        ],
+        [
+          2,
+          "15.8 Exception Handling",
+          280
+        ],
+        [
+          2,
+          "15.9 Counting Neighbors",
+          281
+        ],
+        [
+          2,
+          "15.10 Updating the Grid",
+          282
+        ],
+        [
+          2,
+          "15.11 Vocabulary",
+          285
+        ],
+        [
+          2,
+          "15.12 Exercises",
+          285
+        ],
+        [
+          1,
+          "Chapter 16 Reusing Classes",
+          289
+        ],
+        [
+          2,
+          "16.1 Langton’s Ant",
+          289
+        ],
+        [
+          2,
+          "16.2 Refactoring",
+          292
+        ],
+        [
+          2,
+          "16.3 Abstract Classes",
+          293
+        ],
+        [
+          2,
+          "16.4 UML Diagram",
+          295
+        ],
+        [
+          2,
+          "16.5 Vocabulary",
+          296
+        ],
+        [
+          2,
+          "16.6 Exercises",
+          297
+        ],
+        [
+          1,
+          "Chapter 17 Advanced Topics",
+          299
+        ],
+        [
+          2,
+          "17.1 Polygon Objects",
+          299
+        ],
+        [
+          2,
+          "17.2 Adding Color",
+          300
+        ],
+        [
+          2,
+          "17.3 Regular Polygons",
+          301
+        ],
+        [
+          2,
+          "17.4 More Constructors",
+          304
+        ],
+        [
+          2,
+          "17.5 An Initial Drawing",
+          305
+        ],
+        [
+          2,
+          "17.6 Blinking Polygons",
+          308
+        ],
+        [
+          2,
+          "17.7 Interfaces",
+          310
+        ],
+        [
+          2,
+          "17.8 Event Listeners",
+          312
+        ],
+        [
+          2,
+          "17.9 Timers",
+          315
+        ],
+        [
+          2,
+          "17.10 Vocabulary",
+          317
+        ],
+        [
+          2,
+          "17.11 Exercises",
+          317
+        ],
+        [
+          1,
+          "Appendix A Tools",
+          319
+        ],
+        [
+          2,
+          "A.1 Installing DrJava",
+          319
+        ],
+        [
+          2,
+          "A.2 DrJava Interactions",
+          321
+        ],
+        [
+          2,
+          "A.3 Command-Line Interface",
+          322
+        ],
+        [
+          2,
+          "A.4 Command-Line Testing",
+          323
+        ],
+        [
+          2,
+          "A.5 Running Checkstyle",
+          325
+        ],
+        [
+          2,
+          "A.6 Tracing with a Debugger",
+          326
+        ],
+        [
+          2,
+          "A.7 Testing with JUnit",
+          327
+        ],
+        [
+          2,
+          "A.8 Vocabulary",
+          329
+        ],
+        [
+          1,
+          "Appendix B Javadoc",
+          331
+        ],
+        [
+          2,
+          "B.1 Reading Documentation",
+          332
+        ],
+        [
+          2,
+          "B.2 Writing Documentation",
+          334
+        ],
+        [
+          2,
+          "B.3 Javadoc Tags",
+          335
+        ],
+        [
+          2,
+          "B.4 Example Source File",
+          337
+        ],
+        [
+          2,
+          "B.5 Vocabulary",
+          340
+        ],
+        [
+          1,
+          "Appendix C Graphics",
+          341
+        ],
+        [
+          2,
+          "C.1 Creating Graphics",
+          341
+        ],
+        [
+          2,
+          "C.2 Graphics Methods",
+          342
+        ],
+        [
+          2,
+          "C.3 Example Drawing",
+          344
+        ],
+        [
+          2,
+          "C.4 Vocabulary",
+          345
+        ],
+        [
+          2,
+          "C.5 Exercises",
+          346
+        ],
+        [
+          1,
+          "Appendix D Debugging",
+          349
+        ],
+        [
+          2,
+          "D.1 Compile-Time Errors",
+          349
+        ],
+        [
+          2,
+          "D.2 Run-Time Errors",
+          353
+        ],
+        [
+          2,
+          "D.3 Logic Errors",
+          357
+        ],
+        [
+          1,
+          "Index",
+          363
+        ],
+        [
+          2,
+          "About the Authors",
+          372
+        ]
+      ],
+      "reference_toc": [
+        [
+          1,
+          "Preface",
+          15
+        ],
+        [
+          1,
+          "1. Computer Programming",
+          23
+        ],
+        [
+          2,
+          "1.1. What Is a Computer?",
+          23
+        ],
+        [
+          2,
+          "1.2. What Is Programming?",
+          24
+        ],
+        [
+          2,
+          "1.3. The Hello World Program",
+          25
+        ],
+        [
+          2,
+          "1.4. Compiling Java Programs",
+          27
+        ],
+        [
+          2,
+          "1.5. Displaying Two Messages",
+          28
+        ],
+        [
+          2,
+          "1.6. Formatting Source Code",
+          29
+        ],
+        [
+          2,
+          "1.7. Using Escape Sequences",
+          31
+        ],
+        [
+          2,
+          "1.8. What Is Computer Science?",
+          32
+        ],
+        [
+          2,
+          "1.9. Debugging Programs",
+          33
+        ],
+        [
+          2,
+          "1.10. Vocabulary",
+          34
+        ],
+        [
+          2,
+          "1.11. Exercises",
+          36
+        ],
+        [
+          1,
+          "2. Variables and Operators",
+          39
+        ],
+        [
+          2,
+          "2.1. Declaring Variables",
+          39
+        ],
+        [
+          2,
+          "2.2. Assigning Variables",
+          40
+        ],
+        [
+          2,
+          "2.3. Memory Diagrams",
+          41
+        ],
+        [
+          2,
+          "2.4. Printing Variables",
+          42
+        ],
+        [
+          2,
+          "2.5. Arithmetic Operators",
+          43
+        ],
+        [
+          2,
+          "2.6. Floating-Point Numbers",
+          45
+        ],
+        [
+          2,
+          "2.7. Rounding Errors",
+          46
+        ],
+        [
+          2,
+          "2.8. Operators for Strings",
+          47
+        ],
+        [
+          2,
+          "2.9. Compiler Error Messages",
+          49
+        ],
+        [
+          2,
+          "2.10. Other Types of Errors",
+          50
+        ],
+        [
+          2,
+          "2.11. Vocabulary",
+          51
+        ],
+        [
+          2,
+          "2.12. Exercises",
+          53
+        ],
+        [
+          1,
+          "3. Input and Output",
+          55
+        ],
+        [
+          2,
+          "3.1. The System Class",
+          55
+        ],
+        [
+          2,
+          "3.2. The Scanner Class",
+          56
+        ],
+        [
+          2,
+          "3.3. Language Elements",
+          58
+        ],
+        [
+          2,
+          "3.4. Literals and Constants",
+          59
+        ],
+        [
+          2,
+          "3.5. Formatting Output",
+          61
+        ],
+        [
+          2,
+          "3.6. Reading Error Messages",
+          62
+        ],
+        [
+          2,
+          "3.7. Type Cast Operators",
+          63
+        ],
+        [
+          2,
+          "3.8. Remainder Operator",
+          64
+        ],
+        [
+          2,
+          "3.9. Putting It All Together",
+          65
+        ],
+        [
+          2,
+          "3.10. The Scanner Bug",
+          67
+        ],
+        [
+          2,
+          "3.11. Vocabulary",
+          68
+        ],
+        [
+          2,
+          "3.12. Exercises",
+          69
+        ],
+        [
+          1,
+          "4. Methods and Testing",
+          73
+        ],
+        [
+          2,
+          "4.1. Defining New Methods",
+          73
+        ],
+        [
+          2,
+          "4.2. Flow of Execution",
+          75
+        ],
+        [
+          2,
+          "4.3. Parameters and Arguments",
+          76
+        ],
+        [
+          2,
+          "4.4. Multiple Parameters",
+          77
+        ],
+        [
+          2,
+          "4.5. Stack Diagrams",
+          79
+        ],
+        [
+          2,
+          "4.6. Math Methods",
+          80
+        ],
+        [
+          2,
+          "4.7. Composition",
+          81
+        ],
+        [
+          2,
+          "4.8. Return Values",
+          82
+        ],
+        [
+          2,
+          "4.9. Incremental Development",
+          83
+        ],
+        [
+          2,
+          "4.10. Vocabulary",
+          86
+        ],
+        [
+          2,
+          "4.11. Exercises",
+          87
+        ],
+        [
+          1,
+          "5. Conditionals and Logic",
+          93
+        ],
+        [
+          2,
+          "5.1. Relational Operators",
+          93
+        ],
+        [
+          2,
+          "5.2. The if-else Statement",
+          94
+        ],
+        [
+          2,
+          "5.3. Chaining and Nesting",
+          96
+        ],
+        [
+          2,
+          "5.4. The switch Statement",
+          97
+        ],
+        [
+          2,
+          "5.5. Logical Operators",
+          99
+        ],
+        [
+          2,
+          "5.6. De Morgan's Laws",
+          100
+        ],
+        [
+          2,
+          "5.7. Boolean Variables",
+          101
+        ],
+        [
+          2,
+          "5.8. Boolean Methods",
+          102
+        ],
+        [
+          2,
+          "5.9. Validating Input",
+          103
+        ],
+        [
+          2,
+          "5.10. Example Program",
+          105
+        ],
+        [
+          2,
+          "5.11. Vocabulary",
+          106
+        ],
+        [
+          2,
+          "5.12. Exercises",
+          107
+        ],
+        [
+          1,
+          "6. Loops and Strings",
+          111
+        ],
+        [
+          2,
+          "6.1. The while Statement",
+          111
+        ],
+        [
+          2,
+          "6.2. Increment and Decrement",
+          113
+        ],
+        [
+          2,
+          "6.3. The for Statement",
+          114
+        ],
+        [
+          2,
+          "6.4. Nested Loops",
+          116
+        ],
+        [
+          2,
+          "6.5. Characters",
+          117
+        ],
+        [
+          2,
+          "6.6. Which Loop to Use",
+          119
+        ],
+        [
+          2,
+          "6.7. String Iteration",
+          120
+        ],
+        [
+          2,
+          "6.8. The indexOf Method",
+          121
+        ],
+        [
+          2,
+          "6.9. Substrings",
+          122
+        ],
+        [
+          2,
+          "6.10. String Comparison",
+          123
+        ],
+        [
+          2,
+          "6.11. String Formatting",
+          124
+        ],
+        [
+          2,
+          "6.12. Vocabulary",
+          125
+        ],
+        [
+          2,
+          "6.13. Exercises",
+          126
+        ],
+        [
+          1,
+          "7. Arrays and References",
+          129
+        ],
+        [
+          2,
+          "7.1. Creating Arrays",
+          130
+        ],
+        [
+          2,
+          "7.2. Accessing Elements",
+          131
+        ],
+        [
+          2,
+          "7.3. Displaying Arrays",
+          132
+        ],
+        [
+          2,
+          "7.4. Copying Arrays",
+          133
+        ],
+        [
+          2,
+          "7.5. Traversing Arrays",
+          135
+        ],
+        [
+          2,
+          "7.6. Random Numbers",
+          137
+        ],
+        [
+          2,
+          "7.7. Building a Histogram",
+          138
+        ],
+        [
+          2,
+          "7.8. The Enhanced for Loop",
+          140
+        ],
+        [
+          2,
+          "7.9. Counting Characters",
+          141
+        ],
+        [
+          2,
+          "7.10. Vocabulary",
+          143
+        ],
+        [
+          2,
+          "7.11. Exercises",
+          144
+        ],
+        [
+          1,
+          "8. Recursive Methods",
+          149
+        ],
+        [
+          2,
+          "8.1. Recursive Void Methods",
+          149
+        ],
+        [
+          2,
+          "8.2. Recursive Stack Diagrams",
+          151
+        ],
+        [
+          2,
+          "8.3. Value-Returning Methods",
+          152
+        ],
+        [
+          2,
+          "8.4. The Leap of Faith",
+          155
+        ],
+        [
+          2,
+          "8.5. Counting Up Recursively",
+          156
+        ],
+        [
+          2,
+          "8.6. Binary Number System",
+          157
+        ],
+        [
+          2,
+          "8.7. Recursive Binary Method",
+          159
+        ],
+        [
+          2,
+          "8.8. CodingBat Problems",
+          159
+        ],
+        [
+          2,
+          "8.9. Vocabulary",
+          162
+        ],
+        [
+          2,
+          "8.10. Exercises",
+          163
+        ],
+        [
+          1,
+          "9. Immutable Objects",
+          169
+        ],
+        [
+          2,
+          "9.1. Primitives vs Objects",
+          169
+        ],
+        [
+          2,
+          "9.2. The null Keyword",
+          171
+        ],
+        [
+          2,
+          "9.3. Strings Are Immutable",
+          171
+        ],
+        [
+          2,
+          "9.4. Wrapper Classes",
+          173
+        ],
+        [
+          2,
+          "9.5. Command-Line Arguments",
+          174
+        ],
+        [
+          2,
+          "9.6. Argument Validation",
+          176
+        ],
+        [
+          2,
+          "9.7. BigInteger Arithmetic",
+          177
+        ],
+        [
+          2,
+          "9.8. Incremental Design",
+          179
+        ],
+        [
+          2,
+          "9.9. More Generalization",
+          180
+        ],
+        [
+          2,
+          "9.10. Vocabulary",
+          182
+        ],
+        [
+          2,
+          "9.11. Exercises",
+          183
+        ],
+        [
+          1,
+          "10. Mutable Objects",
+          189
+        ],
+        [
+          2,
+          "10.1. Point Objects",
+          189
+        ],
+        [
+          2,
+          "10.2. Objects as Parameters",
+          191
+        ],
+        [
+          2,
+          "10.3. Objects as Return Values",
+          192
+        ],
+        [
+          2,
+          "10.4. Rectangles Are Mutable",
+          193
+        ],
+        [
+          2,
+          "10.5. Aliasing Revisited",
+          194
+        ],
+        [
+          2,
+          "10.6. Java Library Source",
+          195
+        ],
+        [
+          2,
+          "10.7. Class Diagrams",
+          196
+        ],
+        [
+          2,
+          "10.8. Scope Revisited",
+          197
+        ],
+        [
+          2,
+          "10.9. Garbage Collection",
+          198
+        ],
+        [
+          2,
+          "10.10. Mutable vs Immutable",
+          199
+        ],
+        [
+          2,
+          "10.11. StringBuilder Objects",
+          200
+        ],
+        [
+          2,
+          "10.12. Vocabulary",
+          201
+        ],
+        [
+          2,
+          "10.13. Exercises",
+          202
+        ],
+        [
+          1,
+          "11. Designing Classes",
+          205
+        ],
+        [
+          2,
+          "11.1. The Time Class",
+          206
+        ],
+        [
+          2,
+          "11.2. Constructors",
+          207
+        ],
+        [
+          2,
+          "11.3. Value Constructors",
+          208
+        ],
+        [
+          2,
+          "11.4. Getters and Setters",
+          210
+        ],
+        [
+          2,
+          "11.5. Displaying Objects",
+          212
+        ],
+        [
+          2,
+          "11.6. The toString Method",
+          213
+        ],
+        [
+          2,
+          "11.7. The equals Method",
+          214
+        ],
+        [
+          2,
+          "11.8. Adding Times",
+          216
+        ],
+        [
+          2,
+          "11.9. Vocabulary",
+          218
+        ],
+        [
+          2,
+          "11.10. Exercises",
+          219
+        ],
+        [
+          1,
+          "12. Arrays of Objects",
+          223
+        ],
+        [
+          2,
+          "12.1. Card Objects",
+          224
+        ],
+        [
+          2,
+          "12.2. Card toString",
+          225
+        ],
+        [
+          2,
+          "12.3. Class Variables",
+          227
+        ],
+        [
+          2,
+          "12.4. The compareTo Method",
+          228
+        ],
+        [
+          2,
+          "12.5. Cards Are Immutable",
+          229
+        ],
+        [
+          2,
+          "12.6. Arrays of Cards",
+          230
+        ],
+        [
+          2,
+          "12.7. Sequential Search",
+          232
+        ],
+        [
+          2,
+          "12.8. Binary Search",
+          233
+        ],
+        [
+          2,
+          "12.9. Tracing the Code",
+          234
+        ],
+        [
+          2,
+          "12.10. Vocabulary",
+          235
+        ],
+        [
+          2,
+          "12.11. Exercises",
+          236
+        ],
+        [
+          1,
+          "13. Objects of Arrays",
+          239
+        ],
+        [
+          2,
+          "13.1. Decks of Cards",
+          239
+        ],
+        [
+          2,
+          "13.2. Shuffling Decks",
+          241
+        ],
+        [
+          2,
+          "13.3. Selection Sort",
+          242
+        ],
+        [
+          2,
+          "13.4. Merge Sort",
+          243
+        ],
+        [
+          2,
+          "13.5. Subdecks",
+          244
+        ],
+        [
+          2,
+          "13.6. Merging Decks",
+          244
+        ],
+        [
+          2,
+          "13.7. Adding Recursion",
+          246
+        ],
+        [
+          2,
+          "13.8. Static Context",
+          246
+        ],
+        [
+          2,
+          "13.9. Piles of Cards",
+          248
+        ],
+        [
+          2,
+          "13.10. Playing War",
+          250
+        ],
+        [
+          2,
+          "13.11. Vocabulary",
+          252
+        ],
+        [
+          2,
+          "13.12. Exercises",
+          252
+        ],
+        [
+          1,
+          "14. Extending Classes",
+          255
+        ],
+        [
+          2,
+          "14.1. CardCollection",
+          256
+        ],
+        [
+          2,
+          "14.2. Inheritance",
+          258
+        ],
+        [
+          2,
+          "14.3. Dealing Cards",
+          260
+        ],
+        [
+          2,
+          "14.4. The Player Class",
+          262
+        ],
+        [
+          2,
+          "14.5. The Eights Class",
+          264
+        ],
+        [
+          2,
+          "14.6. Class Relationships",
+          268
+        ],
+        [
+          2,
+          "14.7. Vocabulary",
+          269
+        ],
+        [
+          2,
+          "14.8. Exercises",
+          269
+        ],
+        [
+          1,
+          "15. Arrays of Arrays",
+          271
+        ],
+        [
+          2,
+          "15.1. Conway's Game of Life",
+          271
+        ],
+        [
+          2,
+          "15.2. The Cell Class",
+          273
+        ],
+        [
+          2,
+          "15.3. Two-Dimensional Arrays",
+          274
+        ],
+        [
+          2,
+          "15.4. The GridCanvas Class",
+          275
+        ],
+        [
+          2,
+          "15.5. Other Grid Methods",
+          277
+        ],
+        [
+          2,
+          "15.6. Starting the Game",
+          278
+        ],
+        [
+          2,
+          "15.7. The Simulation Loop",
+          279
+        ],
+        [
+          2,
+          "15.8. Exception Handling",
+          280
+        ],
+        [
+          2,
+          "15.9. Counting Neighbors",
+          281
+        ],
+        [
+          2,
+          "15.10. Updating the Grid",
+          282
+        ],
+        [
+          2,
+          "15.11. Vocabulary",
+          285
+        ],
+        [
+          2,
+          "15.12. Exercises",
+          285
+        ],
+        [
+          1,
+          "16. Reusing Classes",
+          289
+        ],
+        [
+          2,
+          "16.1. Langton's Ant",
+          289
+        ],
+        [
+          2,
+          "16.2. Refactoring",
+          292
+        ],
+        [
+          2,
+          "16.3. Abstract Classes",
+          293
+        ],
+        [
+          2,
+          "16.4. UML Diagram",
+          295
+        ],
+        [
+          2,
+          "16.5. Vocabulary",
+          296
+        ],
+        [
+          2,
+          "16.6. Exercises",
+          297
+        ],
+        [
+          1,
+          "17. Advanced Topics",
+          299
+        ],
+        [
+          2,
+          "17.1. Polygon Objects",
+          299
+        ],
+        [
+          2,
+          "17.2. Adding Color",
+          300
+        ],
+        [
+          2,
+          "17.3. Regular Polygons",
+          301
+        ],
+        [
+          2,
+          "17.4. More Constructors",
+          304
+        ],
+        [
+          2,
+          "17.5. An Initial Drawing",
+          305
+        ],
+        [
+          2,
+          "17.6. Blinking Polygons",
+          308
+        ],
+        [
+          2,
+          "17.7. Interfaces",
+          310
+        ],
+        [
+          2,
+          "17.8. Event Listeners",
+          312
+        ],
+        [
+          2,
+          "17.9. Timers",
+          315
+        ],
+        [
+          2,
+          "17.10. Vocabulary",
+          317
+        ],
+        [
+          2,
+          "17.11. Exercises",
+          317
+        ],
+        [
+          1,
+          "A. Tools",
+          319
+        ],
+        [
+          2,
+          "A.1. Installing DrJava",
+          319
+        ],
+        [
+          2,
+          "A.2. DrJava Interactions",
+          321
+        ],
+        [
+          2,
+          "A.3. Command-Line Interface",
+          322
+        ],
+        [
+          2,
+          "A.4. Command-Line Testing",
+          323
+        ],
+        [
+          2,
+          "A.5. Running Checkstyle",
+          325
+        ],
+        [
+          2,
+          "A.6. Tracing with a Debugger",
+          326
+        ],
+        [
+          2,
+          "A.7. Testing with JUnit",
+          327
+        ],
+        [
+          2,
+          "A.8. Vocabulary",
+          329
+        ],
+        [
+          1,
+          "B. Javadoc",
+          331
+        ],
+        [
+          2,
+          "B.1. Reading Documentation",
+          332
+        ],
+        [
+          2,
+          "B.2. Writing Documentation",
+          334
+        ],
+        [
+          2,
+          "B.3. Javadoc Tags",
+          335
+        ],
+        [
+          2,
+          "B.4. Example Source File",
+          337
+        ],
+        [
+          2,
+          "B.5. Vocabulary",
+          340
+        ],
+        [
+          1,
+          "C. Graphics",
+          341
+        ],
+        [
+          2,
+          "C.1. Creating Graphics",
+          341
+        ],
+        [
+          2,
+          "C.2. Graphics Methods",
+          342
+        ],
+        [
+          2,
+          "C.3. Example Drawing",
+          344
+        ],
+        [
+          2,
+          "C.4. Vocabulary",
+          345
+        ],
+        [
+          2,
+          "C.5. Exercises",
+          346
+        ],
+        [
+          1,
+          "D. Debugging",
+          349
+        ],
+        [
+          2,
+          "D.1. Compile-Time Errors",
+          349
+        ],
+        [
+          2,
+          "D.2. Run-Time Errors",
+          353
+        ],
+        [
+          2,
+          "D.3. Logic Errors",
+          357
+        ],
+        [
+          1,
+          "Index",
+          363
+        ]
+      ],
+      "review_signals": {
+        "unreadable_toc_rows": 0,
+        "low_confidence_toc_rows": 0
+      },
+      "recognition_method": "body_headings",
+      "diagnostics": []
+    },
+    {
+      "name": "zh-blind-physics",
+      "url": "https://raw.githubusercontent.com/TapXWorld/ChinaTextbook/master/%E5%88%9D%E4%B8%AD/%E7%89%A9%E7%90%86/%E6%95%99%E7%A7%91%E7%89%88-%E6%95%99%E8%82%B2%E7%A7%91%E5%AD%A6%E5%87%BA%E7%89%88%E7%A4%BE/%E5%85%AB%E5%B9%B4%E7%BA%A7/%E4%B9%89%E5%8A%A1%E6%95%99%E8%82%B2%E6%95%99%E7%A7%91%E4%B9%A6%C2%B7%E7%89%A9%E7%90%86%E5%85%AB%E5%B9%B4%E7%BA%A7%E4%B8%8A%E5%86%8C.pdf",
+      "original_sha256": "1583dbe84c0dc28a70dd55ccc77206a1a5580639f378b102d599fa9d8f35edb2",
+      "input_sha256": "0d4680123628ce1c60cec13474563432fca1a2e4903f682e26cfe5f27024d888",
+      "pages": 133,
+      "original_outline_count": 3,
+      "input_outline_count": 0,
+      "ocr_pages": 19,
+      "bookmarks": 149,
+      "recognition_seconds": 15.03,
+      "extraction_cache_hit": false,
+      "evaluation_role": "development_regression",
+      "save_and_verify_seconds": 5.54,
+      "reviewed_save_and_verify_seconds": 5.41,
+      "automatic_content_preserved": true,
+      "recognition_failure": null,
+      "force_ocr": false,
+      "reviewed_toc_verified": true,
+      "derived_low_quality": false,
+      "scope": "Chapter titles, PDF pages and depth only; sections and visual titles are unlabelled",
+      "metrics": {
+        "reference_entries": 6,
+        "scored_candidates": 6,
+        "duplicate_candidates": 0,
+        "exact_matches": 6,
+        "precision": 1.0,
+        "recall": 1.0,
+        "missing": [],
+        "unexpected": [],
+        "unscored_candidates": 143
+      },
+      "toc": [
+        [
+          1,
+          "义务教育教科书",
+          2
+        ],
+        [
+          1,
+          "致同学们",
+          3
+        ],
+        [
+          1,
+          "认识物理学",
+          8
+        ],
+        [
+          1,
+          "第一章走进实验室",
+          12
+        ],
+        [
+          2,
+          "走进实验室: 学习科学探究",
+          13
+        ],
+        [
+          2,
+          "观察奇妙的物理现象",
+          13
+        ],
+        [
+          2,
+          "认识科学探究的工具",
+          14
+        ],
+        [
+          2,
+          "像科学家一样探究",
+          15
+        ],
+        [
+          2,
+          "建立你的家庭实验室",
+          16
+        ],
+        [
+          2,
+          "测量: 实验探 究的重要环节",
+          18
+        ],
+        [
+          2,
+          "从木工尺到米原器",
+          18
+        ],
+        [
+          2,
+          "实验:测量长度",
+          19
+        ],
+        [
+          2,
+          "观察 认识刻度尺",
+          19
+        ],
+        [
+          2,
+          "活动 测量身高和腰围",
+          21
+        ],
+        [
+          2,
+          "实验:测量时间",
+          21
+        ],
+        [
+          2,
+          "观察 认识停表",
+          21
+        ],
+        [
+          2,
+          "活动 测量心率",
+          22
+        ],
+        [
+          2,
+          "发展空间",
+          22
+        ],
+        [
+          2,
+          "活动: 降落伞比赛",
+          23
+        ],
+        [
+          1,
+          "第二章运动与能量",
+          26
+        ],
+        [
+          2,
+          "认识运动",
+          27
+        ],
+        [
+          2,
+          "宏观物体的机械运动",
+          27
+        ],
+        [
+          2,
+          "微观世界的分子运动",
+          28
+        ],
+        [
+          2,
+          "发展空间",
+          29
+        ],
+        [
+          2,
+          "运动的描述",
+          30
+        ],
+        [
+          2,
+          "参照物",
+          30
+        ],
+        [
+          2,
+          "动与静",
+          31
+        ],
+        [
+          2,
+          "快与慢",
+          32
+        ],
+        [
+          2,
+          "测量物体运动 的速度",
+          34
+        ],
+        [
+          2,
+          "讨论交流 汽车的速度",
+          36
+        ],
+        [
+          2,
+          "能  量",
+          39
+        ],
+        [
+          2,
+          "各种形式的能量",
+          39
+        ],
+        [
+          2,
+          "能量可以转化",
+          40
+        ],
+        [
+          2,
+          "知识要点",
+          41
+        ],
+        [
+          1,
+          "第三章声",
+          42
+        ],
+        [
+          2,
+          "认识声现象",
+          43
+        ],
+        [
+          2,
+          "声  源",
+          43
+        ],
+        [
+          2,
+          "观察 发声体在振动",
+          43
+        ],
+        [
+          2,
+          "声的传播",
+          44
+        ],
+        [
+          2,
+          "活动 会“跳舞”的烛焰",
+          45
+        ],
+        [
+          2,
+          "声传播的速度",
+          46
+        ],
+        [
+          2,
+          "讨论交流 声的传播有多快",
+          46
+        ],
+        [
+          2,
+          "人的发声和听声能力",
+          46
+        ],
+        [
+          2,
+          "发展空间",
+          47
+        ],
+        [
+          2,
+          "乐音的三个 特征",
+          49
+        ],
+        [
+          2,
+          "音  调",
+          49
+        ],
+        [
+          2,
+          "响  度",
+          50
+        ],
+        [
+          2,
+          "音  色",
+          50
+        ],
+        [
+          2,
+          "观察 声波的图形",
+          51
+        ],
+        [
+          2,
+          "噪  声",
+          53
+        ],
+        [
+          2,
+          "噪声及其来源",
+          53
+        ],
+        [
+          2,
+          "噪声大小及其危害",
+          53
+        ],
+        [
+          2,
+          "控制噪声",
+          54
+        ],
+        [
+          2,
+          "声与现代科技",
+          56
+        ],
+        [
+          2,
+          "奇异的声现象",
+          56
+        ],
+        [
+          2,
+          "超声是个多面手",
+          57
+        ],
+        [
+          2,
+          "次声本领大",
+          58
+        ],
+        [
+          2,
+          "声识别技术",
+          59
+        ],
+        [
+          2,
+          "探究声的反射",
+          60
+        ],
+        [
+          2,
+          "物理在线",
+          60
+        ],
+        [
+          2,
+          "古代建筑中的声现象",
+          60
+        ],
+        [
+          2,
+          "2561.5 m、 高约 3.72 may BAG",
+          60
+        ],
+        [
+          2,
+          "知识要点",
+          61
+        ],
+        [
+          1,
+          "第四章在光的世界里",
+          62
+        ],
+        [
+          2,
+          "光源 光的传播",
+          63
+        ],
+        [
+          2,
+          "光  源",
+          63
+        ],
+        [
+          2,
+          "光是怎样传播的",
+          63
+        ],
+        [
+          2,
+          "光传播的速度",
+          65
+        ],
+        [
+          2,
+          "发展空间",
+          66
+        ],
+        [
+          2,
+          "光的反射定律",
+          67
+        ],
+        [
+          2,
+          "光的反射规律",
+          67
+        ],
+        [
+          2,
+          "实验探究 光的反射规律",
+          67
+        ],
+        [
+          2,
+          "镜面反射和漫反射",
+          69
+        ],
+        [
+          2,
+          "物理在线",
+          71
+        ],
+        [
+          2,
+          "科学探究:",
+          72
+        ],
+        [
+          2,
+          "科学探究: 平面镜成像",
+          72
+        ],
+        [
+          2,
+          "平面镜成像",
+          72
+        ],
+        [
+          2,
+          "实验探究",
+          72
+        ],
+        [
+          2,
+          "平面镜成像时像与物的关系",
+          72
+        ],
+        [
+          2,
+          "讨论交流 物和像关于平面镜的对称关系",
+          74
+        ],
+        [
+          2,
+          "光的折射",
+          76
+        ],
+        [
+          2,
+          "观察 光的折射现象",
+          76
+        ],
+        [
+          2,
+          "光的折射规律",
+          76
+        ],
+        [
+          2,
+          "实验探究 光的折射规律",
+          76
+        ],
+        [
+          2,
+          "折射形成的奇异现象",
+          77
+        ],
+        [
+          1,
+          "C. EAR ak aT",
+          78
+        ],
+        [
+          2,
+          "科学探究: 凸透镜成像",
+          79
+        ],
+        [
+          2,
+          "认识透镜",
+          79
+        ],
+        [
+          2,
+          "实验探究:凸透镜成像的规律",
+          81
+        ],
+        [
+          2,
+          "透镜成像规律的应用",
+          83
+        ],
+        [
+          2,
+          "发展空间",
+          84
+        ],
+        [
+          1,
+          "4 庭实验室",
+          84
+        ],
+        [
+          2,
+          "制作有透镜的照相机",
+          84
+        ],
+        [
+          2,
+          "照相机的发展史",
+          84
+        ],
+        [
+          2,
+          "神奇的眼睛",
+          85
+        ],
+        [
+          2,
+          "眼  睛",
+          85
+        ],
+        [
+          2,
+          "保护你的眼睛",
+          86
+        ],
+        [
+          2,
+          "发展空间",
+          87
+        ],
+        [
+          2,
+          "通过透镜 看世界",
+          89
+        ],
+        [
+          2,
+          "望远镜",
+          89
+        ],
+        [
+          2,
+          "欣赏:展望遥远的宇宙空间",
+          90
+        ],
+        [
+          2,
+          "显微镜",
+          91
+        ],
+        [
+          2,
+          "欣赏:奇异的微观世界",
+          91
+        ],
+        [
+          2,
+          "走进彩色世界",
+          92
+        ],
+        [
+          2,
+          "光的色散",
+          92
+        ],
+        [
+          2,
+          "光的三原色",
+          93
+        ],
+        [
+          2,
+          "知识要点",
+          95
+        ],
+        [
+          1,
+          "第五章物态变化",
+          96
+        ],
+        [
+          2,
+          "物态变化与温度",
+          97
+        ],
+        [
+          2,
+          "然界的",
+          97
+        ],
+        [
+          2,
+          "认识水的物态变化",
+          98
+        ],
+        [
+          2,
+          "活动 制造云和雨",
+          98
+        ],
+        [
+          2,
+          "测量温度",
+          99
+        ],
+        [
+          2,
+          "欣赏:大自然中水的物态变化",
+          101
+        ],
+        [
+          2,
+          "发展空间",
+          101
+        ],
+        [
+          2,
+          "熔化和凝固",
+          103
+        ],
+        [
+          2,
+          "认识晶体",
+          103
+        ],
+        [
+          2,
+          "固体的熔化",
+          104
+        ],
+        [
+          2,
+          "液体的凝固",
+          107
+        ],
+        [
+          2,
+          "讨论交流 火山爆发后",
+          107
+        ],
+        [
+          2,
+          "熔化和凝固规律的应用",
+          108
+        ],
+        [
+          2,
+          "汽化和液化",
+          109
+        ],
+        [
+          2,
+          "从液体到气体",
+          109
+        ],
+        [
+          2,
+          "实验探究 沸腾的规律",
+          109
+        ],
+        [
+          2,
+          "从气体到液体",
+          111
+        ],
+        [
+          2,
+          "物态变化中的吸热和放热",
+          111
+        ],
+        [
+          2,
+          "物理在线",
+          113
+        ],
+        [
+          2,
+          "地球上的 水循环",
+          114
+        ],
+        [
+          2,
+          "多姿多态的水",
+          114
+        ],
+        [
+          2,
+          "地球上的水循环",
+          115
+        ],
+        [
+          2,
+          "来自极地的报告",
+          116
+        ],
+        [
+          2,
+          "知识要点",
+          117
+        ],
+        [
+          1,
+          "第六章质量与密度",
+          118
+        ],
+        [
+          2,
+          "质  量",
+          119
+        ],
+        [
+          2,
+          "认识质量",
+          119
+        ],
+        [
+          2,
+          "测量质量",
+          120
+        ],
+        [
+          2,
+          "J0105 型托盘天平使用说明书",
+          120
+        ],
+        [
+          2,
+          "实验探究 用天平测量固体和液体的质量",
+          121
+        ],
+        [
+          2,
+          "发展空间",
+          122
+        ],
+        [
+          2,
+          "物质的密度",
+          123
+        ],
+        [
+          2,
+          "认识密度",
+          123
+        ],
+        [
+          2,
+          "实验探究",
+          123
+        ],
+        [
+          2,
+          "密度的应用",
+          125
+        ],
+        [
+          2,
+          "发展空间 发展空间",
+          126
+        ],
+        [
+          2,
+          "测量密度",
+          127
+        ],
+        [
+          2,
+          "实验探究 测量矿石的密度",
+          127
+        ],
+        [
+          2,
+          "实验探究 测量酱油的密度",
+          127
+        ],
+        [
+          2,
+          "活动:密度知识 应用交流会",
+          129
+        ],
+        [
+          2,
+          "知识要点",
+          131
+        ]
+      ],
+      "reference_toc": [
+        [
+          1,
+          "第一章 走进实验室",
+          12
+        ],
+        [
+          1,
+          "第二章 运动与能量",
+          26
+        ],
+        [
+          1,
+          "第三章 声",
+          42
+        ],
+        [
+          1,
+          "第四章 在光的世界里",
+          62
+        ],
+        [
+          1,
+          "第五章 物态变化",
+          96
+        ],
+        [
+          1,
+          "第六章 质量与密度",
+          118
+        ]
+      ],
+      "review_signals": {
+        "unreadable_toc_rows": 0,
+        "low_confidence_toc_rows": 0
+      },
+      "recognition_method": "body_headings",
+      "diagnostics": []
+    },
+    {
+      "name": "zh-heldout-suke",
+      "url": "https://raw.githubusercontent.com/TapXWorld/ChinaTextbook/master/%E5%88%9D%E4%B8%AD/%E7%89%A9%E7%90%86/%E8%8B%8F%E7%A7%91%E7%89%88-%E6%B1%9F%E8%8B%8F%E5%87%A4%E5%87%B0%E7%A7%91%E5%AD%A6%E6%8A%80%E6%9C%AF%E5%87%BA%E7%89%88%E7%A4%BE/%E5%85%AB%E5%B9%B4%E7%BA%A7/%E4%B9%89%E5%8A%A1%E6%95%99%E8%82%B2%E6%95%99%E7%A7%91%E4%B9%A6%C2%B7%E7%89%A9%E7%90%86%E5%85%AB%E5%B9%B4%E7%BA%A7%E4%B8%8A%E5%86%8C.pdf",
+      "original_sha256": "020e05765e8373111f5e71604d56f02bdeafa14ab9913344253f92f89d0ace98",
+      "input_sha256": "020e05765e8373111f5e71604d56f02bdeafa14ab9913344253f92f89d0ace98",
+      "pages": 134,
+      "original_outline_count": 0,
+      "input_outline_count": 0,
+      "ocr_pages": 44,
+      "bookmarks": 103,
+      "recognition_seconds": 24.02,
+      "extraction_cache_hit": false,
+      "evaluation_role": "development_regression",
+      "save_and_verify_seconds": 7.01,
+      "reviewed_save_and_verify_seconds": 6.76,
+      "automatic_content_preserved": true,
+      "recognition_failure": null,
+      "force_ocr": false,
+      "reviewed_toc_verified": true,
+      "derived_low_quality": false,
+      "scope": "Chapter titles, PDF pages and depth only; sections and visual titles are unlabelled",
+      "metrics": {
+        "reference_entries": 5,
+        "scored_candidates": 5,
+        "duplicate_candidates": 0,
+        "exact_matches": 5,
+        "precision": 1.0,
+        "recall": 1.0,
+        "missing": [],
+        "unexpected": [],
+        "unscored_candidates": 98
+      },
+      "toc": [
+        [
+          1,
+          "八八年级",
+          1
+        ],
+        [
+          1,
+          "年级上册",
+          2
+        ],
+        [
+          1,
+          "物理八年级上册",
+          3
+        ],
+        [
+          1,
+          "致同学们",
+          4
+        ],
+        [
+          1,
+          "学生实验",
+          4
+        ],
+        [
+          1,
+          "体验科学探究",
+          8
+        ],
+        [
+          2,
+          "一、奇妙的物理现象",
+          9
+        ],
+        [
+          2,
+          "二、体验科学探究",
+          10
+        ],
+        [
+          1,
+          "声现象",
+          14
+        ],
+        [
+          2,
+          "一、声音是什么",
+          15
+        ],
+        [
+          2,
+          "声音的产生",
+          15
+        ],
+        [
+          2,
+          "声音的传播",
+          15
+        ],
+        [
+          2,
+          "声音是一种波",
+          16
+        ],
+        [
+          2,
+          "声 速",
+          17
+        ],
+        [
+          2,
+          "二、乐音的特性",
+          19
+        ],
+        [
+          2,
+          "响 度",
+          19
+        ],
+        [
+          2,
+          "音 调",
+          19
+        ],
+        [
+          2,
+          "振动的快慢常用每秒振动的次数—频率",
+          20
+        ],
+        [
+          2,
+          "音 色",
+          20
+        ],
+        [
+          2,
+          "三、噪声及其控制",
+          23
+        ],
+        [
+          2,
+          "噪声的来源",
+          23
+        ],
+        [
+          2,
+          "噪声的危害",
+          24
+        ],
+        [
+          2,
+          "噪声的控制",
+          25
+        ],
+        [
+          2,
+          "四、人耳听不到的声音",
+          27
+        ],
+        [
+          2,
+          "超声波",
+          28
+        ],
+        [
+          2,
+          "次声波",
+          29
+        ],
+        [
+          2,
+          "综合实践活动",
+          30
+        ],
+        [
+          2,
+          "比较材料的隔声性能",
+          30
+        ],
+        [
+          1,
+          "物态变化",
+          34
+        ],
+        [
+          2,
+          "一、物质的三态温度的测量",
+          35
+        ],
+        [
+          2,
+          "物质的三态",
+          35
+        ],
+        [
+          2,
+          "一、物质的三态 ”温度的测量",
+          35
+        ],
+        [
+          2,
+          "2.1 观察水的三态及其特征",
+          35
+        ],
+        [
+          2,
+          "温度的测量",
+          36
+        ],
+        [
+          2,
+          "学生实验",
+          36
+        ],
+        [
+          2,
+          "二、汽化和液化",
+          41
+        ],
+        [
+          2,
+          "液 化",
+          43
+        ],
+        [
+          2,
+          "三、熔化和凝固",
+          46
+        ],
+        [
+          2,
+          "熔化、凝固的特点",
+          46
+        ],
+        [
+          2,
+          "熔化、凝固的应用",
+          48
+        ],
+        [
+          2,
+          "四、升华和凝华",
+          49
+        ],
+        [
+          2,
+          "五、水循环",
+          51
+        ],
+        [
+          2,
+          "地球上的水循环",
+          51
+        ],
+        [
+          2,
+          "珍贵的水资源",
+          53
+        ],
+        [
+          2,
+          "节约用水与水资源保护",
+          54
+        ],
+        [
+          2,
+          "综合实践活动",
+          55
+        ],
+        [
+          2,
+          "用电冰箱研究物态变化现象",
+          55
+        ],
+        [
+          2,
+          "炽热物体发出的光来",
+          57
+        ],
+        [
+          1,
+          "光现象",
+          60
+        ],
+        [
+          2,
+          "一、光的色彩颜色",
+          61
+        ],
+        [
+          2,
+          "光的色散",
+          62
+        ],
+        [
+          2,
+          "色光的混合",
+          62
+        ],
+        [
+          2,
+          "物体的颜色",
+          64
+        ],
+        [
+          2,
+          "3.4 观察彩色图",
+          64
+        ],
+        [
+          2,
+          "二、人眼看不见的光",
+          66
+        ],
+        [
+          2,
+          "红外线",
+          66
+        ],
+        [
+          2,
+          "紫外线",
+          67
+        ],
+        [
+          2,
+          "三、光的直线传播",
+          70
+        ],
+        [
+          2,
+          "光在均匀介质中的传播",
+          70
+        ],
+        [
+          2,
+          "光 速",
+          71
+        ],
+        [
+          2,
+          "四、平面镜",
+          73
+        ],
+        [
+          2,
+          "平面镜成像",
+          73
+        ],
+        [
+          2,
+          "学生实验",
+          73
+        ],
+        [
+          2,
+          "平面镜成像的应用",
+          75
+        ],
+        [
+          2,
+          "五、光的反射",
+          77
+        ],
+        [
+          2,
+          "光的反射定律",
+          77
+        ],
+        [
+          2,
+          "镜面反射与漫反射",
+          79
+        ],
+        [
+          2,
+          "综合实践活动",
+          81
+        ],
+        [
+          2,
+          "探究树荫下的光斑",
+          81
+        ],
+        [
+          1,
+          "光的折射透镜",
+          86
+        ],
+        [
+          2,
+          "一、光的折射",
+          87
+        ],
+        [
+          2,
+          "折射现象",
+          87
+        ],
+        [
+          2,
+          "折射的特点",
+          88
+        ],
+        [
+          2,
+          "硬币的位置 EERE ANA",
+          90
+        ],
+        [
+          2,
+          "二、透镜",
+          91
+        ],
+        [
+          2,
+          "初识透镜",
+          91
+        ],
+        [
+          1,
+          "43 识凸透镜和四镜",
+          91
+        ],
+        [
+          2,
+          "焦点与焦距",
+          92
+        ],
+        [
+          2,
+          "会聚和发散的奥秘",
+          93
+        ],
+        [
+          2,
+          "三、凸透镜成像的规律",
+          95
+        ],
+        [
+          2,
+          "学生实验",
+          95
+        ],
+        [
+          2,
+          "四、照相机与眼球 视力的矫正",
+          98
+        ],
+        [
+          2,
+          "照相机与眼球",
+          98
+        ],
+        [
+          2,
+          "视力的缺陷与矫正",
+          99
+        ],
+        [
+          2,
+          "五、望远镜与显微镜",
+          101
+        ],
+        [
+          2,
+          "望远镜",
+          101
+        ],
+        [
+          2,
+          "显微镜",
+          103
+        ],
+        [
+          1,
+          "物体的运动",
+          108
+        ],
+        [
+          2,
+          "一、长度和时间的测量",
+          109
+        ],
+        [
+          2,
+          "长度的单位及测量",
+          109
+        ],
+        [
+          2,
+          "时间的单位及测量",
+          112
+        ],
+        [
+          2,
+          "二、速度",
+          115
+        ],
+        [
+          2,
+          "比较物体运动的快慢",
+          115
+        ],
+        [
+          2,
+          "5.4 比较纸锥下落的快慢",
+          115
+        ],
+        [
+          2,
+          "速度及其测量",
+          116
+        ],
+        [
+          2,
+          "三、直线运动",
+          120
+        ],
+        [
+          2,
+          "匀速直线运动",
+          120
+        ],
+        [
+          2,
+          "学生实验",
+          120
+        ],
+        [
+          2,
+          "变速直线运动",
+          121
+        ],
+        [
+          2,
+          "四、运动的相对性",
+          124
+        ],
+        [
+          2,
+          "运动与静止",
+          124
+        ],
+        [
+          2,
+          "运动的相对性",
+          125
+        ],
+        [
+          2,
+          "运动相对性的应用",
+          126
+        ]
+      ],
+      "reference_toc": [
+        [
+          1,
+          "第一章 声现象",
+          14
+        ],
+        [
+          1,
+          "第二章 物态变化",
+          34
+        ],
+        [
+          1,
+          "第三章 光现象",
+          60
+        ],
+        [
+          1,
+          "第四章 光的折射 透镜",
+          86
+        ],
+        [
+          1,
+          "第五章 物体的运动",
+          108
+        ]
+      ],
+      "review_signals": {
+        "unreadable_toc_rows": 0,
+        "low_confidence_toc_rows": 0
+      },
+      "recognition_method": "body_headings",
+      "diagnostics": []
+    },
+    {
+      "name": "zh-blind-geography",
+      "url": "https://raw.githubusercontent.com/TapXWorld/ChinaTextbook/master/%E5%88%9D%E4%B8%AD/%E5%9C%B0%E7%90%86/%E6%B9%98%E6%95%99%E7%89%88-%E6%B9%96%E5%8D%97%E6%95%99%E8%82%B2%E5%87%BA%E7%89%88%E7%A4%BE/%E4%B8%83%E5%B9%B4%E7%BA%A7/%E4%B9%89%E5%8A%A1%E6%95%99%E8%82%B2%E6%95%99%E7%A7%91%E4%B9%A6%C2%B7%E5%9C%B0%E7%90%86%E4%B8%83%E5%B9%B4%E7%BA%A7%E4%B8%8A%E5%86%8C.pdf",
+      "original_sha256": "36f9579d703ab2f3ade102402f77eddd7e04630fa151738ddf588c74f0a57064",
+      "input_sha256": "36f9579d703ab2f3ade102402f77eddd7e04630fa151738ddf588c74f0a57064",
+      "pages": 121,
+      "original_outline_count": 0,
+      "input_outline_count": 0,
+      "ocr_pages": 121,
+      "bookmarks": 24,
+      "recognition_seconds": 84.5,
+      "extraction_cache_hit": false,
+      "evaluation_role": "development_regression",
+      "save_and_verify_seconds": 5.08,
+      "reviewed_save_and_verify_seconds": 4.85,
+      "automatic_content_preserved": true,
+      "recognition_failure": null,
+      "force_ocr": false,
+      "reviewed_toc_verified": true,
+      "derived_low_quality": false,
+      "scope": "Complete printed contents including units and appendices; every generated bookmark is scored, including duplicates and extra titles. Extra body headings are not necessarily invalid navigation, but are outside this predefined contents policy.",
+      "metrics": {
+        "reference_entries": 24,
+        "scored_candidates": 24,
+        "duplicate_candidates": 0,
+        "exact_matches": 20,
+        "precision": 0.8333333333333334,
+        "recall": 0.8333333333333334,
+        "missing": [
+          [
+            1,
+            "地球的面貌",
+            22
+          ],
+          [
+            1,
+            "附录一英汉地理词汇",
+            117
+          ],
+          [
+            2,
+            "国际经济合作",
+            113
+          ],
+          [
+            2,
+            "我们怎样学地理",
+            14
+          ]
+        ],
+        "unexpected": [
+          [
+            1,
+            "地球的面谣",
+            22
+          ],
+          [
+            1,
+            "附录一黄汉地理词汇",
+            117
+          ],
+          [
+            2,
+            "国际经济侣作",
+            113
+          ],
+          [
+            2,
+            "我们和钳样学地理",
+            14
+          ]
+        ],
+        "unscored_candidates": 0
+      },
+      "toc": [
+        [
+          1,
+          "第一章让我们走进地理",
+          8
+        ],
+        [
+          2,
+          "第一节我们身边的地理",
+          9
+        ],
+        [
+          2,
+          "第二节我们和钳样学地理",
+          14
+        ],
+        [
+          1,
+          "第二章地球的面谣",
+          22
+        ],
+        [
+          2,
+          "第一节认识地球",
+          23
+        ],
+        [
+          2,
+          "第二节世界的海陆分布",
+          35
+        ],
+        [
+          2,
+          "第三节世界的地形",
+          40
+        ],
+        [
+          2,
+          "第四节海陆变迁",
+          47
+        ],
+        [
+          1,
+          "第三章世界的居民",
+          54
+        ],
+        [
+          2,
+          "第一节世界的人口",
+          55
+        ],
+        [
+          2,
+          "第二节世界的人种",
+          61
+        ],
+        [
+          2,
+          "第三节世界的语言与宗教",
+          63
+        ],
+        [
+          2,
+          "第四节世界的聚落",
+          67
+        ],
+        [
+          1,
+          "第四章世界的气候",
+          73
+        ],
+        [
+          2,
+          "第一节天气和气候",
+          74
+        ],
+        [
+          2,
+          "第二节气温和降水",
+          78
+        ],
+        [
+          2,
+          "第三节影响气候的主要因素",
+          85
+        ],
+        [
+          2,
+          "第四节世界主要气候类型",
+          94
+        ],
+        [
+          1,
+          "第五章世界的发展差异",
+          106
+        ],
+        [
+          2,
+          "第一节发展中国家与发达国家",
+          107
+        ],
+        [
+          2,
+          "第二节国际经济侣作",
+          113
+        ],
+        [
+          1,
+          "附录一黄汉地理词汇",
+          117
+        ],
+        [
+          1,
+          "附录二常用地图图例",
+          119
+        ],
+        [
+          1,
+          "后记",
+          120
+        ]
+      ],
+      "reference_toc": [
+        [
+          1,
+          "第一章 让我们走进地理",
+          8
+        ],
+        [
+          2,
+          "第一节 我们身边的地理",
+          9
+        ],
+        [
+          2,
+          "第二节 我们怎样学地理",
+          14
+        ],
+        [
+          1,
+          "第二章 地球的面貌",
+          22
+        ],
+        [
+          2,
+          "第一节 认识地球",
+          23
+        ],
+        [
+          2,
+          "第二节 世界的海陆分布",
+          35
+        ],
+        [
+          2,
+          "第三节 世界的地形",
+          40
+        ],
+        [
+          2,
+          "第四节 海陆变迁",
+          47
+        ],
+        [
+          1,
+          "第三章 世界的居民",
+          54
+        ],
+        [
+          2,
+          "第一节 世界的人口",
+          55
+        ],
+        [
+          2,
+          "第二节 世界的人种",
+          61
+        ],
+        [
+          2,
+          "第三节 世界的语言与宗教",
+          63
+        ],
+        [
+          2,
+          "第四节 世界的聚落",
+          67
+        ],
+        [
+          1,
+          "第四章 世界的气候",
+          73
+        ],
+        [
+          2,
+          "第一节 天气和气候",
+          74
+        ],
+        [
+          2,
+          "第二节 气温和降水",
+          78
+        ],
+        [
+          2,
+          "第三节 影响气候的主要因素",
+          85
+        ],
+        [
+          2,
+          "第四节 世界主要气候类型",
+          94
+        ],
+        [
+          1,
+          "第五章 世界的发展差异",
+          106
+        ],
+        [
+          2,
+          "第一节 发展中国家与发达国家",
+          107
+        ],
+        [
+          2,
+          "第二节 国际经济合作",
+          113
+        ],
+        [
+          1,
+          "附录一 英汉地理词汇",
+          117
+        ],
+        [
+          1,
+          "附录二 常用地图图例",
+          119
+        ],
+        [
+          1,
+          "后记",
+          120
+        ]
+      ],
+      "review_signals": {
+        "unreadable_toc_rows": 1,
+        "low_confidence_toc_rows": 3
+      },
+      "recognition_method": "printed_toc",
+      "candidate_review": [
+        {
+          "bookmark": [
+            1,
+            "第一章让我们走进地理",
+            8
+          ],
+          "assessment": "exact_match"
+        },
+        {
+          "bookmark": [
+            2,
+            "第一节我们身边的地理",
+            9
+          ],
+          "assessment": "exact_match"
+        },
+        {
+          "bookmark": [
+            2,
+            "第二节我们和钳样学地理",
+            14
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            1,
+            "第二章地球的面谣",
+            22
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            2,
+            "第一节认识地球",
+            23
+          ],
+          "assessment": "exact_match"
+        },
+        {
+          "bookmark": [
+            2,
+            "第二节世界的海陆分布",
+            35
+          ],
+          "assessment": "exact_match"
+        },
+        {
+          "bookmark": [
+            2,
+            "第三节世界的地形",
+            40
+          ],
+          "assessment": "exact_match"
+        },
+        {
+          "bookmark": [
+            2,
+            "第四节海陆变迁",
+            47
+          ],
+          "assessment": "exact_match"
+        },
+        {
+          "bookmark": [
+            1,
+            "第三章世界的居民",
+            54
+          ],
+          "assessment": "exact_match"
+        },
+        {
+          "bookmark": [
+            2,
+            "第一节世界的人口",
+            55
+          ],
+          "assessment": "exact_match"
+        },
+        {
+          "bookmark": [
+            2,
+            "第二节世界的人种",
+            61
+          ],
+          "assessment": "exact_match"
+        },
+        {
+          "bookmark": [
+            2,
+            "第三节世界的语言与宗教",
+            63
+          ],
+          "assessment": "exact_match"
+        },
+        {
+          "bookmark": [
+            2,
+            "第四节世界的聚落",
+            67
+          ],
+          "assessment": "exact_match"
+        },
+        {
+          "bookmark": [
+            1,
+            "第四章世界的气候",
+            73
+          ],
+          "assessment": "exact_match"
+        },
+        {
+          "bookmark": [
+            2,
+            "第一节天气和气候",
+            74
+          ],
+          "assessment": "exact_match"
+        },
+        {
+          "bookmark": [
+            2,
+            "第二节气温和降水",
+            78
+          ],
+          "assessment": "exact_match"
+        },
+        {
+          "bookmark": [
+            2,
+            "第三节影响气候的主要因素",
+            85
+          ],
+          "assessment": "exact_match"
+        },
+        {
+          "bookmark": [
+            2,
+            "第四节世界主要气候类型",
+            94
+          ],
+          "assessment": "exact_match"
+        },
+        {
+          "bookmark": [
+            1,
+            "第五章世界的发展差异",
+            106
+          ],
+          "assessment": "exact_match"
+        },
+        {
+          "bookmark": [
+            2,
+            "第一节发展中国家与发达国家",
+            107
+          ],
+          "assessment": "exact_match"
+        },
+        {
+          "bookmark": [
+            2,
+            "第二节国际经济侣作",
+            113
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            1,
+            "附录一黄汉地理词汇",
+            117
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            1,
+            "附录二常用地图图例",
+            119
+          ],
+          "assessment": "exact_match"
+        },
+        {
+          "bookmark": [
+            1,
+            "后记",
+            120
+          ],
+          "assessment": "exact_match"
+        }
+      ],
+      "reference_evidence": "Printed contents visually transcribed before recognition, with PDF-page offset checked on body unit/chapter/section starts; not inferred from generated bookmarks.",
+      "assessment_counts": {
+        "exact_match": 20,
+        "outside_printed_contents_or_ocr_error": 4
+      },
+      "title_and_page_matches_ignoring_depth": 20,
+      "diagnostics": [
+        {
+          "code": "incomplete_printed_toc",
+          "message": "Printed contents has 1 unreadable rows; inferred hierarchy may omit parents or children.",
+          "pages": [
+            6,
+            56
+          ]
+        }
+      ]
+    },
+    {
+      "name": "zh-blind-biology",
+      "url": "https://raw.githubusercontent.com/TapXWorld/ChinaTextbook/master/%E5%88%9D%E4%B8%AD/%E7%94%9F%E7%89%A9%E5%AD%A6/%E6%B5%8E%E5%8D%97%E7%89%88-%E6%B5%8E%E5%8D%97%E5%87%BA%E7%89%88%E7%A4%BE/%E4%B8%83%E5%B9%B4%E7%BA%A7/%E4%B9%89%E5%8A%A1%E6%95%99%E8%82%B2%E6%95%99%E7%A7%91%E4%B9%A6%C2%B7%E7%94%9F%E7%89%A9%E5%AD%A6%E4%B8%83%E5%B9%B4%E7%BA%A7%E4%B8%8A%E5%86%8C.pdf",
+      "original_sha256": "87750a8ef0b557d736542fbaf4b7f2fca0dcf9372ba139c511249420b6bd00ce",
+      "input_sha256": "355f20c85f758e90dfa626f0c034955c2cfc8c8c7b3d622396bfe503e0a7ec1b",
+      "pages": 140,
+      "original_outline_count": 7,
+      "input_outline_count": 0,
+      "ocr_pages": 4,
+      "bookmarks": 32,
+      "recognition_seconds": 2.85,
+      "extraction_cache_hit": false,
+      "evaluation_role": "development_regression",
+      "save_and_verify_seconds": 3.18,
+      "reviewed_save_and_verify_seconds": 3.12,
+      "automatic_content_preserved": true,
+      "recognition_failure": null,
+      "force_ocr": false,
+      "reviewed_toc_verified": true,
+      "derived_low_quality": false,
+      "scope": "Complete printed contents including units and appendices; every generated bookmark is scored, including duplicates and extra titles. Extra body headings are not necessarily invalid navigation, but are outside this predefined contents policy.",
+      "metrics": {
+        "reference_entries": 32,
+        "scored_candidates": 32,
+        "duplicate_candidates": 0,
+        "exact_matches": 32,
+        "precision": 1.0,
+        "recall": 1.0,
+        "missing": [],
+        "unexpected": [],
+        "unscored_candidates": 0
+      },
+      "toc": [
+        [
+          1,
+          "第一单元奇妙的生命现象",
+          7
+        ],
+        [
+          2,
+          "第一章认识生命现象",
+          8
+        ],
+        [
+          3,
+          "第一节生物的基本特征",
+          9
+        ],
+        [
+          3,
+          "第二节生物的生活环境",
+          12
+        ],
+        [
+          3,
+          "第三节生物学的探究方法",
+          16
+        ],
+        [
+          3,
+          "第四节生物学的研究工具",
+          20
+        ],
+        [
+          2,
+          "第二章观察生物结构",
+          28
+        ],
+        [
+          3,
+          "第一节细胞的结构和功能",
+          29
+        ],
+        [
+          3,
+          "第二节细胞的分裂与分化",
+          37
+        ],
+        [
+          3,
+          "第三节多细胞生物体的结构层次",
+          41
+        ],
+        [
+          1,
+          "第二单元 多彩的生物世界",
+          45
+        ],
+        [
+          2,
+          "第一章生物圈中的绿色植物",
+          46
+        ],
+        [
+          3,
+          "第一节绿色植物的主要类群",
+          47
+        ],
+        [
+          3,
+          "第二节绿色植物的蒸腾作用",
+          54
+        ],
+        [
+          3,
+          "第三节绿色植物的光合作用",
+          60
+        ],
+        [
+          3,
+          "第四节绿色植物的呼吸作用",
+          66
+        ],
+        [
+          3,
+          "第五节绿色植物在生物圈中的作用",
+          70
+        ],
+        [
+          2,
+          "第二章生物圈中的动物",
+          77
+        ],
+        [
+          3,
+          "第一节无脊椎动物的主要类群",
+          78
+        ],
+        [
+          3,
+          "第二节脊椎动物的主要类群",
+          86
+        ],
+        [
+          3,
+          "第三节动物的运动",
+          96
+        ],
+        [
+          3,
+          "第四节动物的行为",
+          100
+        ],
+        [
+          3,
+          "第五节动物在生物圈中的作用",
+          106
+        ],
+        [
+          2,
+          "第三章生物圈中的微生物",
+          111
+        ],
+        [
+          3,
+          "第一节病毒",
+          112
+        ],
+        [
+          3,
+          "第二节细菌",
+          116
+        ],
+        [
+          3,
+          "第三节真菌",
+          121
+        ],
+        [
+          3,
+          "第四节微生物在生物圈中的作用",
+          125
+        ],
+        [
+          2,
+          "第四章生物的分类",
+          129
+        ],
+        [
+          3,
+          "第一节生物的分类方法",
+          130
+        ],
+        [
+          3,
+          "第二节生物的分类单位",
+          133
+        ],
+        [
+          1,
+          "附录",
+          138
+        ]
+      ],
+      "reference_toc": [
+        [
+          1,
+          "第一单元 奇妙的生命现象",
+          7
+        ],
+        [
+          2,
+          "第一章 认识生命现象",
+          8
+        ],
+        [
+          3,
+          "第一节 生物的基本特征",
+          9
+        ],
+        [
+          3,
+          "第二节 生物的生活环境",
+          12
+        ],
+        [
+          3,
+          "第三节 生物学的探究方法",
+          16
+        ],
+        [
+          3,
+          "第四节 生物学的研究工具",
+          20
+        ],
+        [
+          2,
+          "第二章 观察生物结构",
+          28
+        ],
+        [
+          3,
+          "第一节 细胞的结构和功能",
+          29
+        ],
+        [
+          3,
+          "第二节 细胞的分裂与分化",
+          37
+        ],
+        [
+          3,
+          "第三节 多细胞生物体的结构层次",
+          41
+        ],
+        [
+          1,
+          "第二单元 多彩的生物世界",
+          45
+        ],
+        [
+          2,
+          "第一章 生物圈中的绿色植物",
+          46
+        ],
+        [
+          3,
+          "第一节 绿色植物的主要类群",
+          47
+        ],
+        [
+          3,
+          "第二节 绿色植物的蒸腾作用",
+          54
+        ],
+        [
+          3,
+          "第三节 绿色植物的光合作用",
+          60
+        ],
+        [
+          3,
+          "第四节 绿色植物的呼吸作用",
+          66
+        ],
+        [
+          3,
+          "第五节 绿色植物在生物圈中的作用",
+          70
+        ],
+        [
+          2,
+          "第二章 生物圈中的动物",
+          77
+        ],
+        [
+          3,
+          "第一节 无脊椎动物的主要类群",
+          78
+        ],
+        [
+          3,
+          "第二节 脊椎动物的主要类群",
+          86
+        ],
+        [
+          3,
+          "第三节 动物的运动",
+          96
+        ],
+        [
+          3,
+          "第四节 动物的行为",
+          100
+        ],
+        [
+          3,
+          "第五节 动物在生物圈中的作用",
+          106
+        ],
+        [
+          2,
+          "第三章 生物圈中的微生物",
+          111
+        ],
+        [
+          3,
+          "第一节 病毒",
+          112
+        ],
+        [
+          3,
+          "第二节 细菌",
+          116
+        ],
+        [
+          3,
+          "第三节 真菌",
+          121
+        ],
+        [
+          3,
+          "第四节 微生物在生物圈中的作用",
+          125
+        ],
+        [
+          2,
+          "第四章 生物的分类",
+          129
+        ],
+        [
+          3,
+          "第一节 生物的分类方法",
+          130
+        ],
+        [
+          3,
+          "第二节 生物的分类单位",
+          133
+        ],
+        [
+          1,
+          "附录",
+          138
+        ]
+      ],
+      "review_signals": {
+        "unreadable_toc_rows": 0,
+        "low_confidence_toc_rows": 0
+      },
+      "recognition_method": "printed_toc",
+      "candidate_review": [
+        {
+          "bookmark": [
+            1,
+            "第一单元奇妙的生命现象",
+            7
+          ],
+          "assessment": "exact_match"
+        },
+        {
+          "bookmark": [
+            2,
+            "第一章认识生命现象",
+            8
+          ],
+          "assessment": "exact_match"
+        },
+        {
+          "bookmark": [
+            3,
+            "第一节生物的基本特征",
+            9
+          ],
+          "assessment": "exact_match"
+        },
+        {
+          "bookmark": [
+            3,
+            "第二节生物的生活环境",
+            12
+          ],
+          "assessment": "exact_match"
+        },
+        {
+          "bookmark": [
+            3,
+            "第三节生物学的探究方法",
+            16
+          ],
+          "assessment": "exact_match"
+        },
+        {
+          "bookmark": [
+            3,
+            "第四节生物学的研究工具",
+            20
+          ],
+          "assessment": "exact_match"
+        },
+        {
+          "bookmark": [
+            2,
+            "第二章观察生物结构",
+            28
+          ],
+          "assessment": "exact_match"
+        },
+        {
+          "bookmark": [
+            3,
+            "第一节细胞的结构和功能",
+            29
+          ],
+          "assessment": "exact_match"
+        },
+        {
+          "bookmark": [
+            3,
+            "第二节细胞的分裂与分化",
+            37
+          ],
+          "assessment": "exact_match"
+        },
+        {
+          "bookmark": [
+            3,
+            "第三节多细胞生物体的结构层次",
+            41
+          ],
+          "assessment": "exact_match"
+        },
+        {
+          "bookmark": [
+            1,
+            "第二单元 多彩的生物世界",
+            45
+          ],
+          "assessment": "exact_match"
+        },
+        {
+          "bookmark": [
+            2,
+            "第一章生物圈中的绿色植物",
+            46
+          ],
+          "assessment": "exact_match"
+        },
+        {
+          "bookmark": [
+            3,
+            "第一节绿色植物的主要类群",
+            47
+          ],
+          "assessment": "exact_match"
+        },
+        {
+          "bookmark": [
+            3,
+            "第二节绿色植物的蒸腾作用",
+            54
+          ],
+          "assessment": "exact_match"
+        },
+        {
+          "bookmark": [
+            3,
+            "第三节绿色植物的光合作用",
+            60
+          ],
+          "assessment": "exact_match"
+        },
+        {
+          "bookmark": [
+            3,
+            "第四节绿色植物的呼吸作用",
+            66
+          ],
+          "assessment": "exact_match"
+        },
+        {
+          "bookmark": [
+            3,
+            "第五节绿色植物在生物圈中的作用",
+            70
+          ],
+          "assessment": "exact_match"
+        },
+        {
+          "bookmark": [
+            2,
+            "第二章生物圈中的动物",
+            77
+          ],
+          "assessment": "exact_match"
+        },
+        {
+          "bookmark": [
+            3,
+            "第一节无脊椎动物的主要类群",
+            78
+          ],
+          "assessment": "exact_match"
+        },
+        {
+          "bookmark": [
+            3,
+            "第二节脊椎动物的主要类群",
+            86
+          ],
+          "assessment": "exact_match"
+        },
+        {
+          "bookmark": [
+            3,
+            "第三节动物的运动",
+            96
+          ],
+          "assessment": "exact_match"
+        },
+        {
+          "bookmark": [
+            3,
+            "第四节动物的行为",
+            100
+          ],
+          "assessment": "exact_match"
+        },
+        {
+          "bookmark": [
+            3,
+            "第五节动物在生物圈中的作用",
+            106
+          ],
+          "assessment": "exact_match"
+        },
+        {
+          "bookmark": [
+            2,
+            "第三章生物圈中的微生物",
+            111
+          ],
+          "assessment": "exact_match"
+        },
+        {
+          "bookmark": [
+            3,
+            "第一节病毒",
+            112
+          ],
+          "assessment": "exact_match"
+        },
+        {
+          "bookmark": [
+            3,
+            "第二节细菌",
+            116
+          ],
+          "assessment": "exact_match"
+        },
+        {
+          "bookmark": [
+            3,
+            "第三节真菌",
+            121
+          ],
+          "assessment": "exact_match"
+        },
+        {
+          "bookmark": [
+            3,
+            "第四节微生物在生物圈中的作用",
+            125
+          ],
+          "assessment": "exact_match"
+        },
+        {
+          "bookmark": [
+            2,
+            "第四章生物的分类",
+            129
+          ],
+          "assessment": "exact_match"
+        },
+        {
+          "bookmark": [
+            3,
+            "第一节生物的分类方法",
+            130
+          ],
+          "assessment": "exact_match"
+        },
+        {
+          "bookmark": [
+            3,
+            "第二节生物的分类单位",
+            133
+          ],
+          "assessment": "exact_match"
+        },
+        {
+          "bookmark": [
+            1,
+            "附录",
+            138
+          ],
+          "assessment": "exact_match"
+        }
+      ],
+      "reference_evidence": "Printed contents visually transcribed before recognition, with PDF-page offset checked on body unit/chapter/section starts; not inferred from generated bookmarks.",
+      "assessment_counts": {
+        "exact_match": 32
+      },
+      "title_and_page_matches_ignoring_depth": 32,
+      "diagnostics": []
+    },
+    {
+      "name": "zh-heldout-chemistry",
+      "url": "https://raw.githubusercontent.com/TapXWorld/ChinaTextbook/master/%E5%88%9D%E4%B8%AD/%E5%8C%96%E5%AD%A6/%E6%B2%AA%E6%95%99%E7%89%88-%E4%B8%8A%E6%B5%B7%E6%95%99%E8%82%B2%E5%87%BA%E7%89%88%E7%A4%BE/%E4%B9%9D%E5%B9%B4%E7%BA%A7/%E4%B9%89%E5%8A%A1%E6%95%99%E8%82%B2%E6%95%99%E7%A7%91%E4%B9%A6%C2%B7%E5%8C%96%E5%AD%A6%E4%B9%9D%E5%B9%B4%E7%BA%A7%E4%B8%8A%E5%86%8C.pdf",
+      "original_sha256": "b509a71fb2f35871d4cfa772a4df7f53d84e962d75e0dfc2957c0505aef40bd6",
+      "input_sha256": "bcb576be83b20f45074b4afe6978027c1d5274e24a705bcb58f44a40bc41bfd2",
+      "pages": 154,
+      "original_outline_count": 11,
+      "input_outline_count": 0,
+      "ocr_pages": 3,
+      "bookmarks": 40,
+      "recognition_seconds": 4.21,
+      "extraction_cache_hit": false,
+      "evaluation_role": "development_regression",
+      "save_and_verify_seconds": 4.57,
+      "reviewed_save_and_verify_seconds": 4.45,
+      "automatic_content_preserved": true,
+      "recognition_failure": null,
+      "force_ocr": false,
+      "reviewed_toc_verified": true,
+      "derived_low_quality": false,
+      "scope": "Complete printed contents including units and appendices; every generated bookmark is scored, including duplicates and extra titles. Extra body headings are not necessarily invalid navigation, but are outside this predefined contents policy.",
+      "metrics": {
+        "reference_entries": 35,
+        "scored_candidates": 40,
+        "duplicate_candidates": 0,
+        "exact_matches": 35,
+        "precision": 0.875,
+        "recall": 1.0,
+        "missing": [],
+        "unexpected": [
+          [
+            1,
+            "化学",
+            2
+          ],
+          [
+            1,
+            "后记",
+            152
+          ],
+          [
+            1,
+            "附录三",
+            148
+          ],
+          [
+            1,
+            "附录二",
+            146
+          ],
+          [
+            1,
+            "附录五",
+            151
+          ]
+        ],
+        "unscored_candidates": 0
+      },
+      "toc": [
+        [
+          1,
+          "化学",
+          2
+        ],
+        [
+          1,
+          "第1章开启化学之门",
+          6
+        ],
+        [
+          2,
+          "第1节化学给我们带来什么",
+          7
+        ],
+        [
+          2,
+          "第2节化学研究些什么",
+          14
+        ],
+        [
+          2,
+          "第3节怎样学习和研究化学",
+          25
+        ],
+        [
+          2,
+          "整理与归纳",
+          31
+        ],
+        [
+          2,
+          "本章作业",
+          32
+        ],
+        [
+          1,
+          "第2章身边的化学物质",
+          34
+        ],
+        [
+          2,
+          "第1节性质活泼的氧气",
+          35
+        ],
+        [
+          2,
+          "第2节奇妙的二氧化碳",
+          44
+        ],
+        [
+          2,
+          "第3节自然界中的水",
+          52
+        ],
+        [
+          2,
+          "基础实验1  氧气的制取与性质",
+          60
+        ],
+        [
+          2,
+          "基础实验2  二氧化碳的制取与性质",
+          62
+        ],
+        [
+          2,
+          "整理与归纳",
+          63
+        ],
+        [
+          2,
+          "本章作业",
+          64
+        ],
+        [
+          1,
+          "第3章物质构成的奥秘",
+          66
+        ],
+        [
+          2,
+          "第1节构成物质的基本微粒",
+          67
+        ],
+        [
+          2,
+          "第2节组成物质的化学元素",
+          79
+        ],
+        [
+          2,
+          "第3节物质的组成",
+          86
+        ],
+        [
+          2,
+          "整理与归纳",
+          93
+        ],
+        [
+          2,
+          "本章作业",
+          94
+        ],
+        [
+          1,
+          "第4章认识化学变化",
+          96
+        ],
+        [
+          2,
+          "第1节常见的化学反应——燃烧",
+          97
+        ],
+        [
+          2,
+          "第2节化学反应中的质量关系",
+          105
+        ],
+        [
+          2,
+          "第3节化学方程式的书写与应用",
+          109
+        ],
+        [
+          2,
+          "基础实验3  物质燃烧的条件",
+          114
+        ],
+        [
+          2,
+          "整理与归纳",
+          115
+        ],
+        [
+          2,
+          "本章作业",
+          116
+        ],
+        [
+          1,
+          "第5章金属的冶炼与利用",
+          118
+        ],
+        [
+          2,
+          "第1节金属的性质和利用",
+          119
+        ],
+        [
+          2,
+          "第2节金属矿物铁的冶炼",
+          128
+        ],
+        [
+          2,
+          "第3节金属防护和废金属回收",
+          132
+        ],
+        [
+          2,
+          "基础实验4  常见金属的性质",
+          137
+        ],
+        [
+          2,
+          "整理与归纳",
+          140
+        ],
+        [
+          2,
+          "本章作业",
+          141
+        ],
+        [
+          1,
+          "附录",
+          142
+        ],
+        [
+          1,
+          "附录二",
+          146
+        ],
+        [
+          1,
+          "附录三",
+          148
+        ],
+        [
+          1,
+          "附录五",
+          151
+        ],
+        [
+          1,
+          "后    记",
+          152
+        ]
+      ],
+      "reference_toc": [
+        [
+          1,
+          "第1章 开启化学之门",
+          6
+        ],
+        [
+          2,
+          "第1节 化学给我们带来什么",
+          7
+        ],
+        [
+          2,
+          "第2节 化学研究些什么",
+          14
+        ],
+        [
+          2,
+          "第3节 怎样学习和研究化学",
+          25
+        ],
+        [
+          2,
+          "整理与归纳",
+          31
+        ],
+        [
+          2,
+          "本章作业",
+          32
+        ],
+        [
+          1,
+          "第2章 身边的化学物质",
+          34
+        ],
+        [
+          2,
+          "第1节 性质活泼的氧气",
+          35
+        ],
+        [
+          2,
+          "第2节 奇妙的二氧化碳",
+          44
+        ],
+        [
+          2,
+          "第3节 自然界中的水",
+          52
+        ],
+        [
+          2,
+          "基础实验1 氧气的制取与性质",
+          60
+        ],
+        [
+          2,
+          "基础实验2 二氧化碳的制取与性质",
+          62
+        ],
+        [
+          2,
+          "整理与归纳",
+          63
+        ],
+        [
+          2,
+          "本章作业",
+          64
+        ],
+        [
+          1,
+          "第3章 物质构成的奥秘",
+          66
+        ],
+        [
+          2,
+          "第1节 构成物质的基本微粒",
+          67
+        ],
+        [
+          2,
+          "第2节 组成物质的化学元素",
+          79
+        ],
+        [
+          2,
+          "第3节 物质的组成",
+          86
+        ],
+        [
+          2,
+          "整理与归纳",
+          93
+        ],
+        [
+          2,
+          "本章作业",
+          94
+        ],
+        [
+          1,
+          "第4章 认识化学变化",
+          96
+        ],
+        [
+          2,
+          "第1节 常见的化学反应——燃烧",
+          97
+        ],
+        [
+          2,
+          "第2节 化学反应中的质量关系",
+          105
+        ],
+        [
+          2,
+          "第3节 化学方程式的书写与应用",
+          109
+        ],
+        [
+          2,
+          "基础实验3 物质燃烧的条件",
+          114
+        ],
+        [
+          2,
+          "整理与归纳",
+          115
+        ],
+        [
+          2,
+          "本章作业",
+          116
+        ],
+        [
+          1,
+          "第5章 金属的冶炼与利用",
+          118
+        ],
+        [
+          2,
+          "第1节 金属的性质和利用",
+          119
+        ],
+        [
+          2,
+          "第2节 金属矿物 铁的冶炼",
+          128
+        ],
+        [
+          2,
+          "第3节 金属防护和废金属回收",
+          132
+        ],
+        [
+          2,
+          "基础实验4 常见金属的性质",
+          137
+        ],
+        [
+          2,
+          "整理与归纳",
+          140
+        ],
+        [
+          2,
+          "本章作业",
+          141
+        ],
+        [
+          1,
+          "附录",
+          142
+        ]
+      ],
+      "review_signals": {
+        "unreadable_toc_rows": 0,
+        "low_confidence_toc_rows": 0
+      },
+      "recognition_method": "printed_toc",
+      "candidate_review": [
+        {
+          "bookmark": [
+            1,
+            "化学",
+            2
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            1,
+            "第1章开启化学之门",
+            6
+          ],
+          "assessment": "exact_match"
+        },
+        {
+          "bookmark": [
+            2,
+            "第1节化学给我们带来什么",
+            7
+          ],
+          "assessment": "exact_match"
+        },
+        {
+          "bookmark": [
+            2,
+            "第2节化学研究些什么",
+            14
+          ],
+          "assessment": "exact_match"
+        },
+        {
+          "bookmark": [
+            2,
+            "第3节怎样学习和研究化学",
+            25
+          ],
+          "assessment": "exact_match"
+        },
+        {
+          "bookmark": [
+            2,
+            "整理与归纳",
+            31
+          ],
+          "assessment": "exact_match"
+        },
+        {
+          "bookmark": [
+            2,
+            "本章作业",
+            32
+          ],
+          "assessment": "exact_match"
+        },
+        {
+          "bookmark": [
+            1,
+            "第2章身边的化学物质",
+            34
+          ],
+          "assessment": "exact_match"
+        },
+        {
+          "bookmark": [
+            2,
+            "第1节性质活泼的氧气",
+            35
+          ],
+          "assessment": "exact_match"
+        },
+        {
+          "bookmark": [
+            2,
+            "第2节奇妙的二氧化碳",
+            44
+          ],
+          "assessment": "exact_match"
+        },
+        {
+          "bookmark": [
+            2,
+            "第3节自然界中的水",
+            52
+          ],
+          "assessment": "exact_match"
+        },
+        {
+          "bookmark": [
+            2,
+            "基础实验1  氧气的制取与性质",
+            60
+          ],
+          "assessment": "exact_match"
+        },
+        {
+          "bookmark": [
+            2,
+            "基础实验2  二氧化碳的制取与性质",
+            62
+          ],
+          "assessment": "exact_match"
+        },
+        {
+          "bookmark": [
+            2,
+            "整理与归纳",
+            63
+          ],
+          "assessment": "exact_match"
+        },
+        {
+          "bookmark": [
+            2,
+            "本章作业",
+            64
+          ],
+          "assessment": "exact_match"
+        },
+        {
+          "bookmark": [
+            1,
+            "第3章物质构成的奥秘",
+            66
+          ],
+          "assessment": "exact_match"
+        },
+        {
+          "bookmark": [
+            2,
+            "第1节构成物质的基本微粒",
+            67
+          ],
+          "assessment": "exact_match"
+        },
+        {
+          "bookmark": [
+            2,
+            "第2节组成物质的化学元素",
+            79
+          ],
+          "assessment": "exact_match"
+        },
+        {
+          "bookmark": [
+            2,
+            "第3节物质的组成",
+            86
+          ],
+          "assessment": "exact_match"
+        },
+        {
+          "bookmark": [
+            2,
+            "整理与归纳",
+            93
+          ],
+          "assessment": "exact_match"
+        },
+        {
+          "bookmark": [
+            2,
+            "本章作业",
+            94
+          ],
+          "assessment": "exact_match"
+        },
+        {
+          "bookmark": [
+            1,
+            "第4章认识化学变化",
+            96
+          ],
+          "assessment": "exact_match"
+        },
+        {
+          "bookmark": [
+            2,
+            "第1节常见的化学反应——燃烧",
+            97
+          ],
+          "assessment": "exact_match"
+        },
+        {
+          "bookmark": [
+            2,
+            "第2节化学反应中的质量关系",
+            105
+          ],
+          "assessment": "exact_match"
+        },
+        {
+          "bookmark": [
+            2,
+            "第3节化学方程式的书写与应用",
+            109
+          ],
+          "assessment": "exact_match"
+        },
+        {
+          "bookmark": [
+            2,
+            "基础实验3  物质燃烧的条件",
+            114
+          ],
+          "assessment": "exact_match"
+        },
+        {
+          "bookmark": [
+            2,
+            "整理与归纳",
+            115
+          ],
+          "assessment": "exact_match"
+        },
+        {
+          "bookmark": [
+            2,
+            "本章作业",
+            116
+          ],
+          "assessment": "exact_match"
+        },
+        {
+          "bookmark": [
+            1,
+            "第5章金属的冶炼与利用",
+            118
+          ],
+          "assessment": "exact_match"
+        },
+        {
+          "bookmark": [
+            2,
+            "第1节金属的性质和利用",
+            119
+          ],
+          "assessment": "exact_match"
+        },
+        {
+          "bookmark": [
+            2,
+            "第2节金属矿物铁的冶炼",
+            128
+          ],
+          "assessment": "exact_match"
+        },
+        {
+          "bookmark": [
+            2,
+            "第3节金属防护和废金属回收",
+            132
+          ],
+          "assessment": "exact_match"
+        },
+        {
+          "bookmark": [
+            2,
+            "基础实验4  常见金属的性质",
+            137
+          ],
+          "assessment": "exact_match"
+        },
+        {
+          "bookmark": [
+            2,
+            "整理与归纳",
+            140
+          ],
+          "assessment": "exact_match"
+        },
+        {
+          "bookmark": [
+            2,
+            "本章作业",
+            141
+          ],
+          "assessment": "exact_match"
+        },
+        {
+          "bookmark": [
+            1,
+            "附录",
+            142
+          ],
+          "assessment": "exact_match"
+        },
+        {
+          "bookmark": [
+            1,
+            "附录二",
+            146
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            1,
+            "附录三",
+            148
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            1,
+            "附录五",
+            151
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        },
+        {
+          "bookmark": [
+            1,
+            "后    记",
+            152
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        }
+      ],
+      "reference_evidence": "Printed contents visually transcribed before recognition, with PDF-page offset checked on body unit/chapter/section starts; not inferred from generated bookmarks.",
+      "assessment_counts": {
+        "outside_printed_contents_or_ocr_error": 5,
+        "exact_match": 35
+      },
+      "title_and_page_matches_ignoring_depth": 35,
+      "diagnostics": []
+    },
+    {
+      "name": "zh-heldout-guangdong",
+      "url": "https://raw.githubusercontent.com/TapXWorld/ChinaTextbook/master/%E5%88%9D%E4%B8%AD/%E5%9C%B0%E7%90%86/%E7%B2%A4%E6%95%99%E7%B2%A4%E4%BA%BA%E7%89%88-%E5%B9%BF%E4%B8%9C%E6%95%99%E8%82%B2%E5%87%BA%E7%89%88%E7%A4%BE%E3%80%81%E5%B9%BF%E4%B8%9C%E4%BA%BA%E6%B0%91%E5%87%BA%E7%89%88%E7%A4%BE/%E4%B8%83%E5%B9%B4%E7%BA%A7/%E4%B9%89%E5%8A%A1%E6%95%99%E8%82%B2%E6%95%99%E7%A7%91%E4%B9%A6%C2%B7%E5%9C%B0%E7%90%86%E4%B8%83%E5%B9%B4%E7%BA%A7%E4%B8%8A%E5%86%8C.pdf",
+      "original_sha256": "c5d622634527cf67f0370b2e6419e1c66aa9a62f0fd8df036aa813196f62547e",
+      "input_sha256": "c5d622634527cf67f0370b2e6419e1c66aa9a62f0fd8df036aa813196f62547e",
+      "pages": 109,
+      "original_outline_count": 0,
+      "input_outline_count": 0,
+      "ocr_pages": 21,
+      "bookmarks": 23,
+      "recognition_seconds": 21.08,
+      "extraction_cache_hit": false,
+      "evaluation_role": "development_regression",
+      "save_and_verify_seconds": 15.54,
+      "reviewed_save_and_verify_seconds": 15.21,
+      "automatic_content_preserved": true,
+      "recognition_failure": null,
+      "force_ocr": false,
+      "reviewed_toc_verified": true,
+      "derived_low_quality": false,
+      "scope": "Complete printed contents including units and appendices; every generated bookmark is scored, including duplicates and extra titles. Extra body headings are not necessarily invalid navigation, but are outside this predefined contents policy.",
+      "metrics": {
+        "reference_entries": 22,
+        "scored_candidates": 23,
+        "duplicate_candidates": 0,
+        "exact_matches": 22,
+        "precision": 0.9565217391304348,
+        "recall": 1.0,
+        "missing": [],
+        "unexpected": [
+          [
+            1,
+            "后记",
+            108
+          ]
+        ],
+        "unscored_candidates": 0
+      },
+      "toc": [
+        [
+          1,
+          "让地理走进生活",
+          8
+        ],
+        [
+          1,
+          "第一章认识地球",
+          14
+        ],
+        [
+          2,
+          "第一节地球的形状与大小",
+          15
+        ],
+        [
+          2,
+          "第二节地球仪",
+          18
+        ],
+        [
+          2,
+          "第三节地球的运动",
+          24
+        ],
+        [
+          1,
+          "第二章学用地图",
+          30
+        ],
+        [
+          2,
+          "第一节地图的发展",
+          31
+        ],
+        [
+          2,
+          "第二节地图的运用",
+          34
+        ],
+        [
+          2,
+          "第三节等高线与地形图的判读",
+          40
+        ],
+        [
+          1,
+          "第三章陆地与海洋",
+          45
+        ],
+        [
+          2,
+          "第一节陆地与海洋的分布",
+          46
+        ],
+        [
+          2,
+          "第二节海洋与陆地的变迁",
+          51
+        ],
+        [
+          2,
+          "第三节人类与海洋",
+          56
+        ],
+        [
+          1,
+          "第四章天气与气候",
+          59
+        ],
+        [
+          2,
+          "第一节天气和天气预报",
+          60
+        ],
+        [
+          2,
+          "第二节气温和降水",
+          67
+        ],
+        [
+          2,
+          "第三节世界的主要气候类型",
+          75
+        ],
+        [
+          1,
+          "第五章居民与聚落",
+          82
+        ],
+        [
+          2,
+          "第一节世界的人口",
+          83
+        ],
+        [
+          2,
+          "第二节世界的人种、语言和宗教",
+          89
+        ],
+        [
+          2,
+          "第三节聚落的发展变化",
+          94
+        ],
+        [
+          1,
+          "第六章发展差异与国际合作",
+          100
+        ],
+        [
+          1,
+          "后 记",
+          108
+        ]
+      ],
+      "reference_toc": [
+        [
+          1,
+          "让地理走进生活",
+          8
+        ],
+        [
+          1,
+          "第一章 认识地球",
+          14
+        ],
+        [
+          2,
+          "第一节 地球的形状与大小",
+          15
+        ],
+        [
+          2,
+          "第二节 地球仪",
+          18
+        ],
+        [
+          2,
+          "第三节 地球的运动",
+          24
+        ],
+        [
+          1,
+          "第二章 学用地图",
+          30
+        ],
+        [
+          2,
+          "第一节 地图的发展",
+          31
+        ],
+        [
+          2,
+          "第二节 地图的运用",
+          34
+        ],
+        [
+          2,
+          "第三节 等高线与地形图的判读",
+          40
+        ],
+        [
+          1,
+          "第三章 陆地与海洋",
+          45
+        ],
+        [
+          2,
+          "第一节 陆地与海洋的分布",
+          46
+        ],
+        [
+          2,
+          "第二节 海洋与陆地的变迁",
+          51
+        ],
+        [
+          2,
+          "第三节 人类与海洋",
+          56
+        ],
+        [
+          1,
+          "第四章 天气与气候",
+          59
+        ],
+        [
+          2,
+          "第一节 天气和天气预报",
+          60
+        ],
+        [
+          2,
+          "第二节 气温和降水",
+          67
+        ],
+        [
+          2,
+          "第三节 世界的主要气候类型",
+          75
+        ],
+        [
+          1,
+          "第五章 居民与聚落",
+          82
+        ],
+        [
+          2,
+          "第一节 世界的人口",
+          83
+        ],
+        [
+          2,
+          "第二节 世界的人种、语言和宗教",
+          89
+        ],
+        [
+          2,
+          "第三节 聚落的发展变化",
+          94
+        ],
+        [
+          1,
+          "第六章 发展差异与国际合作",
+          100
+        ]
+      ],
+      "review_signals": {
+        "unreadable_toc_rows": 0,
+        "low_confidence_toc_rows": 0
+      },
+      "recognition_method": "printed_toc",
+      "candidate_review": [
+        {
+          "bookmark": [
+            1,
+            "让地理走进生活",
+            8
+          ],
+          "assessment": "exact_match"
+        },
+        {
+          "bookmark": [
+            1,
+            "第一章认识地球",
+            14
+          ],
+          "assessment": "exact_match"
+        },
+        {
+          "bookmark": [
+            2,
+            "第一节地球的形状与大小",
+            15
+          ],
+          "assessment": "exact_match"
+        },
+        {
+          "bookmark": [
+            2,
+            "第二节地球仪",
+            18
+          ],
+          "assessment": "exact_match"
+        },
+        {
+          "bookmark": [
+            2,
+            "第三节地球的运动",
+            24
+          ],
+          "assessment": "exact_match"
+        },
+        {
+          "bookmark": [
+            1,
+            "第二章学用地图",
+            30
+          ],
+          "assessment": "exact_match"
+        },
+        {
+          "bookmark": [
+            2,
+            "第一节地图的发展",
+            31
+          ],
+          "assessment": "exact_match"
+        },
+        {
+          "bookmark": [
+            2,
+            "第二节地图的运用",
+            34
+          ],
+          "assessment": "exact_match"
+        },
+        {
+          "bookmark": [
+            2,
+            "第三节等高线与地形图的判读",
+            40
+          ],
+          "assessment": "exact_match"
+        },
+        {
+          "bookmark": [
+            1,
+            "第三章陆地与海洋",
+            45
+          ],
+          "assessment": "exact_match"
+        },
+        {
+          "bookmark": [
+            2,
+            "第一节陆地与海洋的分布",
+            46
+          ],
+          "assessment": "exact_match"
+        },
+        {
+          "bookmark": [
+            2,
+            "第二节海洋与陆地的变迁",
+            51
+          ],
+          "assessment": "exact_match"
+        },
+        {
+          "bookmark": [
+            2,
+            "第三节人类与海洋",
+            56
+          ],
+          "assessment": "exact_match"
+        },
+        {
+          "bookmark": [
+            1,
+            "第四章天气与气候",
+            59
+          ],
+          "assessment": "exact_match"
+        },
+        {
+          "bookmark": [
+            2,
+            "第一节天气和天气预报",
+            60
+          ],
+          "assessment": "exact_match"
+        },
+        {
+          "bookmark": [
+            2,
+            "第二节气温和降水",
+            67
+          ],
+          "assessment": "exact_match"
+        },
+        {
+          "bookmark": [
+            2,
+            "第三节世界的主要气候类型",
+            75
+          ],
+          "assessment": "exact_match"
+        },
+        {
+          "bookmark": [
+            1,
+            "第五章居民与聚落",
+            82
+          ],
+          "assessment": "exact_match"
+        },
+        {
+          "bookmark": [
+            2,
+            "第一节世界的人口",
+            83
+          ],
+          "assessment": "exact_match"
+        },
+        {
+          "bookmark": [
+            2,
+            "第二节世界的人种、语言和宗教",
+            89
+          ],
+          "assessment": "exact_match"
+        },
+        {
+          "bookmark": [
+            2,
+            "第三节聚落的发展变化",
+            94
+          ],
+          "assessment": "exact_match"
+        },
+        {
+          "bookmark": [
+            1,
+            "第六章发展差异与国际合作",
+            100
+          ],
+          "assessment": "exact_match"
+        },
+        {
+          "bookmark": [
+            1,
+            "后 记",
+            108
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        }
+      ],
+      "reference_evidence": "Printed contents visually transcribed before recognition, with PDF-page offset checked on body unit/chapter/section starts; not inferred from generated bookmarks.",
+      "assessment_counts": {
+        "exact_match": 22,
+        "outside_printed_contents_or_ocr_error": 1
+      },
+      "title_and_page_matches_ignoring_depth": 22,
+      "diagnostics": []
+    },
+    {
+      "name": "zh-heldout-beijing-chemistry",
+      "url": "https://raw.githubusercontent.com/TapXWorld/ChinaTextbook/master/%E5%88%9D%E4%B8%AD/%E5%8C%96%E5%AD%A6/%E5%8C%97%E4%BA%AC%E7%89%88-%E5%8C%97%E4%BA%AC%E5%87%BA%E7%89%88%E7%A4%BE/%E4%B9%9D%E5%B9%B4%E7%BA%A7/%E4%B9%89%E5%8A%A1%E6%95%99%E8%82%B2%E6%95%99%E7%A7%91%E4%B9%A6%C2%B7%E5%8C%96%E5%AD%A6%E4%B9%9D%E5%B9%B4%E7%BA%A7%E4%B8%8B%E5%86%8C.pdf",
+      "original_sha256": "2b8dcf06172a8131f0ff01a6e7923a61eaaa1f6dce1671813f1017c0d4871db1",
+      "input_sha256": "2b8dcf06172a8131f0ff01a6e7923a61eaaa1f6dce1671813f1017c0d4871db1",
+      "pages": 122,
+      "original_outline_count": 0,
+      "input_outline_count": 0,
+      "ocr_pages": 11,
+      "bookmarks": 22,
+      "recognition_seconds": 15.5,
+      "extraction_cache_hit": false,
+      "evaluation_role": "development_regression",
+      "save_and_verify_seconds": 13.45,
+      "reviewed_save_and_verify_seconds": 13.39,
+      "automatic_content_preserved": true,
+      "recognition_failure": null,
+      "force_ocr": false,
+      "reviewed_toc_verified": true,
+      "derived_low_quality": false,
+      "scope": "Complete printed contents including units and appendices; every generated bookmark is scored, including duplicates and extra titles. Extra body headings are not necessarily invalid navigation, but are outside this predefined contents policy.",
+      "metrics": {
+        "reference_entries": 22,
+        "scored_candidates": 22,
+        "duplicate_candidates": 0,
+        "exact_matches": 22,
+        "precision": 1.0,
+        "recall": 1.0,
+        "missing": [],
+        "unexpected": [],
+        "unscored_candidates": 0
+      },
+      "toc": [
+        [
+          1,
+          "第9章溶液",
+          7
+        ],
+        [
+          2,
+          "第一节认识溶液",
+          8
+        ],
+        [
+          2,
+          "第二节溶液组成的定量表示",
+          13
+        ],
+        [
+          2,
+          "第三节溶解度",
+          17
+        ],
+        [
+          1,
+          "第10章金属",
+          29
+        ],
+        [
+          2,
+          "第一节金属与合金",
+          30
+        ],
+        [
+          2,
+          "第二节金属的化学性质",
+          35
+        ],
+        [
+          2,
+          "第三节金属的冶炼与防护",
+          40
+        ],
+        [
+          1,
+          "第11章酸与碱",
+          51
+        ],
+        [
+          2,
+          "第一节对酸碱的初步认识",
+          52
+        ],
+        [
+          2,
+          "第二节几种常见的酸",
+          58
+        ],
+        [
+          2,
+          "第三节几种常见的碱",
+          65
+        ],
+        [
+          1,
+          "第12章盐",
+          77
+        ],
+        [
+          2,
+          "第一节几种常见的盐",
+          78
+        ],
+        [
+          2,
+          "第二节盐的性质",
+          83
+        ],
+        [
+          2,
+          "第三节化学肥料",
+          87
+        ],
+        [
+          1,
+          "第13章化学与社会生活",
+          95
+        ],
+        [
+          2,
+          "第一节食物中的营养物质",
+          96
+        ],
+        [
+          2,
+          "第二节化学合成材料",
+          103
+        ],
+        [
+          2,
+          "第三节化学与环境",
+          109
+        ],
+        [
+          1,
+          "附录一",
+          119
+        ],
+        [
+          1,
+          "附录二",
+          120
+        ]
+      ],
+      "reference_toc": [
+        [
+          1,
+          "第9章 溶液",
+          7
+        ],
+        [
+          2,
+          "第一节 认识溶液",
+          8
+        ],
+        [
+          2,
+          "第二节 溶液组成的定量表示",
+          13
+        ],
+        [
+          2,
+          "第三节 溶解度",
+          17
+        ],
+        [
+          1,
+          "第10章 金属",
+          29
+        ],
+        [
+          2,
+          "第一节 金属与合金",
+          30
+        ],
+        [
+          2,
+          "第二节 金属的化学性质",
+          35
+        ],
+        [
+          2,
+          "第三节 金属的冶炼与防护",
+          40
+        ],
+        [
+          1,
+          "第11章 酸与碱",
+          51
+        ],
+        [
+          2,
+          "第一节 对酸碱的初步认识",
+          52
+        ],
+        [
+          2,
+          "第二节 几种常见的酸",
+          58
+        ],
+        [
+          2,
+          "第三节 几种常见的碱",
+          65
+        ],
+        [
+          1,
+          "第12章 盐",
+          77
+        ],
+        [
+          2,
+          "第一节 几种常见的盐",
+          78
+        ],
+        [
+          2,
+          "第二节 盐的性质",
+          83
+        ],
+        [
+          2,
+          "第三节 化学肥料",
+          87
+        ],
+        [
+          1,
+          "第13章 化学与社会生活",
+          95
+        ],
+        [
+          2,
+          "第一节 食物中的营养物质",
+          96
+        ],
+        [
+          2,
+          "第二节 化学合成材料",
+          103
+        ],
+        [
+          2,
+          "第三节 化学与环境",
+          109
+        ],
+        [
+          1,
+          "附录一",
+          119
+        ],
+        [
+          1,
+          "附录二",
+          120
+        ]
+      ],
+      "review_signals": {
+        "unreadable_toc_rows": 0,
+        "low_confidence_toc_rows": 0
+      },
+      "recognition_method": "printed_toc",
+      "candidate_review": [
+        {
+          "bookmark": [
+            1,
+            "第9章溶液",
+            7
+          ],
+          "assessment": "exact_match"
+        },
+        {
+          "bookmark": [
+            2,
+            "第一节认识溶液",
+            8
+          ],
+          "assessment": "exact_match"
+        },
+        {
+          "bookmark": [
+            2,
+            "第二节溶液组成的定量表示",
+            13
+          ],
+          "assessment": "exact_match"
+        },
+        {
+          "bookmark": [
+            2,
+            "第三节溶解度",
+            17
+          ],
+          "assessment": "exact_match"
+        },
+        {
+          "bookmark": [
+            1,
+            "第10章金属",
+            29
+          ],
+          "assessment": "exact_match"
+        },
+        {
+          "bookmark": [
+            2,
+            "第一节金属与合金",
+            30
+          ],
+          "assessment": "exact_match"
+        },
+        {
+          "bookmark": [
+            2,
+            "第二节金属的化学性质",
+            35
+          ],
+          "assessment": "exact_match"
+        },
+        {
+          "bookmark": [
+            2,
+            "第三节金属的冶炼与防护",
+            40
+          ],
+          "assessment": "exact_match"
+        },
+        {
+          "bookmark": [
+            1,
+            "第11章酸与碱",
+            51
+          ],
+          "assessment": "exact_match"
+        },
+        {
+          "bookmark": [
+            2,
+            "第一节对酸碱的初步认识",
+            52
+          ],
+          "assessment": "exact_match"
+        },
+        {
+          "bookmark": [
+            2,
+            "第二节几种常见的酸",
+            58
+          ],
+          "assessment": "exact_match"
+        },
+        {
+          "bookmark": [
+            2,
+            "第三节几种常见的碱",
+            65
+          ],
+          "assessment": "exact_match"
+        },
+        {
+          "bookmark": [
+            1,
+            "第12章盐",
+            77
+          ],
+          "assessment": "exact_match"
+        },
+        {
+          "bookmark": [
+            2,
+            "第一节几种常见的盐",
+            78
+          ],
+          "assessment": "exact_match"
+        },
+        {
+          "bookmark": [
+            2,
+            "第二节盐的性质",
+            83
+          ],
+          "assessment": "exact_match"
+        },
+        {
+          "bookmark": [
+            2,
+            "第三节化学肥料",
+            87
+          ],
+          "assessment": "exact_match"
+        },
+        {
+          "bookmark": [
+            1,
+            "第13章化学与社会生活",
+            95
+          ],
+          "assessment": "exact_match"
+        },
+        {
+          "bookmark": [
+            2,
+            "第一节食物中的营养物质",
+            96
+          ],
+          "assessment": "exact_match"
+        },
+        {
+          "bookmark": [
+            2,
+            "第二节化学合成材料",
+            103
+          ],
+          "assessment": "exact_match"
+        },
+        {
+          "bookmark": [
+            2,
+            "第三节化学与环境",
+            109
+          ],
+          "assessment": "exact_match"
+        },
+        {
+          "bookmark": [
+            1,
+            "附录一",
+            119
+          ],
+          "assessment": "exact_match"
+        },
+        {
+          "bookmark": [
+            1,
+            "附录二",
+            120
+          ],
+          "assessment": "exact_match"
+        }
+      ],
+      "reference_evidence": "Printed contents visually transcribed before recognition, with PDF-page offset checked on body unit/chapter/section starts; not inferred from generated bookmarks.",
+      "assessment_counts": {
+        "exact_match": 22
+      },
+      "title_and_page_matches_ignoring_depth": 22,
+      "diagnostics": []
+    },
+    {
+      "name": "zh-heldout-renjiao-geography",
+      "url": "https://raw.githubusercontent.com/TapXWorld/ChinaTextbook/master/%E5%88%9D%E4%B8%AD/%E5%9C%B0%E7%90%86/%E4%BA%BA%E6%95%99%E7%89%88-%E4%BA%BA%E6%B0%91%E6%95%99%E8%82%B2%E5%87%BA%E7%89%88%E7%A4%BE/%E5%85%AB%E5%B9%B4%E7%BA%A7/%E4%B9%89%E5%8A%A1%E6%95%99%E8%82%B2%E6%95%99%E7%A7%91%E4%B9%A6%C2%B7%E5%9C%B0%E7%90%86%E5%85%AB%E5%B9%B4%E7%BA%A7%E4%B8%8A%E5%86%8C.pdf",
+      "original_sha256": "644772ceddd6ce47a2561a9cac4db8221f0d96359d9c4e607f8b1a19b5e1874a",
+      "input_sha256": "644772ceddd6ce47a2561a9cac4db8221f0d96359d9c4e607f8b1a19b5e1874a",
+      "pages": 120,
+      "original_outline_count": 0,
+      "input_outline_count": 0,
+      "ocr_pages": 5,
+      "bookmarks": 20,
+      "recognition_seconds": 9.18,
+      "extraction_cache_hit": false,
+      "evaluation_role": "development_regression",
+      "save_and_verify_seconds": 14.51,
+      "reviewed_save_and_verify_seconds": 13.41,
+      "automatic_content_preserved": true,
+      "recognition_failure": null,
+      "force_ocr": false,
+      "reviewed_toc_verified": true,
+      "derived_low_quality": false,
+      "scope": "Complete printed contents including units and appendices; every generated bookmark is scored, including duplicates and extra titles. Extra body headings are not necessarily invalid navigation, but are outside this predefined contents policy.",
+      "metrics": {
+        "reference_entries": 19,
+        "scored_candidates": 20,
+        "duplicate_candidates": 0,
+        "exact_matches": 19,
+        "precision": 0.95,
+        "recall": 1.0,
+        "missing": [],
+        "unexpected": [
+          [
+            1,
+            "后记",
+            116
+          ]
+        ],
+        "unscored_candidates": 0
+      },
+      "toc": [
+        [
+          1,
+          "第一章从世界看中国",
+          6
+        ],
+        [
+          2,
+          "第一节疆域",
+          7
+        ],
+        [
+          2,
+          "第二节人口",
+          16
+        ],
+        [
+          2,
+          "第三节民族",
+          20
+        ],
+        [
+          1,
+          "第二章中国的自然环境",
+          26
+        ],
+        [
+          2,
+          "第一节地形和地势",
+          27
+        ],
+        [
+          2,
+          "第二节气候",
+          35
+        ],
+        [
+          2,
+          "第三节河流",
+          47
+        ],
+        [
+          2,
+          "第四节自然灾害",
+          59
+        ],
+        [
+          1,
+          "第三章中国的自然资源",
+          66
+        ],
+        [
+          2,
+          "第一节自然资源的基本特征",
+          67
+        ],
+        [
+          2,
+          "第二节土地资源",
+          72
+        ],
+        [
+          2,
+          "第三节水资源",
+          80
+        ],
+        [
+          1,
+          "第四章中国的经济发展",
+          88
+        ],
+        [
+          2,
+          "第一节交通运输",
+          89
+        ],
+        [
+          2,
+          "第二节农业",
+          95
+        ],
+        [
+          2,
+          "第三节工业",
+          105
+        ],
+        [
+          1,
+          "附录一:本书主要地理词汇中英文对照表",
+          113
+        ],
+        [
+          1,
+          "附录二:本书常用地图图例",
+          114
+        ],
+        [
+          1,
+          "后 记",
+          116
+        ]
+      ],
+      "reference_toc": [
+        [
+          1,
+          "第一章 从世界看中国",
+          6
+        ],
+        [
+          2,
+          "第一节 疆域",
+          7
+        ],
+        [
+          2,
+          "第二节 人口",
+          16
+        ],
+        [
+          2,
+          "第三节 民族",
+          20
+        ],
+        [
+          1,
+          "第二章 中国的自然环境",
+          26
+        ],
+        [
+          2,
+          "第一节 地形和地势",
+          27
+        ],
+        [
+          2,
+          "第二节 气候",
+          35
+        ],
+        [
+          2,
+          "第三节 河流",
+          47
+        ],
+        [
+          2,
+          "第四节 自然灾害",
+          59
+        ],
+        [
+          1,
+          "第三章 中国的自然资源",
+          66
+        ],
+        [
+          2,
+          "第一节 自然资源的基本特征",
+          67
+        ],
+        [
+          2,
+          "第二节 土地资源",
+          72
+        ],
+        [
+          2,
+          "第三节 水资源",
+          80
+        ],
+        [
+          1,
+          "第四章 中国的经济发展",
+          88
+        ],
+        [
+          2,
+          "第一节 交通运输",
+          89
+        ],
+        [
+          2,
+          "第二节 农业",
+          95
+        ],
+        [
+          2,
+          "第三节 工业",
+          105
+        ],
+        [
+          1,
+          "附录一：本书主要地理词汇中英文对照表",
+          113
+        ],
+        [
+          1,
+          "附录二：本书常用地图图例",
+          114
+        ]
+      ],
+      "review_signals": {
+        "unreadable_toc_rows": 0,
+        "low_confidence_toc_rows": 0
+      },
+      "recognition_method": "printed_toc",
+      "candidate_review": [
+        {
+          "bookmark": [
+            1,
+            "第一章从世界看中国",
+            6
+          ],
+          "assessment": "exact_match"
+        },
+        {
+          "bookmark": [
+            2,
+            "第一节疆域",
+            7
+          ],
+          "assessment": "exact_match"
+        },
+        {
+          "bookmark": [
+            2,
+            "第二节人口",
+            16
+          ],
+          "assessment": "exact_match"
+        },
+        {
+          "bookmark": [
+            2,
+            "第三节民族",
+            20
+          ],
+          "assessment": "exact_match"
+        },
+        {
+          "bookmark": [
+            1,
+            "第二章中国的自然环境",
+            26
+          ],
+          "assessment": "exact_match"
+        },
+        {
+          "bookmark": [
+            2,
+            "第一节地形和地势",
+            27
+          ],
+          "assessment": "exact_match"
+        },
+        {
+          "bookmark": [
+            2,
+            "第二节气候",
+            35
+          ],
+          "assessment": "exact_match"
+        },
+        {
+          "bookmark": [
+            2,
+            "第三节河流",
+            47
+          ],
+          "assessment": "exact_match"
+        },
+        {
+          "bookmark": [
+            2,
+            "第四节自然灾害",
+            59
+          ],
+          "assessment": "exact_match"
+        },
+        {
+          "bookmark": [
+            1,
+            "第三章中国的自然资源",
+            66
+          ],
+          "assessment": "exact_match"
+        },
+        {
+          "bookmark": [
+            2,
+            "第一节自然资源的基本特征",
+            67
+          ],
+          "assessment": "exact_match"
+        },
+        {
+          "bookmark": [
+            2,
+            "第二节土地资源",
+            72
+          ],
+          "assessment": "exact_match"
+        },
+        {
+          "bookmark": [
+            2,
+            "第三节水资源",
+            80
+          ],
+          "assessment": "exact_match"
+        },
+        {
+          "bookmark": [
+            1,
+            "第四章中国的经济发展",
+            88
+          ],
+          "assessment": "exact_match"
+        },
+        {
+          "bookmark": [
+            2,
+            "第一节交通运输",
+            89
+          ],
+          "assessment": "exact_match"
+        },
+        {
+          "bookmark": [
+            2,
+            "第二节农业",
+            95
+          ],
+          "assessment": "exact_match"
+        },
+        {
+          "bookmark": [
+            2,
+            "第三节工业",
+            105
+          ],
+          "assessment": "exact_match"
+        },
+        {
+          "bookmark": [
+            1,
+            "附录一:本书主要地理词汇中英文对照表",
+            113
+          ],
+          "assessment": "exact_match"
+        },
+        {
+          "bookmark": [
+            1,
+            "附录二:本书常用地图图例",
+            114
+          ],
+          "assessment": "exact_match"
+        },
+        {
+          "bookmark": [
+            1,
+            "后 记",
+            116
+          ],
+          "assessment": "outside_printed_contents_or_ocr_error"
+        }
+      ],
+      "reference_evidence": "Printed contents visually transcribed before recognition, with PDF-page offset checked on body unit/chapter/section starts; not inferred from generated bookmarks.",
+      "assessment_counts": {
+        "exact_match": 19,
+        "outside_printed_contents_or_ocr_error": 1
+      },
+      "title_and_page_matches_ignoring_depth": 19,
+      "diagnostics": []
     }
-  ],
-  "checkpoint_note": "Partial measured evidence; not a release report. Historical evidence remains at commit 15570246b69a7522567fbf8a1695a5e85444305f."
+  ]
 }
