@@ -944,11 +944,13 @@ def validate_skill_workflow(directory):
             target = trial / relative
             target.parent.mkdir(parents=True, exist_ok=True)
             shutil.copyfile(ROOT / relative, target)
+        # Keep generated suggestions isolated too; reruns must not overwrite prior reviews.
+        shutil.copyfile(directory / "zh-heldout-chemistry.pdf", trial / "chemistry.pdf")
         common = [sys.executable, str(trial / "scripts/add_bookmarks.py")]
         completed = subprocess.run(
             common
             + [
-                str(directory / "zh-heldout-chemistry.pdf"),
+                str(trial / "chemistry.pdf"),
                 "--generate-toc",
                 "--verify",
                 "full",
