@@ -285,7 +285,8 @@ COMPLETE_CONTENT_LABELS.update(
         "zh-heldout-guangdong": ZH_HELDOUT_GUANGDONG,
     }
 )
-INDEPENDENT_SAMPLES = {"zh-heldout-beijing-chemistry", "zh-heldout-renjiao-geography"}
+INDEPENDENT_SAMPLES = {"heldout-flatland", "heldout-bert"}
+FORCE_OCR_SAMPLES = {"heldout-flatland"}
 
 # Frozen v0.4.1 before selecting these books; labels from rendered contents, not output.
 SOURCES.update(
@@ -356,6 +357,105 @@ COMPLETE_CONTENT_LABELS.update(
             (2, "第三节 工业", 105),
             (1, "附录一：本书主要地理词汇中英文对照表", 113),
             (1, "附录二：本书常用地图图例", 114),
+        ],
+    }
+)
+
+# First-pass v0.4.2 body-outline references, annotated after runtime freeze and before recognition.
+SOURCES.update(
+    {
+        "heldout-flatland": (
+            "https://archive.org/download/flatlandromanceo00abbouoft/flatlandromanceo00abbouoft.pdf",
+            "4db5c2e28266299e0933c064cd78fd2a12af1d2c4ebfc16e20b3afcbc65b4923",
+            "eng",
+            "auto",
+        ),
+        "heldout-bert": (
+            "https://arxiv.org/pdf/1810.04805",
+            "5692a5514787a8c6727b4ff3b726a3385798bc68e12138d1d4af83947e2acf6e",
+            "eng",
+            "article",
+        ),
+    }
+)
+COMPLETE_CONTENT_LABELS.update(
+    {
+        "heldout-flatland": [
+            (1, "PART I", 13),
+            (2, "1. Of the Nature of Flatland", 15),
+            (2, "2. Of the climate and houses in Flatland", 17),
+            (2, "3. Concerning the Inhabitants of Flatland", 20),
+            (2, "4. Concerning the Women", 23),
+            (2, "5. Of our methods of recognizing one another", 29),
+            (2, "6. Of Recognition by Sight", 34),
+            (2, "7. Of Irregular Figures", 39),
+            (2, "8. Of the Ancient Practice of Painting", 43),
+            (2, "9. Of the Universal Colour Bill", 46),
+            (2, "10. Of the Suppression of the Chromatic Sedition", 50),
+            (2, "11. Concerning our Priests", 54),
+            (2, "12. Of the Doctrine of our Priests", 57),
+            (1, "PART II Other Worlds", 63),
+            (2, "13. How I had a Vision of Lineland", 65),
+            (2, "14. How I vainly tried to explain the nature of Flatland", 70),
+            (2, "15. Concerning a Stranger from Spaceland", 76),
+            (
+                2,
+                "16. How the Stranger vainly endeavoured to reveal to me in words the mysteries of Spaceland",
+                79,
+            ),
+            (
+                2,
+                "17. How the Sphere, having in vain tried words, resorted to deeds",
+                87,
+            ),
+            (2, "18. How I came to Spaceland, and what I saw there", 89),
+            (
+                2,
+                "19. How, though the Sphere showed me other mysteries of Spaceland, I still desired more; and what came of it",
+                95,
+            ),
+            (2, "20. How the Sphere encouraged me in a Vision", 102),
+            (
+                2,
+                "21. How I tried to teach the theory of Three Dimensions to my Grandson, and with what success",
+                105,
+            ),
+            (
+                2,
+                "22. How I then tried to diffuse the Theory of Three Dimensions by other means, and of the result",
+                108,
+            ),
+        ],
+        "heldout-bert": [
+            (1, "1 Introduction", 1),
+            (1, "2 Related Work", 2),
+            (2, "2.1 Unsupervised Feature-based Approaches", 2),
+            (2, "2.2 Unsupervised Fine-tuning Approaches", 2),
+            (2, "2.3 Transfer Learning from Supervised Data", 3),
+            (1, "3 BERT", 3),
+            (2, "3.1 Pre-training BERT", 4),
+            (2, "3.2 Fine-tuning BERT", 5),
+            (1, "4 Experiments", 5),
+            (2, "4.1 GLUE", 5),
+            (2, "4.2 SQuAD v1.1", 6),
+            (2, "4.3 SQuAD v2.0", 7),
+            (2, "4.4 SWAG", 7),
+            (1, "5 Ablation Studies", 7),
+            (2, "5.1 Effect of Pre-training Tasks", 8),
+            (2, "5.2 Effect of Model Size", 8),
+            (2, "5.3 Feature-based Approach with BERT", 9),
+            (1, "6 Conclusion", 9),
+            (1, "A Additional Details for BERT", 12),
+            (2, "A.1 Illustration of the Pre-training Tasks", 12),
+            (2, "A.2 Pre-training Procedure", 13),
+            (2, "A.3 Fine-tuning Procedure", 13),
+            (2, "A.4 Comparison of BERT, ELMo, and OpenAI GPT", 14),
+            (2, "A.5 Illustrations of Fine-tuning on Different Tasks", 14),
+            (1, "B Detailed Experimental Setup", 14),
+            (2, "B.1 Detailed Descriptions for the GLUE Benchmark Experiments", 14),
+            (1, "C Additional Ablation Studies", 16),
+            (2, "C.1 Effect of Number of Training Steps", 16),
+            (2, "C.2 Ablation for Different Masking Procedures", 16),
         ],
     }
 )
@@ -651,7 +751,7 @@ def main():
         source = directory / (name + ".pdf")
         with fitz.open(original) as doc:
             reference = doc.get_toc()
-            assert len(doc) >= (10 if base == "zh-exam" else 100)
+            assert len(doc) >= (10 if base in {"zh-exam", "heldout-bert"} else 100)
             original_outlines = len(reference)
             if not source.exists():
                 if name == "zh-low":
@@ -677,7 +777,7 @@ def main():
             assert app.verify_content(original, source), (
                 "Prepared input changed page content"
             )
-        key = extraction_hash + digest(source) + lang
+        key = extraction_hash + digest(source) + lang + str(base in FORCE_OCR_SAMPLES)
         cache = directory / (name + "-pages.json")
         cached = json.loads(cache.read_text()) if cache.exists() else {}
         cache_hit = (
@@ -690,7 +790,11 @@ def main():
         else:
             started = time.perf_counter()
             pages, scanned, visual = app.read_pages(
-                str(source), lang=lang, workers=4, dpi=200
+                str(source),
+                lang=lang,
+                force_ocr=base in FORCE_OCR_SAMPLES,
+                workers=4,
+                dpi=200,
             )
             seconds = time.perf_counter() - started
             cache.write_text(
@@ -710,6 +814,7 @@ def main():
             pages, scanned, pdf_type=profile, visual=visual
         )
         output = directory / (name + "_with_bookmarks.pdf")
+        output.unlink(missing_ok=True)
         started = time.perf_counter()
         if headings:
             app.add_bookmarks(
@@ -787,6 +892,10 @@ def main():
                 scope = "Chapter titles, PDF pages and depth only; sections and visual titles are unlabelled"
             if base in COMPLETE_CONTENT_LABELS:
                 scope = "Complete printed contents including units and appendices; every generated bookmark is scored, including duplicates and extra titles. Extra body headings are not necessarily invalid navigation, but are outside this predefined contents policy."
+            if base == "heldout-flatland":
+                scope = "All 24 body part/section headers, wording and destinations checked from page images; printed contents omits folios and differs from some body titles. Existing invisible OCR layer retained unchanged but image OCR is forced for this benchmark."
+            if base == "heldout-bert":
+                scope = "All 29 numbered body/appendix headings in the two-column paper. No printed contents. Unnumbered abstract, references and appendix banner are outside this explicit policy; every output candidate is scored."
             # Reviewed TOC is the documented fallback, independent of automatic recognition.
             reviewed = directory / (name + "-reviewed.pdf")
             reviewed_labels = (
@@ -828,8 +937,11 @@ def main():
             else "development_regression",
             save_and_verify_seconds=round(automatic_seconds, 2),
             reviewed_save_and_verify_seconds=round(reviewed_seconds, 2),
-            automatic_content_preserved=bool(toc),
-            reviewed_toc_verified=base.startswith("zh"),
+            automatic_content_preserved=True if toc else None,
+            recognition_failure=None if toc else "no_headings",
+            force_ocr=base in FORCE_OCR_SAMPLES,
+            reviewed_toc_verified=base.startswith("zh")
+            or base in COMPLETE_CONTENT_LABELS,
             derived_low_quality=name == "zh-low",
             scope=scope,
             metrics=metrics,
@@ -837,7 +949,7 @@ def main():
             reference_toc=reference
             if name in {"text", "blind-java"}
             else labels
-            if name.startswith("zh")
+            if name.startswith("zh") or base in COMPLETE_CONTENT_LABELS
             else [],
             review_signals=dict(
                 unreadable_toc_rows=sum(
@@ -862,6 +974,10 @@ def main():
             row["reference_evidence"] = (
                 "Printed contents visually transcribed before recognition, with PDF-page offset checked on body unit/chapter/section starts; not inferred from generated bookmarks."
             )
+            if base in INDEPENDENT_SAMPLES:
+                row["reference_evidence"] = (
+                    "Manually annotated body header wording, hierarchy and PDF pages before recognition; source page images inspected. References are not generated outlines."
+                )
             row["assessment_counts"] = dict(
                 Counter(item["assessment"] for item in row["candidate_review"])
             )
@@ -897,7 +1013,7 @@ def main():
         implementation_sha256=implementation,
         benchmark_sha256=benchmark_hash,
         annotation_notes=[
-            "Geography and biology from v0.3.3 are now development regressions. Their initial failures and source implementation hashes are preserved under prior_independent_evaluations; the v0.4.0 chemistry and Guangdong geography failures are also preserved and are now regressions. Only the new v0.4.1 sources remain held out.",
+            "Geography and biology from v0.3.3 are now development regressions. Their initial failures and source implementation hashes are preserved under prior_independent_evaluations; the v0.4.0 chemistry and Guangdong geography failures are also preserved and are now regressions. The v0.4.1 hold-outs are preserved as historical first passes and are now regression samples; only Flatland and BERT are current hold-outs.",
             "New chemistry labels include every printed contents entry: chapters, sections, repeated summaries/homework and laboratory activities; new Guangdong geography labels include the introductory entry and all chapters/sections. All generated candidates are scored.",
             "Beijing section 2.3 corrected to 等式与方程 after checking printed TOC and body page 86; prior label 算式与等式 was incorrect.",
             "Independent Jijiao scan has generic page bookmarks; labels are manually transcribed, not extracted from those bookmarks.",

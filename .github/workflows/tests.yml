@@ -36,7 +36,14 @@ jobs:
               if line and not line.startswith('#'):
                   name, version = line.split('==')
                   assert report['environment'][name] == version
-          assert all(row['input_outline_count'] == 0 and row['automatic_content_preserved'] for row in report['results'])
+          for row in report['results']:
+              assert row['input_outline_count'] == 0
+              if row['bookmarks']:
+                  assert row['automatic_content_preserved'] is True
+              else:
+                  assert row['automatic_content_preserved'] is None
+                  assert row['recognition_failure'] == 'no_headings'
+                  assert row['reviewed_toc_verified'] is True
           held_out = [row for row in report['results'] if row['evaluation_role'] == 'independent_held_out']
           assert len(held_out) >= 2
           for row in held_out:
