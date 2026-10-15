@@ -128,7 +128,7 @@ def _match_heading(line, ocr_mode=False):
     m = re.match(r"^(\d+)\s+([\u4e00-\u9fff][\u4e00-\u9fff\s]{0,15})$", line)
     if m and 1 <= int(m.group(1)) <= 99:
         return {"type": "chapter", "title": line}
-    m = re.match(r"^(\d+)\s+([A-Z][A-Za-z][^\n]{1,98})$", line)
+    m = re.match(r"^(\d+)\s+([A-Z][A-Za-z][^|\n=<>\\]{1,98})$", line)
     if m and 1 <= int(m.group(1)) <= 99:
         return {"type": "chapter", "title": line}
     if re.match(r"^[A-Z]\.\d+\.\d+\.?\s+\w+", line):

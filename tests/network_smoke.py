@@ -285,7 +285,7 @@ COMPLETE_CONTENT_LABELS.update(
         "zh-heldout-guangdong": ZH_HELDOUT_GUANGDONG,
     }
 )
-INDEPENDENT_SAMPLES = {"heldout-albert", "heldout-roberta"}
+INDEPENDENT_SAMPLES = {"heldout-electra", "heldout-elmo"}
 FORCE_OCR_SAMPLES = {"heldout-flatland"}
 
 # Frozen v0.4.1 before selecting these books; labels from rendered contents, not output.
@@ -627,6 +627,79 @@ COMPLETE_CONTENT_LABELS.update(
 )
 
 
+# Frozen after source-image inspection; no changes to the recognizer follow these hold-outs.
+SOURCES.update(
+    {
+        "heldout-electra": (
+            "https://arxiv.org/pdf/2003.10555",
+            "6219a802dca3be0027fc88bb2ecd56806e6610ebfe4d083a4c18dd896f45b9ae",
+            "eng",
+            "article",
+        ),
+        "heldout-elmo": (
+            "https://arxiv.org/pdf/1802.05365",
+            "d3859b3adb02783a2b6cad951e5554b485cad1df53b737e08c93e8925e014632",
+            "eng",
+            "article",
+        ),
+    }
+)
+COMPLETE_CONTENT_LABELS.update(
+    {
+        "heldout-electra": [
+            [1, "1 Introduction", 1],
+            [1, "2 Method", 2],
+            [1, "3 Experiments", 4],
+            [2, "3.1 Experimental Setup", 4],
+            [2, "3.2 Model Extensions", 4],
+            [2, "3.3 Small Models", 6],
+            [2, "3.4 Large Models", 7],
+            [2, "3.5 Efficiency Analysis", 8],
+            [1, "4 Related Work", 9],
+            [1, "5 Conclusion", 10],
+            [1, "A Pre-Training Details", 13],
+            [1, "B Fine-Tuning Details", 13],
+            [1, "C Details about GLUE", 15],
+            [1, "D Further results on GLUE", 15],
+            [1, "E Counting FLOPs", 16],
+            [1, "F Adversarial Training", 16],
+            [1, "G Evaluating ELECTRA as a Masked Language Model", 17],
+            [1, "H Negative Results", 18],
+        ],
+        "heldout-elmo": [
+            (1, "1 Introduction", 1),
+            (1, "2 Related work", 2),
+            (1, "3 ELMo: Embeddings from Language Models", 2),
+            (2, "3.1 Bidirectional language models", 2),
+            (2, "3.2 ELMo", 3),
+            (2, "3.3 Using biLMs for supervised NLP tasks", 3),
+            (2, "3.4 Pre-trained bidirectional language model architecture", 4),
+            (1, "4 Evaluation", 4),
+            (1, "5 Analysis", 6),
+            (2, "5.1 Alternate layer weighting schemes", 6),
+            (2, "5.2 Where to include ELMo?", 6),
+            (2, "5.3 What information is captured by the biLM’s representations?", 7),
+            (2, "5.4 Sample efficiency", 8),
+            (2, "5.5 Visualization of learned weights", 8),
+            (1, "6 Conclusion", 9),
+            (
+                1,
+                "A Supplemental Material to accompany Deep contextualized word representations",
+                12,
+            ),
+            (2, "A.1 Fine tuning biLM", 12),
+            (2, "A.2 Importance of γ in Eqn. (1)", 12),
+            (2, "A.3 Textual Entailment", 12),
+            (2, "A.4 Question Answering", 12),
+            (2, "A.5 Semantic Role Labeling", 13),
+            (2, "A.6 Coreference resolution", 13),
+            (2, "A.7 Named Entity Recognition", 14),
+            (2, "A.8 Sentiment classification", 15),
+        ],
+    }
+)
+
+
 def digest(path):
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
@@ -845,7 +918,14 @@ def main():
             assert len(doc) >= (
                 10
                 if base
-                in {"zh-exam", "heldout-bert", "heldout-albert", "heldout-roberta"}
+                in {
+                    "zh-exam",
+                    "heldout-bert",
+                    "heldout-albert",
+                    "heldout-roberta",
+                    "heldout-electra",
+                    "heldout-elmo",
+                }
                 else 100
             )
             original_outlines = len(reference)
@@ -993,8 +1073,8 @@ def main():
                 scope = "Complete printed contents including units and appendices; every generated bookmark is scored, including duplicates and extra titles. Extra body headings are not necessarily invalid navigation, but are outside this predefined contents policy."
             if base == "heldout-flatland":
                 scope = "All 24 body part/section headers, wording and destinations checked from page images; printed contents omits folios and differs from some body titles. Existing invisible OCR layer retained unchanged but image OCR is forced for this benchmark."
-            if base == "heldout-bert":
-                scope = "All 29 numbered body/appendix headings in the two-column paper. No printed contents. Unnumbered abstract, references and appendix banner are outside this explicit policy; every output candidate is scored."
+            if base.startswith("heldout-") and base != "heldout-flatland":
+                scope = "All predefined numbered body/appendix headings; wording and PDF destinations checked against source pages before recognition. Unnumbered abstract, references and paper title are outside this explicit policy; every output candidate is scored."
             # Reviewed TOC is the documented fallback, independent of automatic recognition.
             reviewed = directory / (name + "-reviewed.pdf")
             reviewed_labels = (
@@ -1073,7 +1153,11 @@ def main():
             row["reference_evidence"] = (
                 "Printed contents visually transcribed before recognition, with PDF-page offset checked on body unit/chapter/section starts; not inferred from generated bookmarks."
             )
-            if base in INDEPENDENT_SAMPLES:
+            if base in INDEPENDENT_SAMPLES or base in {
+                "heldout-albert",
+                "heldout-roberta",
+                "heldout-bert",
+            }:
                 row["reference_evidence"] = (
                     "Manually annotated body header wording, hierarchy and PDF pages before recognition; source page images inspected. References are not generated outlines."
                 )

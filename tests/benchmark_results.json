@@ -7109,6 +7109,633 @@
         }
       ],
       "limitations": "First-pass held-out evidence before an independently observed development-regression correction; neither held-out result was used to change recognition rules."
+    },
+    "v0.4.3-font-first-pass": {
+      "version": "0.4.3",
+      "implementation_sha256": {
+        "add_bookmarks.py": "49aba57ab3686e3b99d554c5de9f335512b13f3dfde71869408a84d70d3643be",
+        "headings.py": "595834c95e990ddb38ad21a1c0265986d51039cc1a040be7ab78d08cecd99396",
+        "ocr.py": "1efddf22e8a7dcecc93f27777bf203ca4e5528730d4f45c932b78521338762c5"
+      },
+      "benchmark_sha256": "9b3ba6c858476a73d71cf56b1ab0e12f866c880c2ce4cd708f0b25bb2a8b8e31",
+      "environment": {
+        "PyMuPDF": "1.26.6",
+        "Pillow": "12.3.0",
+        "pytesseract": "0.3.13",
+        "packaging": "26.3",
+        "tesseract": "5.3.4",
+        "language_data_sha256": {
+          "eng": "7d4322bd2a7749724879683fc3912cb542f19906c83bcc1a52132556427170b2",
+          "chi_sim": "a5fcb6f0db1e1d6d8522f39db4e848f05984669172e584e8d76b6b3141e1f730"
+        }
+      },
+      "results": [
+        {
+          "name": "heldout-albert",
+          "url": "https://arxiv.org/pdf/1909.11942",
+          "original_sha256": "d631c30f3f41684862e854ad1cb379e9dbf9b1c1fa1510ab618f45b8dfc07e2c",
+          "input_sha256": "074b7e3ba2149a0c107cf22b9804d52f988d56edee3b0713efb195ba950004b9",
+          "pages": 17,
+          "original_outline_count": 26,
+          "input_outline_count": 0,
+          "ocr_pages": 0,
+          "bookmarks": 0,
+          "recognition_seconds": 0.26,
+          "extraction_cache_hit": false,
+          "evaluation_role": "independent_held_out",
+          "save_and_verify_seconds": 0.0,
+          "reviewed_save_and_verify_seconds": 0.23,
+          "automatic_content_preserved": null,
+          "recognition_failure": "no_headings",
+          "force_ocr": false,
+          "reviewed_toc_verified": true,
+          "derived_low_quality": false,
+          "scope": "Complete printed contents including units and appendices; every generated bookmark is scored, including duplicates and extra titles. Extra body headings are not necessarily invalid navigation, but are outside this predefined contents policy.",
+          "metrics": {
+            "reference_entries": 26,
+            "scored_candidates": 0,
+            "duplicate_candidates": 0,
+            "exact_matches": 0,
+            "precision": 0,
+            "recall": 0.0,
+            "missing": [
+              [
+                1,
+                "aappendix",
+                15
+              ],
+              [
+                1,
+                "discussion",
+                10
+              ],
+              [
+                1,
+                "experimentalresults",
+                5
+              ],
+              [
+                1,
+                "introduction",
+                1
+              ],
+              [
+                1,
+                "relatedwork",
+                2
+              ],
+              [
+                1,
+                "theelementsofalbert",
+                3
+              ],
+              [
+                2,
+                "additionaltrainingdataanddropouteffects",
+                8
+              ],
+              [
+                2,
+                "crosslayerparametersharing",
+                2
+              ],
+              [
+                2,
+                "crosslayerparametersharing",
+                7
+              ],
+              [
+                2,
+                "currentstateoftheartonnlutasks",
+                9
+              ],
+              [
+                2,
+                "doverywidealbertmodelsneedtobedeepertoo",
+                16
+              ],
+              [
+                2,
+                "downstreamevaluationtasks",
+                16
+              ],
+              [
+                2,
+                "effectofnetworkdepthandwidth",
+                15
+              ],
+              [
+                2,
+                "evaluationbenchmarks",
+                6
+              ],
+              [
+                2,
+                "experimentalsetup",
+                5
+              ],
+              [
+                2,
+                "factorizedembeddingparameterization",
+                6
+              ],
+              [
+                2,
+                "hyperparameters",
+                17
+              ],
+              [
+                2,
+                "modelarchitecturechoices",
+                3
+              ],
+              [
+                2,
+                "modelsetup",
+                5
+              ],
+              [
+                2,
+                "overallcomparisonbetweenbertandalbert",
+                6
+              ],
+              [
+                2,
+                "scalinguprepresentationlearningfornaturallanguage",
+                2
+              ],
+              [
+                2,
+                "sentenceorderingobjectives",
+                3
+              ],
+              [
+                2,
+                "sentenceorderpredictionsop",
+                8
+              ],
+              [
+                2,
+                "whatifwetrainforthesameamountoftime",
+                8
+              ],
+              [
+                3,
+                "downstreamevaluation",
+                6
+              ],
+              [
+                3,
+                "intrinsicevaluation",
+                6
+              ]
+            ],
+            "unexpected": [],
+            "unscored_candidates": 0
+          },
+          "toc": [],
+          "reference_toc": [
+            [
+              1,
+              "1 Introduction",
+              1
+            ],
+            [
+              1,
+              "2 Related work",
+              2
+            ],
+            [
+              2,
+              "2.1 Scaling Up Representation Learning for Natural Language",
+              2
+            ],
+            [
+              2,
+              "2.2 Cross-layer parameter sharing",
+              2
+            ],
+            [
+              2,
+              "2.3 Sentence Ordering Objectives",
+              3
+            ],
+            [
+              1,
+              "3 The Elements of ALBERT",
+              3
+            ],
+            [
+              2,
+              "3.1 Model architecture choices",
+              3
+            ],
+            [
+              2,
+              "3.2 Model setup",
+              5
+            ],
+            [
+              1,
+              "4 Experimental Results",
+              5
+            ],
+            [
+              2,
+              "4.1 Experimental Setup",
+              5
+            ],
+            [
+              2,
+              "4.2 Evaluation Benchmarks",
+              6
+            ],
+            [
+              3,
+              "4.2.1 Intrinsic Evaluation",
+              6
+            ],
+            [
+              3,
+              "4.2.2 Downstream Evaluation",
+              6
+            ],
+            [
+              2,
+              "4.3 Overall Comparison between BERT and ALBERT",
+              6
+            ],
+            [
+              2,
+              "4.4 Factorized Embedding Parameterization",
+              6
+            ],
+            [
+              2,
+              "4.5 Cross-layer parameter sharing",
+              7
+            ],
+            [
+              2,
+              "4.6 Sentence order prediction (SOP)",
+              8
+            ],
+            [
+              2,
+              "4.7 What if we train for the same amount of time?",
+              8
+            ],
+            [
+              2,
+              "4.8 Additional training data and dropout effects",
+              8
+            ],
+            [
+              2,
+              "4.9 Current State-of-the-art on NLU Tasks",
+              9
+            ],
+            [
+              1,
+              "5 Discussion",
+              10
+            ],
+            [
+              1,
+              "A Appendix",
+              15
+            ],
+            [
+              2,
+              "A.1 Effect of network depth and width",
+              15
+            ],
+            [
+              2,
+              "A.2 Do very wide ALBERT models need to be deep(er) too?",
+              16
+            ],
+            [
+              2,
+              "A.3 Downstream Evaluation Tasks",
+              16
+            ],
+            [
+              2,
+              "A.4 Hyperparameters",
+              17
+            ]
+          ],
+          "review_signals": {
+            "unreadable_toc_rows": 0,
+            "low_confidence_toc_rows": 0
+          },
+          "recognition_method": "body_headings",
+          "candidate_review": [],
+          "reference_evidence": "Manually annotated body header wording, hierarchy and PDF pages before recognition; source page images inspected. References are not generated outlines.",
+          "assessment_counts": {},
+          "title_and_page_matches_ignoring_depth": 0,
+          "diagnostics": []
+        },
+        {
+          "name": "heldout-roberta",
+          "url": "https://arxiv.org/pdf/1907.11692",
+          "original_sha256": "76a3872d244793563a5b000b818cbaf0ca8972ab1145d32be474c05b2a8f3070",
+          "input_sha256": "76a3872d244793563a5b000b818cbaf0ca8972ab1145d32be474c05b2a8f3070",
+          "pages": 13,
+          "original_outline_count": 0,
+          "input_outline_count": 0,
+          "ocr_pages": 0,
+          "bookmarks": 0,
+          "recognition_seconds": 0.3,
+          "extraction_cache_hit": false,
+          "evaluation_role": "independent_held_out",
+          "save_and_verify_seconds": 0.0,
+          "reviewed_save_and_verify_seconds": 0.29,
+          "automatic_content_preserved": null,
+          "recognition_failure": "no_headings",
+          "force_ocr": false,
+          "reviewed_toc_verified": true,
+          "derived_low_quality": false,
+          "scope": "Complete printed contents including units and appendices; every generated bookmark is scored, including duplicates and extra titles. Extra body headings are not necessarily invalid navigation, but are outside this predefined contents policy.",
+          "metrics": {
+            "reference_entries": 25,
+            "scored_candidates": 0,
+            "duplicate_candidates": 0,
+            "exact_matches": 0,
+            "precision": 0,
+            "recall": 0.0,
+            "missing": [
+              [
+                1,
+                "afullresultsonglue",
+                12
+              ],
+              [
+                1,
+                "background",
+                2
+              ],
+              [
+                1,
+                "bpretraininghyperparameters",
+                12
+              ],
+              [
+                1,
+                "cfinetuninghyperparameters",
+                12
+              ],
+              [
+                1,
+                "conclusion",
+                10
+              ],
+              [
+                1,
+                "experimentalsetup",
+                2
+              ],
+              [
+                1,
+                "introduction",
+                1
+              ],
+              [
+                1,
+                "relatedwork",
+                9
+              ],
+              [
+                1,
+                "roberta",
+                6
+              ],
+              [
+                1,
+                "trainingprocedureanalysis",
+                4
+              ],
+              [
+                2,
+                "architecture",
+                2
+              ],
+              [
+                2,
+                "data",
+                2
+              ],
+              [
+                2,
+                "data",
+                3
+              ],
+              [
+                2,
+                "evaluation",
+                3
+              ],
+              [
+                2,
+                "glueresults",
+                7
+              ],
+              [
+                2,
+                "implementation",
+                2
+              ],
+              [
+                2,
+                "modelinputformatandnextsentenceprediction",
+                4
+              ],
+              [
+                2,
+                "optimization",
+                2
+              ],
+              [
+                2,
+                "raceresults",
+                9
+              ],
+              [
+                2,
+                "setup",
+                2
+              ],
+              [
+                2,
+                "squadresults",
+                8
+              ],
+              [
+                2,
+                "staticvsdynamicmasking",
+                4
+              ],
+              [
+                2,
+                "textencoding",
+                6
+              ],
+              [
+                2,
+                "trainingobjectives",
+                2
+              ],
+              [
+                2,
+                "trainingwithlargebatches",
+                5
+              ]
+            ],
+            "unexpected": [],
+            "unscored_candidates": 0
+          },
+          "toc": [],
+          "reference_toc": [
+            [
+              1,
+              "1 Introduction",
+              1
+            ],
+            [
+              1,
+              "2 Background",
+              2
+            ],
+            [
+              2,
+              "2.1 Setup",
+              2
+            ],
+            [
+              2,
+              "2.2 Architecture",
+              2
+            ],
+            [
+              2,
+              "2.3 Training Objectives",
+              2
+            ],
+            [
+              2,
+              "2.4 Optimization",
+              2
+            ],
+            [
+              2,
+              "2.5 Data",
+              2
+            ],
+            [
+              1,
+              "3 Experimental Setup",
+              2
+            ],
+            [
+              2,
+              "3.1 Implementation",
+              2
+            ],
+            [
+              2,
+              "3.2 Data",
+              3
+            ],
+            [
+              2,
+              "3.3 Evaluation",
+              3
+            ],
+            [
+              1,
+              "4 Training Procedure Analysis",
+              4
+            ],
+            [
+              2,
+              "4.1 Static vs. Dynamic Masking",
+              4
+            ],
+            [
+              2,
+              "4.2 Model Input Format and Next Sentence Prediction",
+              4
+            ],
+            [
+              2,
+              "4.3 Training with large batches",
+              5
+            ],
+            [
+              2,
+              "4.4 Text Encoding",
+              6
+            ],
+            [
+              1,
+              "5 RoBERTa",
+              6
+            ],
+            [
+              2,
+              "5.1 GLUE Results",
+              7
+            ],
+            [
+              2,
+              "5.2 SQuAD Results",
+              8
+            ],
+            [
+              2,
+              "5.3 RACE Results",
+              9
+            ],
+            [
+              1,
+              "6 Related Work",
+              9
+            ],
+            [
+              1,
+              "7 Conclusion",
+              10
+            ],
+            [
+              1,
+              "A Full results on GLUE",
+              12
+            ],
+            [
+              1,
+              "B Pretraining Hyperparameters",
+              12
+            ],
+            [
+              1,
+              "C Finetuning Hyperparameters",
+              12
+            ]
+          ],
+          "review_signals": {
+            "unreadable_toc_rows": 0,
+            "low_confidence_toc_rows": 0
+          },
+          "recognition_method": "body_headings",
+          "candidate_review": [],
+          "reference_evidence": "Manually annotated body header wording, hierarchy and PDF pages before recognition; source page images inspected. References are not generated outlines.",
+          "assessment_counts": {},
+          "title_and_page_matches_ignoring_depth": 0,
+          "diagnostics": []
+        }
+      ],
+      "note": "Both papers returned zero headings before font-weight/small-cap improvements. They are now development regressions, not final independent tests."
     }
   },
   "version": "0.4.2",

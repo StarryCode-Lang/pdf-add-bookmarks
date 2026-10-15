@@ -1456,3 +1456,9 @@ def test_failed_sample_download_does_not_leave_partial_input(tmp_path, monkeypat
     with pytest.raises(OSError, match="interrupted download"):
         network_smoke.download("https://example.invalid/sample.pdf", source, "unused")
     assert list(tmp_path.iterdir()) == []
+
+
+def test_numbered_heading_punctuation_excludes_table_cell_separators():
+    assert app.match_heading("7 Encoder-Decoder (LED)")["type"] == "chapter"
+    assert app.match_heading("4 What if we train longer?")["type"] == "chapter"
+    assert app.match_heading("20 Cay | 21 Se") is None
