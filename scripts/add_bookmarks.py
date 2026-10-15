@@ -21,7 +21,7 @@ from headings import (  # noqa: F401 - preserve the importable script API
 )
 from ocr import _read_image_page
 
-VERSION = "0.4.2"
+VERSION = "0.4.3"
 
 
 def find_tesseract():
@@ -157,6 +157,11 @@ def add_bookmarks(
     try:
         doc.save(temporary, deflate=True)
         doc.close()
+        with fitz.open(temporary) as written:
+            if written.get_toc() != toc:
+                raise ValueError(
+                    "Bookmark verification failed; output outline differs from requested entries"
+                )
         valid = (
             verify_content(pdf_path, temporary)
             if verification == "structural"
@@ -187,11 +192,25 @@ def verify_content(original_path, new_path, render=False):
             return False
         # Save without renumbering: decoded content/image/font/attachment streams stay equal.
         for xref in range(1, orig.xref_length()):
-            if (
-                orig.xref_is_stream(xref)
-                and orig.xref_get_key(xref, "Type")[1] not in ("/ObjStm", "/XRef")
-                and orig.xref_stream(xref) != new.xref_stream(xref)
+            if not orig.xref_is_stream(xref) or orig.xref_get_key(xref, "Type")[1] in (
+                "/ObjStm",
+                "/XRef",
             ):
+                continue
+            # Identical encoding and direct controls imply identical decoded bytes.
+            # Indirect/external controls still require the decoded comparison.
+            direct = not any(
+                re.search(r"\b\d+\s+\d+\s+R\b", orig.xref_get_key(xref, key)[1])
+                or (key == "F" and orig.xref_get_key(xref, key)[0] != "null")
+                for key in ("Filter", "DecodeParms", "F", "FFilter", "FDecodeParms")
+            )
+            if (
+                direct
+                and orig.xref_object(xref) == new.xref_object(xref)
+                and orig.xref_stream_raw(xref) == new.xref_stream_raw(xref)
+            ):
+                continue
+            if orig.xref_stream(xref) != new.xref_stream(xref):
                 return False
         for name in orig.embfile_names():
             if orig.embfile_get(name) != new.embfile_get(name):
@@ -406,33 +425,10 @@ def read_pages(
                     )
                 )
             # PDF extractors often split a section number and its title on the same row.
-            rows = []
-            for line in sorted(
-                raw, key=lambda line: (round(line["bbox"][1], 1), line["bbox"][0])
-            ):
-                title = "".join(span["text"] for span in line["spans"]).strip()
-                if not title:
-                    continue
-                size = max(span["size"] for span in line["spans"])
-                bold = all(
-                    span["flags"] & 16 for span in line["spans"] if span["text"].strip()
-                )
-                y, bottom = line["bbox"][1], line["bbox"][3]
-                if (
-                    rows
-                    and abs(rows[-1][1] - y) < 2
-                    and max(size, rows[-1][2]) <= min(size, rows[-1][2]) * 1.4
-                ):
-                    rows[-1][0] = (
-                        title + " " + rows[-1][0]
-                        if line["bbox"][0] < rows[-1][5]
-                        else rows[-1][0] + " " + title
-                    )
-                    rows[-1][5] = min(rows[-1][5], line["bbox"][0])
-                    rows[-1][2] = max(rows[-1][2], size)
-                    rows[-1][3] &= bold
-                else:
-                    rows.append([title, y, size, bold, bottom, line["bbox"][0]])
+            from headings import native_columns, native_rows
+
+            columnar = native_columns(raw, baseline, page.rect.width)
+            rows = native_rows(raw, baseline, page.rect.width)
             # Ignore printed TOC pages rather than linking to their duplicate titles.
             normalized_rows = [clean_ocr_line(row[0]) for row in rows]
             is_contents = any(
@@ -450,6 +446,9 @@ def read_pages(
                 sum(bool(re.fullmatch(r"[0-9]+", title)) for title in normalized_rows)
                 >= 10
                 and sum(len(title) > 60 for title in normalized_rows) < 2
+                and not any(
+                    re.search(r"[。.!?！？]$", title) for title in normalized_rows
+                )
             )
             is_contents |= (
                 sum(
@@ -467,7 +466,23 @@ def read_pages(
                         re.I,
                     )
                     wrap = (
-                        previous[2] > baseline * 1.2
+                        (
+                            previous[2] >= max(14, baseline * 1.2)
+                            or (
+                                columnar
+                                and previous[3]
+                                and row[3]
+                                and match_heading(previous[0])
+                            )
+                        )
+                        and (
+                            abs(previous[5] - row[5]) < row[2] * 3
+                            or abs(previous[5] + previous[6] - row[5] - row[6])
+                            < row[2] * 2
+                        )
+                        and row[1] >= previous[1]
+                        and not match_heading(row[0])
+                        and previous[3] == row[3]
                         and abs(previous[2] - row[2]) < 1
                         and row[1] - previous[4] < row[2]
                     )
@@ -481,6 +496,8 @@ def read_pages(
                         previous[0] += " " + row[0]
                         previous[2] = max(previous[2], row[2])
                         previous[4] = row[4]
+                        previous[5] = min(previous[5], row[5])
+                        previous[6] = max(previous[6], row[6])
                         continue
                 merged.append(row)
             is_contents |= (
@@ -502,17 +519,27 @@ def read_pages(
             if is_contents:
                 text += "\n" + "\n".join(toc_rows)
             pages.append((i + 1, text))
-            for title, _y, size, bold, _bottom, _x in merged:
+            for title, _y, size, bold, _bottom, _x, _right in merged:
                 if is_contents:
                     continue
                 prominent = (
-                    size >= max(14, baseline * 1.2) or (len(rows) <= 3 and size >= 14)
-                ) or (extended and size >= baseline and bold)
+                    (size >= max(14, baseline * 1.2) or (len(rows) <= 3 and size >= 14))
+                    or (extended and size >= baseline and bold)
+                    or (
+                        columnar
+                        and size >= baseline * 0.95
+                        and bold
+                        and match_heading(title)
+                    )
+                )
                 if (
                     prominent
                     and 3 <= len(title) <= 100
                     and not re.fullmatch(r"[\d.]+", title)
-                    and not re.search(r"[。！!]|[.!]$", title)
+                    and not re.search(
+                        r"[。！!]|[.!]$",
+                        title.rstrip(".") if match_heading(title) else title,
+                    )
                 ):
                     visual.setdefault(i + 1, []).append(title)
         # OCR pages containing images but little useful text (including mixed PDFs).
@@ -768,6 +795,7 @@ def execute(args):
             review_required=True,
             quality="unverified",
             candidates=len(headings),
+            recognition_failure=None if headings else "no_headings",
         )
         for warning in warnings:
             print("Warning: " + warning)

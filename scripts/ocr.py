@@ -612,13 +612,35 @@ def _read_image_page(task):
         and float(data["conf"][i]) >= 40
         and 0 < int(data["text"][i]) <= total_pages
     }
+    # Explicit section signs retain structure even with body-sized italic glyphs.
+    sections = {}
+    for key, indices in lines.items():
+        line = " ".join(data["text"][i] for i in indices)
+        group = key[:2]
+        if re.match(r"^§\s*(?:\d+|[ivxlcdm]+)[.\s—–-]", line, re.I):
+            sections[group] = []
+        if group in sections:
+            sections[group].append(key)
+    continuations = {key for group in sections.values() for key in group[1:]}
+    starts = {group[0]: group for group in sections.values() if group}
     text_lines, titles = [], []
-    for indices in lines.values():
+    for key, indices in lines.items():
+        if key in continuations:
+            continue
+        if key in starts:
+            indices = [i for part in starts[key] for i in lines[part]]
         line = " ".join(data["text"][i] for i in indices)
         top = min(data["top"][i] for i in indices)
         if top < image.height * 0.06 or top > image.height * 0.96:
             continue
+        line = re.sub(r"^(PART|CHAPTER)([IVXLCDM]+)$", r"\1 \2", line, flags=re.I)
         text_lines.append(line)
+        if (
+            line.startswith("§")
+            and baseline
+            and median(data["height"][i] for i in indices) >= baseline * 0.9
+        ):
+            titles.append(line)
         if (
             image.height * 0.06 < top < image.height * 0.9
             and baseline

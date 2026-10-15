@@ -6,8 +6,13 @@ import unicodedata
 
 def clean_ocr_line(line, ocr_mode=False):
     line = unicodedata.normalize("NFKC", line)
+    line = re.sub(
+        r"^§\s*(\d(?:\s*\d)+)(?=\s*[.：:—–-])",
+        lambda m: "§ " + re.sub(r"\s", "", m[1]),
+        line,
+    )
     cleaned = re.sub(
-        r"^[^\w\u4e00-\u9fff\d\u3000-\u303f\uff00-\uffef()]+", "", line
+        r"^[^\w\u4e00-\u9fff\d\u3000-\u303f\uff00-\uffef()§]+", "", line
     ).strip()
     # Normalize spaces in "第 X 章" → "第X章"
     cleaned = re.sub(
@@ -68,6 +73,23 @@ def _match_heading(line, ocr_mode=False):
     line = clean_ocr_line(line, ocr_mode=ocr_mode)
     if not line:
         return None
+    section = re.match(r"^§\s*(\d+|[ivxlcdm]+)\s*[.：:—–-]*\s*(.+)", line, re.I)
+    if section:
+        number = section[1]
+        if not number.isdigit():
+            values = {"I": 1, "V": 5, "X": 10, "L": 50, "C": 100, "D": 500, "M": 1000}
+            digits = [values[c] for c in number.upper()]
+            number = str(
+                sum(
+                    -v if i + 1 < len(digits) and v < digits[i + 1] else v
+                    for i, v in enumerate(digits)
+                )
+            )
+        return {
+            "type": "section",
+            "title": number + ". " + section[2].lstrip(" .—–-:").rstrip(".,"),
+            "source": "section_sign",
+        }
     if line.startswith("NATIVE_CHAPTER\t"):
         return {
             "type": "chapter",
@@ -106,7 +128,7 @@ def _match_heading(line, ocr_mode=False):
     m = re.match(r"^(\d+)\s+([\u4e00-\u9fff][\u4e00-\u9fff\s]{0,15})$", line)
     if m and 1 <= int(m.group(1)) <= 99:
         return {"type": "chapter", "title": line}
-    m = re.match(r"^(\d+)\s+([A-Z][A-Za-z\s\-]{2,40})$", line)
+    m = re.match(r"^(\d+)\s+([A-Z][A-Za-z\s\-]{2,100})$", line)
     if m and 1 <= int(m.group(1)) <= 99:
         return {"type": "chapter", "title": line}
     if re.match(r"^[A-Z]\.\d+\.\d+\.?\s+\w+", line):
@@ -114,6 +136,8 @@ def _match_heading(line, ocr_mode=False):
     if re.match(r"^[A-Z]\.\d+\.?\s+\w+", line):
         return {"type": "section", "title": line}
     if re.match(r"^[A-Z]\.\s+[A-Z][A-Za-z].{0,60}$", line):
+        return {"type": "chapter", "title": line}
+    if re.match(r"^[A-Z]\s+[A-Z][A-Za-z].{1,100}$", line):
         return {"type": "chapter", "title": line}
     # Match generic year-prefixed examination headings.
     m = re.match(r"^(20\d{2})\s*年.*(?:真题|应用题|统考|试题|考试)", line)
@@ -184,6 +208,11 @@ def _is_introduction_text(title):
     return False
 
 
+def outline_key(title):
+    """Normalize spacing and width; retain words, numbering and punctuation."""
+    return re.sub(r"\s+", "", clean_ocr_line(title, True)).casefold()
+
+
 def filter_headings(headings, total_pages=None):
     """Post-process: remove false positives, garbage, duplicates."""
     if not headings:
@@ -209,7 +238,15 @@ def filter_headings(headings, total_pages=None):
             clean_ocr_line(h["title"], True),
         )
     }
+    confirmed = {
+        (h["page"], outline_key(h["title"]))
+        for h in headings
+        if h.get("source") == "printed_toc"
+    }
     filtered = []
+    seen_page_titles = set()
+    numbered_roots = set()
+    previous_part = None
     seen_titles = set()
     chapter, section = None, None
     anchored_chapters = set()
@@ -225,6 +262,21 @@ def filter_headings(headings, total_pages=None):
                 clean_ocr_line(title, True),
             )
             and (page, re.sub(r"\W", "", clean_ocr_line(title, True))) in structural
+        ):
+            continue
+        if h.get("source") == "section_sign":
+            words = re.findall(r"\w+", title.casefold())
+            if any(
+                other.get("source") == "section_sign"
+                and other["page"] == page
+                and len(re.findall(r"\w+", other["title"])) > len(words)
+                and re.findall(r"\w+", other["title"].casefold())[: len(words)] == words
+                for other in headings
+            ):
+                continue
+        page_key = (page, outline_key(title))
+        if page_key in seen_page_titles or (
+            page_key in confirmed and h.get("source") != "printed_toc"
         ):
             continue
         # Reject garbage
@@ -255,7 +307,29 @@ def filter_headings(headings, total_pages=None):
                 r"\W", "", normalized[numbered.end() :] if numbered else normalized
             ).lower()
             if re.match(r"^Part\b", normalized, re.I):
+                marker = re.match(r"^Part\s+[IVXLCDM\d]+\b", normalized, re.I)
+                if marker:
+                    identity = marker[0].casefold()
+                    if (
+                        previous_part
+                        and previous_part[0] == identity
+                        and 0 <= page - previous_part[1] <= 3
+                    ):
+                        continue
+                    previous_part = identity, page
                 anchored_chapters.clear()
+                numbered_roots.clear()
+            root_marker = re.match(
+                r"^第[一二三四五六七八九十百\d]+章|^(?:Chapter|Appendix)\s+(?:\d+|[A-Z]+)\b",
+                normalized,
+                re.I,
+            )
+            if root_marker:
+                identity = outline_key(normalized)
+                if identity in numbered_roots:
+                    continue
+                numbered_roots.clear()
+                numbered_roots.add(identity)
             if h.get("source") == "native_vertical":
                 anchored_chapters.add(root_key)
             elif numbered and root_key in anchored_chapters:
@@ -271,10 +345,13 @@ def filter_headings(headings, total_pages=None):
         if key in seen_titles:
             continue
         seen_titles.add(key)
+        seen_page_titles.add(page_key)
         filtered.append(h)
         if htype == "part":
             chapter, section = None, None
             anchored_chapters.clear()
+            numbered_roots.clear()
+            previous_part = None
         elif htype == "chapter":
             chapter, section = (title, page), None
         elif htype == "section":
@@ -415,14 +492,17 @@ def headings_from_pages(pages, scanned, pdf_type="auto", visual=None, extended=F
 
     # Repeated marginal lines are page headers/footers, not chapter starts.
     def marginal_key(line):
-        return re.sub(
-            r"\s+\d+$", "", re.sub(r"^\d+\s+", "", clean_ocr_line(line, True))
+        return outline_key(
+            re.sub(r"\s+\d+$", "", re.sub(r"^\d+\s+", "", clean_ocr_line(line, True)))
         )
 
     margins = Counter()
     for _, text in pages:
         lines = [line.strip() for line in text.splitlines() if line.strip()]
         margins.update({marginal_key(line) for line in lines[:2] + lines[-2:]})
+    running = {
+        key for key, count in margins.items() if count >= max(3, len(pages) * 0.05)
+    }
     headings = []
     for number, text in pages:
         lines = [line.strip() for line in text.splitlines() if line.strip()]
@@ -432,7 +512,7 @@ def headings_from_pages(pages, scanned, pdf_type="auto", visual=None, extended=F
             for line in normalized
         )
         if (
-            numbered >= 2
+            (numbered >= 2 or sum(line.startswith("§") for line in normalized) >= 3)
             and any(
                 re.fullmatch(r"目\s*录|Contents|Table of Contents", line, re.I)
                 for line in normalized
@@ -442,19 +522,57 @@ def headings_from_pages(pages, scanned, pdf_type="auto", visual=None, extended=F
             and sum(bool(re.search(r"\d+$|\.{3,}", line)) for line in normalized) >= 5
         ):
             continue
+        if (
+            any(
+                re.fullmatch(r"(?:[ivxlcdm]+\s+)?Contents", line, re.I)
+                for line in normalized
+            )
+            and sum(bool(re.match(r"^\d+\s+[A-Z]", line)) for line in normalized) >= 3
+        ):
+            continue
+        if (
+            sum(bool(re.search(r"(?:\.\s*){3,}(?:\d+)?$", line)) for line in normalized)
+            >= 5
+            and sum(bool(re.fullmatch(r"\d{1,4}", line)) for line in normalized) >= 8
+        ):
+            continue
         if "[CONTENTS]" in lines or any(line.startswith("[TOC]\t") for line in lines):
             continue
         for raw_line in lines:
             line = clean_ocr_line(raw_line, number in scanned)
             if re.match(r"^[一二三四五六七八九十]+、", line):
                 line = re.split(r"[:：]", line, maxsplit=1)[0].strip()
+            repeated_margin = (
+                number in scanned
+                and re.fullmatch(r"[A-Za-z\s\d.]+", line)
+                and (
+                    marginal_key(line) in running
+                    or (
+                        re.search(r"^\d+\s+|\s+\d+$", line)
+                        and len(marginal_key(line)) >= 6
+                        and any(
+                            len(key) == len(marginal_key(line))
+                            and sum(
+                                a != b
+                                for a, b in zip(key, marginal_key(line), strict=True)
+                            )
+                            <= 1
+                            for key in running
+                        )
+                    )
+                )
+            )
+            if repeated_margin:
+                continue
             if (
                 len(pages) >= 3
                 and margins[marginal_key(line)] >= max(3, len(pages) * 0.05)
                 and raw_line not in (visual or {}).get(number, [])
             ):
                 continue
-            if re.search(r"[。！!]|\.{3,}.*\d+$", line) or len(line) > 100:
+            if re.search(r"[。！!]|\.{3,}.*\d+$", line) or (
+                len(line) > 100 and not line.startswith("§")
+            ):
                 continue
             if (
                 visual is not None
@@ -479,6 +597,13 @@ def headings_from_pages(pages, scanned, pdf_type="auto", visual=None, extended=F
                 and number in scanned
                 and re.match(r"^\d+[.)]?\s+", clean_ocr_line(line))
                 and not re.match(r"^20\d{2}\s*年", line)
+                and raw_line not in (visual or {}).get(number, [])
+            ):
+                continue
+            if (
+                entry
+                and number in scanned
+                and re.match(r"^[A-Z](?:\.\d+)*[.)]?\s", line)
                 and raw_line not in (visual or {}).get(number, [])
             ):
                 continue
@@ -542,12 +667,12 @@ def headings_from_pages(pages, scanned, pdf_type="auto", visual=None, extended=F
         )
         from bisect import bisect_right
 
-        toc_keys = {(t["page"], clean_ocr_line(t["title"], True)) for t in toc_headings}
+        toc_keys = {(t["page"], outline_key(t["title"])) for t in toc_headings}
         toc_pages = [t["page"] for t in toc_headings]
         retained = []
         for heading in headings:
             page = heading["page"]
-            if (page, clean_ocr_line(heading["title"], True)) in toc_keys:
+            if (page, outline_key(heading["title"])) in toc_keys:
                 continue
             if extended and first <= page <= last:
                 # Additional body titles are leaves, never replacement TOC parents.
@@ -813,3 +938,61 @@ def diagnose_outline(headings, pages):
             )
         )
     return diagnostics
+
+
+def native_columns(lines, baseline, width):
+    """Require populated, separated left and right text regions."""
+    middle = width / 2
+    left = [line for line in lines if line["bbox"][2] <= middle]
+    right = [line for line in lines if line["bbox"][0] >= middle]
+    return (
+        len(left) >= 6
+        and len(right) >= 6
+        and min(line["bbox"][0] for line in right)
+        - max(line["bbox"][2] for line in left)
+        >= baseline
+    )
+
+
+def native_rows(lines, baseline, width):
+    """Keep reading columns separate while joining nearby baseline fragments."""
+    middle = width / 2
+    columns = native_columns(lines, baseline, width)
+
+    def order(line):
+        box = line["bbox"]
+        return (
+            (1 if box[0] >= middle else 0) if columns else 0,
+            round(box[1], 1),
+            box[0],
+        )
+
+    rows = []
+    for line in sorted(lines, key=order):
+        spans = [s for s in line["spans"] if s["text"].strip()]
+        title = "".join(s["text"] for s in line["spans"]).strip()
+        if not title or not spans:
+            continue
+        size, bold = max(s["size"] for s in spans), all(s["flags"] & 16 for s in spans)
+        x, y, right, bottom = line["bbox"]
+        if (
+            rows
+            and abs(rows[-1][1] - y) < 2
+            and max(x - rows[-1][6], rows[-1][5] - right, 0) <= size * 3
+            and max(size, rows[-1][2]) <= min(size, rows[-1][2]) * 1.4
+        ):
+            previous = rows[-1]
+            previous[0] = (
+                title + " " + previous[0]
+                if x < previous[5]
+                else previous[0] + " " + title
+            )
+            previous[2], previous[3], previous[6] = (
+                max(size, previous[2]),
+                previous[3] and bold,
+                max(right, previous[6]),
+            )
+            previous[5] = min(x, previous[5])
+        else:
+            rows.append([title, y, size, bold, bottom, x, right])
+    return rows
