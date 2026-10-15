@@ -1191,3 +1191,197 @@ def test_body_corroboration_allows_missing_marker_but_not_a_different_marker():
     assert app.align_printed_toc(pages)[0]["title"] == "1.1 正确标题"
     pages[0] = (1, pages[0][1].replace("\t1.1 正确标题\t", "\t1.9 正确标题\t"))
     assert app.align_printed_toc(pages)[0]["title"] == titles[0]
+
+
+def test_analysis_zero_candidates_reports_recognition_failure(tmp_path):
+    import json
+
+    source = tmp_path / "blank.pdf"
+    with fitz.open() as doc:
+        doc.new_page()
+        doc.save(source)
+    result = run(source, "--analyze", "--json", "-o", tmp_path / "nested" / "toc.txt")
+    assert result.returncode == 0, result.stderr
+    data = json.loads(result.stdout)
+    assert data["recognition_failure"] == "no_headings"
+    assert data["review_required"] is True
+    assert not list(tmp_path.glob("*with_bookmarks.pdf"))
+
+
+def test_same_page_outline_dedup_prefers_printed_title():
+    from headings import filter_headings
+
+    headings = [
+        dict(title="1.1 Methods", page=2, type="section"),
+        dict(title="1.1  Methods", page=2, type="chapter", source="printed_toc"),
+        dict(title="1.1 Methods", page=5, type="section"),
+    ]
+    result = filter_headings(headings)
+    assert [(h["page"], h.get("source")) for h in result] == [
+        (2, "printed_toc"),
+        (5, None),
+    ]
+
+
+def test_native_column_heading_order_and_wrapping(tmp_path):
+    source = tmp_path / "columns.pdf"
+    with fitz.open() as doc:
+        p = doc.new_page(width=600, height=800)
+        p.insert_text((50, 80), "1 Methods", fontsize=12, fontname="hebo")
+        p.insert_text((50, 120), "1.1 A longer heading", fontsize=10, fontname="hebo")
+        p.insert_text((75, 133), "with continuation", fontsize=10, fontname="hebo")
+        p.insert_text((325, 95), "1.2 Right Column", fontsize=10, fontname="hebo")
+        for x in [50, 325]:
+            for i in range(10):
+                p.insert_text(
+                    (x, 170 + i * 15), "Ordinary body text on this side.", fontsize=10
+                )
+        doc.save(source)
+    pages, scanned, visual = app.read_pages(source)
+    headings = app.headings_from_pages(
+        pages, scanned, pdf_type="article", visual=visual
+    )
+    assert [h["title"] for h in headings] == [
+        "1 Methods",
+        "1.1 A longer heading with continuation",
+        "1.2 Right Column",
+    ]
+    assert [parent for _, _, parent in app.build_tree_from_headings(headings)] == [
+        -1,
+        0,
+        0,
+    ]
+
+
+def test_baseline_jitter_joins_number_and_title_in_reading_order():
+    from headings import native_rows
+
+    def line(text, x, y, right):
+        return dict(
+            bbox=(x, y, right, y + 14), spans=[dict(text=text, size=14, flags=16)]
+        )
+
+    rows = native_rows(
+        [line("7.4", 90, 138.28, 108), line("Iteration", 120, 138.19, 180)], 14, 600
+    )
+    assert len(rows) == 1
+    assert rows[0][0] == "7.4 Iteration"
+
+
+def test_explicit_section_sign_and_prefix_dedup():
+    from headings import filter_headings
+
+    section = app.match_heading("§ XIV.—Concerning other dimensions", pdf_type="auto")
+    assert section["title"] == "14. Concerning other dimensions"
+    assert section["source"] == "section_sign"
+    assert app.match_heading("As explained in § XIV above") is None
+    assert app.clean_ocr_line("§ 1 6.—A different world", True).startswith("§ 16")
+    long = dict(section, page=8)
+    short = dict(long, title="14. Concerning other")
+    assert filter_headings([short, long]) == [long]
+
+
+def test_appendix_roots_reset_numeric_hierarchy():
+    titles = [
+        "6 Conclusion",
+        "A Additional Details",
+        "A.1 Methods",
+        "B Further Details",
+        "B.1 Results",
+    ]
+    headings = [
+        dict(app.match_heading(t, pdf_type="article"), page=i + 1)
+        for i, t in enumerate(titles)
+    ]
+    assert [parent for _, _, parent in app.build_tree_from_headings(headings)] == [
+        -1,
+        -1,
+        1,
+        -1,
+        3,
+    ]
+
+
+def test_small_single_column_bold_exercise_is_not_default_heading(tmp_path):
+    source = tmp_path / "exercise.pdf"
+    with fitz.open() as doc:
+        p = doc.new_page()
+        p.insert_text((60, 80), "1 Introduction", fontsize=18, fontname="hebo")
+        p.insert_text(
+            (60, 130), "1.1 An exercise in the body", fontsize=10, fontname="hebo"
+        )
+        for i in range(12):
+            p.insert_text(
+                (60, 170 + i * 15),
+                "Ordinary body text explaining the exercise.",
+                fontsize=10,
+            )
+        doc.save(source)
+    pages, scanned, visual = app.read_pages(source)
+    result = app.headings_from_pages(pages, scanned, visual=visual)
+    assert [h["title"] for h in result] == ["1 Introduction"]
+
+
+def test_writer_rejects_silently_missing_outline_and_preserves_existing(
+    tmp_path, monkeypatch
+):
+    source = tmp_path / "source.pdf"
+    output = tmp_path / "existing.pdf"
+    with fitz.open() as doc:
+        doc.new_page()
+        doc.save(source)
+    output.write_bytes(b"existing data")
+    monkeypatch.setattr(fitz.Document, "set_toc", lambda *args, **kwargs: 0)
+    with pytest.raises(ValueError, match="Bookmark verification failed"):
+        app.add_bookmarks(source, [(1, "Chapter 1", -1)], output, overwrite=True)
+    assert output.read_bytes() == b"existing data"
+
+
+def test_identical_direct_streams_avoid_decoding_but_still_render(
+    tmp_path, monkeypatch
+):
+    source = tmp_path / "source.pdf"
+    with fitz.open() as doc:
+        p = doc.new_page()
+        p.insert_text((60, 80), "Preserved content")
+        doc.save(source, deflate=True)
+    decoded = []
+    rendered = []
+    original_stream = fitz.Document.xref_stream
+    original_pixmap = fitz.Page.get_pixmap
+
+    def stream(doc, xref):
+        decoded.append(xref)
+        return original_stream(doc, xref)
+
+    def pixmap(page, *args, **kwargs):
+        rendered.append(page.number)
+        return original_pixmap(page, *args, **kwargs)
+
+    monkeypatch.setattr(fitz.Document, "xref_stream", stream)
+    monkeypatch.setattr(fitz.Page, "get_pixmap", pixmap)
+    assert app.verify_content(source, source, render=True)
+    assert not decoded
+    assert rendered == [0, 0]
+
+
+def test_indirect_stream_controls_require_decoded_comparison(tmp_path, monkeypatch):
+    source = tmp_path / "source.pdf"
+    with fitz.open() as doc:
+        p = doc.new_page()
+        p.insert_text((60, 80), "Preserved content")
+        stream = p.get_contents()[0]
+        controls = doc.get_new_xref()
+        doc.update_object(controls, "<< >>")
+        doc.xref_set_key(stream, "DecodeParms", f"{controls} 0 R")
+        doc.save(source)
+    calls = []
+    original = fitz.Document.xref_stream
+
+    def decoded(doc, xref):
+        calls.append(xref)
+        return original(doc, xref)
+
+    monkeypatch.setattr(fitz.Document, "xref_stream", decoded)
+    assert app.verify_content(source, source)
+    assert calls == [stream, stream]
