@@ -865,6 +865,8 @@ def verify_signed_fixture():
 
 def measure_performance(directory):
     """Fresh Linux processes, ABBA ordering; retain peaks separately, never sum them."""
+    if sys.platform != "linux":
+        return {"not_run": "Controlled ru_maxrss probes are Linux-only."}
     baseline = directory / "baseline-runtime"
     baseline.mkdir(exist_ok=True)
     baseline_sha = "782986f8566f200e9ce4bcbaf7f66294c058c68a"
@@ -1111,11 +1113,14 @@ def main():
                     source.write_bytes(original.read_bytes())
         with fitz.open(source) as doc:
             assert not doc.get_toc()
-        if name != "zh-low":
+        input_hash = digest(source)
+        # Byte-identical source copies already preserve every PDF object and page.
+        # Changed preparations still receive structural checks; every output is rendered.
+        if name != "zh-low" and input_hash != expected_hash:
             assert app.verify_content(original, source), (
                 "Prepared input changed page content"
             )
-        key = extraction_hash + digest(source) + lang + str(base in FORCE_OCR_SAMPLES)
+        key = extraction_hash + input_hash + lang + str(base in FORCE_OCR_SAMPLES)
         cache = directory / (name + "-pages.json")
         cached = json.loads(cache.read_text()) if cache.exists() else {}
         cache_hit = (
@@ -1333,7 +1338,26 @@ def main():
         from headings import diagnose_outline
 
         row["diagnostics"] = diagnose_outline(headings, pages)
+        assert digest(source) == input_hash and digest(original) == expected_hash, (
+            "Input changed during validation"
+        )
         rows.append(row)
+        (directory / "progress.json").write_text(
+            json.dumps(
+                dict(
+                    complete=False,
+                    version=app.VERSION,
+                    implementation_sha256=implementation,
+                    benchmark_sha256=benchmark_hash,
+                    environment=environment,
+                    python=sys.version,
+                    results=rows,
+                ),
+                ensure_ascii=False,
+                indent=2,
+            ),
+            encoding="utf-8",
+        )
         print(
             json.dumps({k: v for k, v in row.items() if k != "toc"}, ensure_ascii=True),
             flush=True,
@@ -1362,6 +1386,7 @@ def main():
             if row["name"] in {"heldout-flatland", "heldout-bert"}
         ]
     results = dict(
+        complete=True,
         independent_first_pass=first_pass,
         prior_independent_evaluations=history,
         version=app.VERSION,
