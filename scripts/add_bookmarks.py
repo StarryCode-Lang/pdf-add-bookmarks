@@ -21,7 +21,7 @@ from headings import (  # noqa: F401 - preserve the importable script API
 )
 from ocr import _read_image_page
 
-VERSION = "0.4.0"
+VERSION = "0.4.1"
 
 
 def find_tesseract():
@@ -492,13 +492,15 @@ def read_pages(
                 )
                 >= 5
             )
+            from headings import native_toc_rows
+
+            toc_rows = native_toc_rows(raw)
+            is_contents |= bool(toc_rows)
             text = ("[CONTENTS]\n" if is_contents else "") + "\n".join(
                 r[0] for r in merged
             )
             if is_contents:
-                from headings import native_toc_rows
-
-                text += "\n" + "\n".join(native_toc_rows(raw))
+                text += "\n" + "\n".join(toc_rows)
             pages.append((i + 1, text))
             for title, _y, size, bold, _bottom, _x in merged:
                 if is_contents:

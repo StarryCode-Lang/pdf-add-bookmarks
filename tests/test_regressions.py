@@ -1038,3 +1038,60 @@ def test_contents_page_marker_cannot_create_body_bookmarks():
         3,
         4,
     ]
+
+
+def test_inline_printed_contents_requires_repeated_explicit_separators():
+    from headings import native_toc_rows
+
+    def line(text, y):
+        return dict(bbox=(50, y, 300, y + 15), spans=[dict(text=text)])
+
+    titles = ["第一章 概述", "第一节 方法", "整理与归纳", "第二章 应用", "附 录"]
+    for leading in (False, True):
+        lines = [
+            line(f"{i + 1}/ {title}" if leading else f"{title} ------ {i + 1}", i * 30)
+            for i, title in enumerate(titles)
+        ]
+        rows = native_toc_rows(lines)
+        assert len(rows) == 5
+        assert rows[-1] == "[TOC]\t附录\t5"
+    assert (
+        native_toc_rows(
+            [line(f"{title} {i + 1}", i * 30) for i, title in enumerate(titles)]
+        )
+        == []
+    )
+    assert (
+        native_toc_rows([line(f"练习 ------ {i + 1}", i * 30) for i in range(8)]) == []
+    )
+
+
+def test_confirmed_contents_keeps_unnumbered_children_and_discards_visual_tail():
+    from headings import build_tree_from_headings, headings_from_pages
+
+    titles = ["第一章概述", "第一节方法", "整理与归纳", "第二章应用", "附录"]
+    pages = [
+        (
+            1,
+            "[CONTENTS]\n"
+            + "\n".join(f"[TOC]\t{title}\t{i + 1}" for i, title in enumerate(titles)),
+        )
+    ]
+    pages += [(i + 2, title) for i, title in enumerate(titles)]
+    pages.append((7, "活动"))
+    visual = {n: text.splitlines() for n, text in pages}
+    headings = headings_from_pages(pages, set(), "textbook", visual)
+    assert [h["title"] for h in headings] == titles
+    tree = build_tree_from_headings(headings)
+    assert [parent for _, _, parent in tree] == [-1, 0, 0, -1, -1]
+
+
+def test_native_spaced_appendix_starts_new_root():
+    from headings import build_tree_from_headings, match_heading
+
+    headings = [
+        dict(match_heading(title), page=i + 1)
+        for i, title in enumerate(["第五章应用", "第一节方法", "附  录"])
+    ]
+    assert headings[-1]["title"] == "附录"
+    assert build_tree_from_headings(headings)[-1][2] == -1

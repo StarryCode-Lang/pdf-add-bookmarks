@@ -13,7 +13,7 @@ def clean_ocr_line(line, ocr_mode=False):
     cleaned = re.sub(
         r"第\s*([一二三四五六七八九十百\d]+)\s*(单元|篇|部|章|节)", r"第\1\2", cleaned
     )
-    cleaned = re.sub(r"第\s+([一二三四五六七八九十]+)\s+章", r"第\1章", cleaned)
+    cleaned = re.sub(r"附\s+录", "附录", cleaned)
     # Normalize "X .X" → "X.X"
     cleaned = re.sub(r"(\d)\s*\.\s*(\d)", r"\1.\2", cleaned)
     cleaned = re.sub(r"^(\d+(?:\.\d+){1,2})(?=[A-Za-z\u4e00-\u9fff])", r"\1 ", cleaned)
@@ -364,14 +364,36 @@ def native_toc_rows(lines):
     """Pair native contents titles with separate left/right folios by geometry."""
     numbered = []
     titles = []
+    inline = []
     for line in lines:
         title = clean_ocr_line("".join(span["text"] for span in line["spans"]), True)
+        # A separator is mandatory: a title ending in a number is not a folio.
+        trailing = re.fullmatch(
+            r"(.+?)\s*(?:[-·.…]{3,}|(?:\.\s*){3,})\s*(\d{1,4})", title
+        )
+        leading = re.fullmatch(r"(\d{1,4})\s*/\s*(.+)", title)
+        if trailing or leading:
+            text, folio = (
+                (trailing[1], trailing[2]) if trailing else (leading[2], leading[1])
+            )
+            if len(text) <= 60 and not re.search(r"[。！？]", text):
+                inline.append((line["bbox"], text.strip(), int(folio)))
         if re.fullmatch(r"[0-9]{1,4}", title):
             numbered.append((line["bbox"], int(title)))
         elif re.match(
             r"^第[一二三四五六七八九十百\d]+(?:单元|篇|部|章|节)|^附录", title
         ):
             titles.append((line["bbox"], title))
+    if (
+        len(inline) >= 5
+        and sum(bool(match_heading(title, True)) for _, title, _ in inline) >= 3
+    ):
+        return [
+            f"[TOC]\t{title}\t{folio}"
+            for _, title, folio in sorted(
+                inline, key=lambda item: (item[0][1], item[0][0])
+            )
+        ]
     if len(titles) < 5 or len(numbered) < 5:
         return []
     rows = []
@@ -506,13 +528,14 @@ def headings_from_pages(pages, scanned, pdf_type="auto", visual=None):
                     )
                     else "chapter",
                     "title": clean_ocr_line(line, number in scanned),
+                    "source": "visual",
                 }
             if entry:
                 headings.append(dict(entry, page=number))
     toc_headings = align_printed_toc(pages)
     if toc_headings and pdf_type in {"auto", "textbook"}:
         # The printed outline has stronger structural evidence than running headers.
-        # Keep unrelated front matter and appendices outside its covered range.
+        # Preserve explicit structure outside its range, not generic visual labels.
         first, last = (
             min(h["page"] for h in toc_headings),
             max(h["page"] for h in toc_headings),
@@ -520,7 +543,8 @@ def headings_from_pages(pages, scanned, pdf_type="auto", visual=None):
         headings = [
             h
             for h in headings
-            if h["type"] == "part" or h["page"] < first or h["page"] > last
+            if h.get("source") != "visual"
+            and (h["type"] == "part" or h["page"] < first or h["page"] > last)
         ] + toc_headings
         headings.sort(key=lambda h: h["page"])
     return filter_headings(headings, len(pages))
@@ -550,6 +574,15 @@ def align_printed_toc(pages):
             if line.startswith("[TOC]\t"):
                 _, title, printed = line.split("\t")
                 entry = match_heading(title, True)
+                # Unnumbered contents rows (labs, summaries, introductions) inherit
+                # chapter context only after the page itself passed TOC validation.
+                if entry is None and 2 <= len(title) <= 60:
+                    entry = dict(
+                        type="section"
+                        if any(e["type"] == "chapter" for e in entries)
+                        else "chapter",
+                        title=title,
+                    )
                 if entry:
                     candidate = dict(entry, printed=int(printed))
                     if candidate not in entries:
