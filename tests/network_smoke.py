@@ -285,7 +285,80 @@ COMPLETE_CONTENT_LABELS.update(
         "zh-heldout-guangdong": ZH_HELDOUT_GUANGDONG,
     }
 )
-INDEPENDENT_SAMPLES = {"zh-heldout-chemistry", "zh-heldout-guangdong"}
+INDEPENDENT_SAMPLES = {"zh-heldout-beijing-chemistry", "zh-heldout-renjiao-geography"}
+
+# Frozen v0.4.1 before selecting these books; labels from rendered contents, not output.
+SOURCES.update(
+    {
+        "zh-heldout-beijing-chemistry": (
+            TEXTBOOK
+            + urllib.parse.quote(
+                "初中/化学/北京版-北京出版社/九年级/义务教育教科书·化学九年级下册.pdf"
+            ),
+            "2b8dcf06172a8131f0ff01a6e7923a61eaaa1f6dce1671813f1017c0d4871db1",
+            "chi_sim+eng",
+            "textbook",
+        ),
+        "zh-heldout-renjiao-geography": (
+            TEXTBOOK
+            + urllib.parse.quote(
+                "初中/地理/人教版-人民教育出版社/八年级/义务教育教科书·地理八年级上册.pdf"
+            ),
+            "644772ceddd6ce47a2561a9cac4db8221f0d96359d9c4e607f8b1a19b5e1874a",
+            "chi_sim+eng",
+            "textbook",
+        ),
+    }
+)
+COMPLETE_CONTENT_LABELS.update(
+    {
+        "zh-heldout-beijing-chemistry": [
+            (1, "第9章 溶液", 7),
+            (2, "第一节 认识溶液", 8),
+            (2, "第二节 溶液组成的定量表示", 13),
+            (2, "第三节 溶解度", 17),
+            (1, "第10章 金属", 29),
+            (2, "第一节 金属与合金", 30),
+            (2, "第二节 金属的化学性质", 35),
+            (2, "第三节 金属的冶炼与防护", 40),
+            (1, "第11章 酸与碱", 51),
+            (2, "第一节 对酸碱的初步认识", 52),
+            (2, "第二节 几种常见的酸", 58),
+            (2, "第三节 几种常见的碱", 65),
+            (1, "第12章 盐", 77),
+            (2, "第一节 几种常见的盐", 78),
+            (2, "第二节 盐的性质", 83),
+            (2, "第三节 化学肥料", 87),
+            (1, "第13章 化学与社会生活", 95),
+            (2, "第一节 食物中的营养物质", 96),
+            (2, "第二节 化学合成材料", 103),
+            (2, "第三节 化学与环境", 109),
+            (1, "附录一", 119),
+            (1, "附录二", 120),
+        ],
+        "zh-heldout-renjiao-geography": [
+            (1, "第一章 从世界看中国", 6),
+            (2, "第一节 疆域", 7),
+            (2, "第二节 人口", 16),
+            (2, "第三节 民族", 20),
+            (1, "第二章 中国的自然环境", 26),
+            (2, "第一节 地形和地势", 27),
+            (2, "第二节 气候", 35),
+            (2, "第三节 河流", 47),
+            (2, "第四节 自然灾害", 59),
+            (1, "第三章 中国的自然资源", 66),
+            (2, "第一节 自然资源的基本特征", 67),
+            (2, "第二节 土地资源", 72),
+            (2, "第三节 水资源", 80),
+            (1, "第四章 中国的经济发展", 88),
+            (2, "第一节 交通运输", 89),
+            (2, "第二节 农业", 95),
+            (2, "第三节 工业", 105),
+            (1, "附录一：本书主要地理词汇中英文对照表", 113),
+            (1, "附录二：本书常用地图图例", 114),
+        ],
+    }
+)
 
 # Labels transcribed from printed contents before running recognition. Page numbers are PDF pages.
 SCAN_CHAPTER_PAGES = [
@@ -559,6 +632,8 @@ def main():
             inspect.getsource(app.read_pages)
             + inspect.getsource(app.clean_ocr_line)
             + inspect.getsource(app.match_heading)
+            + inspect.getsource(sys.modules["headings"]._match_heading)
+            + inspect.getsource(sys.modules["headings"].native_toc_rows)
             + inspect.getsource(app.page_needs_ocr)
             + (ROOT / "scripts/ocr.py").read_text()
         ).encode()
@@ -822,7 +897,7 @@ def main():
         implementation_sha256=implementation,
         benchmark_sha256=benchmark_hash,
         annotation_notes=[
-            "Geography and biology from v0.3.3 are now development regressions. Their initial failures and source implementation hashes are preserved under prior_independent_evaluations; only the two new v0.4.0 sources are held out.",
+            "Geography and biology from v0.3.3 are now development regressions. Their initial failures and source implementation hashes are preserved under prior_independent_evaluations; the v0.4.0 chemistry and Guangdong geography failures are also preserved and are now regressions. Only the new v0.4.1 sources remain held out.",
             "New chemistry labels include every printed contents entry: chapters, sections, repeated summaries/homework and laboratory activities; new Guangdong geography labels include the introductory entry and all chapters/sections. All generated candidates are scored.",
             "Beijing section 2.3 corrected to 等式与方程 after checking printed TOC and body page 86; prior label 算式与等式 was incorrect.",
             "Independent Jijiao scan has generic page bookmarks; labels are manually transcribed, not extracted from those bookmarks.",
