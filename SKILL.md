@@ -16,7 +16,7 @@ license: MIT
 python -m pip install -r "<skill目录>/requirements.txt"
 ```
 
-扫描页需要 Tesseract 及对应语言包，默认 `chi_sim+eng`。OCR 缺失、语言包缺失或识别失败默认报错，不输出不完整 PDF。只有用户明确接受部分结果时才使用 `--allow-partial`；此时 JSON 标记 `partial: true`，并列出 `warnings`。Windows 用 `winget install UB-Mannheim.TesseractOCR` 安装，并将 [chi_sim.traineddata](https://github.com/tesseract-ocr/tessdata_fast/raw/87416418657359cb625c412a48b6e1d6d41c29bd/chi_sim.traineddata) 放入 Tesseract 的 `tessdata` 目录；macOS 用 `brew install tesseract tesseract-lang`；Debian/Ubuntu 用 `sudo apt install tesseract-ocr tesseract-ocr-chi-sim`。纯英文扫描可指定 `--lang eng`。
+扫描页需要 Tesseract 及对应语言包，默认 `chi_sim+eng`。扫描件自带旧 OCR 文字层且提取文字明显失真时，对照页面图像后用 `--force-ocr` 重试；仍无法确认的标题按原页建立人工目录。OCR 缺失、语言包缺失或识别失败默认报错，不输出不完整 PDF。只有用户明确接受部分结果时才使用 `--allow-partial`；此时 JSON 标记 `partial: true`，并列出 `warnings`。Windows 用 `winget install UB-Mannheim.TesseractOCR` 安装，并将 [chi_sim.traineddata](https://github.com/tesseract-ocr/tessdata_fast/raw/87416418657359cb625c412a48b6e1d6d41c29bd/chi_sim.traineddata) 放入 Tesseract 的 `tessdata` 目录；macOS 用 `brew install tesseract tesseract-lang`；Debian/Ubuntu 用 `sudo apt install tesseract-ocr tesseract-ocr-chi-sim`。纯英文扫描可指定 `--lang eng`。
 
 ## 执行
 

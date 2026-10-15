@@ -243,6 +243,37 @@ def filter_headings(headings, total_pages=None):
         for h in headings
         if h.get("source") == "printed_toc"
     }
+    # Resolve conflicting OCR numbers only with both neighboring section anchors.
+    explicit = [h for h in headings if h.get("source") == "section_sign"]
+    rejected_numbers = set()
+    groups, page_numbers = {}, {}
+    for h in explicit:
+        number, words = h["title"].split(".", 1)
+        number = int(number)
+        groups.setdefault((h["page"], outline_key(words)), []).append((number, h))
+        page_numbers.setdefault(h["page"], set()).add(number)
+    numbered_pages = sorted(page_numbers)
+    from bisect import bisect_left
+
+    for (page, _), choices in groups.items():
+        if len({number for number, _ in choices}) < 2:
+            continue
+        position = bisect_left(numbered_pages, page)
+        if position == 0 or position == len(numbered_pages) - 1:
+            continue
+        left = page_numbers[numbered_pages[position - 1]]
+        right = page_numbers[numbered_pages[position + 1]]
+        if len(left) != 1 or len(right) != 1:
+            continue
+        valid = {
+            number
+            for number, _ in choices
+            if number - 1 in left and number + 1 in right
+        }
+        if len(valid) == 1:
+            rejected_numbers.update(
+                id(h) for number, h in choices if number not in valid
+            )
     filtered = []
     seen_page_titles = set()
     numbered_roots = set()
@@ -252,6 +283,8 @@ def filter_headings(headings, total_pages=None):
     anchored_chapters = set()
 
     for h in sorted(headings, key=lambda h: h["page"]):
+        if id(h) in rejected_numbers:
+            continue
         title = h["title"]
         htype = h["type"]
         page = h["page"]

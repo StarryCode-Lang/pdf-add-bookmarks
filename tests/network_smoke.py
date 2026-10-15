@@ -627,7 +627,7 @@ COMPLETE_CONTENT_LABELS.update(
 )
 
 
-# Frozen after source-image inspection; no changes to the recognizer follow these hold-outs.
+# References frozen from source pages; ELECTRA and ELMo are not used to tune recognition rules.
 SOURCES.update(
     {
         "heldout-electra": (

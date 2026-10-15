@@ -1462,3 +1462,65 @@ def test_numbered_heading_punctuation_excludes_table_cell_separators():
     assert app.match_heading("7 Encoder-Decoder (LED)")["type"] == "chapter"
     assert app.match_heading("4 What if we train longer?")["type"] == "chapter"
     assert app.match_heading("20 Cay | 21 Se") is None
+
+
+def test_conflicting_ocr_section_numbers_need_both_neighboring_anchors():
+    from headings import filter_headings
+
+    def heading(number, title, page):
+        return dict(
+            type="section", title=f"{number}. {title}", page=page, source="section_sign"
+        )
+
+    previous = heading(10, "Previous", 5)
+    wrong = heading(2, "Repeated title", 6)
+    correct = heading(11, "Repeated title", 6)
+    following = heading(12, "Following", 7)
+    assert filter_headings([previous, wrong, correct, following]) == [
+        previous,
+        correct,
+        following,
+    ]
+    assert filter_headings([wrong, correct]) == [wrong, correct]
+    a, b = heading(11, "Summary", 6), heading(12, "Summary", 6)
+    end = heading(13, "Following", 7)
+    assert filter_headings([previous, a, b, end]) == [previous, a, b, end]
+
+
+def test_ocr_section_wrap_stays_inside_its_paragraph(tmp_path, monkeypatch):
+    import pytesseract
+
+    source = tmp_path / "scan.pdf"
+    with fitz.open() as doc:
+        doc.new_page(width=600, height=800)
+        doc.save(source)
+    keys = [
+        "text",
+        "left",
+        "top",
+        "width",
+        "height",
+        "conf",
+        "block_num",
+        "par_num",
+        "line_num",
+    ]
+    data = {key: [] for key in keys}
+    words = [
+        ("§", 100, 200, 10, 10, 95, 1, 1, 1),
+        ("2.—Model", 120, 200, 80, 10, 95, 1, 1, 1),
+        ("Geometry", 120, 220, 80, 10, 95, 1, 1, 2),
+        ("Ordinary", 80, 260, 80, 10, 95, 1, 2, 1),
+        ("body.", 170, 260, 50, 10, 95, 1, 2, 1),
+    ]
+    for word in words:
+        for key, value in zip(keys, word, strict=True):
+            data[key].append(value)
+    monkeypatch.setattr(pytesseract, "image_to_data", lambda *args, **kwargs: data)
+    number, text, titles = app._read_image_page(
+        (str(source), 0, "eng", None, False, 200)
+    )
+    assert number == 1
+    assert "§ 2.—Model Geometry" in titles
+    assert "Ordinary body." in text
+    assert all("Ordinary" not in title for title in titles)
