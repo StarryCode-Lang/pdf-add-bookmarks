@@ -864,7 +864,7 @@ def verify_signed_fixture():
 
 
 def measure_performance(directory):
-    """Fresh Linux processes, ABBA ordering; retain peaks separately, never sum them."""
+    """Fresh Linux processes, ABBA order; read executable RSS, not inherited rusage."""
     if sys.platform != "linux":
         return {"not_run": "Controlled ru_maxrss probes are Linux-only."}
     baseline = directory / "baseline-runtime"
@@ -902,7 +902,7 @@ with contextlib.redirect_stdout(sys.stderr):
         pages, scanned, visual = app.read_pages(source, lang="eng", force_ocr=kind=="ocr", workers=2, dpi=200)
         count = len(app.headings_from_pages(pages, scanned, pdf_type="article" if kind=="native" else "auto", visual=visual))
 print(json.dumps(dict(version=app.VERSION, kind=kind, seconds=time.perf_counter()-start,
-    parent_peak_mib=resource.getrusage(resource.RUSAGE_SELF).ru_maxrss/1024,
+    parent_peak_mib=int(next(line.split()[1] for line in Path("/proc/self/status").read_text().splitlines() if line.startswith("VmHWM:")))/1024,
     largest_child_peak_mib=resource.getrusage(resource.RUSAGE_CHILDREN).ru_maxrss/1024,
     headings=count, implementation_sha256={p.name:hashlib.sha256(p.read_bytes()).hexdigest() for p in sorted(Path(root).glob("*.py"))})))
 """
@@ -926,7 +926,7 @@ print(json.dumps(dict(version=app.VERSION, kind=kind, seconds=time.perf_counter(
             row = json.loads(completed.stdout)
             rows.append(dict(row, variant=variant, source_sha256=digest(source)))
     return dict(
-        protocol="Two fresh processes per version and case, ABBA ordering, English fast model, 200 DPI, two OCR workers. Native: all 16 BERT pages; OCR: Flatland PDF pages 15,95,108; full verification: Flatland pages 15-20 including JPX/JBIG2 images. Microbenchmarks are not whole-book latency claims. Child peaks are largest waited child, not simultaneous total memory.",
+        protocol="Two fresh processes per version and case, ABBA ordering, English fast model, 200 DPI, two OCR workers. Native: all 16 BERT pages; OCR: Flatland PDF pages 15,95,108; full verification: Flatland pages 15-20 including JPX/JBIG2 images. Microbenchmarks are not whole-book latency claims. Parent peak is /proc/self/status VmHWM for the current executable; ru_maxrss can inherit the benchmark parent peak across exec and is not used for self memory. Child peaks are RUSAGE_CHILDREN largest waited child, not simultaneous total memory.",
         baseline_commit=baseline_sha,
         measurements=rows,
     )
