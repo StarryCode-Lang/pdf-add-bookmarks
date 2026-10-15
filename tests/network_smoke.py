@@ -863,6 +863,168 @@ def verify_signed_fixture():
     )
 
 
+def measure_performance(directory):
+    """Fresh Linux processes, ABBA ordering; retain peaks separately, never sum them."""
+    baseline = directory / "baseline-runtime"
+    baseline.mkdir(exist_ok=True)
+    baseline_sha = "782986f8566f200e9ce4bcbaf7f66294c058c68a"
+    for name in ("add_bookmarks.py", "headings.py", "ocr.py"):
+        (baseline / name).write_bytes(
+            subprocess.check_output(
+                ["git", "show", f"{baseline_sha}:scripts/{name}"], cwd=ROOT
+            )
+        )
+    inputs = {"native": directory / "heldout-bert.pdf"}
+    for kind, indices in {"ocr": [14, 94, 107], "verify": list(range(14, 20))}.items():
+        target = directory / f"performance-{kind}.pdf"
+        with (
+            fitz.open(directory / "heldout-flatland.pdf") as source,
+            fitz.open() as doc,
+        ):
+            for index in indices:
+                doc.insert_pdf(source, from_page=index, to_page=index)
+            doc.save(target)
+        inputs[kind] = target
+    probe = r"""
+import contextlib, hashlib, json, resource, sys, time
+from pathlib import Path
+root, kind, source = sys.argv[1:]
+sys.path.insert(0, root)
+import add_bookmarks as app
+start = time.perf_counter()
+with contextlib.redirect_stdout(sys.stderr):
+    if kind == "verify":
+        assert app.verify_content(source, source, render=True)
+        count = None
+    else:
+        pages, scanned, visual = app.read_pages(source, lang="eng", force_ocr=kind=="ocr", workers=2, dpi=200)
+        count = len(app.headings_from_pages(pages, scanned, pdf_type="article" if kind=="native" else "auto", visual=visual))
+print(json.dumps(dict(version=app.VERSION, kind=kind, seconds=time.perf_counter()-start,
+    parent_peak_mib=resource.getrusage(resource.RUSAGE_SELF).ru_maxrss/1024,
+    largest_child_peak_mib=resource.getrusage(resource.RUSAGE_CHILDREN).ru_maxrss/1024,
+    headings=count, implementation_sha256={p.name:hashlib.sha256(p.read_bytes()).hexdigest() for p in sorted(Path(root).glob("*.py"))})))
+"""
+    rows = []
+    for kind, source in inputs.items():
+        for variant in ("baseline", "final", "final", "baseline"):
+            completed = subprocess.run(
+                [
+                    sys.executable,
+                    "-c",
+                    probe,
+                    str(baseline if variant == "baseline" else ROOT / "scripts"),
+                    kind,
+                    str(source),
+                ],
+                capture_output=True,
+                text=True,
+                check=True,
+                timeout=180,
+            )
+            row = json.loads(completed.stdout)
+            rows.append(dict(row, variant=variant, source_sha256=digest(source)))
+    return dict(
+        protocol="Two fresh processes per version and case, ABBA ordering, English fast model, 200 DPI, two OCR workers. Native: all 16 BERT pages; OCR: Flatland PDF pages 15,95,108; full verification: Flatland pages 15-20 including JPX/JBIG2 images. Microbenchmarks are not whole-book latency claims. Child peaks are largest waited child, not simultaneous total memory.",
+        baseline_commit=baseline_sha,
+        measurements=rows,
+    )
+
+
+def validate_skill_workflow(directory):
+    """Exercise the shipped six-file Skill through its CLI, outside the repository."""
+    import shutil
+
+    with tempfile.TemporaryDirectory() as folder:
+        trial = Path(folder)
+        for relative in ["SKILL.md", "LICENSE", "requirements.txt"] + [
+            str(p.relative_to(ROOT)) for p in sorted((ROOT / "scripts").glob("*.py"))
+        ]:
+            target = trial / relative
+            target.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copyfile(ROOT / relative, target)
+        common = [sys.executable, str(trial / "scripts/add_bookmarks.py")]
+        completed = subprocess.run(
+            common
+            + [
+                str(directory / "zh-heldout-chemistry.pdf"),
+                "--generate-toc",
+                "--verify",
+                "full",
+                "--json",
+                "-o",
+                str(trial / "expanded.pdf"),
+            ],
+            cwd=trial,
+            capture_output=True,
+            text=True,
+            check=True,
+            timeout=300,
+        )
+        expanded = json.loads(completed.stdout)
+        with fitz.open(expanded["output"]) as doc:
+            actual = doc.get_toc()
+        labels = COMPLETE_CONTENT_LABELS["zh-heldout-chemistry"]
+        metrics = score(labels, actual)
+        assert metrics["exact_matches"] == len(labels), metrics["missing"]
+
+        def paths(rows):
+            stack, result = [], {}
+            for level, title, page in rows:
+                stack = stack[: level - 1] + [normalize(title)]
+                result[(normalize(title), page)] = tuple(stack[:-1])
+            return result
+
+        expected, found = paths(labels), paths(actual)
+        assert all(found[key] == parent for key, parent in expected.items())
+        toc = trial / "reviewed.txt"
+        toc.write_text(
+            "".join(
+                "  " * (level - 1) + title + "\t" + str(page) + "\n"
+                for level, title, page in ZH_SCAN
+            ),
+            encoding="utf-8",
+        )
+        completed = subprocess.run(
+            common
+            + [
+                str(directory / "zh-low.pdf"),
+                "--toc",
+                str(toc),
+                "--verify",
+                "full",
+                "--json",
+                "-o",
+                str(trial / "reviewed.pdf"),
+            ],
+            cwd=trial,
+            capture_output=True,
+            text=True,
+            check=True,
+            timeout=300,
+        )
+        reviewed = json.loads(completed.stdout)
+        with fitz.open(reviewed["output"]) as doc:
+            assert doc.get_toc() == [list(row) for row in ZH_SCAN]
+        return dict(
+            runtime_sha256={
+                p.name: digest(p) for p in sorted((trial / "scripts").glob("*.py"))
+            },
+            skill_sha256=digest(trial / "SKILL.md"),
+            expanded=dict(
+                result=expanded,
+                toc=actual,
+                core_metrics=metrics,
+                core_parent_paths_preserved=True,
+            ),
+            reviewed_low_quality=dict(
+                result=reviewed,
+                toc=[list(row) for row in ZH_SCAN],
+                content_preserved=True,
+                note="Supplied reviewed TOC CLI import, not automatic OCR accuracy.",
+            ),
+        )
+
+
 def main():
     directory = ROOT / "validation"
     directory.mkdir(exist_ok=True)
@@ -1221,6 +1383,64 @@ def main():
         ],
         results=rows,
     )
+    baseline_report = json.loads(
+        subprocess.check_output(
+            [
+                "git",
+                "show",
+                "782986f8566f200e9ce4bcbaf7f66294c058c68a:tests/benchmark_results.json",
+            ],
+            cwd=ROOT,
+        )
+    )
+    baseline_rows = {row["name"]: row for row in baseline_report["results"]}
+    comparison = []
+    for row in rows:
+        old = baseline_rows.get(row["name"])
+        if not old:
+            continue
+        before, after = old["metrics"], row["metrics"]
+        old_matches = before.get("exact_matches", before.get("correct_chapter_pages"))
+        new_matches = after.get("exact_matches", after.get("correct_chapter_pages"))
+        assert new_matches >= old_matches, (row["name"], old_matches, new_matches)
+        comparison.append(
+            dict(
+                name=row["name"],
+                before=before,
+                after=after,
+                before_bookmarks=old["bookmarks"],
+                after_bookmarks=row["bookmarks"],
+                before_recognition_seconds=old["recognition_seconds"],
+                after_recognition_seconds=row["recognition_seconds"],
+                note="Book timings are observational, not controlled speedup evidence. Partial reference scopes do not establish whole-output precision.",
+            )
+        )
+    results["maintenance_comparison"] = dict(
+        baseline_version="0.4.2", recognition=comparison
+    )
+    results["prior_maintenance_evaluations"] = {
+        "v0.4.2": {
+            key: baseline_report[key]
+            for key in (
+                "development_trials",
+                "blind_protocol",
+                "maintenance_comparison",
+                "failure_analysis",
+                "workflow_validation",
+            )
+            if key in baseline_report
+        }
+    }
+    results["blind_protocol"] = (
+        "ELECTRA and ELMo references were fixed before their first recognition. Their failures were not used to tune rules. Subsequent table-delimiter filtering used the existing Beijing chemistry regression; conflicting section-number selection used Flatland. These are untuned hold-out replays, not newly unseen documents. Temporary local trial evidence lost to workspace maintenance is not reconstructed as measured data."
+    )
+    if {"heldout-bert", "heldout-flatland", "zh-low", "zh-heldout-chemistry"} <= set(
+        selected
+    ):
+        results["workflow_validation"] = validate_skill_workflow(directory)
+        results["maintenance_comparison"]["controlled_performance"] = (
+            measure_performance(directory)
+        )
     (directory / os.environ.get("BENCHMARK_REPORT", "results.json")).write_text(
         json.dumps(results, ensure_ascii=False, indent=2), encoding="utf-8"
     )
