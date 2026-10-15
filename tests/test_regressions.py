@@ -1095,3 +1095,99 @@ def test_native_spaced_appendix_starts_new_root():
     ]
     assert headings[-1]["title"] == "附录"
     assert build_tree_from_headings(headings)[-1][2] == -1
+
+
+def test_row_scoped_ocr_alternatives_require_exact_body_corroboration():
+    titles = [
+        "1.1 初始错字",
+        "1.2 图像处理",
+        "1.3 数据结构",
+        "1.4 程序设计",
+        "1.5 网络协议",
+    ]
+    pages = [(n, "") for n in range(1, 12)]
+    pages[0] = (
+        1,
+        "\n".join(f"[TOC]\t{t}\t{i + 1}" for i, t in enumerate(titles))
+        + "\n[TOC_ALT]\t1.1 初始错字\t1.1 正确标题\t1",
+    )
+    for i, title in enumerate(titles):
+        pages[i + 3] = (i + 4, "1.1 正确标题" if i == 0 else title)
+    aligned = app.align_printed_toc(pages)
+    assert aligned[0]["title"] == "1.1 正确标题"
+    assert aligned[0]["page"] == 4
+    # A candidate from a different contents row sharing the folio is not evidence.
+    pages[0] = (
+        1,
+        pages[0][1].replace("[TOC_ALT]\t1.1 初始错字", "[TOC_ALT]\t1.9 其他条目"),
+    )
+    assert app.align_printed_toc(pages)[0]["title"] == titles[0]
+    pages[3] = (4, "")
+    assert app.align_printed_toc(pages)[0]["title"] == titles[0]
+
+
+def test_extended_body_titles_remain_leaves_under_printed_outline():
+    from headings import build_tree_from_headings, headings_from_pages
+
+    titles = ["第一章概述", "第一节方法", "第二章应用", "第一节实例", "附录"]
+    pages = [
+        (
+            1,
+            "[CONTENTS]\n"
+            + "\n".join(f"[TOC]\t{title}\t{i + 1}" for i, title in enumerate(titles)),
+        )
+    ]
+    pages += [
+        (i + 2, title + ("\n研究活动" if i == 1 else ""))
+        for i, title in enumerate(titles)
+    ]
+    visual = {n: text.splitlines() for n, text in pages}
+    normal = headings_from_pages(pages, set(), "textbook", visual)
+    expanded = headings_from_pages(pages, set(), "textbook", visual, extended=True)
+    assert [h["title"] for h in normal] == titles
+    assert [h["title"] for h in expanded] == titles[:2] + ["研究活动"] + titles[2:]
+    tree = build_tree_from_headings(expanded)
+    assert [parent for _, _, parent in tree] == [-1, 0, 1, -1, 3, -1]
+
+
+def test_small_ocr_glyphs_do_not_crash_contents_analysis(monkeypatch):
+    import pytesseract
+    from ocr import read_semantic_toc
+    from PIL import Image
+
+    data = {key: [] for key in ["text", "left", "top", "width", "height", "conf"]}
+    for i in range(5):
+        for values in [
+            (f"第{i + 1}章标题", 100, 150 + i * 40, 100, 9, 90),
+            (str(i + 1), 900, 150 + i * 40, 10, 9, 90),
+        ]:
+            for key, value in zip(data, values, strict=True):
+                data[key].append(value)
+    monkeypatch.setattr(
+        pytesseract, "image_to_data", lambda *args, **kwargs: {key: [] for key in data}
+    )
+    result = read_semantic_toc(
+        Image.new("RGB", (1000, 1000), "white"), data, "chi_sim+eng", 100
+    )
+    assert sum(line.startswith("[TOC]\t") for line in result) == 5
+
+
+def test_body_corroboration_allows_missing_marker_but_not_a_different_marker():
+    titles = [
+        "1.1 初始错字",
+        "1.2 图像处理",
+        "1.3 数据结构",
+        "1.4 程序设计",
+        "1.5 网络协议",
+    ]
+    pages = [(n, "") for n in range(1, 12)]
+    pages[0] = (
+        1,
+        "\n".join(f"[TOC]\t{t}\t{i + 1}" for i, t in enumerate(titles))
+        + "\n[TOC_ALT]\t1.1 初始错字\t1.1 正确标题\t1",
+    )
+    for i, title in enumerate(titles):
+        pages[i + 3] = (i + 4, "正确标题" if i == 0 else title)
+    assert app.align_printed_toc(pages)[0]["title"] == "1.1 正确标题"
+    pages[0] = (1, pages[0][1].replace("\t1.1 正确标题\t", "\t1.9 正确标题\t"))
+    assert app.align_printed_toc(pages)[0]["title"] == titles[0]

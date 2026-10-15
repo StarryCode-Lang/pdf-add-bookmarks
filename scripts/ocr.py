@@ -37,6 +37,23 @@ def remove_solid_leaders(image):
     return result
 
 
+def _read_toc_line(image, lang, segmentation, separator=" "):
+    """Keep token confidence and text extraction identical across TOC readers."""
+    import pytesseract
+
+    data = pytesseract.image_to_data(
+        image,
+        lang=lang,
+        config=f"--psm {segmentation}",
+        timeout=120,
+        output_type=pytesseract.Output.DICT,
+    )
+    valid = [i for i, text in enumerate(data["text"]) if text.strip()]
+    title = clean_ocr_line(separator.join(data["text"][i] for i in valid), True)
+    confidence = sum(max(0, float(data["conf"][i])) for i in valid) / max(1, len(valid))
+    return title, confidence
+
+
 def read_semantic_toc(image, data, lang, total_pages):
     """Joint row/folio recognition for Chinese chapter-section contents."""
     from collections import Counter
@@ -113,11 +130,14 @@ def read_semantic_toc(image, data, lang, total_pages):
             data[key].append(numbers[key][j] if key in numbers else 0)
         data["left"][i] += begin
         folios.append(i)
-    baseline = median(
+    heights = [
         data["height"][i]
         for i in words
-        if re.search(r"[\u4e00-\u9fff]", data["text"][i]) and data["height"][i] > 10
-    )
+        if re.search(r"[\u4e00-\u9fff]", data["text"][i]) and data["height"][i] > 0
+    ]
+    if not heights:
+        return None
+    baseline = median([height for height in heights if height > 10] or heights)
     outer = min(data["left"][i] for i in markers)
     entries, uncertain, failed = [], 0, 0
     for folio in sorted(folios, key=lambda i: data["top"][i]):
@@ -192,19 +212,24 @@ def read_semantic_toc(image, data, lang, total_pages):
                     / max(1, len(row_words)),
                 )
             )
-        for sample, segmentation in ((crop, 7), (ink, 7), (crop, 6)):
+        primary = None
+        for sample, segmentation in ((crop, 7), (ink, 7), (crop, 6), (crop, 13)):
+            if segmentation == 13 and (
+                not alternatives
+                or max(confidence for _, confidence in alternatives) >= 80
+            ):
+                continue
+            if segmentation == 13:
+                primary = max(alternatives, key=lambda pair: pair[1])
             sample = ImageOps.expand(
                 sample.resize((sample.width * 2, sample.height * 2)), 20, "white"
             )
-            result = pytesseract.image_to_data(
+            title, confidence = _read_toc_line(
                 sample,
-                lang="chi_sim" if "chi_sim" in lang.split("+") else lang,
-                config=f"--psm {segmentation}",
-                timeout=120,
-                output_type=pytesseract.Output.DICT,
+                "chi_sim" if "chi_sim" in lang.split("+") else lang,
+                segmentation,
+                "",
             )
-            valid = [i for i, word in enumerate(result["text"]) if word.strip()]
-            title = clean_ocr_line("".join(result["text"][i] for i in valid), True)
             title = re.split(r"[.·_—]{2,}", title)[0].strip(' ,，。:：-’‘“”"')
             title = re.sub(
                 r"(第[一二三四五六七八九十百\d]+(?:单元|篇|章|节)|附录[一二三四五六七八九十\d]+)[’‘“”\"\s]+",
@@ -218,9 +243,6 @@ def read_semantic_toc(image, data, lang, total_pages):
             if damaged and not match_heading(title, True):
                 kind = "章" if left - outer < image.width * 0.05 else "节"
                 title = damaged[1] + kind + damaged[3].lstrip(' ’‘“”"')
-            confidence = sum(max(0, float(result["conf"][i])) for i in valid) / max(
-                1, len(valid)
-            )
             suffix = re.sub(
                 r"^第[一二三四五六七八九十百\d]+(?:单元|篇|章|节)|^附录[一二三四五六七八九十\d]*",
                 "",
@@ -232,12 +254,12 @@ def read_semantic_toc(image, data, lang, total_pages):
             ):
                 alternatives.append((title, confidence))
         if alternatives:
-            title, confidence = max(alternatives, key=lambda pair: pair[1])
+            title, confidence = primary or max(alternatives, key=lambda pair: pair[1])
             entries.append(f"[TOC]\t{title}\t{int(data['text'][folio])}")
             for alternative in dict.fromkeys(text for text, _ in alternatives):
                 if alternative != title:
                     entries.append(
-                        f"[TOC_ALT]\t{alternative}\t{int(data['text'][folio])}"
+                        f"[TOC_ALT]\t{title}\t{alternative}\t{int(data['text'][folio])}"
                     )
             uncertain += confidence < 60
         else:
@@ -427,22 +449,12 @@ def read_toc_rows(image, data, lang, total_pages):
             for language in title_languages
             for sample in (crop, clean)
         ):
-            result = pytesseract.image_to_data(
+            title, confidence = _read_toc_line(
                 sample,
-                lang=title_language,
-                config="--psm 6"
-                if bottom - top > median(b - a for a, b in bands) * 2.2
-                else "--psm 7",
-                timeout=120,
-                output_type=pytesseract.Output.DICT,
+                title_language,
+                6 if bottom - top > median(b - a for a, b in bands) * 2.2 else 7,
             )
-            valid = [i for i, word in enumerate(result["text"]) if word.strip()]
-            title = clean_ocr_line(
-                " ".join(result["text"][i] for i in valid), True
-            ).rstrip(" _|.-")
-            confidence = sum(max(0, float(result["conf"][i])) for i in valid) / max(
-                1, len(valid)
-            )
+            title = title.rstrip(" _|.-")
             alternatives.append((title, confidence))
         if not any(
             re.search(r"第[一二三四五六七八九十\d]+(?:单元|篇|章|节)", title)
@@ -493,6 +505,19 @@ def read_toc_rows(image, data, lang, total_pages):
             return (sum("\u4e00" <= c <= "\u9fff" for c in suffix) >= 2, pair[1])
 
         title, confidence = max(valid, key=candidate_score)
+        if confidence < 80:
+            fallback = _read_toc_line(
+                crop, "chi_sim" if "chi_sim" in lang.split("+") else lang, 13
+            )
+            original_kind = match_heading(title, True)
+            fallback_kind = match_heading(fallback[0], True)
+            if (
+                original_kind
+                and fallback_kind
+                and original_kind["type"] == fallback_kind["type"]
+                and candidate_score(fallback)[0]
+            ):
+                valid.append(fallback)
         number_crop = ImageOps.expand(
             remove_solid_leaders(
                 image.crop(
@@ -532,6 +557,11 @@ def read_toc_rows(image, data, lang, total_pages):
         number = match[1] if match else ""
         if number.isdigit() and 0 < int(number) <= total_pages:
             entries.append(f"[TOC]\t{title}\t{int(number)}")
+            entries.extend(
+                f"[TOC_ALT]\t{title}\t{alternative}\t{int(number)}"
+                for alternative in dict.fromkeys(value for value, _ in valid)
+                if confidence < 80 and alternative != title
+            )
             uncertain += confidence < 60
         else:
             failed += 1

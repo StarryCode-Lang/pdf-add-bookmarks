@@ -21,7 +21,7 @@ from headings import (  # noqa: F401 - preserve the importable script API
 )
 from ocr import _read_image_page
 
-VERSION = "0.4.1"
+VERSION = "0.4.2"
 
 
 def find_tesseract():
@@ -717,7 +717,9 @@ def execute(args):
         )
         result.update(pages=len(pages), ocr_pages=len(scanned), partial=bool(warnings))
         # Auto keeps all supported patterns; explicit types restrict the rules.
-        headings = headings_from_pages(pages, scanned, args.type, visual)
+        headings = headings_from_pages(
+            pages, scanned, args.type, visual, extended=args.generate_toc
+        )
         from headings import diagnose_outline
 
         diagnostics = diagnose_outline(headings, pages)
@@ -760,6 +762,9 @@ def execute(args):
             recognition_method="printed_toc"
             if any(h.get("source") == "printed_toc" for h in headings)
             else "body_headings",
+            outline_policy="expanded_body"
+            if args.generate_toc
+            else "printed_toc_preferred",
             review_required=True,
             quality="unverified",
             candidates=len(headings),

@@ -410,7 +410,7 @@ def native_toc_rows(lines):
     return rows if len(rows) >= 5 else []
 
 
-def headings_from_pages(pages, scanned, pdf_type="auto", visual=None):
+def headings_from_pages(pages, scanned, pdf_type="auto", visual=None, extended=False):
     from collections import Counter
 
     # Repeated marginal lines are page headers/footers, not chapter starts.
@@ -540,13 +540,39 @@ def headings_from_pages(pages, scanned, pdf_type="auto", visual=None):
             min(h["page"] for h in toc_headings),
             max(h["page"] for h in toc_headings),
         )
-        headings = [
-            h
-            for h in headings
-            if h.get("source") != "visual"
-            and (h["type"] == "part" or h["page"] < first or h["page"] > last)
-        ] + toc_headings
-        headings.sort(key=lambda h: h["page"])
+        from bisect import bisect_right
+
+        toc_keys = {(t["page"], clean_ocr_line(t["title"], True)) for t in toc_headings}
+        toc_pages = [t["page"] for t in toc_headings]
+        retained = []
+        for heading in headings:
+            page = heading["page"]
+            if (page, clean_ocr_line(heading["title"], True)) in toc_keys:
+                continue
+            if extended and first <= page <= last:
+                # Additional body titles are leaves, never replacement TOC parents.
+                if (
+                    heading["type"] in {"part", "chapter"}
+                    and heading.get("source") != "visual"
+                ):
+                    continue
+                parent = toc_headings[bisect_right(toc_pages, page) - 1]
+                heading = dict(
+                    heading,
+                    type={
+                        "part": "chapter",
+                        "chapter": "section",
+                        "section": "subsection",
+                        "subsection": "subsection",
+                    }[parent["type"]],
+                )
+            elif not (extended or heading.get("source") != "visual") or not (
+                extended or heading["type"] == "part" or page < first or page > last
+            ):
+                continue
+            retained.append(heading)
+        headings = retained + toc_headings
+        headings.sort(key=lambda h: (h["page"], h.get("source") != "printed_toc"))
     return filter_headings(headings, len(pages))
 
 
@@ -567,8 +593,15 @@ def align_printed_toc(pages):
     for page, text in pages:
         for line in text.splitlines():
             if line.startswith("[TOC_ALT]\t"):
-                _, title, printed = line.split("\t")
-                alternatives.setdefault(int(printed), []).append(title)
+                fields = line.split("\t")
+                if len(fields) == 4:
+                    _, primary, title, printed = fields
+                else:
+                    _, title, printed = fields
+                    primary = ""
+                alternatives.setdefault(
+                    (int(printed), clean_ocr_line(primary, True)), []
+                ).append(title)
             if line.startswith("[FOLIO]\t"):
                 folio_votes.append((page, page - int(line.split("\t")[1])))
             if line.startswith("[TOC]\t"):
@@ -590,7 +623,14 @@ def align_printed_toc(pages):
                     toc_pages.add(page)
     if len(entries) < 5:
         return []
-    locations = {}
+
+    def literal_key(title):
+        return re.sub(r"\s+", "", clean_ocr_line(title, True)).casefold()
+
+    candidates = {literal_key(e["title"]) for e in entries} | {
+        literal_key(title) for choices in alternatives.values() for title in choices
+    }
+    locations, literal_locations = {}, {}
     for page, text in pages:
         if page in toc_pages:
             continue
@@ -598,9 +638,25 @@ def align_printed_toc(pages):
             key = title_key(line)
             if len(key) >= 2 and not line.startswith("["):
                 locations.setdefault(key, set()).add(page)
+            literal = literal_key(line)
+            if literal in candidates:
+                literal_locations.setdefault(literal, set()).add(page)
+
+    def marker_key(title):
+        marker = re.match(
+            r"^(?:\d+(?:\.\d+)*|第[一二三四五六七八九十百\d]+(?:单元|篇|部|章|节)|附录[一二三四五六七八九十百\d]+)",
+            clean_ocr_line(title, True),
+        )
+        return marker[0] if marker else None
+
+    def row_alternatives(entry):
+        return alternatives.get(
+            (entry["printed"], entry["title"]), []
+        ) + alternatives.get((entry["printed"], ""), [])
+
     votes = []
     for entry in entries:
-        choices = [entry["title"]] + alternatives.get(entry["printed"], [])
+        choices = [entry["title"]] + row_alternatives(entry)
         offsets = set()
         for title in choices:
             hits = locations.get(title_key(title), set())
@@ -628,8 +684,14 @@ def align_printed_toc(pages):
     for entry in entries:
         choices = [
             title
-            for title in alternatives.get(entry["printed"], [])
-            if entry["printed"] + offset in locations.get(title_key(title), set())
+            for title in row_alternatives(entry)
+            if entry["printed"] + offset
+            in literal_locations.get(literal_key(title), set())
+            or (
+                marker_key(title)
+                and marker_key(title) == marker_key(entry["title"])
+                and entry["printed"] + offset in locations.get(title_key(title), set())
+            )
         ]
         if (
             entry["printed"] + offset
