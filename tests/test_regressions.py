@@ -1642,3 +1642,72 @@ def test_low_confidence_part_marker_requires_aligned_title_evidence(
     data["left"][3] = 1350
     result = app._read_image_page((str(source), 0, "eng", None, False, 200))
     assert "PART" not in result[1]
+
+
+def test_damaged_contents_recovers_only_a_body_parent_supported_by_matching_leaves():
+    titles = [
+        "1.1 基础原理",
+        "1.2 基础示例",
+        "12.1 高级原理",
+        "12.2 高级示例",
+        "12.3 应用方法",
+    ]
+    printed = [2, 3, 8, 9, 10]
+    pages = [(i, "") for i in range(1, 17)]
+    pages[0] = (
+        1,
+        "\n".join(f"[TOC]\t{t}\t{n}" for t, n in zip(titles, printed, strict=True))
+        + "\n[TOC_REVIEW]\t1\t0",
+    )
+    for t, n in zip(titles, printed, strict=True):
+        pages[n + 2] = (n + 3, t)
+    pages[9] = (10, "第十二章 高级方法")
+    pages[8] = (9, "第八章 不受目录支持")
+    found = app.headings_from_pages(pages, set(range(1, 17)))
+    assert "第十二章高级方法" in [h["title"] for h in found]
+    assert not any("第八章" in h["title"] for h in found)
+    pages[0] = (1, pages[0][1].replace("[TOC_REVIEW]\t1\t0", "[TOC_REVIEW]\t0\t0"))
+    assert not any(
+        "第十二章" in h["title"]
+        for h in app.headings_from_pages(pages, set(range(1, 17)))
+    )
+
+
+def test_section_repair_requires_fresh_crop_and_native_agreement(tmp_path, monkeypatch):
+    import ocr
+    from PIL import Image
+
+    source = tmp_path / "native-layer.pdf"
+    with fitz.open() as doc:
+        p = doc.new_page(width=600, height=800)
+        p.insert_text((60, 80), "§ 3. Alpha model", fontsize=12)
+        doc.save(source)
+    image = Image.new("RGB", (1200, 1600), "white")
+    data = {"left": [118], "top": [124], "width": [220], "height": [44]}
+    original = "§ 3. Alpha mode1"
+    monkeypatch.setattr(ocr, "_read_toc_line", lambda *args: ("§ 3. Alpha model", 75))
+    corrected, evidence = ocr.corroborate_section_title(
+        source, 0, image, data, [0], original, "eng"
+    )
+    assert corrected == "§ 3. Alpha model"
+    assert evidence.startswith("[OCR_CORROBORATED]\t")
+    monkeypatch.setattr(ocr, "_read_toc_line", lambda *args: ("§ 3. Other title", 99))
+    unchanged, evidence = ocr.corroborate_section_title(
+        source, 0, image, data, [0], original, "eng"
+    )
+    assert unchanged == original
+    assert evidence.startswith("[OCR_CONFLICT]\t")
+    assert (
+        __import__("headings").diagnose_outline([], [(1, evidence)])[0]["code"]
+        == "ocr_heading_conflict"
+    )
+
+
+def test_malformed_mixed_ordinals_do_not_crash_or_merge_parts():
+    from headings import filter_headings
+
+    entries = [
+        dict(type="chapter", title=title, page=i + 1)
+        for i, title in enumerate(["PART I1 First", "PART I2 Second"])
+    ]
+    assert filter_headings(entries) == entries

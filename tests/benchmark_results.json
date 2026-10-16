@@ -33917,5 +33917,265 @@
       }
     ],
     "next_validation": "Untuned hold-outs must remain untuned in this release; future rules require representative independent evidence. No dictionary substitutions for these books."
+  },
+  "development_first_passes": {
+    "v0.4.4-attention": {
+      "name": "heldout-attention",
+      "status": "first_pass_before_explicit_article_layout_fix",
+      "reference_evidence": "Source outline verified against numbered body headings and rendered pages 2,7,9; labels fixed before recognition. Original outline removed from the input.",
+      "source_sha256": "bdfaa68d8984f0dc02beaca527b76f207d99b666d31d1da728ee0728182df697",
+      "input_outline_count": 0,
+      "implementation_sha256": {
+        "headings.py": "af11a87d6bc2251d226518475619596f7a0c58e37ee2eed8aa9fa30bfad13ff3",
+        "add_bookmarks.py": "1743426e2b8598ee8b041b2de2acd3bc56a9fdc55054175877c82c8ba9046ac1",
+        "ocr.py": "d3254442d97c49933580c5f28d476ed16b8de6627d6b5f5748fc6dd876eef657"
+      },
+      "reference_toc": [
+        [
+          1,
+          "1 Introduction",
+          2
+        ],
+        [
+          1,
+          "2 Background",
+          2
+        ],
+        [
+          1,
+          "3 Model Architecture",
+          2
+        ],
+        [
+          2,
+          "3.1 Encoder and Decoder Stacks",
+          3
+        ],
+        [
+          2,
+          "3.2 Attention",
+          3
+        ],
+        [
+          3,
+          "3.2.1 Scaled Dot-Product Attention",
+          4
+        ],
+        [
+          3,
+          "3.2.2 Multi-Head Attention",
+          4
+        ],
+        [
+          3,
+          "3.2.3 Applications of Attention in our Model",
+          5
+        ],
+        [
+          2,
+          "3.3 Position-wise Feed-Forward Networks",
+          5
+        ],
+        [
+          2,
+          "3.4 Embeddings and Softmax",
+          5
+        ],
+        [
+          2,
+          "3.5 Positional Encoding",
+          6
+        ],
+        [
+          1,
+          "4 Why Self-Attention",
+          6
+        ],
+        [
+          1,
+          "5 Training",
+          7
+        ],
+        [
+          2,
+          "5.1 Training Data and Batching",
+          7
+        ],
+        [
+          2,
+          "5.2 Hardware and Schedule",
+          7
+        ],
+        [
+          2,
+          "5.3 Optimizer",
+          7
+        ],
+        [
+          2,
+          "5.4 Regularization",
+          7
+        ],
+        [
+          1,
+          "6 Results",
+          8
+        ],
+        [
+          2,
+          "6.1 Machine Translation",
+          8
+        ],
+        [
+          2,
+          "6.2 Model Variations",
+          8
+        ],
+        [
+          2,
+          "6.3 English Constituency Parsing",
+          9
+        ],
+        [
+          1,
+          "7 Conclusion",
+          10
+        ]
+      ],
+      "toc": [
+        [
+          1,
+          "Attention Is All You Need",
+          1
+        ]
+      ],
+      "metrics": {
+        "reference_entries": 22,
+        "scored_candidates": 1,
+        "duplicate_candidates": 0,
+        "exact_matches": 0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "missing": [
+          [
+            1,
+            "background",
+            2
+          ],
+          [
+            1,
+            "conclusion",
+            10
+          ],
+          [
+            1,
+            "introduction",
+            2
+          ],
+          [
+            1,
+            "modelarchitecture",
+            2
+          ],
+          [
+            1,
+            "results",
+            8
+          ],
+          [
+            1,
+            "training",
+            7
+          ],
+          [
+            1,
+            "whyselfattention",
+            6
+          ],
+          [
+            2,
+            "attention",
+            3
+          ],
+          [
+            2,
+            "embeddingsandsoftmax",
+            5
+          ],
+          [
+            2,
+            "encoderanddecoderstacks",
+            3
+          ],
+          [
+            2,
+            "englishconstituencyparsing",
+            9
+          ],
+          [
+            2,
+            "hardwareandschedule",
+            7
+          ],
+          [
+            2,
+            "machinetranslation",
+            8
+          ],
+          [
+            2,
+            "modelvariations",
+            8
+          ],
+          [
+            2,
+            "optimizer",
+            7
+          ],
+          [
+            2,
+            "positionalencoding",
+            6
+          ],
+          [
+            2,
+            "positionwisefeedforwardnetworks",
+            5
+          ],
+          [
+            2,
+            "regularization",
+            7
+          ],
+          [
+            2,
+            "trainingdataandbatching",
+            7
+          ],
+          [
+            3,
+            "applicationsofattentioninourmodel",
+            5
+          ],
+          [
+            3,
+            "multiheadattention",
+            4
+          ],
+          [
+            3,
+            "scaleddotproductattention",
+            4
+          ]
+        ],
+        "unexpected": [
+          [
+            1,
+            "attentionisallyouneed",
+            1
+          ]
+        ]
+      }
+    }
   }
 }

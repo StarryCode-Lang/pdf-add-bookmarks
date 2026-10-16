@@ -60,3 +60,5 @@ python "<skill目录>/scripts/add_bookmarks.py" "输入.pdf" --toc "目录.txt"
 所有自动识别结果都需审核，即使 `warnings` 为空；`quality=unverified` 不表示准确率已验证。检测到数字签名标记时停止，请用户提供未签名原件，不绕过保护。`--analyze -o` 会自动创建父目录。
 
 支持“单元/篇 → 章 → 节”结构及分散文本块。印刷目录页码获正文印证后优先采用该目录，减少正文栏目；目录未收录的细标题可能不输出。`diagnostics` 给出具体问题与 PDF 页码：`hierarchy_conflict` 编号与父章冲突、`missing_chapter_parent` 缺少父章、`fragmented_heading` 编号与标题未合并、`suspected_running_header` 可疑重复页眉、`unconfirmed_pagination` 目录页码未获正文印证、`incomplete_printed_toc` 目录行漏读。发现这些问题时，渲染目录与相关正文页，按原文修正建议目录后用 `--toc` 导入；逐项检查标题、父子层级与跳转页，不只核对几个章标题。无法确认的内容不得编造。
+
+`ocr_heading_conflict` 表示已有文字层与新 OCR 对同一节标题有分歧；必须渲染所列 PDF 页核对，不按置信度或常识选词。旧文字层只在独立裁剪图像重新识别得到相同完整标题时用于纠正，所有自动结果仍需审核。

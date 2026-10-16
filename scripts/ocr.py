@@ -3,7 +3,7 @@
 import os
 import re
 
-from headings import clean_ocr_line, match_heading
+from headings import clean_ocr_line, match_heading, outline_key
 
 
 def remove_solid_leaders(image):
@@ -592,6 +592,47 @@ def read_toc_rows(image, data, lang, total_pages):
     return entries
 
 
+def corroborate_section_title(pdf_path, index, image, data, indices, line, lang):
+    """Use old text only when a fresh, clipped image reading independently agrees."""
+    import fitz
+    from PIL import ImageOps
+
+    primary = match_heading(line, True)
+    if not primary or primary.get("source") != "section_sign":
+        return line, None
+    box = (
+        min(data["left"][i] for i in indices) - 4,
+        min(data["top"][i] for i in indices) - 4,
+        max(data["left"][i] + data["width"][i] for i in indices) + 4,
+        max(data["top"][i] + data["height"][i] for i in indices) + 4,
+    )
+    with fitz.open(pdf_path) as doc:
+        page = doc[index]
+        rect = fitz.Rect(box) * fitz.Matrix(
+            page.rect.width / image.width, page.rect.height / image.height
+        )
+        native = " ".join(page.get_textbox(rect).split())
+    other = match_heading(native, True)
+    if (
+        not other
+        or other.get("source") != "section_sign"
+        or primary["title"].split(".", 1)[0] != other["title"].split(".", 1)[0]
+        or outline_key(primary["title"]) == outline_key(other["title"])
+    ):
+        return line, None
+    crop = image.crop(box)
+    crop = ImageOps.expand(crop.resize((crop.width * 2, crop.height * 2)), 20, "white")
+    candidate, _ = _read_toc_line(crop, lang, 6)
+    observed = match_heading(candidate, True)
+    if (
+        observed
+        and observed.get("source") == "section_sign"
+        and outline_key(observed["title"]) == outline_key(other["title"])
+    ):
+        return candidate, f"[OCR_CORROBORATED]\t{line}\t{candidate}"
+    return line, f"[OCR_CONFLICT]\t{line}\t{native}"
+
+
 def _read_image_page(task):
     from collections import defaultdict
     from statistics import median
@@ -685,7 +726,7 @@ def _read_image_page(task):
             sections[group].append(key)
     continuations = {key for group in sections.values() for key in group[1:]}
     starts = {group[0]: group for group in sections.values() if group}
-    text_lines, titles = [], []
+    text_lines, titles, review_rows = [], [], []
     for key, indices in lines.items():
         if key in continuations:
             continue
@@ -696,6 +737,12 @@ def _read_image_page(task):
         if top < image.height * 0.06 or top > image.height * 0.96:
             continue
         line = re.sub(r"^(PART|CHAPTER)([IVXLCDM]+)$", r"\1 \2", line, flags=re.I)
+        if key in starts:
+            line, review = corroborate_section_title(
+                pdf_path, index, image, data, indices, line, lang
+            )
+            if review:
+                review_rows.append(review)
         text_lines.append(line)
         if (
             line.startswith("§")
@@ -768,4 +815,4 @@ def _read_image_page(task):
         else:
             merged.append(line)
     folio_rows = [f"[FOLIO]\t{next(iter(folios))}"] if len(folios) == 1 else []
-    return index + 1, "\n".join(merged + toc_rows + folio_rows), titles
+    return index + 1, "\n".join(merged + toc_rows + folio_rows + review_rows), titles

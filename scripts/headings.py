@@ -5,9 +5,21 @@ import unicodedata
 
 
 def _ordinal_value(number):
-    """Compare observed Arabic and Roman ordinals without rewriting their text."""
+    """Compare observed numeric ordinals without rewriting their text."""
     if number.isdigit():
         return int(number)
+    if re.fullmatch(r"[零一二三四五六七八九十百]+", number):
+        digits = dict(zip("零一二三四五六七八九", range(10), strict=True))
+        total, current = 0, 0
+        for char in number:
+            if char in digits:
+                current = digits[char]
+            else:
+                total += (current or 1) * {"十": 10, "百": 100}[char]
+                current = 0
+        return total + current
+    if not re.fullmatch(r"[IVXLCDM]+", number, re.I):
+        return None
     values = {"I": 1, "V": 5, "X": 10, "L": 50, "C": 100, "D": 500, "M": 1000}
     digits = [values[c] for c in number.upper()]
     return sum(
@@ -349,6 +361,8 @@ def filter_headings(headings, total_pages=None):
                 marker = re.match(r"^Part\s+[IVXLCDM\d]+\b", normalized, re.I)
                 if marker:
                     identity = _ordinal_value(marker[0].split()[-1])
+                    if identity is None:
+                        identity = marker[0].casefold()
                     if (
                         previous_part
                         and previous_part[0] == identity
@@ -708,10 +722,51 @@ def headings_from_pages(pages, scanned, pdf_type="auto", visual=None, extended=F
 
         toc_keys = {(t["page"], outline_key(t["title"])) for t in toc_headings}
         toc_pages = [t["page"] for t in toc_headings]
+        # A damaged TOC may omit a parent but retain its decimal-numbered leaves.
+        # Recover only an explicit body chapter just before at least two matching
+        # leaves; never invent a title, marker or destination from the leaf numbers.
+        missing_parents = set()
+        if any(
+            re.match(r"^\[TOC_REVIEW\]\t[1-9]\d*\t", line)
+            for _, text in pages
+            for line in text.splitlines()
+        ):
+            roots, leaves = set(), {}
+            for h in toc_headings:
+                marker = re.match(r"^第([一二三四五六七八九十百\d]+)章", h["title"])
+                if marker:
+                    roots.add(_ordinal_value(marker[1]))
+                marker = re.match(r"^(\d+)\.\d+\s", h["title"])
+                if marker:
+                    leaves.setdefault(int(marker[1]), []).append(h["page"])
+            candidates = {}
+            for h in headings:
+                marker = re.fullmatch(
+                    r"第([一二三四五六七八九十百\d]+)章\s*([\u4e00-\u9fff]{2,30})",
+                    clean_ocr_line(h["title"], True),
+                )
+                if not marker or h["type"] != "chapter":
+                    continue
+                number = _ordinal_value(marker[1])
+                targets = leaves.get(number, [])
+                if (
+                    number not in roots
+                    and len(set(targets)) >= 2
+                    and 0 <= min(targets) - h["page"] <= 2
+                ):
+                    candidates.setdefault(number, set()).add(
+                        (h["page"], outline_key(h["title"]))
+                    )
+            missing_parents = {
+                next(iter(rows)) for rows in candidates.values() if len(rows) == 1
+            }
         retained = []
         for heading in headings:
             page = heading["page"]
             if (page, outline_key(heading["title"])) in toc_keys:
+                continue
+            if (page, outline_key(heading["title"])) in missing_parents:
+                retained.append(heading)
                 continue
             if extended and first <= page <= last:
                 # Additional body titles are leaves, never replacement TOC parents.
@@ -898,6 +953,17 @@ def align_printed_toc(pages):
 def diagnose_outline(headings, pages):
     """Expose evidence conflicts without claiming a validated confidence score."""
     diagnostics, seen, parent = [], {}, None
+    for page, text in pages:
+        for line in text.splitlines():
+            if line.startswith("[OCR_CONFLICT]\t"):
+                _, fresh, native = line.split("\t", 2)
+                diagnostics.append(
+                    dict(
+                        code="ocr_heading_conflict",
+                        message=f"Fresh OCR and the existing text layer disagree: {fresh!r} / {native!r}; review the original page image.",
+                        pages=[page],
+                    )
+                )
     for h in headings:
         title = clean_ocr_line(h["title"], True)
         marker = re.match(r"^第[一二三四五六七八九十百\d]+(单元|篇|部|章|节)", title)
