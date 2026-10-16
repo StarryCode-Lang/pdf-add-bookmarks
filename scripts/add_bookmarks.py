@@ -242,6 +242,7 @@ def read_pages(
     dpi=200,
     allow_partial=False,
     warnings=None,
+    pdf_type="auto",
 ):
     import fitz
 
@@ -526,6 +527,15 @@ def read_pages(
                     (size >= max(14, baseline * 1.2) or (len(rows) <= 3 and size >= 14))
                     or (extended and size >= baseline and bold)
                     or (
+                        pdf_type == "article"
+                        and size >= baseline * 0.95
+                        and bold
+                        and re.match(
+                            r"^(?:\d+(?:\.\d+)*|[A-Z](?:\.\d+)*)[.)]?\s", title
+                        )
+                        and match_heading(title, pdf_type="article")
+                    )
+                    or (
                         (
                             columnar
                             or re.match(r"^[A-Z]\.\d+(?:\.\d+)*\s", title)
@@ -750,6 +760,7 @@ def execute(args):
             args.dpi,
             args.allow_partial,
             warnings,
+            pdf_type=args.type,
         )
         result.update(pages=len(pages), ocr_pages=len(scanned), partial=bool(warnings))
         # Auto keeps all supported patterns; explicit types restrict the rules.

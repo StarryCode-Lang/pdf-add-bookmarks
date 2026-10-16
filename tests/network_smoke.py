@@ -20,6 +20,7 @@ from pathlib import Path
 import fitz
 
 ROOT = Path(__file__).resolve().parent.parent
+BASELINE_COMMIT = "a6c778576bd978d546c339064d94e60254483e80"
 sys.path.insert(0, str(ROOT / "scripts"))
 import add_bookmarks as app  # noqa: E402
 
@@ -285,7 +286,7 @@ COMPLETE_CONTENT_LABELS.update(
         "zh-heldout-guangdong": ZH_HELDOUT_GUANGDONG,
     }
 )
-INDEPENDENT_SAMPLES = {"heldout-electra", "heldout-elmo"}
+INDEPENDENT_SAMPLES = {"heldout-xlmr", "zh-heldout-renjiao-physics"}
 FORCE_OCR_SAMPLES = {"heldout-flatland"}
 
 # Frozen v0.4.1 before selecting these books; labels from rendered contents, not output.
@@ -627,7 +628,7 @@ COMPLETE_CONTENT_LABELS.update(
 )
 
 
-# References frozen from source pages; ELECTRA and ELMo are not used to tune recognition rules.
+# ELECTRA and ELMo were untuned in v0.4.3; they are development regressions now.
 SOURCES.update(
     {
         "heldout-electra": (
@@ -695,6 +696,115 @@ COMPLETE_CONTENT_LABELS.update(
             (2, "A.6 Coreference resolution", 13),
             (2, "A.7 Named Entity Recognition", 14),
             (2, "A.8 Sentiment classification", 15),
+        ],
+    }
+)
+
+
+# New references were fixed from source pages before recognition; Attention became
+# a regression after its saved 0/22 first pass. XLM-R and Renjiao physics stay untuned.
+SOURCES.update(
+    {
+        "heldout-attention": (
+            "https://arxiv.org/pdf/1706.03762v7",
+            "bdfaa68d8984f0dc02beaca527b76f207d99b666d31d1da728ee0728182df697",
+            "eng",
+            "article",
+        ),
+        "heldout-xlmr": (
+            "https://arxiv.org/pdf/1911.02116v2",
+            "bf2fbb1aa1805ab6f892a4a421ffd4d7575df37343980b9a3729855577d2d8a1",
+            "eng",
+            "article",
+        ),
+        "zh-heldout-renjiao-physics": (
+            "https://raw.githubusercontent.com/TapXWorld/ChinaTextbook/master/%E5%88%9D%E4%B8%AD/%E7%89%A9%E7%90%86/%E4%BA%BA%E6%95%99%E7%89%88-%E4%BA%BA%E6%B0%91%E6%95%99%E8%82%B2%E5%87%BA%E7%89%88%E7%A4%BE/%E5%85%AB%E5%B9%B4%E7%BA%A7/%E4%B9%89%E5%8A%A1%E6%95%99%E8%82%B2%E6%95%99%E7%A7%91%E4%B9%A6%C2%B7%E7%89%A9%E7%90%86%E5%85%AB%E5%B9%B4%E7%BA%A7%E4%B8%8A%E5%86%8C.pdf",
+            "0279bc50d53ee1f41f93ebfdcf82dbcc10a96bb5775c0ce54342652520cb15b7",
+            "chi_sim+eng",
+            "textbook",
+        ),
+    }
+)
+COMPLETE_CONTENT_LABELS.update(
+    {
+        "heldout-attention": [
+            [1, "1 Introduction", 2],
+            [1, "2 Background", 2],
+            [1, "3 Model Architecture", 2],
+            [2, "3.1 Encoder and Decoder Stacks", 3],
+            [2, "3.2 Attention", 3],
+            [3, "3.2.1 Scaled Dot-Product Attention", 4],
+            [3, "3.2.2 Multi-Head Attention", 4],
+            [3, "3.2.3 Applications of Attention in our Model", 5],
+            [2, "3.3 Position-wise Feed-Forward Networks", 5],
+            [2, "3.4 Embeddings and Softmax", 5],
+            [2, "3.5 Positional Encoding", 6],
+            [1, "4 Why Self-Attention", 6],
+            [1, "5 Training", 7],
+            [2, "5.1 Training Data and Batching", 7],
+            [2, "5.2 Hardware and Schedule", 7],
+            [2, "5.3 Optimizer", 7],
+            [2, "5.4 Regularization", 7],
+            [1, "6 Results", 8],
+            [2, "6.1 Machine Translation", 8],
+            [2, "6.2 Model Variations", 8],
+            [2, "6.3 English Constituency Parsing", 9],
+            [1, "7 Conclusion", 10],
+        ],
+        "heldout-xlmr": [
+            (1, "1 Introduction", 1),
+            (1, "2 Related Work", 2),
+            (1, "3 Model and Data", 2),
+            (1, "4 Evaluation", 3),
+            (1, "5 Analysis and Results", 4),
+            (
+                2,
+                "5.1 Improving and Understanding Multilingual Masked Language Models",
+                4,
+            ),
+            (2, "5.2 Cross-lingual Understanding Results", 6),
+            (2, "5.3 Multilingual versus Monolingual", 7),
+            (2, "5.4 Representation Learning for Low-resource Languages", 8),
+            (1, "6 Conclusion", 8),
+            (1, "A Languages and statistics for CC-100 used by XLM-R", 11),
+            (1, "B Model Architectures and Sizes", 12),
+        ],
+        "zh-heldout-renjiao-physics": [
+            (1, "致同学们", 6),
+            (1, "科学之旅", 7),
+            (1, "第一章 机械运动", 14),
+            (2, "第1节 长度和时间的测量", 15),
+            (2, "第2节 运动的描述", 21),
+            (2, "第3节 运动的快慢", 24),
+            (2, "第4节 测量平均速度", 28),
+            (1, "第二章 声现象", 31),
+            (2, "第1节 声音的产生与传播", 32),
+            (2, "第2节 声音的特性", 37),
+            (2, "第3节 声的利用", 43),
+            (2, "第4节 噪声的危害和控制", 47),
+            (1, "第三章 物态变化", 51),
+            (2, "第1节 温度", 52),
+            (2, "第2节 熔化和凝固", 58),
+            (2, "第3节 汽化和液化", 63),
+            (2, "第4节 升华和凝华", 69),
+            (1, "第四章 光现象", 73),
+            (2, "第1节 光的直线传播", 74),
+            (2, "第2节 光的反射", 78),
+            (2, "第3节 平面镜成像", 82),
+            (2, "第4节 光的折射", 86),
+            (2, "第5节 光的色散", 90),
+            (1, "第五章 透镜及其应用", 94),
+            (2, "第1节 透镜", 95),
+            (2, "第2节 生活中的透镜", 99),
+            (2, "第3节 凸透镜成像的规律", 102),
+            (2, "第4节 眼睛和眼镜", 105),
+            (2, "第5节 显微镜和望远镜", 108),
+            (1, "第六章 质量与密度", 112),
+            (2, "第1节 质量", 113),
+            (2, "第2节 密度", 118),
+            (2, "第3节 测量物质的密度", 122),
+            (2, "第4节 密度与社会生活", 125),
+            (1, "索引", 129),
         ],
     }
 )
@@ -869,7 +979,7 @@ def measure_performance(directory):
         return {"not_run": "Controlled ru_maxrss probes are Linux-only."}
     baseline = directory / "baseline-runtime"
     baseline.mkdir(exist_ok=True)
-    baseline_sha = "782986f8566f200e9ce4bcbaf7f66294c058c68a"
+    baseline_sha = BASELINE_COMMIT
     for name in ("add_bookmarks.py", "headings.py", "ocr.py"):
         (baseline / name).write_bytes(
             subprocess.check_output(
@@ -1061,6 +1171,7 @@ def main():
             + inspect.getsource(app.clean_ocr_line)
             + inspect.getsource(app.match_heading)
             + inspect.getsource(sys.modules["headings"]._match_heading)
+            + inspect.getsource(sys.modules["headings"]._ordinal_value)
             + inspect.getsource(sys.modules["headings"].native_toc_rows)
             + inspect.getsource(sys.modules["headings"].native_rows)
             + inspect.getsource(sys.modules["headings"].native_columns)
@@ -1083,15 +1194,8 @@ def main():
             reference = doc.get_toc()
             assert len(doc) >= (
                 10
-                if base
-                in {
-                    "zh-exam",
-                    "heldout-bert",
-                    "heldout-albert",
-                    "heldout-roberta",
-                    "heldout-electra",
-                    "heldout-elmo",
-                }
+                if base == "zh-exam"
+                or (base.startswith("heldout-") and base != "heldout-flatland")
                 else 100
             )
             original_outlines = len(reference)
@@ -1122,7 +1226,13 @@ def main():
             assert app.verify_content(original, source), (
                 "Prepared input changed page content"
             )
-        key = extraction_hash + input_hash + lang + str(base in FORCE_OCR_SAMPLES)
+        key = (
+            extraction_hash
+            + input_hash
+            + lang
+            + profile
+            + str(base in FORCE_OCR_SAMPLES)
+        )
         cache = directory / (name + "-pages.json")
         cached = json.loads(cache.read_text()) if cache.exists() else {}
         cache_hit = (
@@ -1140,6 +1250,7 @@ def main():
                 force_ocr=base in FORCE_OCR_SAMPLES,
                 workers=4,
                 dpi=200,
+                pdf_type=profile,
             )
             seconds = time.perf_counter() - started
             cache.write_text(
@@ -1322,14 +1433,25 @@ def main():
             row["reference_evidence"] = (
                 "Printed contents visually transcribed before recognition, with PDF-page offset checked on body unit/chapter/section starts; not inferred from generated bookmarks."
             )
-            if base in INDEPENDENT_SAMPLES or base in {
-                "heldout-albert",
-                "heldout-roberta",
-                "heldout-bert",
-            }:
+            if base.startswith("heldout-"):
                 row["reference_evidence"] = (
                     "Manually annotated body header wording, hierarchy and PDF pages before recognition; source page images inspected. References are not generated outlines."
                 )
+            if base == "zh-heldout-renjiao-physics":
+                row["reference_evidence"] = (
+                    "Complete printed contents visually transcribed from PDF pages 4-5 before recognition; constant +5 printed-to-PDF offset checked at both introductory entries, all six chapter leaves and the index. Section targets use that printed pagination."
+                )
+                row["reference_checked_pdf_pages"] = [
+                    6,
+                    7,
+                    14,
+                    31,
+                    51,
+                    73,
+                    94,
+                    112,
+                    129,
+                ]
             row["assessment_counts"] = dict(
                 Counter(item["assessment"] for item in row["candidate_review"])
             )
@@ -1387,8 +1509,24 @@ def main():
             for row in prior["results"]
             if row["name"] in {"heldout-flatland", "heldout-bert"}
         ]
+    if "v0.4.3" not in history:
+        history["v0.4.3"] = {
+            key: prior[key]
+            for key in (
+                "version",
+                "implementation_sha256",
+                "benchmark_sha256",
+                "environment",
+            )
+        }
+        history["v0.4.3"]["results"] = [
+            row
+            for row in prior["results"]
+            if row["name"] in {"heldout-electra", "heldout-elmo"}
+        ]
     results = dict(
         complete=True,
+        development_first_passes=prior.get("development_first_passes", {}),
         independent_first_pass=first_pass,
         prior_independent_evaluations=history,
         version=app.VERSION,
@@ -1415,7 +1553,7 @@ def main():
             [
                 "git",
                 "show",
-                "782986f8566f200e9ce4bcbaf7f66294c058c68a:tests/benchmark_results.json",
+                f"{BASELINE_COMMIT}:tests/benchmark_results.json",
             ],
             cwd=ROOT,
         )
@@ -1443,23 +1581,26 @@ def main():
             )
         )
     results["maintenance_comparison"] = dict(
-        baseline_version="0.4.2", recognition=comparison
+        baseline_version="0.4.3", recognition=comparison
     )
-    results["prior_maintenance_evaluations"] = {
-        "v0.4.2": {
-            key: baseline_report[key]
-            for key in (
-                "development_trials",
-                "blind_protocol",
-                "maintenance_comparison",
-                "failure_analysis",
-                "workflow_validation",
-            )
-            if key in baseline_report
-        }
+    maintenance_history = dict(prior.get("prior_maintenance_evaluations", {}))
+    maintenance_history["v0.4.3"] = {
+        key: prior[key]
+        for key in (
+            "blind_protocol",
+            "maintenance_comparison",
+            "failure_analysis",
+            "workflow_validation",
+            "agent_workflow_validation",
+            "performance_measurement_trials",
+            "validation_trials",
+            "ci_matrix_observations",
+        )
+        if key in prior
     }
+    results["prior_maintenance_evaluations"] = maintenance_history
     results["blind_protocol"] = (
-        "ELECTRA and ELMo references were fixed before their first recognition. Their failures were not used to tune rules. Subsequent table-delimiter filtering used the existing Beijing chemistry regression; conflicting section-number selection used Flatland. These are untuned hold-out replays, not newly unseen documents. Temporary local trial evidence lost to workspace maintenance is not reconstructed as measured data."
+        "ELECTRA and ELMo were untuned hold-out replays in v0.4.3 and are now regressions. Attention's 0/22 first pass is preserved before the explicit article-layout fix; it is also a regression. XLM-R and 131-page Renjiao physics references were frozen before their first recognition; candidate runtime was frozen before those recognitions and their failures are not used to tune v0.4.4. The separate 96-page lower-volume source was discarded on page count before recognition, not on output quality. Automatic strict scoring, manually supplied TOC success and page preservation are separate claims."
     )
     if {"heldout-bert", "heldout-flatland", "zh-low", "zh-heldout-chemistry"} <= set(
         selected

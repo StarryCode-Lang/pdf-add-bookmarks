@@ -20,7 +20,7 @@ python -m pip install -r "<skill目录>/requirements.txt"
 
 ## 执行
 
-先分析候选目录，暂不交付最终 PDF：
+先分析候选目录，暂不交付最终 PDF。研究论文分析时加 `--type article`，以识别正文同字号的加粗编号标题；教材与试卷按文档类型选择对应模式：
 
 ```bash
 python "<skill目录>/scripts/add_bookmarks.py" "输入.pdf" --analyze --json

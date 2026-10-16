@@ -362,13 +362,8 @@ def test_json_partial_flag(tmp_path, monkeypatch, capsys):
     import json
 
     source = Path(__file__).parent / "fixtures" / "single_page.pdf"
-    monkeypatch.setattr(
-        app,
-        "read_pages",
-        lambda *a: ([(1, "Chapter 1 Text")], set(), {1: ["Chapter 1 Text"]}),
-    )
 
-    def partial(*args):
+    def partial(*args, **kwargs):
         args[-1].append("Missing OCR languages; skipped 1 scanned page")
         return [(1, "Chapter 1 Text")], set(), {1: ["Chapter 1 Text"]}
 
@@ -1711,3 +1706,36 @@ def test_malformed_mixed_ordinals_do_not_crash_or_merge_parts():
         for i, title in enumerate(["PART I1 First", "PART I2 Second"])
     ]
     assert filter_headings(entries) == entries
+
+
+def test_article_profile_reaches_layout_extraction_without_expanding_auto(tmp_path):
+    import json
+
+    source = tmp_path / "small-headings.pdf"
+    with fitz.open() as doc:
+        page = doc.new_page()
+        page.insert_text((60, 70), "1 Introduction", fontsize=11, fontname="hebo")
+        for i in range(12):
+            page.insert_text(
+                (60, 100 + i * 18),
+                "Ordinary prose establishes the baseline font.",
+                fontsize=11,
+            )
+        page.insert_text((60, 360), "1.1 Short method", fontsize=11, fontname="hebo")
+        doc.save(source)
+    article = run(
+        source,
+        "--analyze",
+        "--type",
+        "article",
+        "--json",
+        "-o",
+        tmp_path / "article.txt",
+    )
+    auto = run(source, "--analyze", "--json", "-o", tmp_path / "auto.txt")
+    assert article.returncode == auto.returncode == 0
+    assert [h["title"] for h in json.loads(article.stdout)["headings"]] == [
+        "1 Introduction",
+        "1.1 Short method",
+    ]
+    assert json.loads(auto.stdout)["candidates"] == 0
