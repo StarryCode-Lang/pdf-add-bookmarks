@@ -528,6 +528,7 @@ def read_pages(
                     or (
                         (
                             columnar
+                            or re.match(r"^[A-Z]\.\d+(?:\.\d+)*\s", title)
                             or (
                                 title.isupper()
                                 and re.match(

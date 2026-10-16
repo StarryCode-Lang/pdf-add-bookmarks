@@ -4,6 +4,18 @@ import re
 import unicodedata
 
 
+def _ordinal_value(number):
+    """Compare observed Arabic and Roman ordinals without rewriting their text."""
+    if number.isdigit():
+        return int(number)
+    values = {"I": 1, "V": 5, "X": 10, "L": 50, "C": 100, "D": 500, "M": 1000}
+    digits = [values[c] for c in number.upper()]
+    return sum(
+        -v if i + 1 < len(digits) and v < digits[i + 1] else v
+        for i, v in enumerate(digits)
+    )
+
+
 def clean_ocr_line(line, ocr_mode=False):
     line = unicodedata.normalize("NFKC", line)
     line = re.sub(
@@ -21,7 +33,9 @@ def clean_ocr_line(line, ocr_mode=False):
     cleaned = re.sub(r"附\s+录", "附录", cleaned)
     # Normalize "X .X" → "X.X"
     cleaned = re.sub(r"(\d)\s*\.\s*(\d)", r"\1.\2", cleaned)
-    cleaned = re.sub(r"^(\d+(?:\.\d+){1,2})(?=[A-Za-z\u4e00-\u9fff])", r"\1 ", cleaned)
+    cleaned = re.sub(
+        r"^(\d+(?:\.\d+){1,2})(?![eE][+-]?\d)(?=[A-Za-z\u4e00-\u9fff])", r"\1 ", cleaned
+    )
     cleaned = re.sub(r"^(\d+(?:\.\d+)+)\s*[“”「」\"]+\s*", r"\1 ", cleaned)
     cleaned = re.sub(r"^([一二三四五六七八九十]+)\s*、\s*", r"\1、", cleaned)
     cleaned = re.sub(r"^\(\s*([一二三四五六七八九十]+)\s*\)", r"(\1)", cleaned)
@@ -76,15 +90,7 @@ def _match_heading(line, ocr_mode=False):
     section = re.match(r"^§\s*(\d+|[ivxlcdm]+)\s*[.：:—–-]*\s*(.+)", line, re.I)
     if section:
         number = section[1]
-        if not number.isdigit():
-            values = {"I": 1, "V": 5, "X": 10, "L": 50, "C": 100, "D": 500, "M": 1000}
-            digits = [values[c] for c in number.upper()]
-            number = str(
-                sum(
-                    -v if i + 1 < len(digits) and v < digits[i + 1] else v
-                    for i, v in enumerate(digits)
-                )
-            )
+        number = str(_ordinal_value(number))
         return {
             "type": "section",
             "title": number + ". " + section[2].lstrip(" .—–-:").rstrip(".,"),
@@ -342,7 +348,7 @@ def filter_headings(headings, total_pages=None):
             if re.match(r"^Part\b", normalized, re.I):
                 marker = re.match(r"^Part\s+[IVXLCDM\d]+\b", normalized, re.I)
                 if marker:
-                    identity = marker[0].casefold()
+                    identity = _ordinal_value(marker[0].split()[-1])
                     if (
                         previous_part
                         and previous_part[0] == identity
@@ -1011,10 +1017,24 @@ def native_rows(lines, baseline, width):
         size = max(s["size"] for s in spans)
         # Some embedded fonts omit the PDF bold flag. Respect explicit font weight
         # names, and small capitals encoded with alternating glyph sizes.
+        # A short mathematical symbol run may use a non-bold math font inside
+        # an otherwise bold heading. Regular prose must still prevent promotion.
+        math = [
+            s
+            for s in spans
+            if re.search(r"^(?:CM(?:MI|SY|EX)|.*Math)", s.get("font", ""), re.I)
+        ]
+        text_weight = sum(c.isalpha() for s in spans for c in s["text"])
+        math_weight = sum(c.isalpha() for s in math for c in s["text"])
+        emphasized = (
+            [s for s in spans if s not in math]
+            if (0 < math_weight <= text_weight * 0.2)
+            else spans
+        )
         bold = all(
             s["flags"] & 16
             or re.search(r"Bold|Demi|Medi(?:um)?$|CMBX", s.get("font", ""), re.I)
-            for s in spans
+            for s in emphasized
         )
         letters = "".join(c for c in title if c.isalpha())
         small_caps = (

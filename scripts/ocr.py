@@ -493,6 +493,28 @@ def read_toc_rows(image, data, lang, total_pages):
             and (match_heading(title, True) or re.match(r"^附录.+|^后记$", title))
             and re.search(r"[\u4e00-\u9fff]", title)
         ]
+        primary_candidates = list(valid)
+        # Read the words independently of a decimal marker: fused marker glyphs
+        # can corrupt an otherwise readable title. Preserve the primary until
+        # exact evidence on the destination page confirms a row-scoped alternative.
+        row_prefixes = [
+            i
+            for i in prefixes
+            if top <= data["top"][i] + data["height"][i] / 2 <= bottom
+        ]
+        if len(row_prefixes) == 1 and (not valid or max(c for _, c in valid) < 80):
+            marker = row_prefixes[0]
+            begin = int(data["left"][marker] + data["width"][marker] + 2 - left)
+            if 0 < begin < crop.width - 10:
+                sample = ImageOps.expand(
+                    crop.crop((begin, 0, crop.width, crop.height)), 12, "white"
+                )
+                suffix, confidence = _read_toc_line(
+                    sample, "chi_sim" if "chi_sim" in lang.split("+") else lang, 7
+                )
+                if re.fullmatch(r"[\u4e00-\u9fff、，（）()\s]{2,40}", suffix):
+                    prefix = data["text"][marker].strip("*. ")
+                    valid.append((prefix + " " + suffix, confidence))
         if not valid:
             failed += any(
                 top <= data["top"][j] + data["height"][j] / 2 <= bottom
@@ -504,7 +526,7 @@ def read_toc_rows(image, data, lang, total_pages):
             suffix = re.sub(r"^第[一二三四五六七八九十\d]+章|^\d+\.\d+", "", pair[0])
             return (sum("\u4e00" <= c <= "\u9fff" for c in suffix) >= 2, pair[1])
 
-        title, confidence = max(valid, key=candidate_score)
+        title, confidence = max(primary_candidates or valid, key=candidate_score)
         if confidence < 80:
             fallback = _read_toc_line(
                 crop, "chi_sim" if "chi_sim" in lang.split("+") else lang, 13
@@ -536,7 +558,7 @@ def read_toc_rows(image, data, lang, total_pages):
             pytesseract.image_to_string(
                 number_crop,
                 lang="eng" if "eng" in lang.split("+") else lang,
-                config="--psm 7",
+                config="--psm 7 -c tessedit_char_whitelist=0123456789",
                 timeout=120,
             )
             .strip()
@@ -560,7 +582,7 @@ def read_toc_rows(image, data, lang, total_pages):
             entries.extend(
                 f"[TOC_ALT]\t{title}\t{alternative}\t{int(number)}"
                 for alternative in dict.fromkeys(value for value, _ in valid)
-                if confidence < 80 and alternative != title
+                if alternative != title
             )
             uncertain += confidence < 60
         else:
@@ -593,11 +615,51 @@ def _read_image_page(task):
     data = pytesseract.image_to_data(
         image, lang=lang, timeout=120, output_type=pytesseract.Output.DICT
     )
+    # Sparse title leaves can give an explicit marker very low confidence.
+    # Keep it only when a nearby centered uppercase title independently supports it.
+    raw_lines = defaultdict(list)
+    for i, word in enumerate(data["text"]):
+        if word.strip():
+            raw_lines[
+                (data["block_num"][i], data["par_num"][i], data["line_num"][i])
+            ].append(i)
+    supported_markers = set()
+    if sum(len(group) for group in raw_lines.values()) <= 40:
+        for key, group in raw_lines.items():
+            value = " ".join(data["text"][i] for i in group)
+            if not re.fullmatch(
+                r"(?:PART|CHAPTER|APPENDIX)\s+(?:[IVXLCDM]+|\d+|[A-Z])\.?", value
+            ):
+                continue
+            bottom = max(data["top"][i] + data["height"][i] for i in group)
+            height = max(data["height"][i] for i in group)
+            center = (
+                min(data["left"][i] for i in group)
+                + max(data["left"][i] + data["width"][i] for i in group)
+            ) / 2
+            for other in raw_lines.values():
+                title = " ".join(data["text"][i] for i in other)
+                top = min(data["top"][i] for i in other)
+                midpoint = (
+                    min(data["left"][i] for i in other)
+                    + max(data["left"][i] + data["width"][i] for i in other)
+                ) / 2
+                if (
+                    0 < top - bottom <= height * 5
+                    and abs(center - midpoint) < image.width * 0.08
+                    and re.fullmatch(r"[A-Z][A-Z ,—–-]{3,60}", title)
+                    and all(float(data["conf"][i]) >= 70 for i in other)
+                ):
+                    supported_markers.add(key)
+                    break
     lines = defaultdict(list)
     heights = []
     for i, word in enumerate(data["text"]):
         if word.strip() and (
-            float(data["conf"][i]) >= 40 or re.fullmatch(r"[IVXLCDM]+\.?", word)
+            float(data["conf"][i]) >= 40
+            or re.fullmatch(r"[IVXLCDM]+\.?", word)
+            or (data["block_num"][i], data["par_num"][i], data["line_num"][i])
+            in supported_markers
         ):
             key = (data["block_num"][i], data["par_num"][i], data["line_num"][i])
             lines[key].append(i)

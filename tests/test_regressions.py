@@ -1524,3 +1524,121 @@ def test_ocr_section_wrap_stays_inside_its_paragraph(tmp_path, monkeypatch):
     assert "§ 2.—Model Geometry" in titles
     assert "Ordinary body." in text
     assert all("Ordinary" not in title for title in titles)
+
+
+def test_scientific_notation_does_not_turn_a_results_page_into_contents(tmp_path):
+    source = tmp_path / "results.pdf"
+    with fitz.open() as doc:
+        page = doc.new_page()
+        for i in range(12):
+            page.insert_text((60, 80 + i * 18), f"{i + 1}.9e20 FLOPs 75.0", fontsize=10)
+        page.insert_text((60, 340), "3.5 EFFICIENCY ANALYSIS", fontsize=18)
+        doc.save(source)
+    pages, scanned, visual = app.read_pages(source)
+    headings = app.headings_from_pages(pages, scanned, "article", visual)
+    assert [h["title"] for h in headings] == ["3.5 EFFICIENCY ANALYSIS"]
+    assert app.clean_ocr_line("1.9e20") == "1.9e20"
+    assert app.clean_ocr_line("2.1EVALUATION") == "2.1 EVALUATION"
+
+
+def test_short_math_font_runs_preserve_bold_heading_but_not_regular_prose():
+    from headings import native_rows
+
+    def span(text, font, flags=4):
+        return dict(text=text, font=font, flags=flags, size=11)
+
+    heading = [
+        span("Importance of ", "Example-Bold"),
+        span("γ", "CMMI10"),
+        span(" in the model", "Example-Bold"),
+    ]
+    ordinary = [
+        span("Important ", "Example-Bold"),
+        span("regular prose", "Example-Regular"),
+    ]
+    formula = [span("x", "Example-Bold"), span("αβγδεζηθ", "CMMI10")]
+    rows = native_rows(
+        [
+            dict(bbox=(50, 70 + i * 30, 240, 82 + i * 30), spans=s)
+            for i, s in enumerate([heading, ordinary, formula])
+        ],
+        11,
+        600,
+    )
+    assert [r[3] for r in rows] == [True, False, False]
+
+
+def test_single_column_appendix_sections_can_use_body_sized_bold(tmp_path):
+    source = tmp_path / "appendix.pdf"
+    with fitz.open() as doc:
+        p = doc.new_page()
+        p.insert_text((60, 70), "Appendix A Supplement", fontsize=18)
+        p.insert_text((60, 110), "A.1 Parameter setup", fontsize=11, fontname="hebo")
+        for i in range(14):
+            p.insert_text(
+                (60, 145 + i * 18),
+                "Ordinary prose establishes the body font size.",
+                fontsize=11,
+            )
+        p.insert_text(
+            (60, 420), "2.4 An ordinary exercise", fontsize=11, fontname="hebo"
+        )
+        doc.save(source)
+    pages, scanned, visual = app.read_pages(source)
+    headings = app.headings_from_pages(pages, scanned, "article", visual)
+    assert [h["title"] for h in headings] == [
+        "Appendix A Supplement",
+        "A.1 Parameter setup",
+    ]
+
+
+def test_roman_and_arabic_repeated_part_markers_share_the_first_destination():
+    from headings import filter_headings
+
+    entries = [
+        dict(type="chapter", title=title, page=page)
+        for title, page in [
+            ("PART 1 First", 2),
+            ("PART I First", 4),
+            ("PART 2 Second", 8),
+            ("PART II Second", 10),
+            ("PART I Reprise", 15),
+        ]
+    ]
+    assert [h["page"] for h in filter_headings(entries)] == [2, 8, 15]
+
+
+def test_low_confidence_part_marker_requires_aligned_title_evidence(
+    tmp_path, monkeypatch
+):
+    import pytesseract
+
+    source = tmp_path / "scan.pdf"
+    with fitz.open() as doc:
+        doc.new_page(width=600, height=800)
+        doc.save(source)
+    keys = [
+        "text",
+        "left",
+        "top",
+        "width",
+        "height",
+        "conf",
+        "block_num",
+        "par_num",
+        "line_num",
+    ]
+    records = [
+        ("PART", 700, 800, 90, 30, 13, 1, 1, 1),
+        ("1", 810, 800, 20, 30, 13, 1, 1, 1),
+        ("THIS", 650, 900, 110, 40, 95, 2, 1, 1),
+        ("WORLD", 780, 900, 120, 40, 95, 2, 1, 1),
+    ]
+    data = {k: [row[i] for row in records] for i, k in enumerate(keys)}
+    monkeypatch.setattr(pytesseract, "image_to_data", lambda *args, **kwargs: data)
+    result = app._read_image_page((str(source), 0, "eng", None, False, 200))
+    assert "PART 1 THIS WORLD" in result[1]
+    data["left"][2] = 1200
+    data["left"][3] = 1350
+    result = app._read_image_page((str(source), 0, "eng", None, False, 200))
+    assert "PART" not in result[1]
