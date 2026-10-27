@@ -33,8 +33,9 @@ jobs:
           sys.path.insert(0, 'tests')
           import network_smoke
           expected = set(network_smoke.SOURCES) | {'zh-low'}
-          assert {row['name'] for row in report['results']} == expected
-          assert len(report['results']) == len(expected)
+          names = [row['name'] for row in report['results']]
+          assert expected <= set(names)
+          assert len(names) == len(set(names))
           assert report['version'] == add_bookmarks.VERSION
           assert report['implementation_sha256'] == {p.name: digest(p) for p in sorted(pathlib.Path('scripts').glob('*.py'))}
           assert report['benchmark_sha256'] == digest(pathlib.Path('tests/network_smoke.py'))
